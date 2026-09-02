@@ -7,6 +7,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE_NAME, SITE_URL } from "./_lib/site";
 import AnalyticsTracker from "./_components/AnalyticsTracker";
+import CalculatorSeoContent from "./_components/CalculatorSeoContent";
 import SiteFooter from "./_components/SiteFooter";
 
 const GA_ID = "G-6FC374YXMH";
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    "연봉 실수령액, 퇴직금, 주휴수당, 할인율, 만나이, 음력, 꿀연휴, 주식 평단까지 일상에서 필요한 계산을 쉽고 빠르게 확인하세요.",
+    "연봉 실수령액, 퇴직금, 실업급여, 대출이자, 연차, 복리, 날짜, 중위소득 등 일상에서 필요한 계산을 쉽고 빠르게 확인하세요.",
 
   keywords: [
     "몇이지",
@@ -38,12 +39,16 @@ export const metadata: Metadata = {
     "연봉 실수령액 계산기",
     "퇴직금 계산기",
     "주휴수당 계산기",
+    "실업급여 계산기",
+    "대출이자 계산기",
+    "연차 계산기",
+    "복리 계산기",
+    "적금 이자 계산기",
+    "기준 중위소득 계산기",
     "할인율 계산기",
     "만나이 계산기",
-    "음력 계산기",
-    "꿀연휴",
-    "물타기 계산기",
-    "불타기 계산기",
+    "D-Day 계산기",
+    "단위변환 계산기",
     "주식 평단 계산기",
   ],
 
@@ -76,14 +81,14 @@ export const metadata: Metadata = {
     url: "/",
     title: "몇이지? | 생활 계산기 모음",
     description:
-      "일상에서 궁금한 숫자, 몇이지? 연봉부터 날짜·투자 계산까지 필요한 계산을 쉽고 빠르게 확인하세요.",
+      "일상에서 궁금한 숫자, 몇이지? 급여·금융·날짜·복지·생활 계산을 쉽고 빠르게 확인하세요.",
   },
 
   twitter: {
     card: "summary",
     title: "몇이지? | 생활 계산기 모음",
     description:
-      "연봉, 퇴직금, 할인율, 만나이, 음력, 꿀연휴, 주식 평단까지 필요한 계산을 쉽고 빠르게 확인하세요.",
+      "급여, 금융, 날짜, 복지, 생활까지 필요한 계산을 쉽고 빠르게 확인하세요.",
   },
 };
 
@@ -100,6 +105,7 @@ export default function RootLayout({
       <body className="min-h-full bg-gray-50">
         {children}
 
+        <CalculatorSeoContent />
         <SiteFooter />
         <AnalyticsTracker />
 
