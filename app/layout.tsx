@@ -7,6 +7,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE_NAME, SITE_URL } from "./_lib/site";
 import AnalyticsTracker from "./_components/AnalyticsTracker";
+import SiteFooter from "./_components/SiteFooter";
 
 const GA_ID = "G-6FC374YXMH";
 
@@ -63,7 +64,8 @@ export const metadata: Metadata = {
 
   verification: {
     other: {
-      "naver-site-verification": "70f439fd215b467889eec6f3c6065a96d366873f",
+      "naver-site-verification":
+        "70f439fd215b467889eec6f3c6065a96d366873f",
     },
   },
 
@@ -95,9 +97,10 @@ export default function RootLayout({
       lang="ko"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full bg-gray-50">
         {children}
 
+        <SiteFooter />
         <AnalyticsTracker />
 
         <Script

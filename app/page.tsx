@@ -77,7 +77,7 @@ export default function Home() {
             <a href="#tools" className="hover:text-black">
               생활도구
             </a>
-            <a href="#info" className="hover:text-black">
+            <a href="/about" className="hover:text-black">
               계산정보
             </a>
           </nav>
@@ -187,19 +187,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer id="info" className="border-t border-gray-100 bg-[#f7f8fa] px-5 py-10">
-        <div className="mx-auto max-w-6xl text-sm text-gray-400">
-          <p className="font-semibold text-gray-600">몇이지?</p>
-          <p className="mt-2">
-            일상에서 궁금한 숫자를 쉽고 빠르게 계산해드립니다.
-          </p>
-          <p className="mt-6">
-            © 2026 몇이지? All rights reserved.
-          </p>
-        </div>
-      </footer>
     </main>
   );
 }

@@ -13,12 +13,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/lunar",
     "/holiday-tracker",
     "/stock-average",
+    "/about",
+    "/privacy",
+    "/contact",
+    "/disclaimer",
   ];
 
   return routes.map((route) => ({
     url: `${SITE_URL}${route}`,
     lastModified: new Date(),
-    changeFrequency: route === "" ? "weekly" : "monthly",
-    priority: route === "" ? 1 : 0.8,
+    changeFrequency:
+      route === ""
+        ? "weekly"
+        : ["/about", "/privacy", "/contact", "/disclaimer"].includes(route)
+          ? "yearly"
+          : "monthly",
+    priority:
+      route === ""
+        ? 1
+        : ["/about", "/privacy", "/contact", "/disclaimer"].includes(route)
+          ? 0.4
+          : 0.8,
   }));
 }
