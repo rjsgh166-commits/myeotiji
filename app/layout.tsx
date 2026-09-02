@@ -17,12 +17,15 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+
   title: {
     default: "몇이지? | 생활 계산기 모음",
     template: "%s | 몇이지?",
   },
+
   description:
     "연봉 실수령액, 퇴직금, 주휴수당, 할인율, 만나이, 음력, 꿀연휴, 주식 평단까지 일상에서 필요한 계산을 쉽고 빠르게 확인하세요.",
+
   keywords: [
     "몇이지",
     "생활 계산기",
@@ -37,18 +40,22 @@ export const metadata: Metadata = {
     "불타기 계산기",
     "주식 평단 계산기",
   ],
+
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
   publisher: SITE_NAME,
   applicationName: SITE_NAME,
   category: "생활 계산기",
+
   alternates: {
     canonical: "/",
   },
+
   robots: {
     index: true,
     follow: true,
   },
+
   openGraph: {
     type: "website",
     locale: "ko_KR",
@@ -58,6 +65,7 @@ export const metadata: Metadata = {
     description:
       "일상에서 궁금한 숫자, 몇이지? 연봉부터 날짜·투자 계산까지 필요한 계산을 쉽고 빠르게 확인하세요.",
   },
+
   twitter: {
     card: "summary",
     title: "몇이지? | 생활 계산기 모음",
