@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
+import { SITE_NAME, SITE_URL } from "./_lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,6 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "몇이지? | 생활 계산기 모음",
     template: "%s | 몇이지?",
@@ -35,11 +37,14 @@ export const metadata: Metadata = {
     "불타기 계산기",
     "주식 평단 계산기",
   ],
-  authors: [{ name: "몇이지?" }],
-  creator: "몇이지?",
-  publisher: "몇이지?",
-  applicationName: "몇이지?",
+  authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  applicationName: SITE_NAME,
   category: "생활 계산기",
+  alternates: {
+    canonical: "/",
+  },
   robots: {
     index: true,
     follow: true,
@@ -47,7 +52,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "ko_KR",
-    siteName: "몇이지?",
+    siteName: SITE_NAME,
+    url: "/",
     title: "몇이지? | 생활 계산기 모음",
     description:
       "일상에서 궁금한 숫자, 몇이지? 연봉부터 날짜·투자 계산까지 필요한 계산을 쉽고 빠르게 확인하세요.",
