@@ -6,6 +6,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
 import { SITE_NAME, SITE_URL } from "./_lib/site";
+import AnalyticsTracker from "./_components/AnalyticsTracker";
 
 const GA_ID = "G-6FC374YXMH";
 
@@ -91,6 +92,8 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         {children}
 
+        <AnalyticsTracker />
+
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
           strategy="afterInteractive"
@@ -100,6 +103,7 @@ export default function RootLayout({
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
             gtag('js', new Date());
             gtag('config', '${GA_ID}');
           `}
