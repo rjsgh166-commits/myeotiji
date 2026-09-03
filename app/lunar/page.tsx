@@ -11,6 +11,20 @@ function pad(value: number) {
   return String(value).padStart(2, "0");
 }
 
+function solarWeekday(year: number, month: number, day: number) {
+  const names = ["일", "월", "화", "수", "목", "금", "토"];
+  const index = new Date(Date.UTC(year, month - 1, day)).getUTCDay();
+  return names[index];
+}
+
+function formatSolarDate(year: number, month: number, day: number) {
+  return `${year}.${pad(month)}.${pad(day)} (${solarWeekday(
+    year,
+    month,
+    day,
+  )})`;
+}
+
 function ModeButton({
   active,
   onClick,
@@ -255,6 +269,45 @@ export default function LunarPage() {
     };
   }, [mode, year, month, day, isLeapMonth]);
 
+  const fiveYearSolarDates = useMemo(() => {
+    if (mode !== "lunar-to-solar") return [];
+
+    const startYear = Number(year);
+    const lunarMonth = Number(month);
+    const lunarDay = Number(day);
+
+    if (!startYear || !lunarMonth || !lunarDay) return [];
+
+    return Array.from({ length: 5 }, (_, index) => {
+      const lunarYear = startYear + index;
+      const calendar = new KoreanLunarCalendar();
+      const ok = calendar.setLunarDate(
+        lunarYear,
+        lunarMonth,
+        lunarDay,
+        isLeapMonth,
+      );
+
+      if (!ok) {
+        return {
+          lunarYear,
+          valid: false,
+          solarText: isLeapMonth
+            ? `해당 연도에 윤${lunarMonth}월 날짜가 없거나 변환 범위를 벗어났어요.`
+            : "해당 날짜가 없거나 변환 지원 범위를 벗어났어요.",
+        };
+      }
+
+      const solar = calendar.getSolarCalendar();
+
+      return {
+        lunarYear,
+        valid: true,
+        solarText: formatSolarDate(solar.year, solar.month, solar.day),
+      };
+    });
+  }, [mode, year, month, day, isLeapMonth]);
+
   return (
     <main className="min-h-screen bg-gray-50 text-gray-900">
       <div className="mx-auto w-full max-w-5xl px-5 py-10 sm:px-8 sm:py-14">
@@ -389,6 +442,64 @@ export default function LunarPage() {
           </section>
         </div>
 
+        {mode === "lunar-to-solar" && fiveYearSolarDates.length > 0 && (
+          <section className="mt-6 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200 sm:p-8">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <p className="text-xs font-black tracking-wider text-blue-600">
+                  NEXT 5 YEARS
+                </p>
+                <h2 className="mt-2 text-lg font-bold">
+                  앞으로 5개년 양력 날짜
+                </h2>
+                <p className="mt-2 text-sm leading-6 text-gray-500">
+                  입력한 음력 {pad(Number(month))}월 {pad(Number(day))}일이
+                  입력 연도를 포함해 앞으로 5개년 동안 양력으로 언제인지 보여드려요.
+                </p>
+              </div>
+              <span className="rounded-full bg-gray-100 px-3 py-1.5 text-xs font-bold text-gray-500">
+                {isLeapMonth ? "윤달 기준" : "평달 기준"}
+              </span>
+            </div>
+
+            <div className="mt-5 overflow-hidden rounded-2xl border border-gray-200">
+              {fiveYearSolarDates.map((item, index) => (
+                <div
+                  key={item.lunarYear}
+                  className={`grid gap-2 px-4 py-4 sm:grid-cols-[160px_1fr] sm:items-center sm:px-5 ${
+                    index !== fiveYearSolarDates.length - 1
+                      ? "border-b border-gray-100"
+                      : ""
+                  }`}
+                >
+                  <div>
+                    <p className="text-xs font-bold text-gray-400">
+                      음력 {item.lunarYear}년
+                    </p>
+                    <p className="mt-1 text-sm font-black text-gray-900">
+                      {isLeapMonth ? "윤" : ""}
+                      {Number(month)}월 {Number(day)}일
+                    </p>
+                  </div>
+
+                  <div
+                    className={`text-sm font-bold sm:text-right ${
+                      item.valid ? "text-blue-600" : "text-gray-400"
+                    }`}
+                  >
+                    {item.valid ? `양력 ${item.solarText}` : item.solarText}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <p className="mt-3 text-xs leading-5 text-gray-400">
+              음력 윤달은 매년 존재하지 않기 때문에 윤달을 선택한 경우 일부 연도는
+              변환 가능한 날짜가 없을 수 있습니다.
+            </p>
+          </section>
+        )}
+
         <section className="mt-6 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200 sm:p-8">
           <h2 className="text-lg font-bold">음력 계산기 사용 예시</h2>
 
@@ -404,8 +515,8 @@ export default function LunarPage() {
             <div className="rounded-2xl bg-gray-50 p-5">
               <p className="mb-1 font-bold text-gray-800">음력 → 양력</p>
               <p>
-                음력 생일이나 제사 날짜의 해당 연도 양력 날짜를 확인할 때
-                사용할 수 있어요.
+                음력 생일이나 제사 날짜를 입력하면 해당 연도의 양력 날짜와
+                앞으로 5개년 날짜까지 한 번에 확인할 수 있어요.
               </p>
             </div>
           </div>

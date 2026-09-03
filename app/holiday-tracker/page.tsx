@@ -351,6 +351,201 @@ function honeyBadge(plan: BreakPlan | null) {
   return "보통";
 }
 
+function getPlanMonths(plan: BreakPlan) {
+  const months: { year: number; month: number }[] = [];
+  let cursor = new Date(plan.start.getFullYear(), plan.start.getMonth(), 1);
+  const last = new Date(plan.end.getFullYear(), plan.end.getMonth(), 1);
+
+  while (cursor <= last) {
+    months.push({
+      year: cursor.getFullYear(),
+      month: cursor.getMonth() + 1,
+    });
+    cursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1);
+  }
+
+  return months;
+}
+
+function MiniMonthCalendar({
+  year,
+  month,
+  plan,
+}: {
+  year: number;
+  month: number;
+  plan: BreakPlan;
+}) {
+  const weekdayLabels = ["일", "월", "화", "수", "목", "금", "토"];
+  const firstDay = new Date(year, month - 1, 1);
+  const firstWeekday = firstDay.getDay();
+  const daysInMonth = new Date(year, month, 0).getDate();
+  const holidays = buildHolidayMapsAround(year);
+  const ptoKeys = new Set(plan.ptoDays.map(toKey));
+  const startKey = toKey(plan.start);
+  const endKey = toKey(plan.end);
+
+  const cells: (number | null)[] = [
+    ...Array.from({ length: firstWeekday }, () => null),
+    ...Array.from({ length: daysInMonth }, (_, index) => index + 1),
+  ];
+
+  while (cells.length % 7 !== 0) {
+    cells.push(null);
+  }
+
+  return (
+    <div className="min-w-0 rounded-2xl border border-gray-200 bg-white p-4">
+      <div className="mb-3 flex items-center justify-between">
+        <p className="text-sm font-black text-gray-900">
+          {year}년 {month}월
+        </p>
+      </div>
+
+      <div className="grid grid-cols-7">
+        {weekdayLabels.map((label, index) => (
+          <div
+            key={label}
+            className={`pb-2 text-center text-[11px] font-bold ${
+              index === 0
+                ? "text-rose-500"
+                : index === 6
+                  ? "text-blue-500"
+                  : "text-gray-400"
+            }`}
+          >
+            {label}
+          </div>
+        ))}
+
+        {cells.map((day, index) => {
+          if (day === null) {
+            return <div key={`empty-${index}`} className="aspect-square" />;
+          }
+
+          const date = fromYMD(year, month, day);
+          const key = toKey(date);
+          const weekday = date.getDay();
+          const holidayNames = holidays.get(key) ?? [];
+          const isHoliday = holidayNames.length > 0;
+          const isPto = ptoKeys.has(key);
+          const inPlan = key >= startKey && key <= endKey;
+
+          let cellClass =
+            "text-gray-700 hover:bg-gray-50";
+
+          if (inPlan) {
+            cellClass = "bg-amber-100 font-bold text-amber-900";
+          }
+
+          if (isHoliday) {
+            cellClass = "bg-rose-100 font-black text-rose-700";
+          }
+
+          if (isPto) {
+            cellClass = "bg-blue-600 font-black text-white";
+          }
+
+          if (!inPlan && !isHoliday && !isPto && weekday === 0) {
+            cellClass = "text-rose-500";
+          }
+
+          if (!inPlan && !isHoliday && !isPto && weekday === 6) {
+            cellClass = "text-blue-500";
+          }
+
+          const titleParts = [];
+          if (holidayNames.length > 0) {
+            titleParts.push(holidayNames.join(" · "));
+          }
+          if (isPto) {
+            titleParts.push("연차 추천");
+          }
+          if (inPlan && !isHoliday && !isPto) {
+            titleParts.push(isWeekend(date) ? "주말" : "추천 연휴 기간");
+          }
+
+          return (
+            <div
+              key={key}
+              className="flex aspect-square items-center justify-center p-0.5"
+            >
+              <div
+                title={titleParts.join(" / ") || undefined}
+                className={`flex h-full w-full items-center justify-center rounded-lg text-xs transition ${cellClass}`}
+              >
+                {day}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function PlanCalendars({
+  plan,
+  compact = false,
+}: {
+  plan: BreakPlan;
+  compact?: boolean;
+}) {
+  const months = getPlanMonths(plan);
+
+  return (
+    <div
+      className={`border-t border-gray-200 ${
+        compact ? "mt-4 pt-4" : "mt-5 pt-5"
+      }`}
+    >
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <p className="text-xs font-black tracking-wider text-gray-500">
+          한눈에 보는 달력
+        </p>
+
+        <div
+          className={`flex flex-wrap gap-x-3 gap-y-1 font-semibold ${
+            compact ? "text-[10px]" : "text-[11px]"
+          }`}
+        >
+          <span className="inline-flex items-center gap-1.5 text-amber-700">
+            <span className="h-2.5 w-2.5 rounded-sm bg-amber-100 ring-1 ring-amber-200" />
+            연휴 기간
+          </span>
+          <span className="inline-flex items-center gap-1.5 text-rose-600">
+            <span className="h-2.5 w-2.5 rounded-sm bg-rose-100 ring-1 ring-rose-200" />
+            공휴일
+          </span>
+          <span className="inline-flex items-center gap-1.5 text-blue-600">
+            <span className="h-2.5 w-2.5 rounded-sm bg-blue-600" />
+            연차 추천
+          </span>
+        </div>
+      </div>
+
+      <div
+        className={`grid gap-3 ${
+          compact
+            ? "grid-cols-1"
+            : months.length > 1
+              ? "sm:grid-cols-2"
+              : "grid-cols-1"
+        }`}
+      >
+        {months.map(({ year, month }) => (
+          <MiniMonthCalendar
+            key={`${year}-${month}`}
+            year={year}
+            month={month}
+            plan={plan}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function HolidayTrackerPage() {
   const currentYear = new Date().getFullYear();
   const [yearCount, setYearCount] = useState(10);
@@ -401,7 +596,7 @@ export default function HolidayTrackerPage() {
               <p className="mt-3 max-w-3xl text-sm leading-6 text-gray-500 sm:text-base">
                 앞으로 어떤 해가 쉬기 좋은지 한 번에 확인해 보세요.
                 공휴일과 주말을 분석해 연차 1~2일로 길게 쉴 수 있는 기간을
-                자동으로 찾아드려요.
+                찾고, 추천 결과를 작은 달력으로 바로 보여드려요.
               </p>
             </div>
 
@@ -495,6 +690,8 @@ export default function HolidayTrackerPage() {
                       <p className="mt-2 text-sm text-gray-500">
                         {formatRange(item.best)}
                       </p>
+
+                      <PlanCalendars plan={item.best} compact />
                     </>
                   ) : (
                     <p className="mt-3 text-sm text-gray-500">
@@ -595,6 +792,8 @@ export default function HolidayTrackerPage() {
                             </span>
                           </div>
                         </div>
+
+                        <PlanCalendars plan={plan} />
                       </div>
                     ))}
                   </div>

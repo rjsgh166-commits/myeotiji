@@ -205,18 +205,18 @@ export default function SalaryPage() {
           </section>
 
           <section className="rounded-3xl bg-slate-950 p-6 text-white shadow-sm sm:p-8">
-            <p className="text-sm font-semibold text-slate-400">예상 월 실수령액</p>
-            <div className="mt-3 text-4xl font-black tracking-tight sm:text-5xl">
-              {formatWon(result.netSalary)}
-            </div>
-            <p className="mt-3 text-sm text-slate-400">
-              월 세전 급여 {formatWon(result.monthlyGross)} 기준
-            </p>
+            <p className="text-sm font-semibold text-slate-400">월 급여 공제 내역</p>
 
-            <div className="my-7 h-px bg-slate-800" />
+            <div className="mt-4 flex items-end justify-between gap-4">
+              <span className="text-sm font-bold text-slate-300">월 세전 급여</span>
+              <span className="text-2xl font-black tracking-tight sm:text-3xl">
+                {formatWon(result.monthlyGross)}
+              </span>
+            </div>
+
+            <div className="my-6 h-px bg-slate-800" />
 
             <div className="space-y-4 text-sm">
-              <ResultRow label="월 급여" value={result.monthlyGross} strong />
               <ResultRow label="비과세액" value={result.taxFreeWon} />
               <ResultRow label="국민연금" value={-result.nationalPension} />
               <ResultRow label="건강보험" value={-result.healthInsurance} />
@@ -231,8 +231,20 @@ export default function SalaryPage() {
             <div className="flex items-center justify-between">
               <span className="font-bold text-slate-300">총 공제액</span>
               <span className="text-lg font-black">
-                {formatWon(result.totalDeduction)}
+                - {formatWon(result.totalDeduction)}
               </span>
+            </div>
+
+            <div className="mt-6 rounded-2xl bg-blue-600 p-5 sm:p-6">
+              <p className="text-sm font-bold text-blue-100">
+                예상 월 실수령액
+              </p>
+              <div className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">
+                {formatWon(result.netSalary)}
+              </div>
+              <p className="mt-2 text-xs font-semibold text-blue-100">
+                월 세전 급여에서 4대보험과 세금을 공제한 예상 금액이에요.
+              </p>
             </div>
           </section>
         </div>
