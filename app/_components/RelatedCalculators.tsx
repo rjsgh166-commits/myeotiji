@@ -1,55 +1,37 @@
 import Link from "next/link";
-
-const calculators = [
-  { href: "/salary", icon: "💰", title: "연봉 실수령액" },
-  { href: "/retirement", icon: "🏦", title: "퇴직금" },
-  { href: "/weekly-pay", icon: "🧾", title: "주휴수당" },
-  { href: "/unemployment", icon: "🛟", title: "실업급여" },
-  { href: "/hourly-monthly", icon: "⏱️", title: "시급↔월급" },
-  { href: "/annual-leave", icon: "🏖️", title: "연차" },
-  { href: "/loan", icon: "🏠", title: "대출이자" },
-  { href: "/compound", icon: "🌱", title: "복리" },
-  { href: "/savings-interest", icon: "🏦", title: "적금이자" },
-  { href: "/goal-savings", icon: "🎯", title: "목표금액" },
-  { href: "/stock-average", icon: "📈", title: "주식 평단" },
-  { href: "/fee", icon: "🧮", title: "수수료" },
-  { href: "/rent-conversion", icon: "🏘️", title: "전월세 전환" },
-  { href: "/median-income", icon: "📊", title: "중위소득" },
-  { href: "/days", icon: "📆", title: "며칠이지?" },
-  { href: "/age", icon: "📅", title: "만나이" },
-  { href: "/lunar", icon: "🌙", title: "음력" },
-  { href: "/holiday-tracker", icon: "🍯", title: "꿀연휴" },
-  { href: "/due-date", icon: "🤰", title: "출산예정일" },
-  { href: "/discount", icon: "🛒", title: "할인율" },
-  { href: "/unit-converter", icon: "📏", title: "단위변환" },
-  { href: "/calorie-burn", icon: "🔥", title: "칼로리" },
-  { href: "/dog-age", icon: "🐶", title: "반려견 나이" },
-];
+import {
+  CALCULATOR_BY_HREF,
+  CALCULATORS,
+  RELATED_CALCULATORS,
+} from "../_lib/calculators";
 
 export default function RelatedCalculators({
   currentHref,
 }: {
   currentHref: string;
 }) {
-  const currentIndex = calculators.findIndex(
-    (calculator) => calculator.href === currentHref
-  );
+  const preferred = RELATED_CALCULATORS[currentHref] ?? [];
 
-  const startIndex = currentIndex >= 0 ? currentIndex : 0;
+  const fallback = CALCULATORS
+    .filter((calculator) => calculator.href !== currentHref)
+    .map((calculator) => calculator.href);
 
-  const related = Array.from({ length: 4 }, (_, offset) => {
-    const index = (startIndex + offset + 1) % calculators.length;
-    return calculators[index];
-  });
+  const relatedHrefs = [...preferred, ...fallback]
+    .filter((href, index, array) => array.indexOf(href) === index)
+    .slice(0, 4);
+
+  const related = relatedHrefs
+    .map((href) => CALCULATOR_BY_HREF[href])
+    .filter(Boolean);
 
   return (
     <section className="mt-10 border-t border-gray-200 pt-8">
       <div className="mb-4">
         <h2 className="text-lg font-bold text-gray-900">
-          다른 계산기도 확인해보세요
+          같이 쓰면 좋은 계산기
         </h2>
         <p className="mt-1 text-sm text-gray-500">
-          필요한 계산을 바로 이어서 이용할 수 있어요.
+          지금 계산과 자연스럽게 이어지는 기능을 골랐어요.
         </p>
       </div>
 
@@ -62,7 +44,7 @@ export default function RelatedCalculators({
           >
             <div className="text-xl">{calculator.icon}</div>
             <div className="mt-3 text-sm font-bold text-gray-800 transition group-hover:text-blue-600">
-              {calculator.title}
+              {calculator.shortTitle}
             </div>
           </Link>
         ))}

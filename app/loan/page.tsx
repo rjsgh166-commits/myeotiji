@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import MoneyInput from "../_components/MoneyInput";
 import RelatedCalculators from "../_components/RelatedCalculators";
+import ResultShareButton from "../_components/ResultShareButton";
 
 type Method = "annuity" | "principal" | "bullet";
 
@@ -199,6 +200,18 @@ export default function LoanPage() {
                 <ResultCard label="마지막 달 상환액" value={`${won(result.last)}원`} />
                 <div className="sm:col-span-2">
                   <ResultCard label="총 상환금액" value={`${won(result.total)}원`} />
+                  <ResultShareButton
+                    title="대출이자 계산 결과"
+                    calculatorPath="/loan"
+                    text={`🏠 대출이자 계산
+대출금액: ${won(Number(principal))}원
+연 이자율: ${rate}%
+기간: ${months}개월
+상환방식: ${methodName}
+${result.mainLabel}: ${won(result.main)}원
+총 이자: ${won(result.totalInterest)}원
+총 상환금액: ${won(result.total)}원`}
+                  />
                 </div>
               </div>
             ) : (

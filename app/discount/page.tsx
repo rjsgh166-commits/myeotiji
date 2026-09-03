@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
 import RelatedCalculators from "../_components/RelatedCalculators";
+import ResultShareButton from "../_components/ResultShareButton";
+import { useMemo, useState } from "react";
 
 type Mode = "rate" | "price";
 
@@ -296,6 +297,16 @@ export default function DiscountPage() {
                 </p>
               )}
             </div>
+
+            <ResultShareButton
+              title="할인율 계산 결과"
+              calculatorPath="/discount"
+              text={`🛒 할인율 계산
+정가: ${formatWon(result.original)}
+할인율: ${formatPercent(result.rate)}
+할인 금액: ${formatWon(result.discountAmount)}
+최종 가격: ${formatWon(result.finalPrice)}`}
+            />
           </section>
         </div>
 

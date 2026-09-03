@@ -9,6 +9,7 @@ import { SITE_NAME, SITE_URL } from "./_lib/site";
 import AnalyticsTracker from "./_components/AnalyticsTracker";
 import CalculatorSeoContent from "./_components/CalculatorSeoContent";
 import SiteFooter from "./_components/SiteFooter";
+import CalculatorQuickNav from "./_components/CalculatorQuickNav";
 
 const GA_ID = "G-6FC374VXMH";
 
@@ -103,6 +104,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-gray-50">
+        <CalculatorQuickNav />
         {children}
 
         <CalculatorSeoContent />

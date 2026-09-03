@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import KoreanLunarCalendar from "korean-lunar-calendar";
 import RelatedCalculators from "../_components/RelatedCalculators";
+import ResultShareButton from "../_components/ResultShareButton";
 
 type Holiday = {
   date: string;
@@ -692,6 +693,20 @@ export default function HolidayTrackerPage() {
                       </p>
 
                       <PlanCalendars plan={item.best} compact />
+
+                      <ResultShareButton
+                        title={`${item.year}년 꿀연휴 추천`}
+                        calculatorPath="/holiday-tracker"
+                        compact
+                        text={`🍯 ${item.year}년 꿀연휴 추천
+${formatRange(item.best)}
+총 ${item.best.totalDays}일 휴식
+연차 추천: ${
+                          item.best.ptoDays.length === 0
+                            ? "필요 없음"
+                            : item.best.ptoDays.map(formatShortDate).join(", ")
+                        }`}
+                      />
                     </>
                   ) : (
                     <p className="mt-3 text-sm text-gray-500">

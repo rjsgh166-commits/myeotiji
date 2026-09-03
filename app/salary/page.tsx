@@ -6,6 +6,7 @@ import {
   calculateLocalIncomeTax,
 } from "./incomeTaxTable";
 import RelatedCalculators from "../_components/RelatedCalculators";
+import ResultShareButton from "../_components/ResultShareButton";
 
 const formatWon = (value: number) =>
   `${Math.max(0, Math.round(value)).toLocaleString("ko-KR")}원`;
@@ -246,6 +247,16 @@ export default function SalaryPage() {
                 월 세전 급여에서 4대보험과 세금을 공제한 예상 금액이에요.
               </p>
             </div>
+
+            <ResultShareButton
+              title="2026 연봉 실수령액 계산 결과"
+              calculatorPath="/salary"
+              text={`💰 2026 연봉 실수령액 계산
+연봉: ${(annualSalary * 10_000).toLocaleString("ko-KR")}원
+월 세전 급여: ${formatWon(result.monthlyGross)}
+월 총 공제액: ${formatWon(result.totalDeduction)}
+예상 월 실수령액: ${formatWon(result.netSalary)}`}
+            />
           </section>
         </div>
 
