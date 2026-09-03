@@ -10,7 +10,7 @@ import AnalyticsTracker from "./_components/AnalyticsTracker";
 import CalculatorSeoContent from "./_components/CalculatorSeoContent";
 import SiteFooter from "./_components/SiteFooter";
 
-const GA_ID = "G-6FC374YXMH";
+const GA_ID = "G-6FC374VXMH";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
