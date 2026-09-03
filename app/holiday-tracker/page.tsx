@@ -607,6 +607,18 @@ export default function HolidayTrackerPage() {
           </div>
         </div>
 
+        <Link
+          href="/holiday-tracker/2027"
+          className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-3xl border border-amber-200 bg-amber-50 p-5 transition hover:border-amber-300 hover:bg-amber-100/70 sm:p-6"
+        >
+          <div>
+            <p className="text-xs font-black tracking-wider text-amber-700">2027 미리보기</p>
+            <p className="mt-1 text-lg font-black text-gray-900">추석에 연차 2일 쓰면 9일 연휴 🍯</p>
+            <p className="mt-1 text-sm text-gray-600">2027 황금연휴만 빠르게 정리한 전용 페이지를 만들었어요.</p>
+          </div>
+          <span className="shrink-0 text-sm font-black text-amber-800">2027 바로보기 →</span>
+        </Link>
+
         <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200 sm:p-8">
           <div className="grid gap-7 lg:grid-cols-2">
             <div>

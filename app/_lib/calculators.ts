@@ -33,7 +33,7 @@ export const CALCULATORS: CalculatorItem[] = [
     title: "주휴수당",
     shortTitle: "주휴수당",
     description: "내 주휴수당은 얼마일까?",
-    aliases: ["주휴", "주휴수당계산기", "알바", "아르바이트", "15시간", "주급"],
+    aliases: ["주휴", "주휴수당계산기", "알바", "아르바이트", "15시간", "주급", "2027주휴수당", "2027최저임금"],
     category: "work",
   },
   {
@@ -51,7 +51,7 @@ export const CALCULATORS: CalculatorItem[] = [
     title: "시급 ↔ 월급",
     shortTitle: "시급↔월급",
     description: "시급을 월급으로, 월급을 시급으로 변환",
-    aliases: ["시급", "월급", "최저임금", "209시간", "급여환산", "시급계산기"],
+    aliases: ["시급", "월급", "최저임금", "209시간", "급여환산", "시급계산기", "2027최저임금", "2027월급"],
     category: "work",
   },
   {
@@ -134,7 +134,7 @@ export const CALCULATORS: CalculatorItem[] = [
     title: "기준 중위소득",
     shortTitle: "중위소득",
     description: "내 소득은 중위소득의 몇 %일까?",
-    aliases: ["중위소득", "복지", "생계급여", "의료급여", "주거급여", "교육급여", "소득인정액"],
+    aliases: ["중위소득", "복지", "생계급여", "의료급여", "주거급여", "교육급여", "소득인정액", "2027중위소득", "2027기준중위소득"],
     category: "housing",
   },
 
@@ -171,7 +171,7 @@ export const CALCULATORS: CalculatorItem[] = [
     title: "꿀연휴 추적기",
     shortTitle: "꿀연휴",
     description: "연차 조금 쓰고 길게 쉬는 해 찾기",
-    aliases: ["연휴", "꿀연휴", "공휴일", "연차추천", "휴가", "황금연휴", "쉬는날"],
+    aliases: ["연휴", "꿀연휴", "공휴일", "연차추천", "휴가", "황금연휴", "쉬는날", "2027황금연휴", "2027공휴일", "2027연휴"],
     category: "date",
   },
   {

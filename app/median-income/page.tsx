@@ -5,47 +5,74 @@ import Link from "next/link";
 import MoneyInput from "../_components/MoneyInput";
 import RelatedCalculators from "../_components/RelatedCalculators";
 
-const MEDIAN_2026: Record<number, number> = {
-  1: 2564238,
-  2: 4199292,
-  3: 5359036,
-  4: 6494738,
-  5: 7556719,
-  6: 8555952,
-  7: 9515150,
+type MedianYear = 2026 | 2027;
+
+const MEDIAN_BY_YEAR: Record<
+  MedianYear,
+  { values: Record<number, number>; extraPerson: number; label: string }
+> = {
+  2026: {
+    values: {
+      1: 2_564_238,
+      2: 4_199_292,
+      3: 5_359_036,
+      4: 6_494_738,
+      5: 7_556_719,
+      6: 8_555_952,
+      7: 9_515_150,
+    },
+    extraPerson: 959_198,
+    label: "현재 적용",
+  },
+  2027: {
+    values: {
+      1: 2_736_042,
+      2: 4_480_645,
+      3: 5_718_091,
+      4: 6_929_885,
+      5: 8_063_019,
+      6: 9_129_201,
+      7: 10_152_665,
+    },
+    extraPerson: 1_023_464,
+    label: "2027.1.1 적용",
+  },
 };
 
-const EXTRA_PERSON = 959198;
 const RATIOS = [32, 40, 48, 50, 60, 80, 100, 120, 150, 180, 200];
 
 const won = (value: number) =>
-  Math.floor(Number.isFinite(value) ? value : 0).toLocaleString("ko-KR");
+  Math.round(Number.isFinite(value) ? value : 0).toLocaleString("ko-KR");
 
-function medianFor(size: number) {
-  if (size <= 7) return MEDIAN_2026[Math.max(1, size)];
-  return MEDIAN_2026[7] + (size - 7) * EXTRA_PERSON;
+function medianFor(year: MedianYear, size: number) {
+  const reference = MEDIAN_BY_YEAR[year];
+  if (size <= 7) return reference.values[Math.max(1, size)];
+  return reference.values[7] + (size - 7) * reference.extraPerson;
 }
 
 export default function MedianIncomePage() {
+  const [medianYear, setMedianYear] = useState<MedianYear>(2026);
   const [household, setHousehold] = useState("4");
   const [income, setIncome] = useState("4000000");
+
+  const reference = MEDIAN_BY_YEAR[medianYear];
 
   const result = useMemo(() => {
     const size = Math.max(1, Math.min(20, Number(household)));
     const amount = Number(income);
-    const median = medianFor(size);
+    const median = medianFor(medianYear, size);
 
     if (!(amount >= 0) || !Number.isFinite(size)) return null;
 
     const percent = median > 0 ? (amount / median) * 100 : 0;
     const thresholds = RATIOS.map((ratio) => ({
       ratio,
-      amount: Math.floor((median * ratio) / 100),
+      amount: Math.round((median * ratio) / 100),
       under: amount <= (median * ratio) / 100,
     }));
 
     return { size, amount, median, percent, thresholds };
-  }, [household, income]);
+  }, [medianYear, household, income]);
 
   return (
     <main className="min-h-screen bg-[#f7f8fa] px-5 py-10 text-[#191f28]">
@@ -55,16 +82,55 @@ export default function MedianIncomePage() {
         </Link>
 
         <header className="mt-7">
-          <p className="text-sm font-bold text-blue-600">2026 WELFARE</p>
+          <p className="text-sm font-bold text-blue-600">2026 · 2027 WELFARE</p>
           <h1 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">
             기준 중위소득 몇 %이지?
           </h1>
           <p className="mt-3 text-sm leading-6 text-gray-500">
-            가구원 수와 소득인정액을 입력하면 2026년 기준 중위소득의 몇 %인지 계산해요.
+            가구원 수와 소득인정액을 입력하고 2026년 현재 기준 또는 2027년 확정 기준으로
+            중위소득의 몇 %인지 계산해요.
           </p>
         </header>
 
-        <div className="mt-8 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <section className="mt-7 rounded-3xl border border-blue-100 bg-blue-50 p-5 sm:p-6">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-xs font-black tracking-wider text-blue-600">기준 연도 선택</p>
+              <p className="mt-1 text-sm text-blue-800">
+                2027년 기준 중위소득은 확정됐으며 2027년부터 적용돼요.
+              </p>
+            </div>
+            <span className="rounded-full bg-white px-3 py-1.5 text-xs font-bold text-blue-700 shadow-sm">
+              {reference.label}
+            </span>
+          </div>
+
+          <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            {([2026, 2027] as const).map((year) => {
+              const active = medianYear === year;
+              const fourPerson = MEDIAN_BY_YEAR[year].values[4];
+              return (
+                <button
+                  key={year}
+                  type="button"
+                  onClick={() => setMedianYear(year)}
+                  className={`rounded-2xl border px-4 py-3 text-left transition ${
+                    active
+                      ? "border-blue-600 bg-white ring-2 ring-blue-100"
+                      : "border-blue-100 bg-blue-50/50 hover:bg-white"
+                  }`}
+                >
+                  <span className="block text-sm font-black text-gray-900">{year}년 기준</span>
+                  <span className="mt-1 block text-xs font-semibold text-gray-500">
+                    4인 가구 100% · {fourPerson.toLocaleString("ko-KR")}원
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        <div className="mt-5 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
           <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
             <label className="block">
               <span className="text-sm font-bold text-gray-800">가구원 수</span>
@@ -94,7 +160,7 @@ export default function MedianIncomePage() {
             {result && (
               <div className="mt-5 rounded-2xl bg-gray-50 p-5">
                 <p className="text-xs font-bold text-gray-400">
-                  2026년 {result.size}인 가구 기준 중위소득 100%
+                  {medianYear}년 {result.size}인 가구 기준 중위소득 100%
                 </p>
                 <p className="mt-2 text-xl font-black">{won(result.median)}원</p>
               </div>
@@ -105,12 +171,8 @@ export default function MedianIncomePage() {
             {result ? (
               <>
                 <div className="rounded-2xl bg-blue-600 p-6 text-white">
-                  <p className="text-sm font-bold text-blue-100">
-                    내 소득인정액은
-                  </p>
-                  <p className="mt-2 text-4xl font-black">
-                    중위소득 {result.percent.toFixed(1)}%
-                  </p>
+                  <p className="text-sm font-bold text-blue-100">내 소득인정액은</p>
+                  <p className="mt-2 text-4xl font-black">중위소득 {result.percent.toFixed(1)}%</p>
                   <p className="mt-3 text-sm text-blue-100">
                     {won(result.amount)}원 ÷ {won(result.median)}원
                   </p>
@@ -120,38 +182,29 @@ export default function MedianIncomePage() {
                   <h2 className="text-sm font-bold">주요 중위소득 기준 금액</h2>
                   <div className="mt-3 divide-y divide-gray-100 rounded-2xl border border-gray-200 px-4">
                     {result.thresholds.map((item) => (
-                      <div
-                        key={item.ratio}
-                        className="flex items-center justify-between gap-3 py-3"
-                      >
+                      <div key={item.ratio} className="flex items-center justify-between gap-3 py-3">
                         <div className="flex items-center gap-2">
-                          <span className="w-14 text-sm font-black">
-                            {item.ratio}%
-                          </span>
+                          <span className="w-14 text-sm font-black">{item.ratio}%</span>
                           {item.under && (
                             <span className="rounded-full bg-blue-50 px-2 py-1 text-[11px] font-bold text-blue-600">
                               이하
                             </span>
                           )}
                         </div>
-                        <span className="text-sm font-semibold text-gray-600">
-                          {won(item.amount)}원
-                        </span>
+                        <span className="text-sm font-semibold text-gray-600">{won(item.amount)}원</span>
                       </div>
                     ))}
                   </div>
                 </div>
               </>
             ) : (
-              <div className="rounded-2xl bg-gray-50 p-6 text-sm text-gray-500">
-                입력값을 확인해주세요.
-              </div>
+              <div className="rounded-2xl bg-gray-50 p-6 text-sm text-gray-500">입력값을 확인해주세요.</div>
             )}
           </section>
         </div>
 
         <section className="mt-6 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-          <h2 className="text-lg font-bold">2026년 주요 복지 선정기준</h2>
+          <h2 className="text-lg font-bold">{medianYear}년 주요 복지 선정기준</h2>
 
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {[
@@ -162,34 +215,38 @@ export default function MedianIncomePage() {
             ].map(([name, ratio]) => (
               <div key={name} className="rounded-2xl bg-gray-50 p-4">
                 <p className="text-sm font-bold">{name}</p>
-                <p className="mt-1 text-xl font-black text-blue-600">
-                  중위 {ratio}
-                </p>
+                <p className="mt-1 text-xl font-black text-blue-600">중위 {ratio}</p>
               </div>
             ))}
           </div>
 
+          {medianYear === 2027 && (
+            <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs leading-5 text-amber-800">
+              2027년 기준은 2027년 1월 1일부터 적용됩니다. 2026년 중 신청·판정은 현재 적용 중인 2026년 기준을 확인하세요.
+            </div>
+          )}
+
           <div className="mt-5 space-y-2 text-xs leading-5 text-gray-500">
             <p>
-              ※ 기준 중위소득은 보건복지부가 고시하는 값이며, 실제 복지사업은 가구 특성,
+              ※ 기준 중위소득은 보건복지부가 정하는 값이며, 실제 복지사업은 가구 특성,
               재산, 부양의무자 기준 등 별도 조건이 있을 수 있습니다.
             </p>
             <p>
-              ※ 소득인정액은 단순 세전·세후 월급과 다를 수 있습니다. 이 결과만으로
-              지원 대상 여부를 확정할 수 없습니다.
+              ※ 소득인정액은 단순 세전·세후 월급과 다를 수 있습니다. 이 결과만으로 지원 대상 여부를 확정할 수 없습니다.
             </p>
             <p>
-              ※ 8인 이상 가구는 2026년 기준 1인 증가 시 959,198원씩 추가해 계산합니다.
+              ※ 8인 이상 가구는 {medianYear}년 기준 7인 가구 금액에 7인·6인 가구 차액인
+              {" "}{reference.extraPerson.toLocaleString("ko-KR")}원을 가구원 1명마다 더해 계산합니다.
             </p>
           </div>
 
           <a
-            href="https://www.mohw.go.kr/menu.es?mid=a10708010900"
+            href="https://www.mohw.go.kr/board.es?act=view&bid=0027&list_no=1491453&mid=a10503010100&nPage=1&tag="
             target="_blank"
             rel="noreferrer"
             className="mt-4 inline-flex text-sm font-bold text-blue-600 hover:text-blue-700"
           >
-            보건복지부 기준 중위소득 확인 →
+            보건복지부 2027 기준 중위소득 발표 확인 →
           </a>
         </section>
 

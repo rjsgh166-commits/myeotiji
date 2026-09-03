@@ -6,8 +6,16 @@ import MoneyInput from "../_components/MoneyInput";
 import RelatedCalculators from "../_components/RelatedCalculators";
 
 type Mode = "hourlyToMonthly" | "monthlyToHourly";
+type WageYear = 2026 | 2027;
 
-const MIN_WAGE_2026 = 10320;
+const WAGE_REFERENCE: Record<
+  WageYear,
+  { hourly: number; monthly209: number; label: string }
+> = {
+  2026: { hourly: 10_320, monthly209: 2_156_880, label: "현재 적용" },
+  2027: { hourly: 10_700, monthly209: 2_236_300, label: "2027.1.1 적용" },
+};
+
 const MONTHLY_WEEKS = 365 / 7 / 12;
 
 const won = (value: number) =>
@@ -20,10 +28,20 @@ function paidHolidayHours(weeklyHours: number) {
 
 export default function HourlyMonthlyPage() {
   const [mode, setMode] = useState<Mode>("hourlyToMonthly");
+  const [wageYear, setWageYear] = useState<WageYear>(2026);
   const [hourly, setHourly] = useState("10320");
   const [monthly, setMonthly] = useState("2156880");
   const [weeklyHours, setWeeklyHours] = useState("40");
   const [includeWeeklyHoliday, setIncludeWeeklyHoliday] = useState(true);
+
+  const wageReference = WAGE_REFERENCE[wageYear];
+
+  const selectWageYear = (year: WageYear) => {
+    const reference = WAGE_REFERENCE[year];
+    setWageYear(year);
+    setHourly(String(reference.hourly));
+    setMonthly(String(reference.monthly209));
+  };
 
   const result = useMemo(() => {
     const week = Math.max(0, Math.min(40, Number(weeklyHours)));
@@ -65,16 +83,55 @@ export default function HourlyMonthlyPage() {
         </Link>
 
         <header className="mt-7">
-          <p className="text-sm font-bold text-blue-600">2026 WORK</p>
+          <p className="text-sm font-bold text-blue-600">2026 · 2027 WORK</p>
           <h1 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">
             시급 ↔ 월급 변환기
           </h1>
           <p className="mt-3 text-sm leading-6 text-gray-500">
-            주당 근로시간과 주휴시간을 반영해 시급과 월급을 서로 변환해요.
+            2026년과 2027년 최저임금을 선택하고 주당 근로시간·주휴시간을 반영해
+            시급과 월급을 서로 변환해요.
           </p>
         </header>
 
-        <div className="mt-8 grid gap-2 sm:grid-cols-2">
+        <section className="mt-7 rounded-3xl border border-blue-100 bg-blue-50 p-5 sm:p-6">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-xs font-black tracking-wider text-blue-600">최저임금 기준 연도</p>
+              <p className="mt-1 text-sm text-blue-800">
+                2027년 최저임금은 확정됐지만 2027년 1월 1일부터 적용돼요.
+              </p>
+            </div>
+            <span className="rounded-full bg-white px-3 py-1.5 text-xs font-bold text-blue-700 shadow-sm">
+              {wageReference.label}
+            </span>
+          </div>
+
+          <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            {([2026, 2027] as const).map((year) => {
+              const reference = WAGE_REFERENCE[year];
+              const active = wageYear === year;
+              return (
+                <button
+                  key={year}
+                  type="button"
+                  onClick={() => selectWageYear(year)}
+                  className={`rounded-2xl border px-4 py-3 text-left transition ${
+                    active
+                      ? "border-blue-600 bg-white ring-2 ring-blue-100"
+                      : "border-blue-100 bg-blue-50/50 hover:bg-white"
+                  }`}
+                >
+                  <span className="block text-sm font-black text-gray-900">{year}년</span>
+                  <span className="mt-1 block text-xs font-semibold text-gray-500">
+                    시급 {reference.hourly.toLocaleString("ko-KR")}원 · 209시간 {reference.monthly209.toLocaleString("ko-KR")}원
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        <div className="mt-5 grid gap-2 sm:grid-cols-2">
           <button
             type="button"
             onClick={() => setMode("hourlyToMonthly")}
@@ -98,9 +155,19 @@ export default function HourlyMonthlyPage() {
         <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_1.05fr]">
           <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
             {mode === "hourlyToMonthly" ? (
-              <MoneyInput label="시급" value={hourly} onChange={setHourly} placeholder="10,320" />
+              <MoneyInput
+                label="시급"
+                value={hourly}
+                onChange={setHourly}
+                placeholder={wageReference.hourly.toLocaleString("ko-KR")}
+              />
             ) : (
-              <MoneyInput label="월급" value={monthly} onChange={setMonthly} placeholder="2,156,880" />
+              <MoneyInput
+                label="월급"
+                value={monthly}
+                onChange={setMonthly}
+                placeholder={wageReference.monthly209.toLocaleString("ko-KR")}
+              />
             )}
 
             <label className="mt-5 block">
@@ -159,14 +226,16 @@ export default function HourlyMonthlyPage() {
                 </div>
 
                 <div className="mt-4 rounded-2xl bg-gray-50 p-4 text-xs leading-5 text-gray-500">
-                  2026년 최저임금은 시간당 10,320원입니다. 주 40시간, 유급주휴 8시간을
-                  포함한 월 환산액은 2,156,880원(209시간 기준)입니다.
+                  {wageYear}년 최저임금은 시간당 {wageReference.hourly.toLocaleString("ko-KR")}원입니다.
+                  주 40시간, 유급주휴 8시간을 포함한 월 환산액은 {wageReference.monthly209.toLocaleString("ko-KR")}원
+                  (209시간 기준)입니다.
+                  {wageYear === 2027 && " 2027년 기준은 2027년 1월 1일부터 적용됩니다."}
                 </div>
 
-                {result.hourly < MIN_WAGE_2026 && (
+                {result.hourly < wageReference.hourly && (
                   <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs leading-5 text-amber-800">
-                    환산 시급이 2026년 최저임금 10,320원보다 낮습니다. 실제 최저임금
-                    판단에는 산입범위와 근로조건을 함께 확인해야 합니다.
+                    환산 시급이 {wageYear}년 최저임금 {wageReference.hourly.toLocaleString("ko-KR")}원보다 낮습니다.
+                    실제 최저임금 판단에는 산입범위와 근로조건을 함께 확인해야 합니다.
                   </div>
                 )}
               </>

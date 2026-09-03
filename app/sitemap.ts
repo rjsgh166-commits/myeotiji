@@ -23,6 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/age",
     "/lunar",
     "/holiday-tracker",
+    "/holiday-tracker/2027",
     "/due-date",
     "/discount",
     "/unit-converter",

@@ -57,6 +57,9 @@ export default function Home() {
           </Link>
 
           <nav className="hidden gap-8 text-sm font-medium text-gray-600 sm:flex">
+            <a href="#year-2027" className="hover:text-black">
+              2027 미리보기
+            </a>
             <a href="#owner-picks" className="hover:text-black">
               주인장 추천
             </a>
@@ -109,6 +112,40 @@ export default function Home() {
                 {keyword}
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="year-2027" className="px-5 pb-14 sm:pb-16">
+        <div className="mx-auto max-w-6xl rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-indigo-50 p-6 sm:p-8">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-xs font-black tracking-wider text-blue-600">2027 EARLY UPDATE</p>
+              <h2 className="mt-2 text-2xl font-black">2027년 확정 정보, 미리 계산해보세요</h2>
+              <p className="mt-2 text-sm leading-6 text-gray-500">올해 기준은 그대로 두고, 확정된 2027 수치와 황금연휴를 먼저 열어뒀어요.</p>
+            </div>
+            <span className="rounded-full bg-white px-3 py-1.5 text-xs font-bold text-blue-700 shadow-sm">2026.09 업데이트</span>
+          </div>
+
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            <Link href="/hourly-monthly" className="group rounded-2xl bg-white p-5 ring-1 ring-gray-100 transition hover:-translate-y-0.5 hover:ring-blue-200">
+              <p className="text-xs font-black text-blue-600">2027 최저임금</p>
+              <p className="mt-2 text-xl font-black">시급 10,700원</p>
+              <p className="mt-1 text-sm text-gray-500">209시간 월 환산 2,236,300원</p>
+              <p className="mt-4 text-sm font-black text-blue-600">계산하기 →</p>
+            </Link>
+            <Link href="/median-income" className="group rounded-2xl bg-white p-5 ring-1 ring-gray-100 transition hover:-translate-y-0.5 hover:ring-blue-200">
+              <p className="text-xs font-black text-blue-600">2027 기준 중위소득</p>
+              <p className="mt-2 text-xl font-black">4인 6,929,885원</p>
+              <p className="mt-1 text-sm text-gray-500">생계 32% · 의료 40% 등 비교</p>
+              <p className="mt-4 text-sm font-black text-blue-600">내 비율 계산하기 →</p>
+            </Link>
+            <Link href="/holiday-tracker/2027" className="group rounded-2xl bg-white p-5 ring-1 ring-gray-100 transition hover:-translate-y-0.5 hover:ring-amber-200">
+              <p className="text-xs font-black text-amber-700">2027 황금연휴</p>
+              <p className="mt-2 text-xl font-black">연차 2일 → 9일</p>
+              <p className="mt-1 text-sm text-gray-500">9월 추석 황금연휴 달력 확인</p>
+              <p className="mt-4 text-sm font-black text-amber-700">2027 연휴 보기 →</p>
+            </Link>
           </div>
         </div>
       </section>

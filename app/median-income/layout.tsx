@@ -3,20 +3,22 @@ import type { ReactNode } from "react";
 import CalculatorSeoContent from "../_components/CalculatorSeoContent";
 
 export const metadata: Metadata = {
-  title: "2026 기준 중위소득 퍼센트 계산기",
+  title: "2026·2027 기준 중위소득 계산기",
   description:
-    "가구원 수와 월 소득인정액을 입력해 2026년 기준 중위소득의 몇 퍼센트인지 계산하고 주요 기준 금액을 확인하세요.",
+    "2026년 현재 기준과 2027년 확정 기준 중위소득을 선택해 가구원 수별 중위소득 32%, 40%, 48%, 50% 등 주요 기준을 계산하세요.",
   keywords: [
+    "2027 기준 중위소득",
+    "2027 중위소득",
     "중위소득 계산기",
     "기준 중위소득",
     "중위소득 몇퍼센트",
     "2026 중위소득",
-    "소득인정액 계산",
+    "소득인정액",
   ],
   alternates: { canonical: "/median-income" },
   openGraph: {
-    title: "2026 기준 중위소득 퍼센트 계산기 | 몇이지?",
-    description: "내 가구 소득인정액이 기준 중위소득의 몇 %인지 계산하세요.",
+    title: "2026·2027 기준 중위소득 계산기 | 몇이지?",
+    description: "2027년 기준 중위소득과 생계·의료·주거·교육급여 기준을 확인하세요.",
     url: "/median-income",
   },
 };
