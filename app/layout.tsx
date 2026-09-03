@@ -75,6 +75,10 @@ export const metadata: Metadata = {
     },
   },
 
+  other: {
+    "google-adsense-account": "ca-pub-3837140065995769",
+  },
+
   openGraph: {
     type: "website",
     locale: "ko_KR",
