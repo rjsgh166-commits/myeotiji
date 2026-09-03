@@ -1,7 +1,3 @@
-"use client";
-
-import { usePathname } from "next/navigation";
-
 type GuideSection = {
   title: string;
   paragraphs?: string[];
@@ -1167,8 +1163,7 @@ const ALL_GUIDES: Record<string, Guide> = {
 };
 
 
-export default function CalculatorSeoContent() {
-  const pathname = usePathname();
+export default function CalculatorSeoContent({ pathname }: { pathname: string }) {
   const guide = ALL_GUIDES[pathname];
   const tables = GUIDE_TABLES[pathname] ?? [];
 
@@ -1264,7 +1259,10 @@ export default function CalculatorSeoContent() {
                       )}
                     </div>
 
-                    <div className="overflow-x-auto">
+                    <p className="border-t border-gray-200 bg-white px-4 pt-3 text-[11px] font-semibold text-gray-400 sm:hidden">
+                      ← 표는 좌우로 밀어서 볼 수 있어요 →
+                    </p>
+                    <div className="overflow-x-auto overscroll-x-contain">
                       <table className="w-full min-w-max border-collapse text-left text-sm">
                         <thead>
                           <tr className="border-t border-gray-200 bg-white">

@@ -26,28 +26,56 @@ export default function CalculatorQuickNav() {
   const calculator = CALCULATOR_BY_HREF[pathname];
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [recentHrefs, setRecentHrefs] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const results = useMemo(() => {
-    if (!query.trim()) return CALCULATORS.slice(0, 8);
-    return searchCalculators(query, 10);
-  }, [query]);
+    if (query.trim()) return searchCalculators(query, 10);
+
+    const recent = recentHrefs
+      .map((href) => CALCULATOR_BY_HREF[href])
+      .filter(Boolean);
+
+    const recommended = CALCULATORS.filter(
+      (item) =>
+        item.href !== pathname &&
+        !recentHrefs.includes(item.href),
+    );
+
+    return [...recent, ...recommended].slice(0, 8);
+  }, [pathname, query, recentHrefs]);
 
   useEffect(() => {
     if (!calculator) return;
+
     saveRecentCalculator(pathname);
+
+    try {
+      const raw = window.localStorage.getItem(RECENT_CALCULATORS_KEY);
+      const hrefs = raw ? (JSON.parse(raw) as string[]) : [];
+      setRecentHrefs(hrefs.slice(0, 4));
+    } catch {
+      setRecentHrefs([]);
+    }
   }, [calculator, pathname]);
 
   useEffect(() => {
     if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     const timer = window.setTimeout(() => inputRef.current?.focus(), 50);
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpen(false);
     };
+
     document.addEventListener("keydown", onKeyDown);
+
     return () => {
       window.clearTimeout(timer);
       document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
     };
   }, [open]);
 
@@ -55,7 +83,7 @@ export default function CalculatorQuickNav() {
 
   return (
     <>
-      <div className="relative z-40 border-b border-gray-100 bg-white">
+      <div className="sticky top-0 z-40 border-b border-gray-100 bg-white/95 shadow-sm backdrop-blur">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 px-5">
           <div className="flex min-w-0 items-center gap-3">
             <Link
@@ -120,7 +148,9 @@ export default function CalculatorQuickNav() {
             <div className="max-h-[60vh] overflow-y-auto p-2">
               {!query.trim() && (
                 <p className="px-3 pb-2 pt-1 text-xs font-bold text-gray-400">
-                  자주 쓰는 계산기
+                  {recentHrefs.length > 0
+                    ? "최근 사용한 계산기부터 보여드려요"
+                    : "추천 계산기"}
                 </p>
               )}
 

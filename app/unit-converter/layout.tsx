@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import CalculatorSeoContent from "../_components/CalculatorSeoContent";
 
 export const metadata: Metadata = {
   title: "단위변환 계산기",
@@ -10,5 +11,10 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: ReactNode }) {
-  return children;
+  return (
+    <>
+      {children}
+      <CalculatorSeoContent pathname="/unit-converter" />
+    </>
+  );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import CalculatorSeoContent from "../_components/CalculatorSeoContent";
 
 export const metadata: Metadata = {
   title: "며칠이지? 날짜·D-Day 계산기",
@@ -43,5 +44,10 @@ export const metadata: Metadata = {
 };
 
 export default function DaysLayout({ children }: { children: ReactNode }) {
-  return children;
+  return (
+    <>
+      {children}
+      <CalculatorSeoContent pathname="/days" />
+    </>
+  );
 }

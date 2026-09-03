@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import CalculatorSeoContent from "../_components/CalculatorSeoContent";
 
 export const metadata: Metadata = {
   title: "주휴수당 계산기",
@@ -34,5 +35,10 @@ export default function CalculatorLayout({
 }: {
   children: ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <CalculatorSeoContent pathname="/weekly-pay" />
+    </>
+  );
 }

@@ -7,9 +7,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE_NAME, SITE_URL } from "./_lib/site";
 import AnalyticsTracker from "./_components/AnalyticsTracker";
-import CalculatorSeoContent from "./_components/CalculatorSeoContent";
 import SiteFooter from "./_components/SiteFooter";
 import CalculatorQuickNav from "./_components/CalculatorQuickNav";
+import BackToTop from "./_components/BackToTop";
 
 const GA_ID = "G-6FC374VXMH";
 
@@ -107,8 +107,8 @@ export default function RootLayout({
         <CalculatorQuickNav />
         {children}
 
-        <CalculatorSeoContent />
         <SiteFooter />
+        <BackToTop />
         <AnalyticsTracker />
 
         <Script
