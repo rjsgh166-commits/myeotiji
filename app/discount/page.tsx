@@ -3,6 +3,7 @@
 import Link from "next/link";
 import RelatedCalculators from "../_components/RelatedCalculators";
 import ResultShareButton from "../_components/ResultShareButton";
+import CoupangDeals from "../_components/CoupangDeals";
 import { useMemo, useState } from "react";
 
 type Mode = "rate" | "price";
@@ -309,6 +310,8 @@ export default function DiscountPage() {
             />
           </section>
         </div>
+
+        <CoupangDeals />
 
         <section className="mt-6 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200 sm:p-8">
           <h2 className="text-lg font-bold">할인 계산 예시</h2>
