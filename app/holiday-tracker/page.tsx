@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 import RelatedCalculators from "../_components/RelatedCalculators";
 import ResultActionBar from "../_components/ResultActionBar";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
+import StickyResultBar from "../_components/StickyResultBar";
 import { trackEvent } from "../_lib/analytics";
 import { consumeCalculationTransfer } from "../_lib/calculationTransfer";
 import {
@@ -27,6 +29,10 @@ import {
   type HolidayConstraints,
   type HolidayStyle,
 } from "../_lib/holidayEngine";
+
+const HolidayScheduleCalendar = dynamic(() => import("./_components/HolidayScheduleCalendar"), {
+  loading: () => <div className="h-80 animate-pulse rounded-2xl bg-slate-100" aria-label="일정 달력 불러오는 중" />,
+});
 
 const STYLE_OPTIONS: { id: HolidayStyle; title: string; description: string; icon: string }[] = [
   { id: "long", title: "한 번 길게", description: "가장 긴 휴가를 우선", icon: "✈️" },
@@ -196,62 +202,11 @@ function downloadPlansIcs(year: number, plans: BreakPlan[], mode: "pto" | "full"
   link.click();
   URL.revokeObjectURL(url);
   trackEvent("holiday_calendar_add", { year, plan_count: plans.length, calendar_mode: mode });
+  trackEvent("holiday_calendar_download", { year, plan_count: plans.length, calendar_mode: mode });
 }
 
 function overlaps(a: BreakPlan, b: BreakPlan) {
   return Math.max(a.start.getTime(), b.start.getTime()) <= Math.min(a.end.getTime(), b.end.getTime());
-}
-
-function DateListEditor({
-  title,
-  description,
-  values,
-  onChange,
-  year,
-}: {
-  title: string;
-  description: string;
-  values: string[];
-  onChange: (values: string[]) => void;
-  year: number;
-}) {
-  const [draft, setDraft] = useState(`${year}-01-02`);
-
-  useEffect(() => {
-    setDraft(`${year}-01-02`);
-  }, [year]);
-
-  const add = () => {
-    if (!draft.startsWith(`${year}-`) || values.includes(draft)) return;
-    onChange([...values, draft].sort());
-  };
-
-  return (
-    <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
-      <p className="text-sm font-bold text-slate-900">{title}</p>
-      <p className="mt-1 text-xs leading-5 text-slate-500">{description}</p>
-      <div className="mt-3 flex gap-2">
-        <input
-          type="date"
-          value={draft}
-          min={`${year}-01-01`}
-          max={`${year}-12-31`}
-          onChange={(event) => setDraft(event.target.value)}
-          className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-50"
-        />
-        <button type="button" onClick={add} className="rounded-xl bg-slate-900 px-3.5 py-2.5 text-sm font-semibold text-white hover:bg-slate-700">추가</button>
-      </div>
-      {values.length > 0 ? (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {values.map((date) => (
-            <button key={date} type="button" onClick={() => onChange(values.filter((item) => item !== date))} className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 hover:border-rose-200 hover:text-rose-600">
-              {date.slice(5).replace("-", "/")} ×
-            </button>
-          ))}
-        </div>
-      ) : null}
-    </div>
-  );
 }
 
 function PlanCard({
@@ -355,6 +310,15 @@ export default function HolidayTrackerPage() {
     [selectedYear, targetDays, analysisToday, constraints],
   );
 
+  useEffect(() => {
+    if (plannerMode !== "target") return;
+    trackEvent("holiday_reverse_use", {
+      year: selectedYear,
+      target_days: targetDays,
+      result_found: Boolean(targetResult.best),
+    });
+  }, [plannerMode, selectedYear, targetDays, targetResult.best]);
+
   const rawAlternatives = useMemo(
     () => topAlternativePlans(selectedYear, Math.min(Math.max(ptoBudget, 1), 15), style, analysisToday, portfolio.plans, constraints, 16),
     [selectedYear, ptoBudget, style, analysisToday, portfolio.plans, constraints],
@@ -411,7 +375,7 @@ export default function HolidayTrackerPage() {
 
   return (
     <main className="min-h-screen bg-[#f7f8fa] text-[#191f28]">
-      <div className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8 sm:py-14">
+      <div className="mx-auto w-full max-w-6xl px-5 pb-28 pt-10 sm:px-8 sm:pt-14 lg:pb-14">
         <Link href="/" className="text-sm font-semibold text-slate-500 hover:text-slate-900">← 몇이지? 홈</Link>
 
         <header className="mt-7 grid gap-6 lg:grid-cols-[1fr_0.72fr] lg:items-end">
@@ -450,10 +414,10 @@ export default function HolidayTrackerPage() {
 
         <section className="mt-7 rounded-3xl border border-slate-200 bg-white p-5 sm:p-7">
           <div className="grid gap-2 rounded-2xl bg-slate-100 p-1 sm:grid-cols-2">
-            <button type="button" onClick={() => { setPlannerMode("budget"); trackEvent("holiday_planner_mode", { mode: "budget" }); }} className={`rounded-xl px-4 py-3 text-sm font-bold transition ${plannerMode === "budget" ? "bg-white text-slate-950 shadow-sm" : "text-slate-500"}`}>
+            <button type="button" onClick={() => { setPlannerMode("budget"); trackEvent("holiday_planner_mode", { mode: "budget" }); }} className={`min-h-11 rounded-xl px-4 py-3 text-sm font-bold transition focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100 ${plannerMode === "budget" ? "bg-white text-slate-950 shadow-sm" : "text-slate-500"}`}>
               남은 연차로 최적화
             </button>
-            <button type="button" onClick={() => { setPlannerMode("target"); trackEvent("holiday_planner_mode", { mode: "target" }); }} className={`rounded-xl px-4 py-3 text-sm font-bold transition ${plannerMode === "target" ? "bg-white text-violet-700 shadow-sm" : "text-slate-500"}`}>
+            <button type="button" onClick={() => { setPlannerMode("target"); trackEvent("holiday_planner_mode", { mode: "target" }); }} className={`min-h-11 rounded-xl px-4 py-3 text-sm font-bold transition focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-100 ${plannerMode === "target" ? "bg-white text-violet-700 shadow-sm" : "text-slate-500"}`}>
               원하는 휴가 길이 역산
             </button>
           </div>
@@ -477,13 +441,13 @@ export default function HolidayTrackerPage() {
                   <div className="flex items-center justify-between gap-3">
                     <p className="text-sm font-bold text-slate-900">남은 연차</p>
                     <div className="flex items-center gap-1 rounded-xl bg-slate-50 p-1">
-                      <button type="button" onClick={() => updateBudget(ptoBudget - 1)} className="h-8 w-8 rounded-lg text-slate-600 hover:bg-white">−</button>
+                      <button type="button" onClick={() => updateBudget(ptoBudget - 1)} className="h-11 w-11 rounded-lg text-slate-600 hover:bg-white focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100">−</button>
                       <span className="min-w-12 text-center text-sm font-bold text-blue-700">{ptoBudget}일</span>
-                      <button type="button" onClick={() => updateBudget(ptoBudget + 1)} className="h-8 w-8 rounded-lg text-slate-600 hover:bg-white">＋</button>
+                      <button type="button" onClick={() => updateBudget(ptoBudget + 1)} className="h-11 w-11 rounded-lg text-slate-600 hover:bg-white focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100">＋</button>
                     </div>
                   </div>
                   <div className="mt-3 flex flex-wrap gap-2">
-                    {PTO_QUICK.map((days) => <button key={days} type="button" onClick={() => updateBudget(days)} className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition ${ptoBudget === days ? "border-blue-600 bg-blue-600 text-white" : "border-slate-200 text-slate-500 hover:bg-slate-50"}`}>{days}일</button>)}
+                    {PTO_QUICK.map((days) => <button key={days} type="button" onClick={() => updateBudget(days)} className={`min-h-11 rounded-full border px-3 py-1.5 text-xs font-semibold transition focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100 ${ptoBudget === days ? "border-blue-600 bg-blue-600 text-white" : "border-slate-200 text-slate-500 hover:bg-slate-50"}`}>{days}일</button>)}
                   </div>
                 </div>
 
@@ -491,7 +455,7 @@ export default function HolidayTrackerPage() {
                   <p className="text-sm font-bold text-slate-900">어떻게 쉬고 싶어요?</p>
                   <div className="mt-3 space-y-2">
                     {STYLE_OPTIONS.map((option) => (
-                      <button key={option.id} type="button" onClick={() => updateStyle(option.id)} className={`flex w-full items-center gap-3 rounded-xl border px-3.5 py-2.5 text-left transition ${style === option.id ? "border-amber-400 bg-amber-50" : "border-slate-200 hover:bg-slate-50"}`}>
+                      <button key={option.id} type="button" onClick={() => updateStyle(option.id)} className={`flex min-h-11 w-full items-center gap-3 rounded-xl border px-3.5 py-2.5 text-left transition focus:outline-none focus-visible:ring-4 focus-visible:ring-amber-100 ${style === option.id ? "border-amber-400 bg-amber-50" : "border-slate-200 hover:bg-slate-50"}`}>
                         <span>{option.icon}</span>
                         <span className="min-w-0"><span className="block text-sm font-bold text-slate-900">{option.title}</span><span className="block text-xs text-slate-500">{option.description}</span></span>
                       </button>
@@ -507,39 +471,55 @@ export default function HolidayTrackerPage() {
                     <p className="mt-1 text-xs text-slate-500">그 휴가를 만들기 위한 최소 연차를 역산해요.</p>
                   </div>
                   <div className="flex items-center gap-1 rounded-xl bg-violet-50 p-1">
-                    <button type="button" onClick={() => updateTarget(targetDays - 1)} className="h-8 w-8 rounded-lg text-violet-700 hover:bg-white">−</button>
+                    <button type="button" onClick={() => updateTarget(targetDays - 1)} className="h-11 w-11 rounded-lg text-violet-700 hover:bg-white focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-100">−</button>
                     <span className="min-w-12 text-center text-sm font-bold text-violet-700">{targetDays}일</span>
-                    <button type="button" onClick={() => updateTarget(targetDays + 1)} className="h-8 w-8 rounded-lg text-violet-700 hover:bg-white">＋</button>
+                    <button type="button" onClick={() => updateTarget(targetDays + 1)} className="h-11 w-11 rounded-lg text-violet-700 hover:bg-white focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-100">＋</button>
                   </div>
                 </div>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  {TARGET_QUICK.map((days) => <button key={days} type="button" onClick={() => updateTarget(days)} className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition ${targetDays === days ? "border-violet-600 bg-violet-600 text-white" : "border-slate-200 text-slate-500 hover:bg-slate-50"}`}>{days}일</button>)}
+                  {TARGET_QUICK.map((days) => <button key={days} type="button" onClick={() => updateTarget(days)} className={`min-h-11 rounded-full border px-3 py-1.5 text-xs font-semibold transition focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-100 ${targetDays === days ? "border-violet-600 bg-violet-600 text-white" : "border-slate-200 text-slate-500 hover:bg-slate-50"}`}>{days}일</button>)}
                 </div>
               </div>
             )}
           </div>
 
           <div className="mt-6 border-t border-slate-100 pt-5">
-            <button type="button" onClick={() => setScheduleOpen((value) => !value)} className="flex w-full items-center justify-between gap-4 text-left">
+            <button
+              type="button"
+              onClick={() => {
+                const next = !scheduleOpen;
+                setScheduleOpen(next);
+                if (next) trackEvent("holiday_schedule_open", { year: selectedYear, planner_mode: plannerMode });
+              }}
+              className="flex min-h-11 w-full items-center justify-between gap-4 text-left focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
+              aria-expanded={scheduleOpen}
+              aria-controls="holiday-schedule-calendar"
+            >
               <div>
-                <p className="text-sm font-bold text-slate-900">회사·동행인 일정 반영</p>
-                <p className="mt-1 text-xs leading-5 text-slate-500">회사 추가 휴무일과 나·동행인이 연차를 못 쓰는 날을 피해서 다시 계산해요.</p>
+                <p className="text-sm font-bold text-slate-900">＋ 우리 일정까지 맞춰보기</p>
+                <p className="mt-1 text-xs leading-5 text-slate-500">회사 휴무와 나·동행인의 불가일을 달력에서 여러 날짜 한 번에 골라요.</p>
               </div>
-              <span className="text-sm font-bold text-blue-600">{scheduleOpen ? "접기 ↑" : "+ 상세 설정"}</span>
+              <span className="text-sm font-bold text-blue-600">{scheduleOpen ? "접기 ↑" : "달력 열기"}</span>
             </button>
 
             {scheduleOpen ? (
-              <div className="mt-5 grid gap-3 lg:grid-cols-3">
-                <DateListEditor title="우리 회사 추가 휴무일" description="창립기념일처럼 회사만 쉬는 날은 연차 없이 쉬는 날로 반영해요." values={companyDaysOff} onChange={setCompanyDaysOff} year={selectedYear} />
-                <DateListEditor title="내가 연차 못 쓰는 날" description="결산·행사처럼 내가 연차를 낼 수 없는 날짜가 필요한 조합은 제외해요." values={blockedPtoDays} onChange={setBlockedPtoDays} year={selectedYear} />
-                <DateListEditor title="동행인이 연차 못 쓰는 날" description="배우자·친구가 연차를 낼 수 없는 날짜가 필요한 조합은 제외해 같이 쉴 수 있는 날만 찾아요." values={companionBlockedPtoDays} onChange={setCompanionBlockedPtoDays} year={selectedYear} />
+              <div id="holiday-schedule-calendar" className="mt-5">
+                <HolidayScheduleCalendar
+                  year={selectedYear}
+                  companyDaysOff={companyDaysOff}
+                  blockedPtoDays={blockedPtoDays}
+                  companionBlockedPtoDays={companionBlockedPtoDays}
+                  onCompanyDaysOffChange={setCompanyDaysOff}
+                  onBlockedPtoDaysChange={setBlockedPtoDays}
+                  onCompanionBlockedPtoDaysChange={setCompanionBlockedPtoDays}
+                />
               </div>
             ) : null}
           </div>
         </section>
 
         {plannerMode === "budget" ? (
-          <section className="mt-7 overflow-hidden rounded-3xl border border-amber-200 bg-gradient-to-br from-amber-50 via-white to-orange-50 p-5 sm:p-8">
+          <section id="holiday-result-budget" className="mt-7 scroll-mt-24 overflow-hidden rounded-3xl border border-amber-200 bg-gradient-to-br from-amber-50 via-white to-orange-50 p-5 sm:p-8">
             <p className="text-xs font-bold text-amber-700">몇이지? 추천 연차 포트폴리오</p>
             {portfolio.plans.length > 0 ? (
               <>
@@ -564,7 +544,7 @@ export default function HolidayTrackerPage() {
             ) : <div className="mt-3 rounded-2xl bg-white p-5 text-sm text-slate-500 ring-1 ring-amber-100">조건에 맞는 연휴를 찾지 못했어요. 연차 개수를 늘리거나 회사·동행인 불가일을 줄여보세요.</div>}
           </section>
         ) : (
-          <section className="mt-7 overflow-hidden rounded-3xl border border-violet-200 bg-gradient-to-br from-violet-50 via-white to-blue-50 p-5 sm:p-8">
+          <section id="holiday-result-target" className="mt-7 scroll-mt-24 overflow-hidden rounded-3xl border border-violet-200 bg-gradient-to-br from-violet-50 via-white to-blue-50 p-5 sm:p-8">
             <p className="text-xs font-bold text-violet-700">몇이지? 휴가 마지노선 역산</p>
             {targetResult.best ? (
               <>
@@ -629,6 +609,24 @@ export default function HolidayTrackerPage() {
 
         <RelatedCalculators currentHref="/holiday-tracker" />
       </div>
+
+      {plannerMode === "budget" && portfolio.plans.length > 0 ? (
+        <StickyResultBar
+          calculator="holiday_tracker"
+          label="추천 연차 포트폴리오"
+          value={`연차 ${portfolio.usedPto}일 → 총 ${portfolio.totalBreakDays}일`}
+          targetId="holiday-result-budget"
+          tone="amber"
+        />
+      ) : plannerMode === "target" && targetResult.best ? (
+        <StickyResultBar
+          calculator="holiday_tracker"
+          label={`${targetDays}일 휴가 마지노선`}
+          value={`최소 연차 ${targetResult.best.ptoDays.length}일`}
+          targetId="holiday-result-target"
+          tone="violet"
+        />
+      ) : null}
     </main>
   );
 }

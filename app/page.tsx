@@ -75,9 +75,32 @@ export default function Home() {
             <span className="text-blue-600">몇이지?</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-500 sm:text-lg">
-            비교하고 끝내지 않습니다. 어디부터 이득인지, 몇 일이면 가능한지 마지노선까지 계산해요.
+            비교하고 끝내지 않습니다. <strong className="font-semibold text-slate-700">결정의 기준이 되는 숫자</strong>를 역산해요.
           </p>
 
+          <div className="mx-auto mt-7 grid max-w-3xl gap-2 text-left sm:grid-cols-3">
+            {[
+              ["💼", "이직하려면", "연봉 몇 이상?", "/job-change", "violet"],
+              ["🏦", "대출 갈아타려면", "금리 몇 % 이하?", "/loan", "blue"],
+              ["🍯", "9일 쉬려면", "연차 몇 일?", "/holiday-tracker", "amber"],
+            ].map(([icon, prefix, question, href, tone]) => (
+              <Link
+                key={href}
+                href={href}
+                data-ga-event="threshold_entry"
+                data-ga-destination={href}
+                className={`group rounded-2xl border bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-sm ${
+                  tone === "violet" ? "border-violet-100 hover:border-violet-300" : tone === "amber" ? "border-amber-100 hover:border-amber-300" : "border-blue-100 hover:border-blue-300"
+                }`}
+              >
+                <span className="text-lg" aria-hidden="true">{icon}</span>
+                <p className="mt-2 text-xs font-semibold text-slate-400">{prefix}</p>
+                <p className="mt-0.5 text-base font-bold text-slate-900">{question}</p>
+              </Link>
+            ))}
+          </div>
+
+          <p className="mt-5 text-xs font-semibold text-slate-400">원하는 계산기가 따로 있다면 아래에서 바로 검색하세요.</p>
           <div id="calculator-search" className="scroll-mt-24">
             <CalculatorSearch items={CALCULATORS} />
           </div>

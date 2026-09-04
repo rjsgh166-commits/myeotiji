@@ -171,11 +171,11 @@ export default function ResultActionBar({
   };
 
   const buttonClass =
-    "inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50";
+    "inline-flex min-h-11 items-center justify-center rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100";
 
   return (
     <div className="mt-4 flex flex-wrap items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50/70 p-2.5">
-      <button type="button" onClick={share} className={buttonClass}>
+      <button type="button" onClick={share} className={buttonClass} aria-live="polite">
         {copied ? "✓ 복사됨" : "↗ 공유"}
       </button>
       {image ? (

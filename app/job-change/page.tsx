@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import ResultActionBar from "../_components/ResultActionBar";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
+import StickyResultBar from "../_components/StickyResultBar";
 import TrustStrip from "../_components/TrustStrip";
 import CalculationAnalytics from "../_components/CalculationAnalytics";
 import ViewEventTracker from "../_components/ViewEventTracker";
@@ -477,7 +478,7 @@ export default function JobChangePage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#f7f8fa] px-5 py-10 text-slate-900 sm:py-14">
+    <main className="min-h-screen bg-[#f7f8fa] px-5 pb-28 pt-10 text-slate-900 sm:pt-14 lg:pb-14">
       <CalculationAnalytics
         calculator="job_change"
         mode="break_even"
@@ -540,7 +541,7 @@ export default function JobChangePage() {
           <ScenarioEditor title="B. 이직 제안" scenario={offer} setScenario={setOffer} accent advanced={advanced} />
         </div>
 
-        <section id="job-change-decision" className="mt-6 overflow-hidden rounded-3xl bg-slate-950 p-6 text-white shadow-sm sm:p-8">
+        <section id="job-change-decision" className="mt-6 scroll-mt-24 overflow-hidden rounded-3xl bg-slate-950 p-6 text-white shadow-sm sm:p-8">
           <p className="text-xs font-semibold text-violet-300">몇이지? 결론</p>
           <h2 className="mt-3 text-2xl font-bold leading-tight sm:text-3xl">{conclusion}</h2>
 
@@ -579,6 +580,11 @@ export default function JobChangePage() {
               targetId="job-change-what-if"
               eventName="what_if_view"
               params={{ calculator: "job_change" }}
+            />
+            <ViewEventTracker
+              targetId="job-change-what-if"
+              eventName="job_condition_value_view"
+              params={{ calculator: "job_change", scenario_count: whatIfScenarios.length }}
             />
             <div>
               <p className="text-xs font-semibold text-violet-600">조건이 바뀌면?</p>
@@ -702,12 +708,20 @@ export default function JobChangePage() {
           </p>
         </section>
 
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="mt-8 flex flex-wrap gap-3 pb-20 lg:pb-0">
           <Link href="/salary" onClick={() => storeCalculationTransfer("/salary", salaryState)} data-ga-event="calculation_continue" data-ga-from-calculator="job_change" data-ga-destination="/salary" className="rounded-xl bg-violet-600 px-4 py-3 text-sm font-semibold text-white hover:bg-violet-700">이 연봉으로 실수령 비교 →</Link>
           <Link href="/retirement" data-ga-event="calculation_continue" data-ga-from-calculator="job_change" data-ga-destination="/retirement" className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">퇴직금까지 확인 →</Link>
           <Link href="/situations" data-ga-event="calculation_continue" data-ga-from-calculator="job_change" data-ga-destination="/situations" className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">상황별 계산 가이드 →</Link>
         </div>
       </div>
+
+      <StickyResultBar
+        calculator="job_change"
+        label="이직 마지노선"
+        value={`${result.breakEvenSalary.toLocaleString("ko-KR")}만원`}
+        targetId="job-change-decision"
+        tone="violet"
+      />
     </main>
   );
 }

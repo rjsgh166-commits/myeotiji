@@ -7,6 +7,8 @@ import RelatedCalculators from "../_components/RelatedCalculators";
 import ResultActionBar from "../_components/ResultActionBar";
 import DecisionSummaryCard from "../_components/DecisionSummaryCard";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
+import StickyResultBar from "../_components/StickyResultBar";
+import ViewEventTracker from "../_components/ViewEventTracker";
 import TrustStrip from "../_components/TrustStrip";
 import CalculationAnalytics from "../_components/CalculationAnalytics";
 import { consumeCalculationTransfer } from "../_lib/calculationTransfer";
@@ -431,7 +433,7 @@ export default function LoanPage() {
   const singleSavedState = { view: "single", principal, rate, months, method };
 
   return (
-    <main className="min-h-screen bg-[#f7f8fa] px-5 py-10 text-[#191f28]">
+    <main className="min-h-screen bg-[#f7f8fa] px-5 pb-28 pt-10 text-[#191f28] lg:pb-10">
       <CalculationAnalytics
         calculator="loan"
         mode={view}
@@ -528,7 +530,7 @@ export default function LoanPage() {
             </div>
           </section>
 
-          <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+          <section id="loan-single-result" className="scroll-mt-24 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
             <p className="text-sm font-bold text-gray-400">{methodName(method)} 예상 결과</p>
 
             {result ? (
@@ -664,6 +666,7 @@ export default function LoanPage() {
             <ScenarioResult title="조건 B" method={bMethod} result={bResult} accent />
           </div>
 
+          <div id="loan-compare-result" className="scroll-mt-24">
           <DecisionSummaryCard
             title={interestSummary}
             description={
@@ -689,7 +692,12 @@ export default function LoanPage() {
           />
 
           {samePrincipal && aResult && bResult && bRateBreakEven !== null ? (
-            <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 p-5 sm:flex sm:items-center sm:justify-between sm:gap-6">
+            <div id="loan-rate-threshold" className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 p-5 sm:flex sm:items-center sm:justify-between sm:gap-6">
+              <ViewEventTracker
+                targetId="loan-rate-threshold"
+                eventName="loan_threshold_view"
+                params={{ calculator: "loan", mode: "compare" }}
+              />
               <div>
                 <p className="text-xs font-semibold text-blue-600">몇이지? 금리 마지노선</p>
                 <h3 className="mt-1 text-lg font-bold text-slate-950">B 금리가 {bRateBreakEven.toFixed(2)}% 이하여야 총 이자가 A 이하예요.</h3>
@@ -736,6 +744,7 @@ export default function LoanPage() {
               </ResultActionBar>
             </>
           )}
+          </div>
         </section>
         ) : null}
 
@@ -765,6 +774,24 @@ export default function LoanPage() {
 
         <RelatedCalculators currentHref="/loan" />
       </div>
+
+      {view === "single" && result ? (
+        <StickyResultBar
+          calculator="loan"
+          label={result.mainLabel}
+          value={`${won(result.main)}원`}
+          targetId="loan-single-result"
+          tone="blue"
+        />
+      ) : view === "compare" && aResult && bResult ? (
+        <StickyResultBar
+          calculator="loan"
+          label={bRateBreakEven !== null ? "B 금리 마지노선" : "B - A 총 이자"}
+          value={bRateBreakEven !== null ? `${bRateBreakEven.toFixed(2)}% 이하` : signedWon(interestDifference)}
+          targetId="loan-compare-result"
+          tone="blue"
+        />
+      ) : null}
     </main>
   );
 }

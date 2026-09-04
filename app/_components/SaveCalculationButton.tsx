@@ -111,14 +111,14 @@ export default function SaveCalculationButton({
 
   return (
     <>
-      <span className="inline-flex items-center gap-1.5">
+      <span className="inline-flex items-center gap-1.5" aria-live="polite">
         <button
           type="button"
           onClick={() => {
             if (isSaved) return;
             saveNow();
           }}
-          className={`inline-flex items-center justify-center gap-2 rounded-xl border px-3.5 py-2.5 text-sm font-semibold transition ${
+          className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border px-3.5 py-2.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100 ${
             isSaved
               ? "border-emerald-200 bg-emerald-50 text-emerald-700"
               : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
@@ -134,7 +134,7 @@ export default function SaveCalculationButton({
               setName(title);
               setRenameOpen(true);
             }}
-            className="rounded-lg px-2 py-2 text-xs font-semibold text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
+            className="min-h-11 rounded-lg px-2 py-2 text-xs font-semibold text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
           >
             이름 바꾸기
           </button>
@@ -160,7 +160,7 @@ export default function SaveCalculationButton({
               <button
                 type="button"
                 onClick={() => setRenameOpen(false)}
-                className="rounded-lg px-2 py-1 text-sm text-slate-400 hover:bg-slate-50 hover:text-slate-700"
+                className="min-h-11 min-w-11 rounded-lg px-2 py-1 text-sm text-slate-400 hover:bg-slate-50 hover:text-slate-700 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
                 aria-label="닫기"
               >
                 ✕
@@ -186,14 +186,14 @@ export default function SaveCalculationButton({
               <button
                 type="button"
                 onClick={() => setRenameOpen(false)}
-                className="flex-1 rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-600 hover:bg-slate-50"
+                className="min-h-11 flex-1 rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-600 hover:bg-slate-50 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-100"
               >
                 취소
               </button>
               <button
                 type="button"
                 onClick={rename}
-                className="flex-1 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+                className="min-h-11 flex-1 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
               >
                 이름 저장
               </button>
