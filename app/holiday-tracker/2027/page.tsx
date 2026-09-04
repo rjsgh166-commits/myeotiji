@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import RelatedCalculators from "../../_components/RelatedCalculators";
-import ResultImageButton from "../../_components/ResultImageButton";
+import ResultActionBar from "../../_components/ResultActionBar";
 
 export const metadata: Metadata = {
   title: "2027 황금연휴 | 연차 2일로 추석 9일 쉬기",
   description:
-    "2027년 공휴일과 대체공휴일을 기준으로 연차 1~2일을 붙였을 때 길게 쉴 수 있는 황금연휴를 정리했습니다. 추석에는 연차 2일로 9일 연휴가 가능합니다.",
+    "우주항공청 2027년 월력요항 공식 기준. 2027년 공휴일 72일, 주5일제 휴일 119일, 3일 이상 연휴 10번과 연차 1~2일 황금연휴 조합을 확인하세요.",
   keywords: [
     "2027 황금연휴",
     "2027 연휴",
@@ -14,13 +14,14 @@ export const metadata: Metadata = {
     "2027 추석 연휴",
     "2027 연차 추천",
     "연차 2일 9일",
+    "2027 월력요항",
   ],
   alternates: { canonical: "/holiday-tracker/2027" },
   openGraph: {
     type: "article",
     url: "/holiday-tracker/2027",
     title: "2027 황금연휴 | 연차 2일로 추석 9일 쉬기",
-    description: "2027년 가장 좋은 연차 조합을 달력과 함께 확인하세요.",
+    description: "우주항공청 2027년 월력요항 기준으로 가장 좋은 연차 조합을 확인하세요.",
   },
 };
 
@@ -33,7 +34,7 @@ const oneDayPlans = [
 
 const twoDayPlans = [
   { rank: "1", period: "9/11(토) ~ 9/19(일)", days: "9일", pto: "9/13(월), 9/17(금)", note: "2027년 핵심 황금연휴" },
-  { rank: "2", period: "2/4(목) ~ 2/9(화)", days: "6일", pto: "2/4(목), 2/5(금)", note: "설 연휴 4일 + 연차 2일" },
+  { rank: "2", period: "2/4(목) ~ 2/9(화)", days: "6일", pto: "2/4(목), 2/5(금)", note: "설 연휴와 연결" },
   { rank: "3", period: "4/30(금) ~ 5/5(수)", days: "6일", pto: "4/30(금), 5/4(화)", note: "노동절·어린이날 사이 연결" },
 ] as const;
 
@@ -67,20 +68,18 @@ const weekendDays = new Set([4, 5, 11, 12, 18, 19, 25, 26]);
 
 function SeptemberCalendar() {
   return (
-    <div className="rounded-3xl border border-gray-200 bg-white p-5 sm:p-6">
+    <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h3 className="text-lg font-black">2027년 9월</h3>
-        <div className="flex flex-wrap gap-2 text-[11px] font-bold">
+        <h3 className="text-lg font-bold">2027년 9월</h3>
+        <div className="flex flex-wrap gap-2 text-[11px] font-semibold">
           <span className="rounded-full bg-red-50 px-2.5 py-1 text-red-600">공휴일</span>
           <span className="rounded-full bg-blue-50 px-2.5 py-1 text-blue-600">추천 연차</span>
-          <span className="rounded-full bg-gray-100 px-2.5 py-1 text-gray-500">주말</span>
+          <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-500">주말</span>
         </div>
       </div>
-
-      <div className="mt-5 grid grid-cols-7 gap-1 text-center text-xs font-bold text-gray-400">
+      <div className="mt-5 grid grid-cols-7 gap-1 text-center text-xs font-semibold text-slate-400">
         {['일','월','화','수','목','금','토'].map((day) => <div key={day} className="py-2">{day}</div>)}
       </div>
-
       <div className="grid grid-cols-7 gap-1 text-center text-sm">
         {Array.from({ length: 3 }).map((_, index) => <div key={`blank-${index}`} />)}
         {septemberDays.map((day) => {
@@ -89,17 +88,14 @@ function SeptemberCalendar() {
           const weekend = weekendDays.has(day);
           const active = day >= 11 && day <= 19;
           return (
-            <div key={day} className={`relative flex min-h-12 items-center justify-center rounded-xl font-bold ${
-              holiday ? 'bg-red-50 text-red-600' : pto ? 'bg-blue-50 text-blue-600' : weekend ? 'bg-gray-100 text-gray-600' : active ? 'bg-amber-50 text-gray-800' : 'text-gray-700'
-            }`}>
+            <div key={day} className={`relative flex min-h-12 items-center justify-center rounded-xl font-semibold ${holiday ? 'bg-red-50 text-red-600' : pto ? 'bg-blue-600 text-white' : weekend ? 'bg-slate-100 text-slate-600' : active ? 'bg-amber-50 text-slate-800' : 'text-slate-700'}`}>
               {day}
-              {pto && <span className="absolute bottom-1 text-[8px] font-black">연차</span>}
+              {pto && <span className="absolute bottom-1 text-[8px] font-bold">연차</span>}
             </div>
           );
         })}
       </div>
-
-      <div className="mt-4 rounded-2xl bg-amber-50 px-4 py-3 text-sm font-semibold leading-6 text-amber-800">
+      <div className="mt-4 rounded-2xl bg-amber-50 px-4 py-3 text-sm font-semibold leading-6 text-amber-900">
         9월 13일(월)과 17일(금)에 연차를 쓰면 9월 11일(토)부터 19일(일)까지 9일 연속으로 쉴 수 있어요.
       </div>
     </div>
@@ -110,115 +106,152 @@ export default function Holiday2027Page() {
   return (
     <main className="min-h-screen bg-[#f7f8fa] px-5 py-10 text-[#191f28] sm:py-14">
       <div className="mx-auto max-w-5xl">
-        <Link href="/holiday-tracker" className="text-sm font-semibold text-gray-500 transition hover:text-gray-900">
-          ← 꿀연휴 추적기로 돌아가기
-        </Link>
+        <Link href="/holiday-tracker" className="text-sm font-semibold text-slate-500 hover:text-slate-900">← 꿀연휴 플래너로 돌아가기</Link>
 
         <header className="mt-7">
-          <div className="inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-black text-amber-800">2027 미리보기</div>
-          <h1 className="mt-4 text-3xl font-black tracking-tight sm:text-5xl">🍯 2027 황금연휴</h1>
-          <p className="mt-4 max-w-3xl text-sm leading-7 text-gray-600 sm:text-base">
-            2026년 9월 3일 현재 시행 중인 공휴일·대체공휴일 규정을 기준으로 2027년에 연차를 1~2일 붙였을 때 길게 쉴 수 있는 기간을 정리했어요.
+          <div className="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">공식 월력요항 반영</div>
+          <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl">🍯 2027 황금연휴</h1>
+          <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">
+            우주항공청이 2026년 6월 29일 발표한 「2027년 월력요항」을 기준으로 공휴일과 대체공휴일을 확인하고, 연차 1~2일을 붙였을 때 길게 쉴 수 있는 조합을 정리했어요.
           </p>
         </header>
 
-        <section className="mt-8 overflow-hidden rounded-3xl bg-gradient-to-br from-amber-50 via-white to-orange-50 p-6 ring-1 ring-amber-100 sm:p-8">
-          <p className="text-xs font-black tracking-wider text-amber-700">2027 BEST PLAN</p>
+        <section className="mt-7 grid gap-3 sm:grid-cols-3">
+          {[
+            ["72일", "관공서 공휴일"],
+            ["119일", "주5일제 실질 휴일"],
+            ["10번", "3일 이상 연휴"],
+          ].map(([value, label]) => (
+            <div key={label} className="rounded-2xl border border-slate-200 bg-white p-5 text-center">
+              <p className="text-3xl font-bold text-blue-600">{value}</p>
+              <p className="mt-1 text-xs font-semibold text-slate-500">{label}</p>
+            </div>
+          ))}
+        </section>
+
+        <section className="mt-8">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 className="text-2xl font-bold">2027 연휴 상세 가이드</h2>
+              <p className="mt-2 text-sm text-slate-500">연차 개수와 시기별로 바로 찾을 수 있게 정리했어요.</p>
+            </div>
+            <Link href="/holiday-tracker" className="text-sm font-bold text-blue-600 hover:text-blue-700">남은 연차 전체 최적화 →</Link>
+          </div>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              ["/holiday-tracker/2027/chuseok", "2027 추석", "연차 2일 → 9일", "🍂"],
+              ["/holiday-tracker/2027/seollal", "2027 설날", "기본 4일 · 연차 1일 → 5일", "🧧"],
+              ["/holiday-tracker/2027/pto-1", "연차 1일", "최대 6일 쉬기", "1️⃣"],
+              ["/holiday-tracker/2027/pto-2", "연차 2일", "최대 9일 쉬기", "2️⃣"],
+              ["/holiday-tracker/2027/may", "2027년 5월", "연차 1일 → 5일", "🌿"],
+              ["/holiday-tracker/2027/october", "2027년 10월", "두 번의 3일 연휴", "🍁"],
+            ].map(([href, title, sub, icon]) => (
+              <Link key={href} href={href} className="rounded-2xl border border-slate-200 bg-white p-5 transition hover:border-blue-300 hover:bg-blue-50/30">
+                <span className="text-xl">{icon}</span>
+                <h3 className="mt-3 font-bold text-slate-950">{title}</h3>
+                <p className="mt-1 text-xs text-slate-500">{sub}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-8 overflow-hidden rounded-3xl border border-amber-200 bg-gradient-to-br from-amber-50 via-white to-orange-50 p-6 sm:p-8">
+          <p className="text-xs font-bold text-amber-700">2027 BEST PLAN</p>
           <div className="mt-3 grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
             <div>
-              <p className="text-sm font-bold text-gray-500">추석 황금연휴</p>
-              <p className="mt-2 text-4xl font-black tracking-tight text-gray-950 sm:text-5xl">연차 2일 → 9일</p>
-              <p className="mt-4 text-lg font-black text-amber-800">9/11(토) ~ 9/19(일)</p>
-              <p className="mt-2 text-sm leading-6 text-gray-600">추천 연차: 9/13(월), 9/17(금)</p>
+              <p className="text-sm font-semibold text-slate-500">추석 황금연휴</p>
+              <p className="mt-2 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl">연차 2일 → 9일</p>
+              <p className="mt-4 text-lg font-bold text-amber-800">9/11(토) ~ 9/19(일)</p>
+              <p className="mt-2 text-sm leading-6 text-slate-600">추천 연차: 9/13(월), 9/17(금)</p>
             </div>
             <SeptemberCalendar />
           </div>
-        </section>
 
-        <div className="mt-3">
-          <ResultImageButton
-            eyebrow="몇이지? · 2027 황금연휴"
-            title="연차 2일로 9일 휴가"
-            tone="amber"
-            filename="myeotiji-2027-holiday.png"
-            lines={[
-              { label: "휴가 기간", value: "9/11(토) ~ 9/19(일)", strong: true },
-              { label: "사용 연차", value: "2일" },
-              { label: "추천 연차 ①", value: "9/13(월)" },
-              { label: "추천 연차 ②", value: "9/17(금)" },
-              { label: "연속 휴가", value: "9일", strong: true },
-            ]}
-            caption="2026.09.04 현재 시행 중인 공휴일·대체공휴일 규정 기준입니다."
+          <ResultActionBar
+            calculatorPath="/holiday-tracker/2027"
+            shareTitle="2027 추석 황금연휴"
+            shareText="🍯 2027 추석 황금연휴\n연차 2일 → 9일 휴가\n9/11(토) ~ 9/19(일)\n추천 연차: 9/13(월), 9/17(금)"
+            image={{
+              eyebrow: "몇이지? · 2027 황금연휴",
+              title: "연차 2일로 9일 휴가",
+              tone: "amber",
+              filename: "myeotiji-2027-chuseok.png",
+              lines: [
+                { label: "휴가 기간", value: "9/11 ~ 9/19", strong: true },
+                { label: "사용 연차", value: "2일" },
+                { label: "추천 연차 ①", value: "9/13(월)" },
+                { label: "추천 연차 ②", value: "9/17(금)" },
+                { label: "연속 휴가", value: "9일", strong: true },
+              ],
+              caption: "우주항공청 2027년 월력요항 공식 기준 · myeotiji.kr",
+            }}
           />
-        </div>
+        </section>
 
         <section className="mt-8">
-          <div>
-            <p className="text-xs font-black tracking-wider text-blue-600">TOP 3</p>
-            <h2 className="mt-2 text-2xl font-black">연차 2일로 길게 쉬기</h2>
-          </div>
+          <h2 className="text-2xl font-bold">연차 2일로 길게 쉬기</h2>
           <div className="mt-5 grid gap-4 md:grid-cols-3">
             {twoDayPlans.map((plan) => (
-              <article key={plan.rank} className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+              <article key={plan.rank} className="rounded-3xl border border-slate-200 bg-white p-6">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-black text-blue-600">#{plan.rank}</span>
-                  <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-700">{plan.days}</span>
+                  <span className="text-xs font-bold text-blue-600">#{plan.rank}</span>
+                  <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700">{plan.days}</span>
                 </div>
-                <h3 className="mt-4 text-lg font-black">{plan.period}</h3>
-                <p className="mt-3 text-sm font-semibold text-gray-600">연차: {plan.pto}</p>
-                <p className="mt-2 text-xs leading-5 text-gray-500">{plan.note}</p>
+                <h3 className="mt-4 text-lg font-bold">{plan.period}</h3>
+                <p className="mt-3 text-sm font-semibold text-slate-600">연차: {plan.pto}</p>
+                <p className="mt-2 text-xs leading-5 text-slate-500">{plan.note}</p>
               </article>
             ))}
           </div>
         </section>
 
-        <section className="mt-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200 sm:p-8">
-          <h2 className="text-2xl font-black">연차 1일만 쓸 때</h2>
-          <p className="mt-2 text-sm text-gray-500">하루만 연차를 쓰고도 5~6일 쉬는 조합을 먼저 골랐어요.</p>
+        <section className="mt-8 rounded-3xl border border-slate-200 bg-white p-6 sm:p-8">
+          <h2 className="text-2xl font-bold">연차 1일만 쓸 때</h2>
+          <p className="mt-2 text-sm text-slate-500">하루만 연차를 쓰고도 5~6일 쉬는 조합이에요.</p>
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
             {oneDayPlans.map((plan) => (
-              <article key={`${plan.period}-${plan.pto}`} className="rounded-2xl bg-gray-50 p-5">
+              <article key={`${plan.period}-${plan.pto}`} className="rounded-2xl bg-slate-50 p-5">
                 <div className="flex items-center justify-between gap-3">
-                  <h3 className="font-black text-gray-900">{plan.period}</h3>
-                  <span className="shrink-0 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-black text-amber-800">{plan.days}</span>
+                  <h3 className="font-bold text-slate-900">{plan.period}</h3>
+                  <span className="shrink-0 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-800">{plan.days}</span>
                 </div>
                 <p className="mt-3 text-sm font-semibold text-blue-700">연차 {plan.pto}</p>
-                <p className="mt-1 text-xs leading-5 text-gray-500">{plan.note}</p>
+                <p className="mt-1 text-xs leading-5 text-slate-500">{plan.note}</p>
               </article>
             ))}
           </div>
         </section>
 
-        <section className="mt-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200 sm:p-8">
+        <section className="mt-8 rounded-3xl border border-slate-200 bg-white p-6 sm:p-8">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <p className="text-xs font-black tracking-wider text-gray-400">2027 HOLIDAYS</p>
-              <h2 className="mt-2 text-2xl font-black">2027년 공휴일 핵심 일정</h2>
+              <h2 className="text-2xl font-bold">2027년 공휴일 핵심 일정</h2>
+              <p className="mt-2 text-sm text-slate-500">노동절·제헌절 공휴일과 대체공휴일까지 반영했어요.</p>
             </div>
-            <a href="https://www.law.go.kr/LSW/lsInfoP.do?ancYnChk=0&lsId=002404" target="_blank" rel="noreferrer" className="text-sm font-bold text-blue-600 hover:text-blue-700">국가법령정보센터 확인 →</a>
+            <a href="https://www.kasa.go.kr/prog/plcyBrf/brief/kor/sub01_01_04/view.do?plcyBrfNo=431" target="_blank" rel="noreferrer" className="text-sm font-bold text-blue-600 hover:text-blue-700">우주항공청 공식자료 →</a>
           </div>
-
           <div className="mt-5 grid gap-x-6 sm:grid-cols-2">
             {holidays.map(([date, name]) => (
-              <div key={`${date}-${name}`} className="flex items-center justify-between gap-4 border-b border-gray-100 py-3 text-sm">
-                <span className="font-bold text-gray-900">{name}</span>
-                <span className="shrink-0 text-gray-500">{date}</span>
+              <div key={`${date}-${name}`} className="flex items-center justify-between gap-4 border-b border-slate-100 py-3 text-sm">
+                <span className="font-semibold text-slate-900">{name}</span>
+                <span className="shrink-0 text-slate-500">{date}</span>
               </div>
             ))}
           </div>
         </section>
 
-        <section className="mt-8 rounded-3xl border border-amber-200 bg-amber-50 p-5 sm:p-6">
-          <h2 className="font-black text-amber-900">미래 일정은 바뀔 수 있어요</h2>
-          <p className="mt-2 text-sm leading-6 text-amber-800">
-            이 페이지는 2026년 9월 3일 현재 시행 중인 공휴일 규정과 대체공휴일 규칙을 바탕으로 계산했습니다. 정부가 나중에 지정하는 임시공휴일, 선거일, 법령 개정은 아직 반영되지 않을 수 있어요.
-          </p>
+        <section className="mt-8 rounded-3xl bg-blue-600 p-6 text-white sm:p-8">
+          <p className="text-sm font-semibold text-blue-100">남은 연차 전체를 배분해보고 싶다면</p>
+          <h2 className="mt-2 text-2xl font-bold">연차 7일을 어디에 쓰면 가장 잘 쉴까요?</h2>
+          <p className="mt-2 text-sm leading-6 text-blue-100">한 번 길게 · 효율 최우선 · 자주 쉬기 스타일별로 서로 겹치지 않는 연휴 조합을 계산해보세요.</p>
+          <Link href="/holiday-tracker" className="mt-5 inline-flex rounded-xl bg-white px-5 py-3 text-sm font-bold text-blue-700 transition hover:bg-blue-50">내 연차 최적화 →</Link>
         </section>
 
-        <section className="mt-8 rounded-3xl bg-blue-600 p-6 text-white sm:p-8">
-          <p className="text-sm font-bold text-blue-100">다른 조건도 직접 찾아보세요</p>
-          <h2 className="mt-2 text-2xl font-black">연차 0~2일로 앞으로 5~15년의 꿀연휴 비교</h2>
-          <Link href="/holiday-tracker" className="mt-5 inline-flex rounded-xl bg-white px-5 py-3 text-sm font-black text-blue-700 transition hover:bg-blue-50">꿀연휴 추적기 열기 →</Link>
+        <section className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5">
+          <h2 className="font-bold text-amber-950">임시공휴일은 추후 바뀔 수 있어요</h2>
+          <p className="mt-2 text-sm leading-6 text-amber-900">
+            법정 공휴일과 대체공휴일은 2027년 월력요항 공식 자료를 반영했습니다. 다만 이후 정부가 별도로 지정하는 임시공휴일이나 회사별 휴무일은 추가로 달라질 수 있어요.
+          </p>
         </section>
 
         <RelatedCalculators currentHref="/holiday-tracker" />

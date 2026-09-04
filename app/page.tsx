@@ -2,6 +2,7 @@ import Link from "next/link";
 import CalculatorSearch from "./_components/CalculatorSearch";
 import RecentCalculators from "./_components/RecentCalculators";
 import SavedCalculations from "./_components/SavedCalculations";
+import HolidayHomeCard from "./_components/HolidayHomeCard";
 import {
   CALCULATOR_BY_HREF,
   CALCULATOR_CATEGORIES,
@@ -12,8 +13,8 @@ const frequentHrefs = [
   "/job-change",
   "/salary",
   "/loan",
+  "/holiday-tracker",
   "/retirement",
-  "/days",
   "/annual-leave",
   "/discount",
   "/median-income",
@@ -27,7 +28,7 @@ const situations = [
   ["💼", "이직이 이득일까?", "연봉·시간·통근까지 비교", "/job-change"],
   ["💰", "월급 얼마 받지?", "세후 실수령액 바로 확인", "/salary"],
   ["🏠", "대출 뭐가 낫지?", "월 부담과 총이자 비교", "/loan"],
-  ["🍯", "연차 언제 쓰지?", "적은 연차로 길게 쉬기", "/holiday-tracker"],
+  ["🍯", "연차 언제 쓰지?", "남은 연차를 가장 잘 배분", "/holiday-tracker"],
   ["🛒", "진짜 몇 % 할인?", "중복 할인·쿠폰까지", "/discount"],
 ] as const;
 
@@ -42,7 +43,7 @@ export default function Home() {
 
           <nav className="hidden items-center gap-7 text-sm font-medium text-slate-600 sm:flex">
             <a href="#situations" className="hover:text-slate-950">상황별</a>
-            <a href="#popular" className="hover:text-slate-950">자주 찾는 계산기</a>
+            <a href="#popular" className="hover:text-slate-950">추천 계산기</a>
             <a href="#all-calculators" className="hover:text-slate-950">전체 계산기</a>
             <Link href="/about" className="hover:text-slate-950">계산정보</Link>
           </nav>
@@ -102,6 +103,8 @@ export default function Home() {
         </div>
       </section>
 
+      <HolidayHomeCard />
+
       <SavedCalculations />
 
       <section id="situations" className="scroll-mt-24 px-5 pb-12 sm:pb-14">
@@ -141,8 +144,8 @@ export default function Home() {
         <div className="mx-auto max-w-6xl">
           <div className="mb-5 flex items-end justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-bold">자주 찾는 계산기</h2>
-              <p className="mt-2 text-sm text-slate-500">가장 많이 필요할 만한 기능부터 바로 시작하세요.</p>
+              <h2 className="text-2xl font-bold">추천 계산기</h2>
+              <p className="mt-2 text-sm text-slate-500">판단이 필요한 계산과 자주 쓰는 기능부터 골랐어요.</p>
             </div>
           </div>
 
