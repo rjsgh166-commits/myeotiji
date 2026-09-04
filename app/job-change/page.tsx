@@ -8,6 +8,7 @@ import SaveCalculationButton from "../_components/SaveCalculationButton";
 import TrustStrip from "../_components/TrustStrip";
 import CalculationAnalytics from "../_components/CalculationAnalytics";
 import ViewEventTracker from "../_components/ViewEventTracker";
+import { consumeCalculationTransfer, storeCalculationTransfer } from "../_lib/calculationTransfer";
 import {
   calculateIncomeTax2026,
   calculateLocalIncomeTax,
@@ -92,7 +93,7 @@ function analyzeScenario(
   );
   const annualNetSalary = salary.monthlyNet * 12;
   const annualExtraValue = Math.max(0, scenario.annualExtraValue) * 10_000;
-  const annualWorkCost = Math.max(0, scenario.monthlyWorkCost) * 12;
+  const annualWorkCost = Math.max(0, scenario.monthlyWorkCost) * 10_000 * 12;
   const annualWorkHours = Math.max(0, scenario.weeklyHours) * 52;
   const annualCommuteHours =
     (Math.max(0, scenario.commuteOneWay) * 2 * Math.max(0, scenario.commuteDays) * 52) /
@@ -160,11 +161,13 @@ function ScenarioEditor({
   scenario,
   setScenario,
   accent = false,
+  advanced = false,
 }: {
   title: string;
   scenario: Scenario;
   setScenario: (scenario: Scenario) => void;
   accent?: boolean;
+  advanced?: boolean;
 }) {
   const set = (key: keyof Scenario, value: number) =>
     setScenario({ ...scenario, [key]: Number.isFinite(value) ? value : 0 });
@@ -197,19 +200,12 @@ function ScenarioEditor({
           step={100}
         />
         <NumericInput
-          label="월 비과세액"
-          value={scenario.taxFree}
-          onChange={(value) => set("taxFree", value)}
-          unit="만원"
-          description="식대 등 매월 비과세 금액"
-        />
-        <NumericInput
           label="주당 실제 근무시간"
           value={scenario.weeklyHours}
           onChange={(value) => set("weeklyHours", value)}
           unit="시간"
           step={0.5}
-          description="평균 야근까지 포함해 입력"
+          description="평균 야근까지 포함"
         />
         <NumericInput
           label="편도 출퇴근"
@@ -218,32 +214,43 @@ function ScenarioEditor({
           unit="분"
           step={5}
         />
-        <NumericInput
-          label="주 출근일"
-          value={scenario.commuteDays}
-          onChange={(value) => set("commuteDays", value)}
-          unit="일"
-          step={0.5}
-          description="재택일은 제외"
-        />
-        <NumericInput
-          label="월 출근 관련 비용"
-          value={scenario.monthlyWorkCost}
-          onChange={(value) => set("monthlyWorkCost", value)}
-          unit="원"
-          step={10000}
-          description="교통·주차 등 비교할 비용"
-        />
-        <div className="sm:col-span-2">
-          <NumericInput
-            label="연간 보너스·복지 체감가치"
-            value={scenario.annualExtraValue}
-            onChange={(value) => set("annualExtraValue", value)}
-            unit="만원"
-            step={10}
-            description="세후 보너스, 복지포인트 등 실제로 가치 있다고 보는 연간 금액을 직접 입력"
-          />
-        </div>
+        {advanced ? (
+          <>
+            <NumericInput
+              label="월 비과세액"
+              value={scenario.taxFree}
+              onChange={(value) => set("taxFree", value)}
+              unit="만원"
+              description="식대 등 매월 비과세 금액"
+            />
+            <NumericInput
+              label="주 출근일"
+              value={scenario.commuteDays}
+              onChange={(value) => set("commuteDays", value)}
+              unit="일"
+              step={0.5}
+              description="재택일은 제외"
+            />
+            <NumericInput
+              label="월 출근 관련 비용"
+              value={scenario.monthlyWorkCost}
+              onChange={(value) => set("monthlyWorkCost", value)}
+              unit="만원"
+              step={1}
+              description="교통·주차비 등을 월 단위로 입력"
+            />
+            <div className="sm:col-span-2">
+              <NumericInput
+                label="연간 보너스·복지 체감가치"
+                value={scenario.annualExtraValue}
+                onChange={(value) => set("annualExtraValue", value)}
+                unit="만원"
+                step={10}
+                description="세후 보너스·복지포인트 등 실제 가치라고 보는 연간 금액"
+              />
+            </div>
+          </>
+        ) : null}
       </div>
     </section>
   );
@@ -261,6 +268,7 @@ function Stat({ label, value, strong = false }: { label: string; value: string; 
 }
 
 export default function JobChangePage() {
+  const [advanced, setAdvanced] = useState(false);
   const [familyCount, setFamilyCount] = useState(1);
   const [childrenCount, setChildrenCount] = useState(0);
   const [current, setCurrent] = useState<Scenario>({
@@ -269,50 +277,64 @@ export default function JobChangePage() {
     weeklyHours: 40,
     commuteOneWay: 40,
     commuteDays: 5,
-    monthlyWorkCost: 100_000,
+    monthlyWorkCost: 0,
     annualExtraValue: 0,
   });
   const [offer, setOffer] = useState<Scenario>({
     salary: 6_000,
     taxFree: 20,
-    weeklyHours: 45,
+    weeklyHours: 40,
     commuteOneWay: 60,
     commuteDays: 5,
-    monthlyWorkCost: 150_000,
-    annualExtraValue: 100,
+    monthlyWorkCost: 0,
+    annualExtraValue: 0,
   });
 
   useEffect(() => {
+    const transferred = consumeCalculationTransfer("/job-change") || {};
     const params = new URLSearchParams(window.location.search);
-    const readNumber = (key: string, fallback: number) => {
-      const raw = params.get(key);
-      if (raw === null) return fallback;
+    const readNumber = (stateKey: string, legacyKeys: string[], fallback: number) => {
+      let raw: unknown = transferred[stateKey];
+      if (raw === undefined) {
+        for (const key of legacyKeys) {
+          const transferredLegacy = transferred[key];
+          if (transferredLegacy !== undefined) { raw = transferredLegacy; break; }
+          const candidate = params.get(key);
+          if (candidate !== null) { raw = candidate; break; }
+        }
+      }
+      if (raw === undefined || raw === null) return fallback;
       const value = Number(raw);
       return Number.isFinite(value) ? value : fallback;
     };
 
-    setFamilyCount(Math.max(1, readNumber("family", 1)));
-    setChildrenCount(Math.max(0, readNumber("children", 0)));
+    setAdvanced(Boolean(transferred.advanced));
+    setFamilyCount(Math.max(1, readNumber("familyCount", ["family"], 1)));
+    setChildrenCount(Math.max(0, readNumber("childrenCount", ["children"], 0)));
+    const normalizeWorkCost = (value: number) => value > 10_000 ? value / 10_000 : value;
+
     setCurrent((previous) => ({
       ...previous,
-      salary: readNumber("cSalary", readNumber("currentSalary", previous.salary)),
-      taxFree: readNumber("cTaxFree", previous.taxFree),
-      weeklyHours: readNumber("cWeeklyHours", previous.weeklyHours),
-      commuteOneWay: readNumber("cCommute", previous.commuteOneWay),
-      commuteDays: readNumber("cCommuteDays", previous.commuteDays),
-      monthlyWorkCost: readNumber("cWorkCost", previous.monthlyWorkCost),
-      annualExtraValue: readNumber("cExtra", previous.annualExtraValue),
+      salary: readNumber("currentSalary", ["cSalary", "currentSalary"], previous.salary),
+      taxFree: readNumber("currentTaxFree", ["cTaxFree"], previous.taxFree),
+      weeklyHours: readNumber("currentWeeklyHours", ["cWeeklyHours"], previous.weeklyHours),
+      commuteOneWay: readNumber("currentCommute", ["cCommute"], previous.commuteOneWay),
+      commuteDays: readNumber("currentCommuteDays", ["cCommuteDays"], previous.commuteDays),
+      monthlyWorkCost: normalizeWorkCost(readNumber("currentWorkCost", ["cWorkCost"], previous.monthlyWorkCost)),
+      annualExtraValue: readNumber("currentExtra", ["cExtra"], previous.annualExtraValue),
     }));
     setOffer((previous) => ({
       ...previous,
-      salary: readNumber("oSalary", readNumber("offerSalary", previous.salary)),
-      taxFree: readNumber("oTaxFree", previous.taxFree),
-      weeklyHours: readNumber("oWeeklyHours", previous.weeklyHours),
-      commuteOneWay: readNumber("oCommute", previous.commuteOneWay),
-      commuteDays: readNumber("oCommuteDays", previous.commuteDays),
-      monthlyWorkCost: readNumber("oWorkCost", previous.monthlyWorkCost),
-      annualExtraValue: readNumber("oExtra", previous.annualExtraValue),
+      salary: readNumber("offerSalary", ["oSalary", "offerSalary"], previous.salary),
+      taxFree: readNumber("offerTaxFree", ["oTaxFree"], previous.taxFree),
+      weeklyHours: readNumber("offerWeeklyHours", ["oWeeklyHours"], previous.weeklyHours),
+      commuteOneWay: readNumber("offerCommute", ["oCommute"], previous.commuteOneWay),
+      commuteDays: readNumber("offerCommuteDays", ["oCommuteDays"], previous.commuteDays),
+      monthlyWorkCost: normalizeWorkCost(readNumber("offerWorkCost", ["oWorkCost"], previous.monthlyWorkCost)),
+      annualExtraValue: readNumber("offerExtra", ["oExtra"], previous.annualExtraValue),
     }));
+
+    if (window.location.search) window.history.replaceState({}, "", "/job-change");
   }, []);
 
   const result = useMemo(() => {
@@ -350,8 +372,16 @@ export default function JobChangePage() {
       ? `시간·출퇴근·비용까지 반영하면 제안 연봉은 마지노선보다 ${Math.abs(result.offerVsBreakEven).toLocaleString("ko-KR")}만원 높아요.`
       : `시간·출퇴근·비용까지 반영하면 제안 연봉은 마지노선보다 ${Math.abs(result.offerVsBreakEven).toLocaleString("ko-KR")}만원 낮아요.`;
 
-  const restoreHref = `/job-change?family=${familyCount}&children=${childrenCount}&cSalary=${current.salary}&cTaxFree=${current.taxFree}&cWeeklyHours=${current.weeklyHours}&cCommute=${current.commuteOneWay}&cCommuteDays=${current.commuteDays}&cWorkCost=${current.monthlyWorkCost}&cExtra=${current.annualExtraValue}&oSalary=${offer.salary}&oTaxFree=${offer.taxFree}&oWeeklyHours=${offer.weeklyHours}&oCommute=${offer.commuteOneWay}&oCommuteDays=${offer.commuteDays}&oWorkCost=${offer.monthlyWorkCost}&oExtra=${offer.annualExtraValue}`;
-  const salaryHref = `/salary?a=${current.salary}&b=${offer.salary}&taxFree=${current.taxFree}&family=${familyCount}&children=${childrenCount}`;
+  const savedState = {
+    advanced, familyCount, childrenCount,
+    currentSalary: current.salary, currentTaxFree: current.taxFree, currentWeeklyHours: current.weeklyHours,
+    currentCommute: current.commuteOneWay, currentCommuteDays: current.commuteDays, currentWorkCost: current.monthlyWorkCost, currentExtra: current.annualExtraValue,
+    offerSalary: offer.salary, offerTaxFree: offer.taxFree, offerWeeklyHours: offer.weeklyHours,
+    offerCommute: offer.commuteOneWay, offerCommuteDays: offer.commuteDays, offerWorkCost: offer.monthlyWorkCost, offerExtra: offer.annualExtraValue,
+  };
+  const salaryState = {
+    annualSalary: current.salary, compareSalary: offer.salary, monthlyTaxFree: current.taxFree, familyCount, childrenCount,
+  };
 
   return (
     <main className="min-h-screen bg-[#f7f8fa] px-5 py-10 text-slate-900 sm:py-14">
@@ -376,8 +406,8 @@ export default function JobChangePage() {
           <div className="inline-flex rounded-full bg-violet-100 px-3 py-1 text-xs font-black text-violet-700">
             몇이지? 선택 계산 · 2026 기준
           </div>
-          <p className="mt-5 text-sm font-black text-violet-600">JOB CHANGE BREAK-EVEN</p>
-          <h1 className="mt-2 text-3xl font-black tracking-tight sm:text-5xl">
+          <p className="mt-5 text-sm font-semibold text-violet-600">연봉뿐 아니라 시간까지 비교</p>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-5xl">
             이직 마지노선 연봉 계산기
           </h1>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">
@@ -387,7 +417,18 @@ export default function JobChangePage() {
           </p>
         </header>
 
-        <section className="mt-8 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-4">
+          <div>
+            <p className="text-sm font-semibold text-slate-800">입력은 간단하게 시작해도 돼요</p>
+            <p className="mt-1 text-xs text-slate-500">기본은 연봉·근무시간·출퇴근만 비교합니다.</p>
+          </div>
+          <button type="button" onClick={() => setAdvanced((value) => !value)} className="rounded-xl bg-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-200">
+            {advanced ? "간편 계산으로" : "+ 상세 조건까지 반영"}
+          </button>
+        </div>
+
+        {advanced ? (
+        <section className="mt-4 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="text-xs font-black text-slate-400">공통 세금 조건</p>
@@ -399,15 +440,16 @@ export default function JobChangePage() {
             </div>
           </div>
         </section>
+        ) : null}
 
         <div className="mt-5 grid gap-5 lg:grid-cols-2">
-          <ScenarioEditor title="A. 현재 직장" scenario={current} setScenario={setCurrent} />
-          <ScenarioEditor title="B. 이직 제안" scenario={offer} setScenario={setOffer} accent />
+          <ScenarioEditor title="A. 현재 직장" scenario={current} setScenario={setCurrent} advanced={advanced} />
+          <ScenarioEditor title="B. 이직 제안" scenario={offer} setScenario={setOffer} accent advanced={advanced} />
         </div>
 
         <section id="job-change-decision" className="mt-6 overflow-hidden rounded-3xl bg-slate-950 p-6 text-white shadow-sm sm:p-8">
-          <p className="text-xs font-black tracking-wider text-violet-300">몇이지? 결론</p>
-          <h2 className="mt-3 text-2xl font-black leading-tight sm:text-3xl">{conclusion}</h2>
+          <p className="text-xs font-semibold text-violet-300">몇이지? 결론</p>
+          <h2 className="mt-3 text-2xl font-bold leading-tight sm:text-3xl">{conclusion}</h2>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-2xl bg-white/5 p-4">
@@ -441,8 +483,8 @@ export default function JobChangePage() {
         <section className="mt-6 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:p-8">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <p className="text-xs font-black text-violet-600">A VS B</p>
-              <h2 className="mt-1 text-xl font-black">왜 이런 결론이 나왔을까?</h2>
+              <p className="text-xs font-semibold text-violet-600">두 조건 비교</p>
+              <h2 className="mt-1 text-xl font-bold">왜 이런 결론이 나왔을까?</h2>
             </div>
             <p className="text-xs text-slate-400">보너스·복지는 사용자가 입력한 체감가치를 그대로 사용</p>
           </div>
@@ -494,7 +536,8 @@ export default function JobChangePage() {
           />
           <SaveCalculationButton
             title={`이직 ${current.salary.toLocaleString("ko-KR")} → ${offer.salary.toLocaleString("ko-KR")}만원`}
-            href={restoreHref}
+            href="/job-change"
+            state={savedState}
             primaryValue={`마지노선 ${result.breakEvenSalary.toLocaleString("ko-KR")}만원`}
             summary={`시간당 실질 보상 차이 ${formatSignedWon(result.hourlyDifference)}`}
           />
@@ -508,9 +551,9 @@ export default function JobChangePage() {
         </section>
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link href={salaryHref} data-ga-event="calculation_continue" data-ga-from-calculator="job_change" data-ga-destination="/salary" className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 hover:bg-slate-50">이 연봉으로 실수령 비교 →</Link>
-          <Link href="/retirement" data-ga-event="calculation_continue" data-ga-from-calculator="job_change" data-ga-destination="/retirement" className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 hover:bg-slate-50">퇴직금까지 확인 →</Link>
-          <Link href="/situations" data-ga-event="calculation_continue" data-ga-from-calculator="job_change" data-ga-destination="/situations" className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 hover:bg-slate-50">상황별 계산 가이드 →</Link>
+          <Link href="/salary" onClick={() => storeCalculationTransfer("/salary", salaryState)} data-ga-event="calculation_continue" data-ga-from-calculator="job_change" data-ga-destination="/salary" className="rounded-xl bg-violet-600 px-4 py-3 text-sm font-semibold text-white hover:bg-violet-700">이 연봉으로 실수령 비교 →</Link>
+          <Link href="/retirement" data-ga-event="calculation_continue" data-ga-from-calculator="job_change" data-ga-destination="/retirement" className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">퇴직금까지 확인 →</Link>
+          <Link href="/situations" data-ga-event="calculation_continue" data-ga-from-calculator="job_change" data-ga-destination="/situations" className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">상황별 계산 가이드 →</Link>
         </div>
       </div>
     </main>

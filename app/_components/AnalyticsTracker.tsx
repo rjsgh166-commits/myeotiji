@@ -9,16 +9,17 @@ export default function AnalyticsTracker() {
   const firstRoute = useRef(true);
 
   useEffect(() => {
-    // The initial page_view is already sent by the GA4 config script.
-    // Send manual page_view events only for client-side route changes.
+    // Initial page_view is sent by the existing GA4 config script.
+    // Client-side page views deliberately exclude the query string so
+    // calculator inputs can never become analytics page parameters.
     if (firstRoute.current) {
       firstRoute.current = false;
       return;
     }
 
     trackEvent("page_view", {
-      page_path: `${pathname}${window.location.search}`,
-      page_location: window.location.href,
+      page_path: pathname,
+      page_location: `${window.location.origin}${pathname}`,
       page_title: document.title,
     });
   }, [pathname]);

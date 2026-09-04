@@ -1,15 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { calculatorFromHref, trackEvent } from "../_lib/analytics";
+import { cleanPath } from "../_lib/calculationTransfer";
 
-type SavedCalculation = {
+export type SavedCalculation = {
   id: string;
   title: string;
   href: string;
   primaryValue: string;
   summary: string;
   savedAt: number;
+  state?: Record<string, unknown>;
 };
 
 type Props = {
@@ -17,13 +19,14 @@ type Props = {
   href: string;
   primaryValue: string;
   summary: string;
+  state?: Record<string, unknown>;
 };
 
-const STORAGE_KEY = "myeotiji:saved-calculations:v1";
+export const SAVED_CALCULATIONS_KEY = "myeotiji:saved-calculations:v1";
 
 function readSaved(): SavedCalculation[] {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(SAVED_CALCULATIONS_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? parsed : [];
@@ -37,38 +40,42 @@ export default function SaveCalculationButton({
   href,
   primaryValue,
   summary,
+  state,
 }: Props) {
+  const safeHref = useMemo(() => cleanPath(href), [href]);
   const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    setSaved(readSaved().some((item) => cleanPath(item.href) === safeHref));
+  }, [safeHref]);
 
   const save = () => {
     const nextItem: SavedCalculation = {
-      id: `${href}:${Date.now()}`,
+      id: `${safeHref}:${Date.now()}`,
       title,
-      href,
+      href: safeHref,
       primaryValue,
       summary,
       savedAt: Date.now(),
+      state,
     };
 
-    const current = readSaved().filter((item) => item.href !== href);
+    const current = readSaved().filter((item) => cleanPath(item.href) !== safeHref);
     const next = [nextItem, ...current].slice(0, 8);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    trackEvent("save_calculation", {
-      calculator: calculatorFromHref(href),
-    });
+    localStorage.setItem(SAVED_CALCULATIONS_KEY, JSON.stringify(next));
+    trackEvent("save_calculation", { calculator: calculatorFromHref(safeHref) });
     window.dispatchEvent(new Event("myeotiji:saved-updated"));
     setSaved(true);
-    window.setTimeout(() => setSaved(false), 1800);
   };
 
   return (
     <button
       type="button"
       onClick={save}
-      className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 transition hover:bg-slate-50 sm:w-auto"
+      className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
     >
       <span>{saved ? "✓" : "☆"}</span>
-      <span>{saved ? "내 계산함에 저장했어요" : "내 계산함에 저장"}</span>
+      <span>{saved ? "저장됨" : "내 계산함"}</span>
     </button>
   );
 }

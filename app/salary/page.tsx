@@ -12,6 +12,7 @@ import DecisionSummaryCard from "../_components/DecisionSummaryCard";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
 import TrustStrip from "../_components/TrustStrip";
 import CalculationAnalytics from "../_components/CalculationAnalytics";
+import { consumeCalculationTransfer } from "../_lib/calculationTransfer";
 
 const formatWon = (value: number) =>
   `${Math.max(0, Math.round(value)).toLocaleString("ko-KR")}원`;
@@ -178,19 +179,23 @@ export default function SalaryPage() {
   const [compareSalary, setCompareSalary] = useState(5500); // 만원
 
   useEffect(() => {
+    const transferred = consumeCalculationTransfer("/salary") || {};
     const params = new URLSearchParams(window.location.search);
-    const readNumber = (key: string, fallback: number, min = 0) => {
-      const raw = params.get(key);
-      if (raw === null) return fallback;
+    const readNumber = (stateKey: string, legacyKey: string, fallback: number, min = 0) => {
+      const stateValue = transferred[stateKey];
+      const raw = stateValue ?? transferred[legacyKey] ?? params.get(legacyKey);
+      if (raw === null || raw === undefined) return fallback;
       const value = Number(raw);
       return Number.isFinite(value) && value >= min ? value : fallback;
     };
 
-    setAnnualSalary(readNumber("a", 5000));
-    setCompareSalary(readNumber("b", 5500));
-    setMonthlyTaxFree(readNumber("taxFree", 20));
-    setFamilyCount(readNumber("family", 1, 1));
-    setChildrenCount(readNumber("children", 0));
+    setAnnualSalary(readNumber("annualSalary", "a", 5000));
+    setCompareSalary(readNumber("compareSalary", "b", 5500));
+    setMonthlyTaxFree(readNumber("monthlyTaxFree", "taxFree", 20));
+    setFamilyCount(readNumber("familyCount", "family", 1, 1));
+    setChildrenCount(readNumber("childrenCount", "children", 0));
+
+    if (window.location.search) window.history.replaceState({}, "", "/salary");
   }, []);
 
   const result = useMemo(
@@ -227,8 +232,13 @@ export default function SalaryPage() {
         ? `B 연봉이 월 실수령 기준 ${formatWon(Math.abs(monthlyNetDifference))} 더 유리해요.`
         : `A 연봉이 월 실수령 기준 ${formatWon(Math.abs(monthlyNetDifference))} 더 유리해요.`;
 
-  const restoreHref = `/salary?a=${annualSalary}&b=${compareSalary}&taxFree=${monthlyTaxFree}&family=${familyCount}&children=${childrenCount}`;
-  const jobChangeHref = `/job-change?currentSalary=${annualSalary}&offerSalary=${compareSalary}&family=${familyCount}&children=${childrenCount}`;
+  const savedState = { annualSalary, compareSalary, monthlyTaxFree, familyCount, childrenCount };
+  const jobChangeState = {
+    currentSalary: annualSalary,
+    offerSalary: compareSalary,
+    familyCount,
+    childrenCount,
+  };
 
   return (
     <main className="min-h-screen bg-[#f7f8fa] text-slate-900">
@@ -239,21 +249,10 @@ export default function SalaryPage() {
         valid={annualSalary > 0 && compareSalary > 0}
         signature={`${annualSalary}|${compareSalary}|${monthlyTaxFree}|${familyCount}|${childrenCount}`}
       />
-      <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-5">
-          <a href="/" className="text-2xl font-black tracking-tight">
-            몇이지?
-          </a>
-          <a
-            href="/"
-            className="text-sm font-semibold text-slate-500 transition hover:text-slate-900"
-          >
-            ← 계산기 목록
-          </a>
-        </div>
-      </header>
-
       <div className="mx-auto max-w-5xl px-5 py-10 sm:py-14">
+        <a href="/" className="text-sm font-semibold text-slate-500 hover:text-slate-900">
+          ← 몇이지? 홈
+        </a>
         <section className="mb-8">
           <div className="mb-3 inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700">
             2026년 기준 · 연봉 비교 지원
@@ -467,7 +466,8 @@ export default function SalaryPage() {
               { label: "월 실수령 차이", value: formatSignedWon(monthlyNetDifference) },
               { label: "연간 환산 차이", value: formatSignedWon(annualNetDifference) },
             ]}
-            actionHref={jobChangeHref}
+            actionHref="/job-change"
+            actionState={jobChangeState}
             actionLabel="이 연봉으로 이직 마지노선 계산 →"
             analyticsId="salary"
           />
@@ -494,7 +494,8 @@ export default function SalaryPage() {
           />
           <SaveCalculationButton
             title={`연봉 ${annualSalary.toLocaleString("ko-KR")} vs ${compareSalary.toLocaleString("ko-KR")}만원`}
-            href={restoreHref}
+            href="/salary"
+            state={savedState}
             primaryValue={`월 실수령 ${formatSignedWon(monthlyNetDifference)}`}
             summary={`연간 환산 차이 ${formatSignedWon(annualNetDifference)}`}
           />

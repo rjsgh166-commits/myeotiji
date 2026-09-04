@@ -10,6 +10,7 @@ import TrustStrip from "../_components/TrustStrip";
 import CoupangDeals from "../_components/CoupangDeals";
 import { useEffect, useMemo, useState } from "react";
 import CalculationAnalytics from "../_components/CalculationAnalytics";
+import { consumeCalculationTransfer } from "../_lib/calculationTransfer";
 
 type Mode = "rate" | "price" | "stacked";
 
@@ -109,14 +110,14 @@ export default function DiscountPage() {
   const [couponAmount, setCouponAmount] = useState("0");
 
   useEffect(() => {
+    const transferred = consumeCalculationTransfer("/discount") || {};
     const params = new URLSearchParams(window.location.search);
-    const savedMode = params.get("mode");
-    if (savedMode === "rate" || savedMode === "price" || savedMode === "stacked") {
-      setMode(savedMode);
-    }
+    const read = (key: string) => transferred[key] ?? params.get(key);
+    const savedMode = read("mode");
+    if (savedMode === "rate" || savedMode === "price" || savedMode === "stacked") setMode(savedMode);
     const setIfPresent = (key: string, setter: (value: string) => void) => {
-      const value = params.get(key);
-      if (value !== null) setter(value);
+      const value = read(key);
+      if (value !== null && value !== undefined) setter(String(value));
     };
     setIfPresent("original", setOriginalPrice);
     setIfPresent("discount", setDiscountRate);
@@ -124,6 +125,7 @@ export default function DiscountPage() {
     setIfPresent("first", setFirstRate);
     setIfPresent("second", setSecondRate);
     setIfPresent("coupon", setCouponAmount);
+    if (window.location.search) window.history.replaceState({}, "", "/discount");
   }, []);
 
   const result = useMemo(() => {
@@ -220,7 +222,7 @@ export default function DiscountPage() {
           ? `이 판매가는 정가 대비 실제 ${formatPercent(result.rate)} 할인된 가격이에요.`
           : `${formatPercent(result.rate)} 할인하면 ${formatWon(result.finalPrice)}에 살 수 있어요.`;
 
-  const restoreHref = `/discount?mode=${mode}&original=${encodeURIComponent(originalPrice)}&discount=${discountRate}&sale=${encodeURIComponent(salePrice)}&first=${firstRate}&second=${secondRate}&coupon=${encodeURIComponent(couponAmount)}`;
+  const savedState = { mode, original: originalPrice, discount: discountRate, sale: salePrice, first: firstRate, second: secondRate, coupon: couponAmount };
 
   return (
     <main className="min-h-screen bg-gray-50 text-gray-900">
@@ -533,7 +535,8 @@ export default function DiscountPage() {
             />
             <SaveCalculationButton
               title={mode === "stacked" ? "추가 할인·쿠폰 계산" : "할인율 계산"}
-              href={restoreHref}
+              href="/discount"
+              state={savedState}
               primaryValue={`최종 ${formatWon(result.finalPrice)}`}
               summary={`실제 할인율 ${formatPercent(result.rate)} · ${formatWon(result.discountAmount)} 절약`}
             />

@@ -10,6 +10,7 @@ import DecisionSummaryCard from "../_components/DecisionSummaryCard";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
 import TrustStrip from "../_components/TrustStrip";
 import CalculationAnalytics from "../_components/CalculationAnalytics";
+import { consumeCalculationTransfer } from "../_lib/calculationTransfer";
 
 type Method = "annuity" | "principal" | "bullet";
 
@@ -231,6 +232,14 @@ function ScenarioEditor({
               개월
             </span>
           </div>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {[12, 60, 120, 240, 360].map((value) => (
+              <button key={value} type="button" onClick={() => setMonths(String(value))} className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200">
+                {value / 12}년
+              </button>
+            ))}
+          </div>
+          <p className="mt-2 text-xs text-slate-400">{Number(months) > 0 ? `${months}개월 · 약 ${(Number(months) / 12).toFixed(1)}년` : ""}</p>
         </label>
 
         <div>
@@ -291,6 +300,7 @@ function ScenarioResult({
 }
 
 export default function LoanPage() {
+  const [view, setView] = useState<"single" | "compare">("single");
   const [principal, setPrincipal] = useState("300000000");
   const [rate, setRate] = useState("4");
   const [months, setMonths] = useState("360");
@@ -312,14 +322,18 @@ export default function LoanPage() {
   const [bMethod, setBMethod] = useState<Method>("annuity");
 
   useEffect(() => {
+    const transferred = consumeCalculationTransfer("/loan") || {};
     const params = new URLSearchParams(window.location.search);
-    const read = (key: string, fallback: string) => params.get(key) ?? fallback;
-    const readMethod = (key: string, fallback: Method): Method => {
-      const value = params.get(key);
-      return value === "annuity" || value === "principal" || value === "bullet"
-        ? value
-        : fallback;
+    const read = (key: string, fallback: string) => {
+      const value = transferred[key] ?? params.get(key);
+      return value === null || value === undefined ? fallback : String(value);
     };
+    const readMethod = (key: string, fallback: Method): Method => {
+      const value = transferred[key] ?? params.get(key);
+      return value === "annuity" || value === "principal" || value === "bullet" ? value : fallback;
+    };
+    const restoredView = transferred.view;
+    if (restoredView === "compare" || restoredView === "single") setView(restoredView);
 
     setPrincipal(read("principal", "300000000"));
     setRate(read("rate", "4"));
@@ -333,6 +347,8 @@ export default function LoanPage() {
     setBRate(read("bRate", "3.5"));
     setBMonths(read("bMonths", "360"));
     setBMethod(readMethod("bMethod", "annuity"));
+
+    if (window.location.search) window.history.replaceState({}, "", "/loan");
   }, []);
 
   const aResult = useMemo(
@@ -359,16 +375,20 @@ export default function LoanPage() {
           : `B가 A보다 총 이자를 ${won(interestDifference)}원 더 내요.`
       : "두 조건을 입력하면 차이를 비교해드려요.";
 
-  const restoreHref = `/loan?principal=${principal}&rate=${rate}&months=${months}&method=${method}&aPrincipal=${aPrincipal}&aRate=${aRate}&aMonths=${aMonths}&aMethod=${aMethod}&bPrincipal=${bPrincipal}&bRate=${bRate}&bMonths=${bMonths}&bMethod=${bMethod}`;
+  const savedState = {
+    view: "compare", principal, rate, months, method,
+    aPrincipal, aRate, aMonths, aMethod,
+    bPrincipal, bRate, bMonths, bMethod,
+  };
 
   return (
     <main className="min-h-screen bg-[#f7f8fa] px-5 py-10 text-[#191f28]">
       <CalculationAnalytics
         calculator="loan"
-        mode="compare"
-        hasCompare
-        valid={Boolean(result && aResult && bResult)}
-        signature={`${principal}|${rate}|${months}|${method}|${aPrincipal}|${aRate}|${aMonths}|${aMethod}|${bPrincipal}|${bRate}|${bMonths}|${bMethod}`}
+        mode={view}
+        hasCompare={view === "compare"}
+        valid={view === "compare" ? Boolean(aResult && bResult) : Boolean(result)}
+        signature={`${view}|${principal}|${rate}|${months}|${method}|${aPrincipal}|${aRate}|${aMonths}|${aMethod}|${bPrincipal}|${bRate}|${bMonths}|${bMethod}`}
       />
       <div className="mx-auto max-w-4xl">
         <Link href="/" className="text-sm font-semibold text-gray-500 hover:text-gray-900">
@@ -376,8 +396,8 @@ export default function LoanPage() {
         </Link>
 
         <header className="mt-7">
-          <p className="text-sm font-bold text-blue-600">MONEY · LOAN COMPARE</p>
-          <h1 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">
+          <p className="text-sm font-semibold text-blue-600">대출 · 금융</p>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
             대출이자 계산기
           </h1>
           <p className="mt-3 text-sm leading-6 text-gray-500">
@@ -386,7 +406,25 @@ export default function LoanPage() {
           </p>
         </header>
 
-        <div className="mt-8 grid gap-5 lg:grid-cols-[1fr_1.05fr]">
+        <div className="mt-7 inline-flex rounded-xl border border-slate-200 bg-white p-1">
+          <button
+            type="button"
+            onClick={() => setView("single")}
+            className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${view === "single" ? "bg-blue-600 text-white" : "text-slate-600 hover:bg-slate-50"}`}
+          >
+            하나 계산
+          </button>
+          <button
+            type="button"
+            onClick={() => setView("compare")}
+            className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${view === "compare" ? "bg-blue-600 text-white" : "text-slate-600 hover:bg-slate-50"}`}
+          >
+            두 조건 비교
+          </button>
+        </div>
+
+        {view === "single" ? (
+        <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_1.05fr]">
           <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
             <MoneyInput
               label="대출금액"
@@ -423,8 +461,15 @@ export default function LoanPage() {
                 />
                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">개월</span>
               </div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {[12, 60, 120, 240, 360].map((value) => (
+                  <button key={value} type="button" onClick={() => setMonths(String(value))} className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200">
+                    {value / 12}년
+                  </button>
+                ))}
+              </div>
               <p className="mt-2 text-xs text-gray-400">
-                {Number(months) > 0 ? `약 ${(Number(months) / 12).toFixed(1)}년` : ""}
+                {Number(months) > 0 ? `${months}개월 · 약 ${(Number(months) / 12).toFixed(1)}년` : ""}
               </p>
             </label>
 
@@ -464,15 +509,17 @@ export default function LoanPage() {
             </div>
           </section>
         </div>
+        ) : null}
 
         <TrustStrip
           items={["상환방식별 계산식 공개", "입력값은 브라우저에서만 계산", "중도상환수수료 미포함", "2026.09 확인"]}
           note="실제 금융기관은 상환일·일할계산·변동금리·수수료 등을 적용하므로 최종 약정금액은 반드시 금융기관에서 확인하세요."
         />
 
+        {view === "compare" ? (
         <section className="mt-6 rounded-3xl border border-blue-100 bg-white p-6 shadow-sm sm:p-8">
-          <p className="text-xs font-black text-blue-600">LOAN A/B COMPARE</p>
-          <h2 className="mt-1 text-xl font-black">대출 조건 A vs B 비교</h2>
+          <p className="text-xs font-semibold text-blue-600">두 조건 비교</p>
+          <h2 className="mt-1 text-xl font-bold">대출 조건 A vs B 비교</h2>
           <p className="mt-2 text-sm leading-6 text-gray-500">
             은행별 금리, 대출기간, 상환방식이 다를 때 월 부담과 총 이자가 실제로
             얼마나 차이 나는지 확인해보세요.
@@ -557,13 +604,15 @@ export default function LoanPage() {
               />
               <SaveCalculationButton
                 title={`대출 A ${aRate}% vs B ${bRate}%`}
-                href={restoreHref}
+                href="/loan"
+                state={savedState}
                 primaryValue={`총 이자 차이 ${signedWon(interestDifference)}`}
                 summary={`기준 납입액 차이 ${signedWon(paymentDifference)} · 총 상환액 차이 ${signedWon(totalDifference)}`}
               />
             </>
           )}
         </section>
+        ) : null}
 
         <section className="mt-6 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
           <h2 className="text-lg font-bold">상환방식 차이</h2>
