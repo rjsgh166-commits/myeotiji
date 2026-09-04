@@ -1,12 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { trackEvent } from "../_lib/analytics";
 
 const BANNER_WIDTH = 680;
 const BANNER_HEIGHT = 140;
 
 export default function CoupangDeals() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const iframeHovered = useRef(false);
+  const interactionTracked = useRef(false);
   const [scale, setScale] = useState(1);
 
   useEffect(() => {
@@ -26,8 +30,70 @@ export default function CoupangDeals() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    let viewed = false;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!viewed && entry?.isIntersecting && entry.intersectionRatio >= 0.4) {
+          viewed = true;
+          trackEvent("affiliate_banner_view", {
+            partner: "coupang",
+            placement: "discount",
+          });
+          observer.disconnect();
+        }
+      },
+      { threshold: [0.4] },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const trackAffiliateInteraction = (method: string) => {
+      if (interactionTracked.current) return;
+      interactionTracked.current = true;
+      trackEvent("affiliate_click", {
+        partner: "coupang",
+        placement: "discount",
+        method,
+      });
+      window.setTimeout(() => {
+        interactionTracked.current = false;
+      }, 1500);
+    };
+
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return;
+      if (event.data?.type === "myeotiji:coupang-click") {
+        trackAffiliateInteraction("post_message");
+      }
+    };
+
+    // Dynamic partner banners can render a cross-origin inner frame.
+    // When that happens, a click often focuses the frame and blurs the parent window.
+    // Use this only as a fallback interaction proxy.
+    const handleWindowBlur = () => {
+      if (iframeHovered.current) trackAffiliateInteraction("iframe_focus_proxy");
+    };
+
+    window.addEventListener("message", handleMessage);
+    window.addEventListener("blur", handleWindowBlur);
+    return () => {
+      window.removeEventListener("message", handleMessage);
+      window.removeEventListener("blur", handleWindowBlur);
+    };
+  }, []);
+
   return (
-    <section className="mt-6 overflow-hidden rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200 sm:p-8">
+    <section
+      ref={sectionRef}
+      className="mt-6 overflow-hidden rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200 sm:p-8"
+    >
       <div>
         <p className="text-xs font-bold tracking-wide text-orange-600">
           SHOPPING DEALS
@@ -64,6 +130,12 @@ export default function CoupangDeals() {
               width={BANNER_WIDTH}
               height={BANNER_HEIGHT}
               scrolling="no"
+              onMouseEnter={() => {
+                iframeHovered.current = true;
+              }}
+              onMouseLeave={() => {
+                iframeHovered.current = false;
+              }}
               className="block border-0"
             />
           </div>

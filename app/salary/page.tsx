@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   calculateIncomeTax2026,
   calculateLocalIncomeTax,
@@ -8,6 +8,10 @@ import {
 import RelatedCalculators from "../_components/RelatedCalculators";
 import ResultShareButton from "../_components/ResultShareButton";
 import ResultImageButton from "../_components/ResultImageButton";
+import DecisionSummaryCard from "../_components/DecisionSummaryCard";
+import SaveCalculationButton from "../_components/SaveCalculationButton";
+import TrustStrip from "../_components/TrustStrip";
+import CalculationAnalytics from "../_components/CalculationAnalytics";
 
 const formatWon = (value: number) =>
   `${Math.max(0, Math.round(value)).toLocaleString("ko-KR")}원`;
@@ -173,6 +177,22 @@ export default function SalaryPage() {
   const [childrenCount, setChildrenCount] = useState(0);
   const [compareSalary, setCompareSalary] = useState(5500); // 만원
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const readNumber = (key: string, fallback: number, min = 0) => {
+      const raw = params.get(key);
+      if (raw === null) return fallback;
+      const value = Number(raw);
+      return Number.isFinite(value) && value >= min ? value : fallback;
+    };
+
+    setAnnualSalary(readNumber("a", 5000));
+    setCompareSalary(readNumber("b", 5500));
+    setMonthlyTaxFree(readNumber("taxFree", 20));
+    setFamilyCount(readNumber("family", 1, 1));
+    setChildrenCount(readNumber("children", 0));
+  }, []);
+
   const result = useMemo(
     () =>
       calculateSalary(
@@ -195,14 +215,30 @@ export default function SalaryPage() {
     [compareSalary, monthlyTaxFree, familyCount, childrenCount],
   );
 
-  const salaryDifference = (compareSalary - annualSalary) * 10_000;
   const monthlyGrossDifference =
     compareResult.monthlyGross - result.monthlyGross;
   const monthlyNetDifference = compareResult.netSalary - result.netSalary;
   const annualNetDifference = monthlyNetDifference * 12;
 
+  const salaryConclusion =
+    monthlyNetDifference === 0
+      ? "두 연봉의 예상 월 실수령액이 같아요."
+      : monthlyNetDifference > 0
+        ? `B 연봉이 월 실수령 기준 ${formatWon(Math.abs(monthlyNetDifference))} 더 유리해요.`
+        : `A 연봉이 월 실수령 기준 ${formatWon(Math.abs(monthlyNetDifference))} 더 유리해요.`;
+
+  const restoreHref = `/salary?a=${annualSalary}&b=${compareSalary}&taxFree=${monthlyTaxFree}&family=${familyCount}&children=${childrenCount}`;
+  const jobChangeHref = `/job-change?currentSalary=${annualSalary}&offerSalary=${compareSalary}&family=${familyCount}&children=${childrenCount}`;
+
   return (
     <main className="min-h-screen bg-[#f7f8fa] text-slate-900">
+      <CalculationAnalytics
+        calculator="salary"
+        mode="compare"
+        hasCompare
+        valid={annualSalary > 0 && compareSalary > 0}
+        signature={`${annualSalary}|${compareSalary}|${monthlyTaxFree}|${familyCount}|${childrenCount}`}
+      />
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-5">
           <a href="/" className="text-2xl font-black tracking-tight">
@@ -376,6 +412,11 @@ export default function SalaryPage() {
           </section>
         </div>
 
+        <TrustStrip
+          items={["2026년 세율 기준", "국세청 간이세액표 반영", "4대보험 공제 반영", "2026.09 확인"]}
+          note="실제 급여명세서는 회사의 비과세 항목, 연말정산, 보험료 정산 등에 따라 달라질 수 있어요."
+        />
+
         <section className="mt-6 rounded-3xl border border-blue-100 bg-white p-6 shadow-sm sm:p-8">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -417,39 +458,19 @@ export default function SalaryPage() {
             />
           </div>
 
-          <div className="mt-5 rounded-2xl bg-slate-950 p-5 text-white sm:p-6">
-            <p className="text-xs font-black text-slate-400">한 줄 비교</p>
-            <p className="mt-2 text-lg font-black leading-7">
-              연봉 {formatSignedWon(salaryDifference)} 변화 → 월 실수령액은{" "}
-              <span className="text-blue-300">
-                {formatSignedWon(monthlyNetDifference)}
-              </span>{" "}
-              변해요.
-            </p>
-            <div className="mt-5 grid gap-3 text-sm sm:grid-cols-3">
-              <div className="rounded-xl bg-white/5 p-4">
-                <p className="text-slate-400">월 세전 차이</p>
-                <strong className="mt-1 block text-base">
-                  {formatSignedWon(monthlyGrossDifference)}
-                </strong>
-              </div>
-              <div className="rounded-xl bg-white/5 p-4">
-                <p className="text-slate-400">월 실수령 차이</p>
-                <strong className="mt-1 block text-base">
-                  {formatSignedWon(monthlyNetDifference)}
-                </strong>
-              </div>
-              <div className="rounded-xl bg-white/5 p-4">
-                <p className="text-slate-400">연간 환산 차이</p>
-                <strong className="mt-1 block text-base">
-                  {formatSignedWon(annualNetDifference)}
-                </strong>
-              </div>
-            </div>
-            <p className="mt-4 text-xs leading-5 text-slate-400">
-              연간 환산 차이는 현재 월 실수령 예상액의 차이를 12개월로 단순 환산한 값이며, 성과급·연말정산 등은 포함하지 않아요.
-            </p>
-          </div>
+          <DecisionSummaryCard
+            title={salaryConclusion}
+            description={`1년으로 단순 환산하면 실수령 차이는 ${formatSignedWon(annualNetDifference)}예요. 성과급·연말정산은 제외한 비교값입니다.`}
+            tone="violet"
+            metrics={[
+              { label: "월 세전 차이", value: formatSignedWon(monthlyGrossDifference) },
+              { label: "월 실수령 차이", value: formatSignedWon(monthlyNetDifference) },
+              { label: "연간 환산 차이", value: formatSignedWon(annualNetDifference) },
+            ]}
+            actionHref={jobChangeHref}
+            actionLabel="이 연봉으로 이직 마지노선 계산 →"
+            analyticsId="salary"
+          />
 
           <ResultShareButton
             title="연봉 비교 계산 결과"
@@ -470,6 +491,12 @@ export default function SalaryPage() {
               { label: "연간 환산 차이", value: formatSignedWon(annualNetDifference), strong: true },
             ]}
             caption="비과세액·공제대상가족 조건을 동일하게 적용한 예상 비교값입니다."
+          />
+          <SaveCalculationButton
+            title={`연봉 ${annualSalary.toLocaleString("ko-KR")} vs ${compareSalary.toLocaleString("ko-KR")}만원`}
+            href={restoreHref}
+            primaryValue={`월 실수령 ${formatSignedWon(monthlyNetDifference)}`}
+            summary={`연간 환산 차이 ${formatSignedWon(annualNetDifference)}`}
           />
         </section>
 

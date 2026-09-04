@@ -31,5 +31,12 @@
         tsource: "",
       });
     </script>
+    <script>
+      document.addEventListener("click", function () {
+        try {
+          window.parent.postMessage({ type: "myeotiji:coupang-click" }, window.location.origin);
+        } catch (e) {}
+      }, true);
+    </script>
   </body>
 </html>

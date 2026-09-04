@@ -4,8 +4,12 @@ import Link from "next/link";
 import RelatedCalculators from "../_components/RelatedCalculators";
 import ResultShareButton from "../_components/ResultShareButton";
 import ResultImageButton from "../_components/ResultImageButton";
+import DecisionSummaryCard from "../_components/DecisionSummaryCard";
+import SaveCalculationButton from "../_components/SaveCalculationButton";
+import TrustStrip from "../_components/TrustStrip";
 import CoupangDeals from "../_components/CoupangDeals";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import CalculationAnalytics from "../_components/CalculationAnalytics";
 
 type Mode = "rate" | "price" | "stacked";
 
@@ -53,6 +57,7 @@ function ModeButton({
   return (
     <button
       type="button"
+      data-calculation-control="true"
       onClick={onClick}
       className={`flex-1 rounded-xl border px-3 py-3 text-xs font-semibold transition sm:px-4 sm:text-sm ${
         active
@@ -102,6 +107,24 @@ export default function DiscountPage() {
   const [firstRate, setFirstRate] = useState("20");
   const [secondRate, setSecondRate] = useState("10");
   const [couponAmount, setCouponAmount] = useState("0");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const savedMode = params.get("mode");
+    if (savedMode === "rate" || savedMode === "price" || savedMode === "stacked") {
+      setMode(savedMode);
+    }
+    const setIfPresent = (key: string, setter: (value: string) => void) => {
+      const value = params.get(key);
+      if (value !== null) setter(value);
+    };
+    setIfPresent("original", setOriginalPrice);
+    setIfPresent("discount", setDiscountRate);
+    setIfPresent("sale", setSalePrice);
+    setIfPresent("first", setFirstRate);
+    setIfPresent("second", setSecondRate);
+    setIfPresent("coupon", setCouponAmount);
+  }, []);
 
   const result = useMemo(() => {
     const original = parseMoney(originalPrice);
@@ -186,8 +209,27 @@ export default function DiscountPage() {
       ? `🛒 추가 할인 계산\n정가: ${formatWon(result.original)}\n1차 할인: ${formatPercent(safeRate(firstRate))}\n2차 할인: ${formatPercent(safeRate(secondRate))}\n쿠폰: ${formatWon(result.couponApplied)}\n실제 총 할인율: ${formatPercent(result.rate)}\n최종 가격: ${formatWon(result.finalPrice)}`
       : `🛒 할인율 계산\n정가: ${formatWon(result.original)}\n할인율: ${formatPercent(result.rate)}\n할인 금액: ${formatWon(result.discountAmount)}\n최종 가격: ${formatWon(result.finalPrice)}`;
 
+  const discountConclusion =
+    invalidSalePrice
+      ? "판매가가 정가보다 높아서 할인으로 볼 수 없어요."
+      : mode === "stacked"
+        ? result.couponApplied > 0
+          ? `할인과 쿠폰을 전부 적용하면 실제 ${formatPercent(result.rate)} 할인돼요.`
+          : `${formatPercent(safeRate(firstRate))} + ${formatPercent(safeRate(secondRate))}는 단순 합계가 아니라 실제 ${formatPercent(result.rate)} 할인이에요.`
+        : mode === "price"
+          ? `이 판매가는 정가 대비 실제 ${formatPercent(result.rate)} 할인된 가격이에요.`
+          : `${formatPercent(result.rate)} 할인하면 ${formatWon(result.finalPrice)}에 살 수 있어요.`;
+
+  const restoreHref = `/discount?mode=${mode}&original=${encodeURIComponent(originalPrice)}&discount=${discountRate}&sale=${encodeURIComponent(salePrice)}&first=${firstRate}&second=${secondRate}&coupon=${encodeURIComponent(couponAmount)}`;
+
   return (
     <main className="min-h-screen bg-gray-50 text-gray-900">
+      <CalculationAnalytics
+        calculator="discount"
+        mode={mode}
+        valid={result.valid && !invalidSalePrice}
+        signature={`${mode}|${originalPrice}|${discountRate}|${salePrice}|${firstRate}|${secondRate}|${couponAmount}`}
+      />
       <div className="mx-auto w-full max-w-5xl px-5 py-10 sm:px-8 sm:py-14">
         <div className="mb-8">
           <Link
@@ -489,8 +531,31 @@ export default function DiscountPage() {
               ]}
               caption={mode === "stacked" ? "중복 할인은 퍼센트를 단순히 더하지 않고 순서대로 적용해 계산합니다." : "몇이지?에서 계산한 예상 할인 결과입니다."}
             />
+            <SaveCalculationButton
+              title={mode === "stacked" ? "추가 할인·쿠폰 계산" : "할인율 계산"}
+              href={restoreHref}
+              primaryValue={`최종 ${formatWon(result.finalPrice)}`}
+              summary={`실제 할인율 ${formatPercent(result.rate)} · ${formatWon(result.discountAmount)} 절약`}
+            />
           </section>
         </div>
+
+        <DecisionSummaryCard
+          title={discountConclusion}
+          description={`정가 ${formatWon(result.original)}에서 총 ${formatWon(result.discountAmount)} 절약하고 최종 ${formatWon(result.finalPrice)}를 내는 계산이에요.`}
+          tone="amber"
+          analyticsId="discount"
+          metrics={[
+            { label: "실제 할인율", value: formatPercent(result.rate) },
+            { label: "절약 금액", value: formatWon(result.discountAmount) },
+            { label: "최종 가격", value: formatWon(result.finalPrice) },
+          ]}
+        />
+
+        <TrustStrip
+          items={["중복 할인 순차 적용", "쿠폰은 마지막에 차감", "입력값은 브라우저에서만 계산"]}
+          note="쇼핑몰별 쿠폰 최소금액·최대할인·카드할인 조건은 별도일 수 있으니 결제 화면의 최종 금액도 확인하세요."
+        />
 
         <CoupangDeals />
 

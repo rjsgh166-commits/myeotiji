@@ -1,9 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ResultImageButton from "../_components/ResultImageButton";
 import ResultShareButton from "../_components/ResultShareButton";
+import SaveCalculationButton from "../_components/SaveCalculationButton";
+import TrustStrip from "../_components/TrustStrip";
+import CalculationAnalytics from "../_components/CalculationAnalytics";
+import ViewEventTracker from "../_components/ViewEventTracker";
 import {
   calculateIncomeTax2026,
   calculateLocalIncomeTax,
@@ -278,6 +282,39 @@ export default function JobChangePage() {
     annualExtraValue: 100,
   });
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const readNumber = (key: string, fallback: number) => {
+      const raw = params.get(key);
+      if (raw === null) return fallback;
+      const value = Number(raw);
+      return Number.isFinite(value) ? value : fallback;
+    };
+
+    setFamilyCount(Math.max(1, readNumber("family", 1)));
+    setChildrenCount(Math.max(0, readNumber("children", 0)));
+    setCurrent((previous) => ({
+      ...previous,
+      salary: readNumber("cSalary", readNumber("currentSalary", previous.salary)),
+      taxFree: readNumber("cTaxFree", previous.taxFree),
+      weeklyHours: readNumber("cWeeklyHours", previous.weeklyHours),
+      commuteOneWay: readNumber("cCommute", previous.commuteOneWay),
+      commuteDays: readNumber("cCommuteDays", previous.commuteDays),
+      monthlyWorkCost: readNumber("cWorkCost", previous.monthlyWorkCost),
+      annualExtraValue: readNumber("cExtra", previous.annualExtraValue),
+    }));
+    setOffer((previous) => ({
+      ...previous,
+      salary: readNumber("oSalary", readNumber("offerSalary", previous.salary)),
+      taxFree: readNumber("oTaxFree", previous.taxFree),
+      weeklyHours: readNumber("oWeeklyHours", previous.weeklyHours),
+      commuteOneWay: readNumber("oCommute", previous.commuteOneWay),
+      commuteDays: readNumber("oCommuteDays", previous.commuteDays),
+      monthlyWorkCost: readNumber("oWorkCost", previous.monthlyWorkCost),
+      annualExtraValue: readNumber("oExtra", previous.annualExtraValue),
+    }));
+  }, []);
+
   const result = useMemo(() => {
     const a = analyzeScenario(current, familyCount, childrenCount);
     const b = analyzeScenario(offer, familyCount, childrenCount);
@@ -313,8 +350,23 @@ export default function JobChangePage() {
       ? `시간·출퇴근·비용까지 반영하면 제안 연봉은 마지노선보다 ${Math.abs(result.offerVsBreakEven).toLocaleString("ko-KR")}만원 높아요.`
       : `시간·출퇴근·비용까지 반영하면 제안 연봉은 마지노선보다 ${Math.abs(result.offerVsBreakEven).toLocaleString("ko-KR")}만원 낮아요.`;
 
+  const restoreHref = `/job-change?family=${familyCount}&children=${childrenCount}&cSalary=${current.salary}&cTaxFree=${current.taxFree}&cWeeklyHours=${current.weeklyHours}&cCommute=${current.commuteOneWay}&cCommuteDays=${current.commuteDays}&cWorkCost=${current.monthlyWorkCost}&cExtra=${current.annualExtraValue}&oSalary=${offer.salary}&oTaxFree=${offer.taxFree}&oWeeklyHours=${offer.weeklyHours}&oCommute=${offer.commuteOneWay}&oCommuteDays=${offer.commuteDays}&oWorkCost=${offer.monthlyWorkCost}&oExtra=${offer.annualExtraValue}`;
+  const salaryHref = `/salary?a=${current.salary}&b=${offer.salary}&taxFree=${current.taxFree}&family=${familyCount}&children=${childrenCount}`;
+
   return (
     <main className="min-h-screen bg-[#f7f8fa] px-5 py-10 text-slate-900 sm:py-14">
+      <CalculationAnalytics
+        calculator="job_change"
+        mode="break_even"
+        hasCompare
+        valid={current.salary > 0 && offer.salary > 0}
+        signature={`${familyCount}|${childrenCount}|${Object.values(current).join("|")}|${Object.values(offer).join("|")}`}
+      />
+      <ViewEventTracker
+        targetId="job-change-decision"
+        eventName="decision_view"
+        params={{ calculator: "job_change" }}
+      />
       <div className="mx-auto max-w-6xl">
         <Link href="/" className="text-sm font-semibold text-slate-500 hover:text-slate-900">
           ← 몇이지? 홈
@@ -353,7 +405,7 @@ export default function JobChangePage() {
           <ScenarioEditor title="B. 이직 제안" scenario={offer} setScenario={setOffer} accent />
         </div>
 
-        <section className="mt-6 overflow-hidden rounded-3xl bg-slate-950 p-6 text-white shadow-sm sm:p-8">
+        <section id="job-change-decision" className="mt-6 overflow-hidden rounded-3xl bg-slate-950 p-6 text-white shadow-sm sm:p-8">
           <p className="text-xs font-black tracking-wider text-violet-300">몇이지? 결론</p>
           <h2 className="mt-3 text-2xl font-black leading-tight sm:text-3xl">{conclusion}</h2>
 
@@ -380,6 +432,11 @@ export default function JobChangePage() {
             마지노선 연봉은 B의 근무·출퇴근 조건에서 A와 같은 ‘시간당 실질 보상’을 만들기 위해 필요한 세전 연봉을 역산한 값이에요.
           </p>
         </section>
+
+        <TrustStrip
+          items={["2026년 세후 추정", "국세청 간이세액표 반영", "근무·통근시간 직접 반영", "입력값은 브라우저에서만 계산"]}
+          note="조직문화·성장성·스톡옵션처럼 금액으로 단정하기 어려운 요소는 결론에서 제외했어요."
+        />
 
         <section className="mt-6 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:p-8">
           <div className="flex flex-wrap items-end justify-between gap-3">
@@ -435,6 +492,12 @@ export default function JobChangePage() {
             ]}
             caption="2026 세후 실수령 추정 + 사용자가 입력한 근무·통근·복지 조건을 같은 기준으로 비교한 참고값입니다."
           />
+          <SaveCalculationButton
+            title={`이직 ${current.salary.toLocaleString("ko-KR")} → ${offer.salary.toLocaleString("ko-KR")}만원`}
+            href={restoreHref}
+            primaryValue={`마지노선 ${result.breakEvenSalary.toLocaleString("ko-KR")}만원`}
+            summary={`시간당 실질 보상 차이 ${formatSignedWon(result.hourlyDifference)}`}
+          />
         </section>
 
         <section className="mt-6 rounded-3xl border border-amber-100 bg-amber-50 p-6 sm:p-8">
@@ -445,9 +508,9 @@ export default function JobChangePage() {
         </section>
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/salary" className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 hover:bg-slate-50">연봉 실수령 정밀 계산 →</Link>
-          <Link href="/retirement" className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 hover:bg-slate-50">퇴직금까지 확인 →</Link>
-          <Link href="/situations" className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 hover:bg-slate-50">상황별 계산 가이드 →</Link>
+          <Link href={salaryHref} data-ga-event="calculation_continue" data-ga-from-calculator="job_change" data-ga-destination="/salary" className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 hover:bg-slate-50">이 연봉으로 실수령 비교 →</Link>
+          <Link href="/retirement" data-ga-event="calculation_continue" data-ga-from-calculator="job_change" data-ga-destination="/retirement" className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 hover:bg-slate-50">퇴직금까지 확인 →</Link>
+          <Link href="/situations" data-ga-event="calculation_continue" data-ga-from-calculator="job_change" data-ga-destination="/situations" className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 hover:bg-slate-50">상황별 계산 가이드 →</Link>
         </div>
       </div>
     </main>

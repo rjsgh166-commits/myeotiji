@@ -1,6 +1,7 @@
 import Link from "next/link";
 import CalculatorSearch from "./_components/CalculatorSearch";
 import RecentCalculators from "./_components/RecentCalculators";
+import SavedCalculations from "./_components/SavedCalculations";
 import {
   CALCULATOR_BY_HREF,
   CALCULATOR_CATEGORIES,
@@ -96,7 +97,7 @@ export default function Home() {
           </p>
 
           <div className="mt-5 flex justify-center">
-            <Link href="/job-change" className="inline-flex items-center gap-2 rounded-full bg-violet-100 px-4 py-2 text-sm font-black text-violet-700 transition hover:bg-violet-200">
+            <Link href="/job-change" data-ga-event="situation_start" data-ga-situation="hero_job_change" data-ga-destination="/job-change" className="inline-flex items-center gap-2 rounded-full bg-violet-100 px-4 py-2 text-sm font-black text-violet-700 transition hover:bg-violet-200">
               <span>NEW</span><span>⚖️ 이직, 최소 얼마 받아야 할까?</span><span>→</span>
             </Link>
           </div>
@@ -123,6 +124,51 @@ export default function Home() {
                 {keyword}
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-5 pb-14 sm:pb-16">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-5 text-center">
+            <p className="text-xs font-black tracking-wider text-blue-600">START WITH YOUR SITUATION</p>
+            <h2 className="mt-2 text-2xl font-black">지금 뭐가 궁금하세요?</h2>
+            <p className="mt-2 text-sm text-gray-500">계산기 이름을 몰라도 괜찮아요. 상황을 고르면 바로 필요한 계산으로 이동해요.</p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            {[
+              ["💼", "이직이 이득일까?", "연봉·시간·통근까지 비교", "/job-change", "violet"],
+              ["💰", "월급 얼마 받지?", "세후 실수령액 바로 확인", "/salary", "blue"],
+              ["🏠", "대출 뭐가 낫지?", "A/B 월 부담·총이자 비교", "/loan", "emerald"],
+              ["🍯", "연차 언제 쓰지?", "적은 연차로 길게 쉬기", "/holiday-tracker", "amber"],
+              ["🛒", "진짜 몇 % 할인?", "중복할인·쿠폰까지 계산", "/discount", "rose"],
+            ].map(([icon, title, description, href, tone]) => {
+              const toneClass =
+                tone === "violet"
+                  ? "hover:border-violet-200 hover:bg-violet-50"
+                  : tone === "blue"
+                    ? "hover:border-blue-200 hover:bg-blue-50"
+                    : tone === "emerald"
+                      ? "hover:border-emerald-200 hover:bg-emerald-50"
+                      : tone === "amber"
+                        ? "hover:border-amber-200 hover:bg-amber-50"
+                        : "hover:border-rose-200 hover:bg-rose-50";
+              return (
+                <Link
+                  key={title}
+                  href={href}
+                  data-ga-event="situation_start"
+                  data-ga-situation={title}
+                  data-ga-destination={href}
+                  className={`group rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${toneClass}`}
+                >
+                  <div className="text-2xl">{icon}</div>
+                  <p className="mt-3 font-black">{title}</p>
+                  <p className="mt-1 text-xs leading-5 text-gray-500">{description}</p>
+                  <p className="mt-4 text-xs font-black text-gray-400 transition group-hover:text-gray-700">바로 계산 →</p>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -207,12 +253,13 @@ export default function Home() {
         <div className="mx-auto max-w-6xl rounded-3xl bg-slate-950 p-6 text-white sm:p-8">
           <p className="text-xs font-black tracking-wider text-violet-300">WHY MYEOTIJI</p>
           <h2 className="mt-2 text-2xl font-black">계산기 개수보다 ‘판단에 도움이 되는 숫자’를 만들어요</h2>
-          <div className="mt-6 grid gap-3 md:grid-cols-4">
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
             {[
               ["①", "비교", "A와 B를 같은 기준으로 나란히"],
               ["②", "마지노선", "얼마면 본전인지 역산"],
               ["③", "근거", "공식 기준·계산식·확인일 공개"],
-              ["④", "공유", "결과를 이미지로 저장"],
+              ["④", "저장", "계산 결과를 내 계산함에 보관"],
+              ["⑤", "이어하기", "입력값을 다음 판단으로 연결"],
             ].map(([number, title, description]) => (
               <div key={title} className="rounded-2xl bg-white/5 p-4">
                 <p className="text-xs font-black text-violet-300">{number}</p>
@@ -280,6 +327,7 @@ export default function Home() {
       </section>
 
       <RecentCalculators />
+      <SavedCalculations />
 
       <section id="owner-picks" className="px-5 pb-20">
         <div className="mx-auto max-w-6xl">

@@ -1,11 +1,15 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import MoneyInput from "../_components/MoneyInput";
 import RelatedCalculators from "../_components/RelatedCalculators";
 import ResultShareButton from "../_components/ResultShareButton";
 import ResultImageButton from "../_components/ResultImageButton";
+import DecisionSummaryCard from "../_components/DecisionSummaryCard";
+import SaveCalculationButton from "../_components/SaveCalculationButton";
+import TrustStrip from "../_components/TrustStrip";
+import CalculationAnalytics from "../_components/CalculationAnalytics";
 
 type Method = "annuity" | "principal" | "bullet";
 
@@ -140,6 +144,7 @@ function MethodSelector({
         <button
           key={id}
           type="button"
+          data-calculation-control="true"
           onClick={() => onChange(id)}
           className={`rounded-xl px-2 py-3 text-xs font-bold transition ${
             value === id
@@ -306,6 +311,30 @@ export default function LoanPage() {
   const [bMonths, setBMonths] = useState("360");
   const [bMethod, setBMethod] = useState<Method>("annuity");
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const read = (key: string, fallback: string) => params.get(key) ?? fallback;
+    const readMethod = (key: string, fallback: Method): Method => {
+      const value = params.get(key);
+      return value === "annuity" || value === "principal" || value === "bullet"
+        ? value
+        : fallback;
+    };
+
+    setPrincipal(read("principal", "300000000"));
+    setRate(read("rate", "4"));
+    setMonths(read("months", "360"));
+    setMethod(readMethod("method", "annuity"));
+    setAPrincipal(read("aPrincipal", "300000000"));
+    setARate(read("aRate", "4"));
+    setAMonths(read("aMonths", "360"));
+    setAMethod(readMethod("aMethod", "annuity"));
+    setBPrincipal(read("bPrincipal", "300000000"));
+    setBRate(read("bRate", "3.5"));
+    setBMonths(read("bMonths", "360"));
+    setBMethod(readMethod("bMethod", "annuity"));
+  }, []);
+
   const aResult = useMemo(
     () => calculateLoan(Number(aPrincipal), Number(aRate), Number(aMonths), aMethod),
     [aPrincipal, aRate, aMonths, aMethod],
@@ -330,8 +359,17 @@ export default function LoanPage() {
           : `B가 A보다 총 이자를 ${won(interestDifference)}원 더 내요.`
       : "두 조건을 입력하면 차이를 비교해드려요.";
 
+  const restoreHref = `/loan?principal=${principal}&rate=${rate}&months=${months}&method=${method}&aPrincipal=${aPrincipal}&aRate=${aRate}&aMonths=${aMonths}&aMethod=${aMethod}&bPrincipal=${bPrincipal}&bRate=${bRate}&bMonths=${bMonths}&bMethod=${bMethod}`;
+
   return (
     <main className="min-h-screen bg-[#f7f8fa] px-5 py-10 text-[#191f28]">
+      <CalculationAnalytics
+        calculator="loan"
+        mode="compare"
+        hasCompare
+        valid={Boolean(result && aResult && bResult)}
+        signature={`${principal}|${rate}|${months}|${method}|${aPrincipal}|${aRate}|${aMonths}|${aMethod}|${bPrincipal}|${bRate}|${bMonths}|${bMethod}`}
+      />
       <div className="mx-auto max-w-4xl">
         <Link href="/" className="text-sm font-semibold text-gray-500 hover:text-gray-900">
           ← 몇이지? 홈
@@ -427,6 +465,11 @@ export default function LoanPage() {
           </section>
         </div>
 
+        <TrustStrip
+          items={["상환방식별 계산식 공개", "입력값은 브라우저에서만 계산", "중도상환수수료 미포함", "2026.09 확인"]}
+          note="실제 금융기관은 상환일·일할계산·변동금리·수수료 등을 적용하므로 최종 약정금액은 반드시 금융기관에서 확인하세요."
+        />
+
         <section className="mt-6 rounded-3xl border border-blue-100 bg-white p-6 shadow-sm sm:p-8">
           <p className="text-xs font-black text-blue-600">LOAN A/B COMPARE</p>
           <h2 className="mt-1 text-xl font-black">대출 조건 A vs B 비교</h2>
@@ -466,36 +509,29 @@ export default function LoanPage() {
             <ScenarioResult title="조건 B" method={bMethod} result={bResult} accent />
           </div>
 
-          <div className="mt-4 rounded-2xl bg-slate-950 p-5 text-white sm:p-6">
-            <p className="text-xs font-black text-slate-400">한 줄 비교</p>
-            <p className="mt-2 text-lg font-black leading-7">{interestSummary}</p>
-            {aResult && bResult && (
-              <div className="mt-5 grid gap-3 text-sm sm:grid-cols-3">
-                <div className="rounded-xl bg-white/5 p-4">
-                  <p className="text-slate-400">B의 기준 납입액 차이</p>
-                  <strong className="mt-1 block text-base">
-                    {signedWon(paymentDifference)}
-                  </strong>
-                </div>
-                <div className="rounded-xl bg-white/5 p-4">
-                  <p className="text-slate-400">B의 총 이자 차이</p>
-                  <strong className="mt-1 block text-base">
-                    {signedWon(interestDifference)}
-                  </strong>
-                </div>
-                <div className="rounded-xl bg-white/5 p-4">
-                  <p className="text-slate-400">B의 총 상환액 차이</p>
-                  <strong className="mt-1 block text-base">
-                    {signedWon(totalDifference)}
-                  </strong>
-                </div>
-              </div>
-            )}
-            <p className="mt-4 text-xs leading-5 text-slate-400">
-              ‘기준 납입액’은 원리금균등은 매월 상환액, 원금균등은 첫 달 상환액,
-              만기일시는 매월 이자를 기준으로 비교합니다.
-            </p>
-          </div>
+          <DecisionSummaryCard
+            title={interestSummary}
+            description={
+              aResult && bResult
+                ? paymentDifference === 0
+                  ? "기준 납입액은 같아요. 총 이자와 총 상환액까지 함께 보고 선택하세요."
+                  : paymentDifference < 0
+                    ? `B는 기준 납입액도 A보다 ${won(Math.abs(paymentDifference))}원 낮아요.`
+                    : `B는 기준 납입액이 A보다 ${won(paymentDifference)}원 높아요. 총 이자 절감과 월 부담을 같이 비교하세요.`
+                : "금리·기간·상환방식을 입력하면 어느 조건이 더 유리한지 정리해드려요."
+            }
+            tone="blue"
+            analyticsId="loan"
+            metrics={
+              aResult && bResult
+                ? [
+                    { label: "B 기준 납입액 차이", value: signedWon(paymentDifference) },
+                    { label: "B 총 이자 차이", value: signedWon(interestDifference) },
+                    { label: "B 총 상환액 차이", value: signedWon(totalDifference) },
+                  ]
+                : []
+            }
+          />
 
           {aResult && bResult && (
             <>
@@ -518,6 +554,12 @@ export default function LoanPage() {
                   { label: "B - A 기준 납입액", value: signedWon(paymentDifference), strong: true },
                 ]}
                 caption="금리·기간·상환방식에 따른 예상값이며 실제 금융기관 납입액과 다를 수 있습니다."
+              />
+              <SaveCalculationButton
+                title={`대출 A ${aRate}% vs B ${bRate}%`}
+                href={restoreHref}
+                primaryValue={`총 이자 차이 ${signedWon(interestDifference)}`}
+                summary={`기준 납입액 차이 ${signedWon(paymentDifference)} · 총 상환액 차이 ${signedWon(totalDifference)}`}
               />
             </>
           )}
