@@ -8,6 +8,7 @@ import ResultActionBar from "../_components/ResultActionBar";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
 import StickyResultBar from "../_components/StickyResultBar";
 import AccessibleResultStatus from "../_components/AccessibleResultStatus";
+import ExamplePreviewNotice from "../_components/ExamplePreviewNotice";
 import { trackEvent } from "../_lib/analytics";
 import { consumeCalculationTransfer } from "../_lib/calculationTransfer";
 import {
@@ -270,7 +271,9 @@ function PlanCard({
 export default function HolidayTrackerPage() {
   const [today, setToday] = useState<Date | null>(null);
   const [plannerMode, setPlannerMode] = useState<PlannerMode>("budget");
-  const [selectedYear, setSelectedYear] = useState(2027);
+  const [selectedYear, setSelectedYear] = useState(2026);
+  const [isExample, setIsExample] = useState(true);
+  const [moreResultsOpen, setMoreResultsOpen] = useState(false);
   const [ptoBudget, setPtoBudget] = useState(7);
   const [targetDays, setTargetDays] = useState(9);
   const [style, setStyle] = useState<HolidayStyle>("efficient");
@@ -282,17 +285,38 @@ export default function HolidayTrackerPage() {
   useEffect(() => {
     const now = startOfDay(new Date());
     setToday(now);
-    const transferred = consumeCalculationTransfer("/holiday-tracker");
-    if (!transferred) return;
-    if (transferred.plannerMode === "budget" || transferred.plannerMode === "target") setPlannerMode(transferred.plannerMode);
-    if (typeof transferred.year === "number" && [2026, 2027].includes(transferred.year)) setSelectedYear(transferred.year);
+    const transferred = consumeCalculationTransfer("/holiday-tracker") || {};
+    const params = new URLSearchParams(window.location.search);
+    const hasTransferredState = Object.keys(transferred).length > 0;
+    if (hasTransferredState) setIsExample(false);
+
+    const nextOfficialHoliday = getNextHoliday(now);
+    const nextHolidayYear = nextOfficialHoliday?.date.getFullYear();
+    const defaultYear = nextHolidayYear === 2026 || nextHolidayYear === 2027
+      ? nextHolidayYear
+      : now.getFullYear() <= 2026 ? 2026 : 2027;
+    const queryYear = Number(params.get("year"));
+    const restoredYear = typeof transferred.year === "number" ? transferred.year : queryYear;
+    setSelectedYear([2026, 2027].includes(restoredYear) ? restoredYear : defaultYear);
+
+    const restoredMode = transferred.plannerMode ?? params.get("mode");
+    if (restoredMode === "budget" || restoredMode === "target") setPlannerMode(restoredMode);
     if (typeof transferred.ptoBudget === "number") setPtoBudget(Math.min(15, Math.max(0, transferred.ptoBudget)));
-    if (typeof transferred.targetDays === "number") setTargetDays(Math.min(30, Math.max(3, transferred.targetDays)));
+    const queryTargetDays = Number(params.get("days"));
+    const restoredTargetDays = typeof transferred.targetDays === "number" ? transferred.targetDays : queryTargetDays;
+    if (Number.isFinite(restoredTargetDays) && restoredTargetDays > 0) setTargetDays(Math.min(30, Math.max(3, restoredTargetDays)));
     if (transferred.style === "long" || transferred.style === "efficient" || transferred.style === "frequent") setStyle(transferred.style);
     if (Array.isArray(transferred.companyDaysOff)) setCompanyDaysOff(transferred.companyDaysOff.filter((item): item is string => typeof item === "string"));
     if (Array.isArray(transferred.blockedPtoDays)) setBlockedPtoDays(transferred.blockedPtoDays.filter((item): item is string => typeof item === "string"));
     if (Array.isArray(transferred.companionBlockedPtoDays)) setCompanionBlockedPtoDays(transferred.companionBlockedPtoDays.filter((item): item is string => typeof item === "string"));
+
+    if (window.location.search) window.history.replaceState({}, "", "/holiday-tracker");
   }, []);
+
+
+  useEffect(() => {
+    setMoreResultsOpen(false);
+  }, [plannerMode, selectedYear]);
 
   useEffect(() => {
     const prefix = `${selectedYear}-`;
@@ -389,7 +413,7 @@ export default function HolidayTrackerPage() {
       : `🍯 ${selectedYear} ${targetDays}일 휴가 역산`;
 
   return (
-    <main className="min-h-screen bg-[#f7f8fa] text-[#191f28]">
+    <main className="min-h-screen bg-[#f7f8fa] text-[#191f28]" onInputCapture={() => setIsExample(false)} onClickCapture={(event) => { if ((event.target as HTMLElement).closest("button")) setIsExample(false); }}>
       <div className="mx-auto w-full max-w-6xl px-5 pb-28 pt-10 sm:px-8 sm:pt-14 lg:pb-14">
         <Link href="/" className="text-sm font-semibold text-slate-500 hover:text-slate-900">← 몇이지? 홈</Link>
 
@@ -427,7 +451,9 @@ export default function HolidayTrackerPage() {
           <span className="text-sm font-bold text-blue-700">2027 상세 보기 →</span>
         </Link>
 
-        <section className="mt-7 rounded-3xl border border-slate-200 bg-white p-5 sm:p-7">
+        <div className="mt-5"><ExamplePreviewNotice active={isExample} /></div>
+
+        <section className="mt-2 rounded-3xl border border-slate-200 bg-white p-5 sm:p-7">
           <div className="grid gap-2 rounded-2xl bg-slate-100 p-1 sm:grid-cols-2">
             <button type="button" onClick={() => { setPlannerMode("budget"); trackEvent("holiday_planner_mode", { mode: "budget" }); }} aria-pressed={plannerMode === "budget"} className={`min-h-11 rounded-xl px-4 py-3 text-sm font-bold transition focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100 ${plannerMode === "budget" ? "bg-white text-slate-950 shadow-sm" : "text-slate-500"}`}>
               남은 연차로 최적화
@@ -540,7 +566,7 @@ export default function HolidayTrackerPage() {
               <>
                 <div className="mt-3 grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
                   <div>
-                    <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">연차 {portfolio.usedPto}일을 연결해 <span className="text-amber-700">총 {portfolio.totalBreakDays}일</span>의 연휴 구간 확보</h2>
+                    <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">연차 {portfolio.usedPto}일을 <span className="text-amber-700">{portfolio.plans.length}개 연휴</span>에 배분 → 총 휴식일 {portfolio.totalBreakDays}일</h2>
                     <p className="mt-2 text-sm leading-6 text-slate-600">원래 쉬는 날 {naturalBreakDays}일 + 사용할 연차 {portfolio.usedPto}일이에요. {styleLabel} 기준으로 서로 겹치지 않는 {portfolio.plans.length}개 연휴를 골랐어요. {remainingPto > 0 ? `연차 ${remainingPto}일은 남겨둡니다.` : "선택한 연차 예산 안에서 배분했어요."}</p>
                   </div>
                   <div className="grid grid-cols-3 gap-2 text-center">
@@ -550,9 +576,9 @@ export default function HolidayTrackerPage() {
                   </div>
                 </div>
 
-                <ResultActionBar calculatorPath="/holiday-tracker" shareTitle={`${selectedYear} 꿀연휴 플래너`} shareText={shareText} image={{ eyebrow: `몇이지? · ${selectedYear} 꿀연휴`, title: `연차 ${portfolio.usedPto}일 → 연휴 구간 ${portfolio.totalBreakDays}일`, tone: "amber", filename: `myeotiji-${selectedYear}-holiday-plan.png`, lines: portfolio.plans.slice(0, 4).map((plan, index) => ({ label: `추천 ${index + 1} · 연차 ${plan.ptoDays.length}일`, value: `${formatShortDate(plan.start)} ~ ${formatShortDate(plan.end)} · ${plan.totalDays}일`, strong: index === 0 })), caption: `원래 쉬는 날 ${naturalBreakDays}일에 연차 ${portfolio.usedPto}일을 연결한 결과입니다.` }}>
+                <ResultActionBar calculatorPath="/holiday-tracker" shareTitle={`${selectedYear} 꿀연휴 플래너`} shareText={shareText} image={{ eyebrow: `몇이지? · ${selectedYear} 꿀연휴`, title: `연차 ${portfolio.usedPto}일 → 긴 휴식 ${portfolio.plans.length}번`, tone: "amber", filename: `myeotiji-${selectedYear}-holiday-plan.png`, lines: portfolio.plans.slice(0, 4).map((plan, index) => ({ label: `추천 ${index + 1} · 연차 ${plan.ptoDays.length}일`, value: `${formatShortDate(plan.start)} ~ ${formatShortDate(plan.end)} · ${plan.totalDays}일`, strong: index === 0 })), caption: `원래 쉬는 날 ${naturalBreakDays}일에 연차 ${portfolio.usedPto}일을 연결한 결과입니다.` }}>
                   <CalendarDownloadMenu year={selectedYear} plans={portfolio.plans} />
-                  <SaveCalculationButton title={`${selectedYear} 연차 ${ptoBudget}일 · ${styleLabel}`} href="/holiday-tracker" primaryValue={`연차 ${portfolio.usedPto}일 → 연휴 ${portfolio.totalBreakDays}일`} summary={`${portfolio.plans.length}개 연휴 조합 · 원래 휴일 ${naturalBreakDays}일`} state={savedState} />
+                  <SaveCalculationButton title={`${selectedYear} 연차 ${ptoBudget}일 · ${styleLabel}`} href="/holiday-tracker" primaryValue={`연차 ${portfolio.usedPto}일 → 휴식 ${portfolio.plans.length}번`} summary={`${portfolio.plans.length}개 연휴 조합 · 원래 휴일 ${naturalBreakDays}일`} state={savedState} />
                 </ResultActionBar>
               </>
             ) : <div className="mt-3 rounded-2xl bg-white p-5 text-sm text-slate-500 ring-1 ring-amber-100">조건에 맞는 연휴를 찾지 못했어요. 연차 개수를 늘리거나 회사·동행인 불가일을 줄여보세요.</div>}
@@ -589,6 +615,16 @@ export default function HolidayTrackerPage() {
           </section>
         ) : null}
 
+        {(plannerMode === "target" && targetResult.best) || freeBreaks.length > 0 || (plannerMode === "budget" && (samePeriodAlternatives.length > 0 || otherAlternatives.length > 0)) ? (
+          <div className="mt-8 text-center">
+            <button type="button" onClick={() => setMoreResultsOpen((value) => !value)} aria-expanded={moreResultsOpen} className="min-h-11 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100">
+              {moreResultsOpen ? "상세 조합 접기 ↑" : "다른 조합과 상세 검산 보기 ↓"}
+            </button>
+          </div>
+        ) : null}
+
+        {moreResultsOpen ? (
+          <>
         {plannerMode === "target" && targetResult.best ? (
           <section className="mt-8">
             <div className="mb-4"><h2 className="text-2xl font-bold">추천 날짜 검산</h2><p className="mt-2 text-sm text-slate-500">주말·공휴일·회사휴무·연차가 어떻게 이어지는지 직접 확인해보세요.</p></div>
@@ -610,6 +646,8 @@ export default function HolidayTrackerPage() {
         {plannerMode === "budget" && otherAlternatives.length > 0 ? (
           <section className="mt-10"><h2 className="text-xl font-bold">다른 시기 추천</h2><p className="mt-2 text-sm text-slate-500">회사 일정 때문에 추천일을 쓰기 어렵다면 다른 달 후보도 확인해보세요.</p><div className="mt-4 grid gap-3 sm:grid-cols-2">{otherAlternatives.map((plan) => <div key={planKey(plan)} className="rounded-2xl border border-slate-200 bg-white p-5"><div className="flex items-start justify-between gap-4"><div><p className="font-bold text-slate-900">{formatRange(plan)}</p><p className="mt-2 text-xs leading-5 text-slate-500">연차 {plan.ptoDays.length}일 · {ptoText(plan)}</p></div><span className="shrink-0 rounded-full bg-amber-50 px-3 py-1 text-sm font-bold text-amber-700">{plan.totalDays}일</span></div></div>)}</div></section>
         ) : null}
+          </>
+        ) : null}
 
         <section className="mt-10">
           <div className="flex flex-wrap items-end justify-between gap-3"><div><h2 className="text-xl font-bold">2027 황금연휴 미리보기</h2><p className="mt-2 text-sm text-slate-500">검색 많이 하는 연차 조합부터 바로 확인해보세요.</p></div><Link href="/holiday-tracker/2027" className="text-sm font-bold text-blue-600 hover:text-blue-700">2027 전체 가이드 →</Link></div>
@@ -625,7 +663,7 @@ export default function HolidayTrackerPage() {
           signature={`${plannerMode}|${selectedYear}|${ptoBudget}|${targetDays}|${style}|${companyDaysOff.join(",")}|${blockedPtoDays.join(",")}|${companionBlockedPtoDays.join(",")}`}
           message={plannerMode === "budget"
             ? portfolio.plans.length > 0
-              ? `계산 결과가 업데이트되었습니다. 연차 ${portfolio.usedPto}일을 연결해 총 ${portfolio.totalBreakDays}일의 연휴 구간을 확보합니다.`
+              ? `계산 결과가 업데이트되었습니다. 연차 ${portfolio.usedPto}일을 ${portfolio.plans.length}개 연휴에 배분해 총 휴식일 ${portfolio.totalBreakDays}일을 확보합니다.`
               : "계산 결과가 업데이트되었습니다. 현재 조건에 맞는 연휴를 찾지 못했습니다."
             : targetResult.best
               ? `계산 결과가 업데이트되었습니다. ${targetDays}일 이상 쉬려면 최소 연차 ${targetResult.best.ptoDays.length}일이 필요합니다.`
@@ -637,7 +675,7 @@ export default function HolidayTrackerPage() {
         <StickyResultBar
           calculator="holiday_tracker"
           label="추천 연차 포트폴리오"
-          value={`연차 ${portfolio.usedPto}일 → 총 ${portfolio.totalBreakDays}일`}
+          value={`연차 ${portfolio.usedPto}일 → 휴식 ${portfolio.plans.length}번`}
           targetId="holiday-result-budget"
           tone="amber"
         />

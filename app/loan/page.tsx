@@ -9,6 +9,7 @@ import DecisionSummaryCard from "../_components/DecisionSummaryCard";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
 import StickyResultBar from "../_components/StickyResultBar";
 import AccessibleResultStatus from "../_components/AccessibleResultStatus";
+import ExamplePreviewNotice from "../_components/ExamplePreviewNotice";
 import ViewEventTracker from "../_components/ViewEventTracker";
 import TrustStrip from "../_components/TrustStrip";
 import CalculationAnalytics from "../_components/CalculationAnalytics";
@@ -337,6 +338,7 @@ function ScenarioResult({
 
 export default function LoanPage() {
   const [view, setView] = useState<"single" | "compare">("single");
+  const [isExample, setIsExample] = useState(true);
   const [principal, setPrincipal] = useState("300000000");
   const [rate, setRate] = useState("4");
   const [months, setMonths] = useState("360");
@@ -370,7 +372,8 @@ export default function LoanPage() {
       const value = transferred[key] ?? params.get(key);
       return value === "annuity" || value === "principal" || value === "bullet" ? value : fallback;
     };
-    const restoredView = transferred.view;
+    if (Object.keys(transferred).length > 0) setIsExample(false);
+    const restoredView = transferred.view ?? params.get("view");
     if (restoredView === "compare" || restoredView === "single") setView(restoredView);
 
     setPrincipal(read("principal", "300000000"));
@@ -437,7 +440,7 @@ export default function LoanPage() {
   const singleSavedState = { view: "single", principal, rate, months, method };
 
   return (
-    <main className="min-h-screen bg-[#f7f8fa] px-5 pb-28 pt-10 text-[#191f28] lg:pb-10">
+    <main className="min-h-screen bg-[#f7f8fa] px-5 pb-28 pt-10 text-[#191f28] lg:pb-10" onInputCapture={() => setIsExample(false)} onClickCapture={(event) => { if ((event.target as HTMLElement).closest("button")) setIsExample(false); }}>
       <CalculationAnalytics
         calculator="loan"
         mode={view}
@@ -479,6 +482,8 @@ export default function LoanPage() {
             두 조건 비교
           </button>
         </div>
+
+        <ExamplePreviewNotice active={isExample} />
 
         {view === "single" ? (
         <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_1.05fr]">

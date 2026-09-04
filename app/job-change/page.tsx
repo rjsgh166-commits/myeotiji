@@ -6,6 +6,7 @@ import ResultActionBar from "../_components/ResultActionBar";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
 import StickyResultBar from "../_components/StickyResultBar";
 import AccessibleResultStatus from "../_components/AccessibleResultStatus";
+import ExamplePreviewNotice from "../_components/ExamplePreviewNotice";
 import TrustStrip from "../_components/TrustStrip";
 import CalculationAnalytics from "../_components/CalculationAnalytics";
 import ViewEventTracker from "../_components/ViewEventTracker";
@@ -351,6 +352,7 @@ function Stat({ label, value, strong = false }: { label: string; value: string; 
 
 export default function JobChangePage() {
   const [advanced, setAdvanced] = useState(false);
+  const [isExample, setIsExample] = useState(true);
   const [familyCount, setFamilyCount] = useState(1);
   const [childrenCount, setChildrenCount] = useState(0);
   const [current, setCurrent] = useState<Scenario>({
@@ -375,6 +377,7 @@ export default function JobChangePage() {
 
   useEffect(() => {
     const transferred = consumeCalculationTransfer("/job-change") || {};
+    if (Object.keys(transferred).length > 0) setIsExample(false);
     const params = new URLSearchParams(window.location.search);
     const readNumber = (stateKey: string, legacyKeys: string[], fallback: number) => {
       let raw: unknown = transferred[stateKey];
@@ -511,7 +514,7 @@ export default function JobChangePage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#f7f8fa] px-5 pb-28 pt-10 text-slate-900 sm:pt-14 lg:pb-14">
+    <main className="min-h-screen bg-[#f7f8fa] px-5 pb-28 pt-10 text-slate-900 sm:pt-14 lg:pb-14" onInputCapture={() => setIsExample(false)} onClickCapture={(event) => { if ((event.target as HTMLElement).closest("button")) setIsExample(false); }}>
       <CalculationAnalytics
         calculator="job_change"
         mode="break_even"
@@ -544,7 +547,9 @@ export default function JobChangePage() {
           </p>
         </header>
 
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-4">
+        <div className="mt-6"><ExamplePreviewNotice active={isExample} /></div>
+
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-4">
           <div>
             <p className="text-sm font-semibold text-slate-800">입력은 간단하게 시작해도 돼요</p>
             <p className="mt-1 text-xs text-slate-500">기본은 연봉·근무시간·출퇴근·주 출근일만 비교합니다.</p>
@@ -584,15 +589,15 @@ export default function JobChangePage() {
               <p className="mt-1 text-xl font-black text-violet-300">{result.breakEvenSalary.toLocaleString("ko-KR")}만원</p>
             </div>
             <div className="rounded-2xl bg-white/5 p-4">
-              <p className="text-xs font-bold text-slate-400">연간 체감 현금흐름 차이</p>
+              <p className="text-xs font-bold text-slate-400">1년에 실제로 남는 돈 차이</p>
               <p className="mt-1 text-xl font-black">{formatSignedWon(result.annualCashDifference)}</p>
             </div>
             <div className="rounded-2xl bg-white/5 p-4">
-              <p className="text-xs font-bold text-slate-400">연간 투입시간 변화</p>
+              <p className="text-xs font-bold text-slate-400">1년 근무+출퇴근 시간 차이</p>
               <p className="mt-1 text-xl font-black">{formatSignedHours(result.annualTimeDifference)}</p>
             </div>
             <div className="rounded-2xl bg-white/5 p-4">
-              <p className="text-xs font-bold text-slate-400">시간당 실질 보상 차이</p>
+              <p className="text-xs font-bold text-slate-400">내 시간 1시간 가치 차이</p>
               <p className="mt-1 text-xl font-black">{formatSignedWon(result.hourlyDifference)}</p>
             </div>
           </div>
@@ -601,6 +606,35 @@ export default function JobChangePage() {
             마지노선 연봉은 B의 근무·출퇴근 조건에서 A와 같은 ‘시간당 실질 보상’을 만들기 위해 필요한 세전 연봉을 역산한 값이에요.
           </p>
         </section>
+
+        <ResultActionBar
+            calculatorPath="/job-change"
+            shareTitle="이직 마지노선 계산 결과"
+            shareText={`💼 이직 마지노선 계산\n현재 연봉: ${current.salary.toLocaleString("ko-KR")}만원\n제안 연봉: ${offer.salary.toLocaleString("ko-KR")}만원\n이직 마지노선: ${result.breakEvenSalary.toLocaleString("ko-KR")}만원\n1년에 실제로 남는 돈 차이: ${formatSignedWon(result.annualCashDifference)}\n내 시간 1시간 가치 차이: ${formatSignedWon(result.hourlyDifference)}`}
+            image={{
+              eyebrow: "몇이지? · 이직 마지노선",
+              title: "이직, 최소 얼마 받아야 할까?",
+              tone: "violet",
+              filename: "myeotiji-job-change-break-even.png",
+              lines: [
+                { label: "현재 연봉", value: `${current.salary.toLocaleString("ko-KR")}만원` },
+                { label: "제안 연봉", value: `${offer.salary.toLocaleString("ko-KR")}만원` },
+                { label: "이직 마지노선", value: `${result.breakEvenSalary.toLocaleString("ko-KR")}만원`, strong: true },
+                { label: "1년에 실제로 남는 돈 차이", value: formatSignedWon(result.annualCashDifference) },
+                { label: "근무+출퇴근 시간 차이", value: formatSignedHours(result.annualTimeDifference) },
+                { label: "내 시간 1시간 가치 차이", value: formatSignedWon(result.hourlyDifference), strong: true },
+              ],
+              caption: "2026 세후 실수령 추정 + 사용자가 입력한 근무·통근·복지 조건을 같은 기준으로 비교한 참고값입니다.",
+            }}
+          >
+            <SaveCalculationButton
+              title={`이직 ${current.salary.toLocaleString("ko-KR")} → ${offer.salary.toLocaleString("ko-KR")}만원`}
+              href="/job-change"
+              state={savedState}
+              primaryValue={`마지노선 ${result.breakEvenSalary.toLocaleString("ko-KR")}만원`}
+              summary={`내 시간 1시간 가치 ${formatSignedWon(result.hourlyDifference)}`}
+            />
+        </ResultActionBar>
 
         <TrustStrip
           items={["2026년 세후 추정", "국세청 간이세액표 반영", "근무·통근시간 직접 반영", "입력값은 브라우저에서만 계산"]}
@@ -684,18 +718,18 @@ export default function JobChangePage() {
               <p className="font-black">A. 현재 직장</p>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <Stat label="월 예상 실수령" value={formatWon(result.a.monthlyNet)} />
-                <Stat label="연간 체감 현금흐름" value={formatWon(result.a.annualEffectiveCash)} />
-                <Stat label="연간 근무+통근" value={`${Math.round(result.a.annualTimeHours).toLocaleString("ko-KR")}시간`} />
-                <Stat label="시간당 실질 보상" value={formatWon(result.a.effectiveHourly)} strong />
+                <Stat label="1년에 실제로 남는 돈" value={formatWon(result.a.annualEffectiveCash)} />
+                <Stat label="1년 근무+출퇴근" value={`${Math.round(result.a.annualTimeHours).toLocaleString("ko-KR")}시간`} />
+                <Stat label="내 시간 1시간 가치" value={formatWon(result.a.effectiveHourly)} strong />
               </div>
             </div>
             <div className="rounded-2xl border border-violet-100 p-5">
               <p className="font-black text-violet-700">B. 이직 제안</p>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <Stat label="월 예상 실수령" value={formatWon(result.b.monthlyNet)} />
-                <Stat label="연간 체감 현금흐름" value={formatWon(result.b.annualEffectiveCash)} />
-                <Stat label="연간 근무+통근" value={`${Math.round(result.b.annualTimeHours).toLocaleString("ko-KR")}시간`} />
-                <Stat label="시간당 실질 보상" value={formatWon(result.b.effectiveHourly)} strong />
+                <Stat label="1년에 실제로 남는 돈" value={formatWon(result.b.annualEffectiveCash)} />
+                <Stat label="1년 근무+출퇴근" value={`${Math.round(result.b.annualTimeHours).toLocaleString("ko-KR")}시간`} />
+                <Stat label="내 시간 1시간 가치" value={formatWon(result.b.effectiveHourly)} strong />
               </div>
             </div>
           </div>
@@ -704,34 +738,7 @@ export default function JobChangePage() {
             <strong>해석 팁:</strong> 연봉이 올라도 근무시간과 통근시간이 크게 늘면 시간당 보상은 오히려 내려갈 수 있어요. 반대로 연봉 차이가 작아도 재택·짧은 통근·복지가 좋아지면 체감 조건은 더 좋아질 수 있습니다.
           </div>
 
-          <ResultActionBar
-            calculatorPath="/job-change"
-            shareTitle="이직 마지노선 계산 결과"
-            shareText={`💼 이직 마지노선 계산\n현재 연봉: ${current.salary.toLocaleString("ko-KR")}만원\n제안 연봉: ${offer.salary.toLocaleString("ko-KR")}만원\n이직 마지노선: ${result.breakEvenSalary.toLocaleString("ko-KR")}만원\n연간 체감 현금흐름 차이: ${formatSignedWon(result.annualCashDifference)}\n시간당 실질 보상 차이: ${formatSignedWon(result.hourlyDifference)}`}
-            image={{
-              eyebrow: "몇이지? · 이직 마지노선",
-              title: "이직, 최소 얼마 받아야 할까?",
-              tone: "violet",
-              filename: "myeotiji-job-change-break-even.png",
-              lines: [
-                { label: "현재 연봉", value: `${current.salary.toLocaleString("ko-KR")}만원` },
-                { label: "제안 연봉", value: `${offer.salary.toLocaleString("ko-KR")}만원` },
-                { label: "이직 마지노선", value: `${result.breakEvenSalary.toLocaleString("ko-KR")}만원`, strong: true },
-                { label: "연간 체감 현금 차이", value: formatSignedWon(result.annualCashDifference) },
-                { label: "연간 시간 변화", value: formatSignedHours(result.annualTimeDifference) },
-                { label: "시간당 보상 차이", value: formatSignedWon(result.hourlyDifference), strong: true },
-              ],
-              caption: "2026 세후 실수령 추정 + 사용자가 입력한 근무·통근·복지 조건을 같은 기준으로 비교한 참고값입니다.",
-            }}
-          >
-            <SaveCalculationButton
-              title={`이직 ${current.salary.toLocaleString("ko-KR")} → ${offer.salary.toLocaleString("ko-KR")}만원`}
-              href="/job-change"
-              state={savedState}
-              primaryValue={`마지노선 ${result.breakEvenSalary.toLocaleString("ko-KR")}만원`}
-              summary={`시간당 실질 보상 차이 ${formatSignedWon(result.hourlyDifference)}`}
-            />
-          </ResultActionBar>
+
         </section>
 
         <section className="mt-6 rounded-3xl border border-amber-100 bg-amber-50 p-6 sm:p-8">

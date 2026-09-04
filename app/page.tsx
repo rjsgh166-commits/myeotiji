@@ -44,7 +44,7 @@ export default function Home() {
               className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50"
               aria-label="내 계산함으로 이동"
             >
-              ☆ 저장
+              계산함
             </a>
           </div>
         </div>
@@ -64,8 +64,8 @@ export default function Home() {
           <div className="mx-auto mt-7 grid max-w-3xl gap-2 text-left sm:grid-cols-3">
             {[
               ["💼", "이직하려면", "연봉 몇 이상?", "/job-change", "violet"],
-              ["🏦", "대출 갈아타려면", "금리 몇 % 이하?", "/loan", "blue"],
-              ["🍯", "9일 쉬려면", "연차 몇 일?", "/holiday-tracker", "amber"],
+              ["🏦", "대출 갈아타려면", "금리 몇 % 이하?", "/loan?view=compare", "blue"],
+              ["🍯", "9일 쉬려면", "연차 몇 일?", "/holiday-tracker?mode=target&days=9", "amber"],
             ].map(([icon, prefix, question, href, tone]) => (
               <Link
                 key={href}
@@ -88,15 +88,14 @@ export default function Home() {
             <CalculatorSearch items={CALCULATORS} />
           </div>
 
-          <div className="mt-4 flex flex-wrap justify-center gap-2">
+          <p className="mt-4 text-xs font-semibold text-slate-500">빠르게 숫자만 확인</p>
+          <div className="mt-2 flex flex-wrap justify-center gap-2">
             {[
-              ["연봉", "/salary"],
-              ["이직", "/job-change"],
-              ["대출", "/loan"],
               ["퇴직금", "/retirement"],
               ["D-Day", "/days"],
               ["연차 개수", "/annual-leave"],
-              ["꿀연휴", "/holiday-tracker"],
+              ["할인율", "/discount"],
+              ["단위변환", "/unit-converter"],
             ].map(([label, href]) => (
               <Link
                 key={href}

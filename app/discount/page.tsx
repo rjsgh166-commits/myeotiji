@@ -7,6 +7,7 @@ import DecisionSummaryCard from "../_components/DecisionSummaryCard";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
 import AccessibleResultStatus from "../_components/AccessibleResultStatus";
 import TrustStrip from "../_components/TrustStrip";
+import ExamplePreviewNotice from "../_components/ExamplePreviewNotice";
 import CoupangDeals from "../_components/CoupangDeals";
 import { useEffect, useMemo, useState } from "react";
 import CalculationAnalytics from "../_components/CalculationAnalytics";
@@ -103,6 +104,7 @@ function ResultRow({
 
 export default function DiscountPage() {
   const [mode, setMode] = useState<Mode>("rate");
+  const [isExample, setIsExample] = useState(true);
   const [originalPrice, setOriginalPrice] = useState("100,000");
   const [discountRate, setDiscountRate] = useState("20");
   const [salePrice, setSalePrice] = useState("80,000");
@@ -112,6 +114,7 @@ export default function DiscountPage() {
 
   useEffect(() => {
     const transferred = consumeCalculationTransfer("/discount") || {};
+    if (Object.keys(transferred).length > 0) setIsExample(false);
     const params = new URLSearchParams(window.location.search);
     const read = (key: string) => transferred[key] ?? params.get(key);
     const savedMode = read("mode");
@@ -226,7 +229,7 @@ export default function DiscountPage() {
   const savedState = { mode, original: originalPrice, discount: discountRate, sale: salePrice, first: firstRate, second: secondRate, coupon: couponAmount };
 
   return (
-    <main className="min-h-screen bg-gray-50 text-gray-900">
+    <main className="min-h-screen bg-gray-50 text-gray-900" onInputCapture={() => setIsExample(false)} onClickCapture={(event) => { if ((event.target as HTMLElement).closest("button")) setIsExample(false); }}>
       <CalculationAnalytics
         calculator="discount"
         mode={mode}
@@ -253,6 +256,8 @@ export default function DiscountPage() {
             </p>
           </div>
         </div>
+
+        <ExamplePreviewNotice active={isExample} />
 
         <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
           <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200 sm:p-8">

@@ -10,6 +10,7 @@ import ResultActionBar from "../_components/ResultActionBar";
 import DecisionSummaryCard from "../_components/DecisionSummaryCard";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
 import AccessibleResultStatus from "../_components/AccessibleResultStatus";
+import ExamplePreviewNotice from "../_components/ExamplePreviewNotice";
 import TrustStrip from "../_components/TrustStrip";
 import CalculationAnalytics from "../_components/CalculationAnalytics";
 import { consumeCalculationTransfer } from "../_lib/calculationTransfer";
@@ -173,6 +174,7 @@ function ComparisonCard({
 
 export default function SalaryPage() {
   const [view, setView] = useState<"single" | "compare">("single");
+  const [isExample, setIsExample] = useState(true);
   const [annualSalary, setAnnualSalary] = useState(5000); // 만원
   const [monthlyTaxFree, setMonthlyTaxFree] = useState(20); // 만원
   const [familyCount, setFamilyCount] = useState(1);
@@ -190,7 +192,8 @@ export default function SalaryPage() {
       return Number.isFinite(value) && value >= min ? value : fallback;
     };
 
-    const restoredView = transferred.view;
+    if (Object.keys(transferred).length > 0) setIsExample(false);
+    const restoredView = transferred.view ?? params.get("view");
     const hasCompareTransfer = transferred.compareSalary !== undefined || transferred.b !== undefined || params.get("b") !== null;
     if (restoredView === "compare" || hasCompareTransfer) setView("compare");
     else if (restoredView === "single") setView("single");
@@ -277,7 +280,7 @@ export default function SalaryPage() {
           <button
             type="button"
             data-calculation-control="true"
-            onClick={() => setView("single")}
+            onClick={() => { setIsExample(false); setView("single"); }}
             aria-pressed={view === "single"}
             className={`rounded-lg px-4 py-2.5 text-sm font-semibold transition ${view === "single" ? "bg-blue-600 text-white" : "text-slate-600 hover:bg-slate-50"}`}
           >
@@ -286,7 +289,7 @@ export default function SalaryPage() {
           <button
             type="button"
             data-calculation-control="true"
-            onClick={() => setView("compare")}
+            onClick={() => { setIsExample(false); setView("compare"); }}
             aria-pressed={view === "compare"}
             className={`rounded-lg px-4 py-2.5 text-sm font-semibold transition ${view === "compare" ? "bg-blue-600 text-white" : "text-slate-600 hover:bg-slate-50"}`}
           >
@@ -294,6 +297,9 @@ export default function SalaryPage() {
           </button>
         </div>
 
+        <ExamplePreviewNotice active={isExample} />
+
+{view === "single" ? (
         <div className="grid gap-6 lg:grid-cols-[1fr_1.05fr]">
           <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
             <h2 className="mb-6 text-lg font-extrabold">조건 입력</h2>
@@ -309,7 +315,7 @@ export default function SalaryPage() {
                     min="0"
                     step="100"
                     value={annualSalary}
-                    onChange={(e) => setAnnualSalary(Number(e.target.value))}
+                    onChange={(e) => { setIsExample(false); setAnnualSalary(Number(e.target.value)); }}
                     className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 pr-16 text-lg font-bold outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"
                   />
                   <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-500">
@@ -328,7 +334,7 @@ export default function SalaryPage() {
                     min="0"
                     step="1"
                     value={monthlyTaxFree}
-                    onChange={(e) => setMonthlyTaxFree(Number(e.target.value))}
+                    onChange={(e) => { setIsExample(false); setMonthlyTaxFree(Number(e.target.value)); }}
                     className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 pr-16 text-lg font-bold outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"
                   />
                   <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-500">
@@ -350,9 +356,10 @@ export default function SalaryPage() {
                     min="1"
                     step="1"
                     value={familyCount}
-                    onChange={(e) =>
-                      setFamilyCount(Math.max(1, Number(e.target.value)))
-                    }
+                    onChange={(e) => {
+                      setIsExample(false);
+                      setFamilyCount(Math.max(1, Number(e.target.value)));
+                    }}
                     className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 pr-14 text-lg font-bold outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"
                   />
                   <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-500">
@@ -375,9 +382,10 @@ export default function SalaryPage() {
                     min="0"
                     step="1"
                     value={childrenCount}
-                    onChange={(e) =>
-                      setChildrenCount(Math.max(0, Number(e.target.value)))
-                    }
+                    onChange={(e) => {
+                      setIsExample(false);
+                      setChildrenCount(Math.max(0, Number(e.target.value)));
+                    }}
                     className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 pr-14 text-lg font-bold outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"
                   />
                   <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-500">
@@ -461,99 +469,124 @@ export default function SalaryPage() {
             ) : null}
           </section>
         </div>
+        ) : null}
+
+
+        {view === "compare" ? (
+          <section className="rounded-3xl border border-blue-100 bg-white p-6 shadow-sm sm:p-8">
+            <div>
+              <p className="text-xs font-semibold text-blue-600">두 연봉 바로 비교</p>
+              <h2 className="mt-1 text-xl font-bold">A와 B를 먼저 나란히 볼게요</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-500">같은 공제 조건을 적용해 월 실수령액과 1년 차이를 바로 비교합니다.</p>
+            </div>
+
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              <label className="block rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+                <span className="mb-2 block text-sm font-bold text-slate-700">현재 연봉 A</span>
+                <div className="relative">
+                  <input
+                    type="number"
+                    min="0"
+                    step="100"
+                    value={annualSalary}
+                    onChange={(e) => { setIsExample(false); setAnnualSalary(Number(e.target.value)); }}
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3.5 pr-16 text-lg font-bold outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
+                  />
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-500">만원</span>
+                </div>
+              </label>
+              <label className="block rounded-2xl border border-blue-200 bg-blue-50/50 p-4">
+                <span className="mb-2 block text-sm font-bold text-blue-800">비교 연봉 B</span>
+                <div className="relative">
+                  <input
+                    type="number"
+                    min="0"
+                    step="100"
+                    value={compareSalary}
+                    onChange={(e) => { setIsExample(false); setCompareSalary(Number(e.target.value)); }}
+                    className="w-full rounded-xl border border-blue-200 bg-white px-4 py-3.5 pr-16 text-lg font-bold outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
+                  />
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-500">만원</span>
+                </div>
+              </label>
+            </div>
+
+            <details className="mt-4 rounded-2xl border border-slate-200 bg-white">
+              <summary className="cursor-pointer px-4 py-3 text-sm font-semibold text-slate-700">공제 조건 상세 설정</summary>
+              <div className="grid gap-4 border-t border-slate-100 p-4 sm:grid-cols-3">
+                <label className="block">
+                  <span className="mb-1.5 block text-xs font-semibold text-slate-600">월 비과세액</span>
+                  <div className="relative">
+                    <input type="number" min="0" step="1" value={monthlyTaxFree} onChange={(e) => { setIsExample(false); setMonthlyTaxFree(Number(e.target.value)); }} className="w-full rounded-xl border border-slate-200 px-3 py-3 pr-12 text-sm font-bold outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-50" />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-500">만원</span>
+                  </div>
+                </label>
+                <label className="block">
+                  <span className="mb-1.5 block text-xs font-semibold text-slate-600">공제대상가족</span>
+                  <div className="relative">
+                    <input type="number" min="1" step="1" value={familyCount} onChange={(e) => { setIsExample(false); setFamilyCount(Math.max(1, Number(e.target.value))); }} className="w-full rounded-xl border border-slate-200 px-3 py-3 pr-10 text-sm font-bold outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-50" />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-500">명</span>
+                  </div>
+                </label>
+                <label className="block">
+                  <span className="mb-1.5 block text-xs font-semibold text-slate-600">8~20세 자녀</span>
+                  <div className="relative">
+                    <input type="number" min="0" step="1" value={childrenCount} onChange={(e) => { setIsExample(false); setChildrenCount(Math.max(0, Number(e.target.value))); }} className="w-full rounded-xl border border-slate-200 px-3 py-3 pr-10 text-sm font-bold outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-50" />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-500">명</span>
+                  </div>
+                </label>
+              </div>
+            </details>
+
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <ComparisonCard label="현재 조건 A" salary={annualSalary} result={result} />
+              <ComparisonCard label="비교 조건 B" salary={compareSalary} result={compareResult} accent />
+            </div>
+
+            <DecisionSummaryCard
+              title={salaryConclusion}
+              description={`1년으로 단순 환산하면 실수령 차이는 ${formatSignedWon(annualNetDifference)}예요. 성과급·연말정산은 제외한 비교값입니다.`}
+              tone="violet"
+              metrics={[
+                { label: "월 세전 차이", value: formatSignedWon(monthlyGrossDifference) },
+                { label: "월 실수령 차이", value: formatSignedWon(monthlyNetDifference) },
+                { label: "연간 환산 차이", value: formatSignedWon(annualNetDifference) },
+              ]}
+              actionHref="/job-change"
+              actionState={jobChangeState}
+              actionLabel="이 연봉으로 이직 마지노선 계산 →"
+              analyticsId="salary"
+            />
+
+            <ResultActionBar
+              calculatorPath="/salary"
+              shareTitle="연봉 비교 계산 결과"
+              shareText={`💼 연봉 비교\nA 연봉: ${annualSalary.toLocaleString("ko-KR")}만원 → 월 실수령 ${formatWon(result.netSalary)}\nB 연봉: ${compareSalary.toLocaleString("ko-KR")}만원 → 월 실수령 ${formatWon(compareResult.netSalary)}\n월 실수령 차이: ${formatSignedWon(monthlyNetDifference)}\n연간 환산 차이: ${formatSignedWon(annualNetDifference)}`}
+              image={{
+                eyebrow: "몇이지? · 2026 연봉 비교",
+                title: "이직하면 통장에 얼마 더?",
+                tone: "violet",
+                filename: "myeotiji-salary-compare.png",
+                lines: [
+                  { label: "현재 연봉 A", value: `${annualSalary.toLocaleString("ko-KR")}만원` },
+                  { label: "비교 연봉 B", value: `${compareSalary.toLocaleString("ko-KR")}만원` },
+                  { label: "A 월 실수령", value: formatWon(result.netSalary) },
+                  { label: "B 월 실수령", value: formatWon(compareResult.netSalary) },
+                  { label: "월 실수령 차이", value: formatSignedWon(monthlyNetDifference), strong: true },
+                  { label: "연간 환산 차이", value: formatSignedWon(annualNetDifference), strong: true },
+                ],
+                caption: "비과세액·공제대상가족 조건을 동일하게 적용한 예상 비교값입니다.",
+              }}
+            >
+              <SaveCalculationButton title={`연봉 ${annualSalary.toLocaleString("ko-KR")} vs ${compareSalary.toLocaleString("ko-KR")}만원`} href="/salary" state={savedState} primaryValue={`월 실수령 ${formatSignedWon(monthlyNetDifference)}`} summary={`연간 환산 차이 ${formatSignedWon(annualNetDifference)}`} />
+            </ResultActionBar>
+          </section>
+        ) : null}
 
         <TrustStrip
           items={["2026년 세율 기준", "국세청 간이세액표 반영", "4대보험 공제 반영", "2026.09 확인"]}
           note="실제 급여명세서는 회사의 비과세 항목, 연말정산, 보험료 정산 등에 따라 달라질 수 있어요."
         />
-
-        {view === "compare" ? (
-        <section className="mt-6 rounded-3xl border border-blue-100 bg-white p-6 shadow-sm sm:p-8">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="text-xs font-semibold text-blue-600">두 연봉 비교</p>
-              <h2 className="mt-1 text-xl font-bold">현재 연봉 vs 이직·협상 연봉</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-500">
-                같은 비과세액·가족 조건으로 비교해, 연봉 변화가 실제 통장 금액에
-                얼마나 반영되는지 보여드려요.
-              </p>
-            </div>
-          </div>
-
-          <label className="mt-6 block max-w-sm">
-            <span className="mb-2 block text-sm font-bold text-slate-700">
-              비교할 연봉
-            </span>
-            <div className="relative">
-              <input
-                type="number"
-                min="0"
-                step="100"
-                value={compareSalary}
-                onChange={(e) => setCompareSalary(Number(e.target.value))}
-                className="w-full rounded-2xl border border-blue-200 bg-blue-50/50 px-4 py-4 pr-16 text-lg font-black outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"
-              />
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-500">
-                만원
-              </span>
-            </div>
-          </label>
-
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            <ComparisonCard label="현재 조건 A" salary={annualSalary} result={result} />
-            <ComparisonCard
-              label="비교 조건 B"
-              salary={compareSalary}
-              result={compareResult}
-              accent
-            />
-          </div>
-
-          <DecisionSummaryCard
-            title={salaryConclusion}
-            description={`1년으로 단순 환산하면 실수령 차이는 ${formatSignedWon(annualNetDifference)}예요. 성과급·연말정산은 제외한 비교값입니다.`}
-            tone="violet"
-            metrics={[
-              { label: "월 세전 차이", value: formatSignedWon(monthlyGrossDifference) },
-              { label: "월 실수령 차이", value: formatSignedWon(monthlyNetDifference) },
-              { label: "연간 환산 차이", value: formatSignedWon(annualNetDifference) },
-            ]}
-            actionHref="/job-change"
-            actionState={jobChangeState}
-            actionLabel="이 연봉으로 이직 마지노선 계산 →"
-            analyticsId="salary"
-          />
-
-          <ResultActionBar
-            calculatorPath="/salary"
-            shareTitle="연봉 비교 계산 결과"
-            shareText={`💼 연봉 비교\nA 연봉: ${annualSalary.toLocaleString("ko-KR")}만원 → 월 실수령 ${formatWon(result.netSalary)}\nB 연봉: ${compareSalary.toLocaleString("ko-KR")}만원 → 월 실수령 ${formatWon(compareResult.netSalary)}\n월 실수령 차이: ${formatSignedWon(monthlyNetDifference)}\n연간 환산 차이: ${formatSignedWon(annualNetDifference)}`}
-            image={{
-              eyebrow: "몇이지? · 2026 연봉 비교",
-              title: "이직하면 통장에 얼마 더?",
-              tone: "violet",
-              filename: "myeotiji-salary-compare.png",
-              lines: [
-                { label: "현재 연봉 A", value: `${annualSalary.toLocaleString("ko-KR")}만원` },
-                { label: "비교 연봉 B", value: `${compareSalary.toLocaleString("ko-KR")}만원` },
-                { label: "A 월 실수령", value: formatWon(result.netSalary) },
-                { label: "B 월 실수령", value: formatWon(compareResult.netSalary) },
-                { label: "월 실수령 차이", value: formatSignedWon(monthlyNetDifference), strong: true },
-                { label: "연간 환산 차이", value: formatSignedWon(annualNetDifference), strong: true },
-              ],
-              caption: "비과세액·공제대상가족 조건을 동일하게 적용한 예상 비교값입니다.",
-            }}
-          >
-            <SaveCalculationButton
-              title={`연봉 ${annualSalary.toLocaleString("ko-KR")} vs ${compareSalary.toLocaleString("ko-KR")}만원`}
-              href="/salary"
-              state={savedState}
-              primaryValue={`월 실수령 ${formatSignedWon(monthlyNetDifference)}`}
-              summary={`연간 환산 차이 ${formatSignedWon(annualNetDifference)}`}
-            />
-          </ResultActionBar>
-        </section>
-        ) : null}
 
         <section className="mt-6 rounded-3xl border border-slate-200 bg-white p-6 sm:p-8">
           <h2 className="text-lg font-extrabold">계산 기준</h2>

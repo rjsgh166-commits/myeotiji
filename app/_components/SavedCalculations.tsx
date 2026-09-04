@@ -78,67 +78,68 @@ export default function SavedCalculations() {
   return (
     <>
       <section id="my-calculations" className="scroll-mt-24 px-5 pb-10 sm:pb-12">
-        <div className="mx-auto max-w-6xl rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-          <div className="flex items-end justify-between gap-4">
-            <div>
-              <h2 className="text-lg font-bold text-slate-900">내 계산함</h2>
-              <p className="mt-1 text-xs text-slate-500">
-                계산마다 이름을 붙여 여러 결과를 이 브라우저에 저장할 수 있어요.
-              </p>
+        {!hydrated || items.length === 0 ? (
+          <div className="mx-auto max-w-6xl rounded-2xl border border-dashed border-slate-200 bg-white/70 px-4 py-3 text-sm text-slate-500">
+            <strong className="font-semibold text-slate-700">내 계산함</strong>
+            <span className="ml-2">계산 결과를 저장하면 여기에 모아볼 수 있어요.</span>
+          </div>
+        ) : (
+          <div className="mx-auto max-w-6xl rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <h2 className="text-lg font-bold text-slate-900">내 계산함</h2>
+                <p className="mt-1 text-xs text-slate-500">
+                  계산마다 이름을 붙여 여러 결과를 이 브라우저에 저장할 수 있어요.
+                </p>
+              </div>
+              {hydrated && items.length > 0 ? (
+                <span className="text-xs font-semibold text-slate-500">
+                  {items.length}/{MAX_SAVED_CALCULATIONS}
+                </span>
+              ) : null}
             </div>
-            {hydrated && items.length > 0 ? (
-              <span className="text-xs font-semibold text-slate-500">
-                {items.length}/{MAX_SAVED_CALCULATIONS}
-              </span>
+
+            {items.length > 0 ? (
+              <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {items.map((item) => (
+                  <div
+                    key={item.id}
+                    className="min-w-0 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 transition hover:border-blue-200 hover:bg-white hover:shadow-sm"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-semibold text-slate-800" title={item.title}>
+                          {item.title}
+                        </p>
+                        <p className="mt-1 break-words text-base font-bold leading-6 text-blue-600">
+                          {item.primaryValue}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => remove(item)}
+                        className="min-h-11 shrink-0 rounded-lg px-2 text-xs font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-800 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
+                        aria-label={`${item.title} 저장 삭제`}
+                      >
+                        삭제
+                      </button>
+                    </div>
+                    <p className="mt-2 line-clamp-2 text-xs leading-5 text-slate-500">{item.summary}</p>
+                    <div className="mt-3 border-t border-slate-200/80 pt-3">
+                      <Link
+                        href={cleanPath(item.href)}
+                        onClick={() => prepareOpen(item)}
+                        className="inline-flex min-h-11 items-center rounded-lg text-sm font-semibold text-blue-600 hover:text-blue-700 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
+                      >
+                        다시 열기 →
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
             ) : null}
           </div>
-
-          {hydrated && items.length === 0 ? (
-            <div className="mt-4 rounded-2xl bg-slate-50 px-4 py-4 text-sm text-slate-500">
-              아직 저장한 계산이 없어요. 계산 결과에서 <strong className="text-slate-700">☆ 저장</strong>을 누르면 여기에 모여요.
-            </div>
-          ) : null}
-
-          {items.length > 0 ? (
-            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {items.map((item) => (
-                <div
-                  key={item.id}
-                  className="min-w-0 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 transition hover:border-blue-200 hover:bg-white hover:shadow-sm"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-semibold text-slate-800" title={item.title}>
-                        {item.title}
-                      </p>
-                      <p className="mt-1 break-words text-base font-bold leading-6 text-blue-600">
-                        {item.primaryValue}
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => remove(item)}
-                      className="min-h-11 shrink-0 rounded-lg px-2 text-xs font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-800 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
-                      aria-label={`${item.title} 저장 삭제`}
-                    >
-                      삭제
-                    </button>
-                  </div>
-                  <p className="mt-2 line-clamp-2 text-xs leading-5 text-slate-500">{item.summary}</p>
-                  <div className="mt-3 border-t border-slate-200/80 pt-3">
-                    <Link
-                      href={cleanPath(item.href)}
-                      onClick={() => prepareOpen(item)}
-                      className="inline-flex min-h-11 items-center rounded-lg text-sm font-semibold text-blue-600 hover:text-blue-700 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
-                    >
-                      다시 열기 →
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : null}
-        </div>
+        )}
       </section>
 
       {undoItem ? (
@@ -151,4 +152,5 @@ export default function SavedCalculations() {
       ) : null}
     </>
   );
+
 }
