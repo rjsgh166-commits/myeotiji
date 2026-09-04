@@ -10,6 +10,15 @@ export type CalculatorItem = {
 
 export const CALCULATORS: CalculatorItem[] = [
   {
+    href: "/job-change",
+    icon: "⚖️",
+    title: "이직 마지노선",
+    shortTitle: "이직 마지노선",
+    description: "실수령·출퇴근·근무시간까지 이직 조건 비교",
+    aliases: ["이직", "이직계산기", "이직연봉", "마지노선연봉", "이직마지노선", "연봉협상", "오퍼비교", "직장비교", "실질시급", "출퇴근연봉", "이직손익분기"],
+    category: "work",
+  },
+  {
     href: "/salary",
     icon: "💰",
     title: "연봉 실수령액",
@@ -260,7 +269,8 @@ export const CALCULATOR_CATEGORIES = [
 ] as const;
 
 export const RELATED_CALCULATORS: Record<string, string[]> = {
-  "/salary": ["/hourly-monthly", "/weekly-pay", "/retirement", "/unemployment"],
+  "/job-change": ["/salary", "/retirement", "/annual-leave", "/unemployment"],
+  "/salary": ["/job-change", "/hourly-monthly", "/retirement", "/weekly-pay"],
   "/retirement": ["/salary", "/annual-leave", "/unemployment", "/hourly-monthly"],
   "/weekly-pay": ["/hourly-monthly", "/salary", "/annual-leave", "/retirement"],
   "/unemployment": ["/salary", "/retirement", "/annual-leave", "/median-income"],

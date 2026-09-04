@@ -5,6 +5,7 @@ import { SITE_URL } from "./_lib/site";
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "",
+    "/job-change",
     "/salary",
     "/retirement",
     "/weekly-pay",

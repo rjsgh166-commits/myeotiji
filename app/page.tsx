@@ -8,6 +8,7 @@ import {
 } from "./_lib/calculators";
 
 const frequentHrefs = [
+  "/job-change",
   "/salary",
   "/retirement",
   "/days",
@@ -81,8 +82,8 @@ export default function Home() {
 
       <section className="px-5 pb-14 pt-16 sm:pb-20 sm:pt-24">
         <div className="mx-auto max-w-4xl text-center">
-          <p className="mb-4 text-sm font-semibold text-blue-600">
-            LIFE CALCULATOR
+          <p className="mb-4 text-sm font-semibold text-violet-600">
+            DECISION CALCULATOR
           </p>
           <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
             일상에서 궁금한 숫자,
@@ -91,13 +92,20 @@ export default function Home() {
           </h1>
 
           <p className="mt-5 text-base text-gray-500 sm:text-lg">
-            급여부터 날짜, 금융, 생활까지 필요한 계산을 빠르고 쉽게 해보세요.
+            계산만 하지 말고, 두 선택지의 차이와 내 상황의 마지노선까지 확인해보세요.
           </p>
+
+          <div className="mt-5 flex justify-center">
+            <Link href="/job-change" className="inline-flex items-center gap-2 rounded-full bg-violet-100 px-4 py-2 text-sm font-black text-violet-700 transition hover:bg-violet-200">
+              <span>NEW</span><span>⚖️ 이직, 최소 얼마 받아야 할까?</span><span>→</span>
+            </Link>
+          </div>
 
           <CalculatorSearch items={CALCULATORS} />
 
           <div className="mt-5 flex flex-wrap justify-center gap-2">
             {[
+              ["이직 마지노선", "/job-change"],
               ["연봉", "/salary"],
               ["퇴직금", "/retirement"],
               ["D-Day", "/days"],
@@ -163,7 +171,14 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid gap-3 md:grid-cols-3">
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            <Link href="/job-change" className="group rounded-2xl border border-violet-200 bg-gradient-to-br from-violet-50 to-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+              <p className="text-xs font-black text-violet-700">⚖️ 몇이지? 선택 계산</p>
+              <p className="mt-2 text-lg font-black">이직, 최소 얼마 받아야 본전?</p>
+              <p className="mt-2 text-sm leading-6 text-gray-500">실수령·근무시간·출퇴근까지 넣어 이직 마지노선 연봉을 역산해요.</p>
+              <p className="mt-4 text-sm font-black text-violet-700">마지노선 계산 →</p>
+            </Link>
+
             <Link href="/salary" className="group rounded-2xl border border-violet-100 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-violet-200 hover:shadow-md">
               <p className="text-xs font-black text-violet-600">💼 연봉 A/B 비교</p>
               <p className="mt-2 text-lg font-black">이직하면 통장에 얼마 더?</p>
@@ -184,6 +199,27 @@ export default function Home() {
               <p className="mt-2 text-sm leading-6 text-gray-500">추가 할인과 쿠폰을 순서대로 반영해 진짜 최종 할인율을 보여줘요.</p>
               <p className="mt-4 text-sm font-black text-amber-700">추가 할인 계산 →</p>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-5 pb-14 sm:pb-16">
+        <div className="mx-auto max-w-6xl rounded-3xl bg-slate-950 p-6 text-white sm:p-8">
+          <p className="text-xs font-black tracking-wider text-violet-300">WHY MYEOTIJI</p>
+          <h2 className="mt-2 text-2xl font-black">계산기 개수보다 ‘판단에 도움이 되는 숫자’를 만들어요</h2>
+          <div className="mt-6 grid gap-3 md:grid-cols-4">
+            {[
+              ["①", "비교", "A와 B를 같은 기준으로 나란히"],
+              ["②", "마지노선", "얼마면 본전인지 역산"],
+              ["③", "근거", "공식 기준·계산식·확인일 공개"],
+              ["④", "공유", "결과를 이미지로 저장"],
+            ].map(([number, title, description]) => (
+              <div key={title} className="rounded-2xl bg-white/5 p-4">
+                <p className="text-xs font-black text-violet-300">{number}</p>
+                <p className="mt-2 font-black">{title}</p>
+                <p className="mt-1 text-xs leading-5 text-slate-400">{description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

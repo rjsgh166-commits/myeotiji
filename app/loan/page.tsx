@@ -472,7 +472,7 @@ export default function LoanPage() {
             {aResult && bResult && (
               <div className="mt-5 grid gap-3 text-sm sm:grid-cols-3">
                 <div className="rounded-xl bg-white/5 p-4">
-                  <p className="text-slate-400">B의 주 납입액 차이</p>
+                  <p className="text-slate-400">B의 기준 납입액 차이</p>
                   <strong className="mt-1 block text-base">
                     {signedWon(paymentDifference)}
                   </strong>
@@ -492,7 +492,7 @@ export default function LoanPage() {
               </div>
             )}
             <p className="mt-4 text-xs leading-5 text-slate-400">
-              ‘주 납입액’은 원리금균등은 매월 상환액, 원금균등은 첫 달 상환액,
+              ‘기준 납입액’은 원리금균등은 매월 상환액, 원금균등은 첫 달 상환액,
               만기일시는 매월 이자를 기준으로 비교합니다.
             </p>
           </div>
@@ -515,7 +515,7 @@ export default function LoanPage() {
                   { label: "조건 B", value: `${bRate}% · ${bMonths}개월` },
                   { label: "B 총 이자", value: `${won(bResult.totalInterest)}원` },
                   { label: "B - A 총 이자", value: signedWon(interestDifference), strong: true },
-                  { label: "B - A 주 납입액", value: signedWon(paymentDifference), strong: true },
+                  { label: "B - A 기준 납입액", value: signedWon(paymentDifference), strong: true },
                 ]}
                 caption="금리·기간·상환방식에 따른 예상값이며 실제 금융기관 납입액과 다를 수 있습니다."
               />
