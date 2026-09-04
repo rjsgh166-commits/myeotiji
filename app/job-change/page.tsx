@@ -455,6 +455,7 @@ export default function JobChangePage() {
         ...variant,
         breakEvenSalary,
         difference: breakEvenSalary - result.breakEvenSalary,
+        salaryEquivalent: Math.max(0, result.breakEvenSalary - breakEvenSalary),
       };
     });
   }, [offer, familyCount, childrenCount, result.a.effectiveHourly, result.breakEvenSalary]);
@@ -601,6 +602,12 @@ export default function JobChangePage() {
                         ? `현재보다 ${Math.abs(item.difference).toLocaleString("ko-KR")}만원 낮아져요.`
                         : `현재보다 ${item.difference.toLocaleString("ko-KR")}만원 높아져요.`}
                   </p>
+                  {item.salaryEquivalent > 0 ? (
+                    <div className="mt-3 rounded-xl bg-violet-50 px-3 py-2.5">
+                      <p className="text-[10px] font-semibold text-violet-500">연봉으로 환산한 조건 가치</p>
+                      <p className="mt-0.5 text-sm font-bold text-violet-800">약 +{item.salaryEquivalent.toLocaleString("ko-KR")}만원</p>
+                    </div>
+                  ) : null}
                   <button
                     type="button"
                     data-calculation-control="true"
@@ -614,6 +621,9 @@ export default function JobChangePage() {
                   </button>
                 </div>
               ))}
+            </div>
+            <div className="mt-5 rounded-2xl border border-violet-100 bg-violet-50/60 p-4 text-sm leading-6 text-violet-900">
+              <strong>협상에 이렇게 써보세요.</strong> 연봉으로 환산한 조건 가치는 해당 조건 개선으로 이직 마지노선이 얼마나 낮아지는지를 뜻해요. 예를 들어 +200만원이면 그 조건 개선이 대략 연봉 200만원 인상과 비슷한 효과를 낸다는 의미입니다.
             </div>
             <p className="mt-4 text-xs leading-5 text-slate-400">
               What-if는 다른 조건은 그대로 두고 한 가지 조건만 바꿔 비교한 참고값이에요.

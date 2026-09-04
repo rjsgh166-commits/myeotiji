@@ -98,6 +98,35 @@ function calculateLoan(
   };
 }
 
+function findInterestBreakEvenRate(
+  targetInterest: number,
+  principal: number,
+  months: number,
+  method: Method,
+) {
+  if (!(targetInterest >= 0) || !(principal > 0) || !(months > 0)) return null;
+  const zero = calculateLoan(principal, 0, months, method);
+  if (!zero || zero.totalInterest > targetInterest) return null;
+
+  let low = 0;
+  let high = 30;
+  let highResult = calculateLoan(principal, high, months, method);
+  while (highResult && highResult.totalInterest < targetInterest && high < 100) {
+    high *= 1.5;
+    highResult = calculateLoan(principal, high, months, method);
+  }
+  if (!highResult || highResult.totalInterest < targetInterest) return null;
+
+  for (let i = 0; i < 50; i += 1) {
+    const mid = (low + high) / 2;
+    const candidate = calculateLoan(principal, mid, months, method);
+    if (!candidate) return null;
+    if (candidate.totalInterest < targetInterest) low = mid;
+    else high = mid;
+  }
+  return high;
+}
+
 function ResultCard({
   label,
   value,
@@ -375,6 +404,13 @@ export default function LoanPage() {
 
   const interestDifference =
     aResult && bResult ? bResult.totalInterest - aResult.totalInterest : 0;
+  const bRateBreakEven = useMemo(
+    () => samePrincipal && aResult
+      ? findInterestBreakEvenRate(aResult.totalInterest, Number(aPrincipal), Number(bMonths), bMethod)
+      : null,
+    [samePrincipal, aResult, aPrincipal, bMonths, bMethod],
+  );
+  const bRateGap = bRateBreakEven === null ? null : Number(bRate) - bRateBreakEven;
   const paymentDifference = aResult && bResult ? bResult.main - aResult.main : 0;
   const totalDifference = aResult && bResult ? bResult.total - aResult.total : 0;
 
@@ -651,6 +687,22 @@ export default function LoanPage() {
                 : []
             }
           />
+
+          {samePrincipal && aResult && bResult && bRateBreakEven !== null ? (
+            <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 p-5 sm:flex sm:items-center sm:justify-between sm:gap-6">
+              <div>
+                <p className="text-xs font-semibold text-blue-600">몇이지? 금리 마지노선</p>
+                <h3 className="mt-1 text-lg font-bold text-slate-950">B 금리가 {bRateBreakEven.toFixed(2)}% 이하여야 총 이자가 A 이하예요.</h3>
+                <p className="mt-2 text-xs leading-5 text-slate-500">B의 기간과 상환방식은 그대로 두고, A와 총 이자가 같아지는 금리를 역산했어요.</p>
+              </div>
+              <div className="mt-4 rounded-xl bg-white px-4 py-3 text-center ring-1 ring-blue-100 sm:mt-0 sm:min-w-44">
+                <p className="text-[10px] text-slate-400">현재 B 금리 vs 마지노선</p>
+                <p className={`mt-1 text-base font-bold ${bRateGap !== null && bRateGap <= 0 ? "text-emerald-600" : "text-rose-600"}`}>{bRate}% · {bRateGap !== null && bRateGap <= 0 ? `${Math.abs(bRateGap).toFixed(2)}%p 여유` : `${Math.abs(bRateGap ?? 0).toFixed(2)}%p 높음`}</p>
+              </div>
+            </div>
+          ) : view === "compare" && !samePrincipal ? (
+            <p className="mt-3 text-xs text-slate-400">금리 마지노선은 A와 B의 대출금액이 같을 때 표시해요.</p>
+          ) : null}
 
           {aResult && bResult && (
             <>

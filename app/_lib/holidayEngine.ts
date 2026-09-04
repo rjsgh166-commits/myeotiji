@@ -13,6 +13,19 @@ export type BreakPlan = {
 
 export type HolidayStyle = "long" | "efficient" | "frequent";
 
+export type HolidayConstraints = {
+  companyDaysOff?: string[];
+  blockedPtoDays?: string[];
+  companionBlockedPtoDays?: string[];
+};
+
+export type BreakComposition = {
+  weekendDays: number;
+  holidayDays: number;
+  companyOffDays: number;
+  ptoDays: number;
+};
+
 export type HolidayPortfolio = {
   plans: BreakPlan[];
   usedPto: number;
@@ -198,13 +211,19 @@ export function buildHolidayMap(year: number) {
   return map;
 }
 
-export function buildHolidayMapsAround(year: number) {
+export function buildHolidayMapsAround(year: number, companyDaysOff: string[] = []) {
   const merged = new Map<string, string[]>();
   for (const target of [year - 1, year, year + 1]) {
     for (const [key, names] of buildHolidayMap(target).entries()) {
       const existing = merged.get(key) ?? [];
       merged.set(key, [...existing, ...names]);
     }
+  }
+  for (const key of companyDaysOff) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(key)) continue;
+    const names = merged.get(key) ?? [];
+    if (!names.includes("회사 추가 휴무")) names.push("회사 추가 휴무");
+    merged.set(key, names);
   }
   return merged;
 }
@@ -220,8 +239,11 @@ export function findBreakCandidates(
   year: number,
   maxPto: number,
   today?: Date | null,
+  constraints: HolidayConstraints = {},
 ) {
-  const holidays = buildHolidayMapsAround(year);
+  const holidays = buildHolidayMapsAround(year, constraints.companyDaysOff ?? []);
+  const blockedPto = new Set(constraints.blockedPtoDays ?? []);
+  const companionBlockedPto = new Set(constraints.companionBlockedPtoDays ?? []);
   const start = effectiveStart(year, today);
   const end = fromYMD(year + 1, 1, 7);
   const dates: Date[] = [];
@@ -244,7 +266,10 @@ export function findBreakCandidates(
     for (let j = i; j < dates.length; j++) {
       const date = dates[j];
       const key = toKey(date);
-      if (!isOff(date)) ptoCount += 1;
+      if (!isOff(date)) {
+        if (blockedPto.has(key) || companionBlockedPto.has(key)) break;
+        ptoCount += 1;
+      }
       if (holidays.has(key)) holidayCount += 1;
       if (ptoCount > maxPto) break;
 
@@ -335,8 +360,9 @@ export function optimizePortfolio(
   style: HolidayStyle,
   today?: Date | null,
   maxPlans = 5,
+  constraints: HolidayConstraints = {},
 ): HolidayPortfolio {
-  const raw = findBreakCandidates(year, Math.min(Math.max(ptoBudget, 0), 15), today);
+  const raw = findBreakCandidates(year, Math.min(Math.max(ptoBudget, 0), 15), today, constraints);
   const candidates = interestingCandidates(raw, ptoBudget, style);
 
   if (candidates.length === 0) {
@@ -396,25 +422,100 @@ export function topAlternativePlans(
   style: HolidayStyle,
   today?: Date | null,
   exclude: BreakPlan[] = [],
+  constraints: HolidayConstraints = {},
+  limit = 12,
 ) {
   const excluded = new Set(exclude.map((plan) => `${toKey(plan.start)}|${toKey(plan.end)}`));
-  return findBreakCandidates(year, Math.min(Math.max(ptoBudget, 0), 15), today)
+  return findBreakCandidates(year, Math.min(Math.max(ptoBudget, 0), 15), today, constraints)
     .filter((plan) => !excluded.has(`${toKey(plan.start)}|${toKey(plan.end)}`))
     .sort((a, b) => utility(b, style) - utility(a, style) || a.start.getTime() - b.start.getTime())
     .filter((plan, index, list) => {
       const key = `${plan.ptoDays.map(toKey).join(",")}|${plan.totalDays}`;
       return list.findIndex((candidate) => `${candidate.ptoDays.map(toKey).join(",")}|${candidate.totalDays}` === key) === index;
     })
-    .slice(0, 6);
+    .slice(0, limit);
 }
 
-export function freeLongWeekends(year: number, today?: Date | null) {
-  return findBreakCandidates(year, 0, today)
+export function freeLongWeekends(
+  year: number,
+  today?: Date | null,
+  constraints: HolidayConstraints = {},
+) {
+  return findBreakCandidates(year, 0, today, constraints)
     .sort((a, b) => b.totalDays - a.totalDays || a.start.getTime() - b.start.getTime())
     .filter((plan, index, list) =>
       list.findIndex((candidate) => toKey(candidate.start) === toKey(plan.start) && toKey(candidate.end) === toKey(plan.end)) === index,
     )
     .slice(0, 4);
+}
+
+
+export function getBreakComposition(
+  plan: BreakPlan,
+  companyDaysOff: string[] = [],
+): BreakComposition {
+  const holidayMap = buildHolidayMapsAround(plan.start.getFullYear(), companyDaysOff);
+  const companySet = new Set(companyDaysOff);
+  const ptoSet = new Set(plan.ptoDays.map(toKey));
+  const composition: BreakComposition = {
+    weekendDays: 0,
+    holidayDays: 0,
+    companyOffDays: 0,
+    ptoDays: plan.ptoDays.length,
+  };
+
+  let cursor = startOfDay(plan.start);
+  while (cursor <= plan.end) {
+    const key = toKey(cursor);
+    if (ptoSet.has(key)) {
+      cursor = addDays(cursor, 1);
+      continue;
+    }
+    if (companySet.has(key)) {
+      composition.companyOffDays += 1;
+    } else if (holidayMap.has(key)) {
+      composition.holidayDays += 1;
+    } else if (isWeekend(cursor)) {
+      composition.weekendDays += 1;
+    }
+    cursor = addDays(cursor, 1);
+  }
+
+  return composition;
+}
+
+export function findMinimumPtoBreak(
+  year: number,
+  targetDays: number,
+  today?: Date | null,
+  constraints: HolidayConstraints = {},
+  maxPto = 15,
+) {
+  const target = Math.max(3, Math.round(targetDays));
+  const plans = findBreakCandidates(year, Math.max(0, maxPto), today, constraints)
+    .filter((plan) => plan.totalDays >= target)
+    .sort((a, b) =>
+      a.ptoDays.length - b.ptoDays.length ||
+      a.totalDays - b.totalDays ||
+      b.holidayNames.length - a.holidayNames.length ||
+      a.start.getTime() - b.start.getTime(),
+    );
+
+  const best = plans[0] ?? null;
+  if (!best) return { best: null, alternatives: [] as BreakPlan[] };
+
+  const alternatives = plans
+    .filter((plan) => planKey(plan) !== planKey(best))
+    .filter((plan, index, list) =>
+      list.findIndex((candidate) =>
+        candidate.ptoDays.length === plan.ptoDays.length &&
+        candidate.totalDays === plan.totalDays &&
+        toKey(candidate.start) === toKey(plan.start),
+      ) === index,
+    )
+    .slice(0, 5);
+
+  return { best, alternatives };
 }
 
 export function getNextHoliday(today: Date): NextHoliday | null {
