@@ -2,27 +2,10 @@ import Link from "next/link";
 import CalculatorSearch from "./_components/CalculatorSearch";
 import RecentCalculators from "./_components/RecentCalculators";
 import SavedCalculations from "./_components/SavedCalculations";
-import HolidayHomeCard from "./_components/HolidayHomeCard";
 import {
-  CALCULATOR_BY_HREF,
   CALCULATOR_CATEGORIES,
   CALCULATORS,
 } from "./_lib/calculators";
-
-const frequentHrefs = [
-  "/job-change",
-  "/salary",
-  "/loan",
-  "/holiday-tracker",
-  "/retirement",
-  "/annual-leave",
-  "/discount",
-  "/median-income",
-];
-
-const frequentCalculators = frequentHrefs
-  .map((href) => CALCULATOR_BY_HREF[href])
-  .filter(Boolean);
 
 const situations = [
   ["💼", "이직이 이득일까?", "연봉·시간·통근까지 비교", "/job-change"],
@@ -43,7 +26,7 @@ export default function Home() {
 
           <nav className="hidden items-center gap-7 text-sm font-medium text-slate-600 sm:flex">
             <a href="#situations" className="hover:text-slate-950">상황별</a>
-            <a href="#popular" className="hover:text-slate-950">추천 계산기</a>
+            <a href="#my-calculations" className="hover:text-slate-950">내 계산함</a>
             <a href="#all-calculators" className="hover:text-slate-950">전체 계산기</a>
             <Link href="/about" className="hover:text-slate-950">계산정보</Link>
           </nav>
@@ -94,13 +77,13 @@ export default function Home() {
                 }`}
               >
                 <span className="text-lg" aria-hidden="true">{icon}</span>
-                <p className="mt-2 text-xs font-semibold text-slate-400">{prefix}</p>
+                <p className="mt-2 text-xs font-semibold text-slate-500">{prefix}</p>
                 <p className="mt-0.5 text-base font-bold text-slate-900">{question}</p>
               </Link>
             ))}
           </div>
 
-          <p className="mt-5 text-xs font-semibold text-slate-400">원하는 계산기가 따로 있다면 아래에서 바로 검색하세요.</p>
+          <p className="mt-5 text-xs font-semibold text-slate-500">원하는 계산기가 따로 있다면 아래에서 바로 검색하세요.</p>
           <div id="calculator-search" className="scroll-mt-24">
             <CalculatorSearch items={CALCULATORS} />
           </div>
@@ -127,10 +110,6 @@ export default function Home() {
         </div>
       </section>
 
-      <HolidayHomeCard />
-
-      <SavedCalculations />
-
       <section id="situations" className="scroll-mt-24 px-5 pb-12 sm:pb-14">
         <div className="mx-auto max-w-6xl">
           <div className="mb-5">
@@ -148,7 +127,7 @@ export default function Home() {
                 data-ga-destination={href}
                 className="group rounded-2xl border border-slate-200 bg-white p-5 transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-sm"
               >
-                <div className="text-2xl">{icon}</div>
+                <div className="text-2xl" aria-hidden="true">{icon}</div>
                 <p className="mt-3 font-bold text-slate-900">{title}</p>
                 <p className="mt-1 text-xs leading-5 text-slate-500">{description}</p>
                 <p className="mt-4 text-xs font-semibold text-blue-600">바로 계산 →</p>
@@ -164,34 +143,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="popular" className="scroll-mt-24 px-5 pb-12 sm:pb-14">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-5 flex items-end justify-between gap-4">
-            <div>
-              <h2 className="text-2xl font-bold">추천 계산기</h2>
-              <p className="mt-2 text-sm text-slate-500">판단이 필요한 계산과 자주 쓰는 기능부터 골랐어요.</p>
-            </div>
-          </div>
-
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {frequentCalculators.map((calculator) => (
-              <Link
-                key={calculator.href}
-                href={calculator.href}
-                className="rounded-2xl border border-slate-200 bg-white p-5 transition hover:border-blue-200 hover:shadow-sm"
-              >
-                <div className="flex items-start gap-3">
-                  <span className="text-xl">{calculator.icon}</span>
-                  <div>
-                    <h3 className="font-bold text-slate-900">{calculator.title}</h3>
-                    <p className="mt-1 text-xs leading-5 text-slate-500">{calculator.description}</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SavedCalculations />
 
       <RecentCalculators />
 
@@ -222,9 +174,9 @@ export default function Home() {
               return (
                 <section key={category.id}>
                   <div className="mb-3 flex items-center gap-2">
-                    <span>{category.icon}</span>
+                    <span aria-hidden="true">{category.icon}</span>
                     <h3 className="font-bold text-slate-900">{category.title}</h3>
-                    <span className="text-xs text-slate-400">{category.description}</span>
+                    <span className="text-xs text-slate-500">{category.description}</span>
                   </div>
                   <div className="grid gap-x-6 gap-y-1 border-t border-slate-200 pt-2 sm:grid-cols-2 lg:grid-cols-3">
                     {items.map((item) => (
@@ -234,7 +186,7 @@ export default function Home() {
                         className="flex items-center justify-between gap-4 border-b border-slate-100 py-3 text-sm hover:text-blue-600"
                       >
                         <span className="font-medium">{item.title}</span>
-                        <span className="text-xs text-slate-400">→</span>
+                        <span className="text-xs text-slate-500">→</span>
                       </Link>
                     ))}
                   </div>

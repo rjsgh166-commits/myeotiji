@@ -139,9 +139,9 @@ export default function HolidayGuidePage({ guide }: { guide: HolidayGuide }) {
         </section>
 
         <section className="mt-10 rounded-3xl bg-blue-600 p-6 text-white sm:p-8">
-          <p className="text-sm font-semibold text-blue-100">남은 연차가 더 있다면</p>
+          <p className="text-sm font-semibold text-white">남은 연차가 더 있다면</p>
           <h2 className="mt-2 text-2xl font-bold">한 번의 연휴 말고, 1년 전체 연차를 최적화하세요.</h2>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-blue-100">남은 연차를 입력하면 한 번 길게 · 효율 최우선 · 자주 쉬기 기준으로 서로 겹치지 않는 연휴 포트폴리오를 계산합니다.</p>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-white">남은 연차를 입력하면 한 번 길게 · 효율 최우선 · 자주 쉬기 기준으로 서로 겹치지 않는 연휴 포트폴리오를 계산합니다.</p>
           <div className="mt-5"><HolidayPlannerButton ptoBudget={guide.plannerBudget} style={guide.plannerStyle} /></div>
         </section>
 
@@ -164,7 +164,7 @@ export default function HolidayGuidePage({ guide }: { guide: HolidayGuide }) {
         <section className="mt-10 rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
           <h2 className="font-bold text-emerald-950">공식 기준</h2>
           <p className="mt-2 text-sm leading-6 text-emerald-900">2027년 공휴일과 3일 이상 연휴 일정은 우주항공청이 2026년 6월 29일 발표한 「2027년 월력요항」을 기준으로 확인했습니다. 이후 별도 지정되는 임시공휴일과 회사별 휴무일은 달라질 수 있어요.</p>
-          <a href={OFFICIAL_URL} target="_blank" rel="noreferrer" className="mt-3 inline-flex text-sm font-bold text-emerald-800 hover:text-emerald-950">우주항공청 공식자료 확인 →</a>
+          <a href={OFFICIAL_URL} target="_blank" rel="noreferrer" className="mt-3 inline-flex text-sm font-bold text-emerald-800 hover:text-emerald-950">우주항공청 공식자료 확인 ↗<span className="sr-only"> (새 창)</span></a>
         </section>
 
         <div className="mt-8 flex flex-wrap gap-3">

@@ -71,13 +71,13 @@ function SeptemberCalendar() {
     <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h3 className="text-lg font-bold">2027년 9월</h3>
-        <div className="flex flex-wrap gap-2 text-[11px] font-semibold">
+        <div className="flex flex-wrap gap-2 text-xs font-semibold">
           <span className="rounded-full bg-red-50 px-2.5 py-1 text-red-600">공휴일</span>
           <span className="rounded-full bg-blue-50 px-2.5 py-1 text-blue-600">추천 연차</span>
           <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-500">주말</span>
         </div>
       </div>
-      <div className="mt-5 grid grid-cols-7 gap-1 text-center text-xs font-semibold text-slate-400">
+      <div className="mt-5 grid grid-cols-7 gap-1 text-center text-xs font-semibold text-slate-500">
         {['일','월','화','수','목','금','토'].map((day) => <div key={day} className="py-2">{day}</div>)}
       </div>
       <div className="grid grid-cols-7 gap-1 text-center text-sm">
@@ -90,7 +90,7 @@ function SeptemberCalendar() {
           return (
             <div key={day} className={`relative flex min-h-12 items-center justify-center rounded-xl font-semibold ${holiday ? 'bg-red-50 text-red-600' : pto ? 'bg-blue-600 text-white' : weekend ? 'bg-slate-100 text-slate-600' : active ? 'bg-amber-50 text-slate-800' : 'text-slate-700'}`}>
               {day}
-              {pto && <span className="absolute bottom-1 text-[8px] font-bold">연차</span>}
+              {pto && <span className="absolute bottom-1 text-[11px] font-bold">연차</span>}
             </div>
           );
         })}
@@ -228,7 +228,7 @@ export default function Holiday2027Page() {
               <h2 className="text-2xl font-bold">2027년 공휴일 핵심 일정</h2>
               <p className="mt-2 text-sm text-slate-500">노동절·제헌절 공휴일과 대체공휴일까지 반영했어요.</p>
             </div>
-            <a href="https://www.kasa.go.kr/prog/plcyBrf/brief/kor/sub01_01_04/view.do?plcyBrfNo=431" target="_blank" rel="noreferrer" className="text-sm font-bold text-blue-600 hover:text-blue-700">우주항공청 공식자료 →</a>
+            <a href="https://www.kasa.go.kr/prog/plcyBrf/brief/kor/sub01_01_04/view.do?plcyBrfNo=431" target="_blank" rel="noreferrer" className="text-sm font-bold text-blue-600 hover:text-blue-700">우주항공청 공식자료 ↗<span className="sr-only"> (새 창)</span></a>
           </div>
           <div className="mt-5 grid gap-x-6 sm:grid-cols-2">
             {holidays.map(([date, name]) => (
@@ -241,9 +241,9 @@ export default function Holiday2027Page() {
         </section>
 
         <section className="mt-8 rounded-3xl bg-blue-600 p-6 text-white sm:p-8">
-          <p className="text-sm font-semibold text-blue-100">남은 연차 전체를 배분해보고 싶다면</p>
+          <p className="text-sm font-semibold text-white">남은 연차 전체를 배분해보고 싶다면</p>
           <h2 className="mt-2 text-2xl font-bold">연차 7일을 어디에 쓰면 가장 잘 쉴까요?</h2>
-          <p className="mt-2 text-sm leading-6 text-blue-100">한 번 길게 · 효율 최우선 · 자주 쉬기 스타일별로 서로 겹치지 않는 연휴 조합을 계산해보세요.</p>
+          <p className="mt-2 text-sm leading-6 text-white">한 번 길게 · 효율 최우선 · 자주 쉬기 스타일별로 서로 겹치지 않는 연휴 조합을 계산해보세요.</p>
           <Link href="/holiday-tracker" className="mt-5 inline-flex rounded-xl bg-white px-5 py-3 text-sm font-bold text-blue-700 transition hover:bg-blue-50">내 연차 최적화 →</Link>
         </section>
 

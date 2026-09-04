@@ -9,6 +9,7 @@ import RelatedCalculators from "../_components/RelatedCalculators";
 import ResultActionBar from "../_components/ResultActionBar";
 import DecisionSummaryCard from "../_components/DecisionSummaryCard";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
+import AccessibleResultStatus from "../_components/AccessibleResultStatus";
 import TrustStrip from "../_components/TrustStrip";
 import CalculationAnalytics from "../_components/CalculationAnalytics";
 import { consumeCalculationTransfer } from "../_lib/calculationTransfer";
@@ -110,7 +111,7 @@ function ResultRow({
   const isNegative = value < 0;
   return (
     <div className="flex items-center justify-between gap-4">
-      <span className="text-slate-400">{label}</span>
+      <span className="text-slate-500">{label}</span>
       <span className="font-semibold text-slate-200">
         {isNegative ? "- " : ""}
         {formatWon(Math.abs(value))}
@@ -138,7 +139,7 @@ function ComparisonCard({
     >
       <p
         className={`text-xs font-black ${
-          accent ? "text-blue-100" : "text-slate-400"
+          accent ? "text-white" : "text-slate-500"
         }`}
       >
         {label}
@@ -148,19 +149,19 @@ function ComparisonCard({
       </p>
       <div className="mt-5 space-y-3 text-sm">
         <div className="flex items-center justify-between gap-4">
-          <span className={accent ? "text-blue-100" : "text-slate-500"}>
+          <span className={accent ? "text-white" : "text-slate-500"}>
             월 세전
           </span>
           <strong>{formatWon(result.monthlyGross)}</strong>
         </div>
         <div className="flex items-center justify-between gap-4">
-          <span className={accent ? "text-blue-100" : "text-slate-500"}>
+          <span className={accent ? "text-white" : "text-slate-500"}>
             월 공제
           </span>
           <strong>{formatWon(result.totalDeduction)}</strong>
         </div>
         <div className="flex items-center justify-between gap-4 border-t border-current/10 pt-3">
-          <span className={accent ? "text-blue-100" : "text-slate-600"}>
+          <span className={accent ? "text-white" : "text-slate-600"}>
             월 실수령
           </span>
           <strong className="text-lg">{formatWon(result.netSalary)}</strong>
@@ -277,6 +278,7 @@ export default function SalaryPage() {
             type="button"
             data-calculation-control="true"
             onClick={() => setView("single")}
+            aria-pressed={view === "single"}
             className={`rounded-lg px-4 py-2.5 text-sm font-semibold transition ${view === "single" ? "bg-blue-600 text-white" : "text-slate-600 hover:bg-slate-50"}`}
           >
             내 실수령액
@@ -285,6 +287,7 @@ export default function SalaryPage() {
             type="button"
             data-calculation-control="true"
             onClick={() => setView("compare")}
+            aria-pressed={view === "compare"}
             className={`rounded-lg px-4 py-2.5 text-sm font-semibold transition ${view === "compare" ? "bg-blue-600 text-white" : "text-slate-600 hover:bg-slate-50"}`}
           >
             연봉 비교
@@ -309,7 +312,7 @@ export default function SalaryPage() {
                     onChange={(e) => setAnnualSalary(Number(e.target.value))}
                     className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 pr-16 text-lg font-bold outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"
                   />
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-500">
                     만원
                   </span>
                 </div>
@@ -328,11 +331,11 @@ export default function SalaryPage() {
                     onChange={(e) => setMonthlyTaxFree(Number(e.target.value))}
                     className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 pr-16 text-lg font-bold outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"
                   />
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-500">
                     만원
                   </span>
                 </div>
-                <p className="mt-2 text-xs leading-5 text-slate-400">
+                <p className="mt-2 text-xs leading-5 text-slate-500">
                   식대 등 매월 급여에 포함된 비과세 금액을 입력하세요.
                 </p>
               </label>
@@ -352,11 +355,11 @@ export default function SalaryPage() {
                     }
                     className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 pr-14 text-lg font-bold outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"
                   />
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-500">
                     명
                   </span>
                 </div>
-                <p className="mt-2 text-xs leading-5 text-slate-400">
+                <p className="mt-2 text-xs leading-5 text-slate-500">
                   본인을 포함해 입력하세요. 배우자도 공제대상이라면 1명으로
                   포함합니다.
                 </p>
@@ -377,7 +380,7 @@ export default function SalaryPage() {
                     }
                     className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 pr-14 text-lg font-bold outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"
                   />
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-500">
                     명
                   </span>
                 </div>
@@ -386,7 +389,7 @@ export default function SalaryPage() {
           </section>
 
           <section className="rounded-3xl bg-slate-950 p-6 text-white shadow-sm sm:p-8">
-            <p className="text-sm font-semibold text-slate-400">월 급여 공제 내역</p>
+            <p className="text-sm font-semibold text-slate-500">월 급여 공제 내역</p>
 
             <div className="mt-4 flex items-end justify-between gap-4">
               <span className="text-sm font-bold text-slate-300">월 세전 급여</span>
@@ -417,13 +420,13 @@ export default function SalaryPage() {
             </div>
 
             <div className="mt-6 rounded-2xl bg-blue-600 p-5 sm:p-6">
-              <p className="text-sm font-bold text-blue-100">
+              <p className="text-sm font-bold text-white">
                 예상 월 실수령액
               </p>
               <div className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">
                 {formatWon(result.netSalary)}
               </div>
-              <p className="mt-2 text-xs font-semibold text-blue-100">
+              <p className="mt-2 text-xs font-semibold text-white">
                 월 세전 급여에서 4대보험과 세금을 공제한 예상 금액이에요.
               </p>
             </div>
@@ -490,7 +493,7 @@ export default function SalaryPage() {
                 onChange={(e) => setCompareSalary(Number(e.target.value))}
                 className="w-full rounded-2xl border border-blue-200 bg-blue-50/50 px-4 py-4 pr-16 text-lg font-black outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"
               />
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-500">
                 만원
               </span>
             </div>
@@ -584,6 +587,12 @@ export default function SalaryPage() {
         </section>
 
         <RelatedCalculators currentHref="/salary" />
+        <AccessibleResultStatus
+          signature={`${view}|${annualSalary}|${compareSalary}|${monthlyTaxFree}|${familyCount}|${childrenCount}`}
+          message={view === "compare"
+            ? `계산 결과가 업데이트되었습니다. 비교 연봉의 월 실수령 차이는 ${formatSignedWon(monthlyNetDifference)}입니다.`
+            : `계산 결과가 업데이트되었습니다. 예상 월 실수령액은 ${formatWon(result.netSalary)}입니다.`}
+        />
       </div>
     </main>
   );

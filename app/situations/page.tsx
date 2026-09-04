@@ -89,7 +89,7 @@ export default function SituationsPage() {
         <nav className="mt-6 flex gap-2 overflow-x-auto pb-2">
           {situations.map((situation) => (
             <a key={situation.id} href={`#${situation.id}`} className="shrink-0 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 hover:border-blue-200 hover:text-blue-700">
-              {situation.icon} {situation.title}
+              <span aria-hidden="true">{situation.icon}</span> {situation.title}
             </a>
           ))}
         </nav>
@@ -98,7 +98,7 @@ export default function SituationsPage() {
           {situations.map((situation) => (
             <section id={situation.id} key={situation.id} className="scroll-mt-24 border-t border-slate-200 pt-7">
               <div className="flex items-start gap-4">
-                <div className="text-2xl">{situation.icon}</div>
+                <div className="text-2xl" aria-hidden="true">{situation.icon}</div>
                 <div>
                   <h2 className="text-xl font-bold">{situation.title}</h2>
                   <p className="mt-1 text-sm leading-6 text-slate-500">{situation.description}</p>
@@ -117,7 +117,7 @@ export default function SituationsPage() {
                           <h3 className="font-semibold text-slate-900 group-hover:text-blue-700">{title}</h3>
                           <p className="mt-1 text-xs leading-5 text-slate-500">{description}</p>
                         </div>
-                        <span className="shrink-0 text-sm text-slate-400">→</span>
+                        <span className="shrink-0 text-sm text-slate-500">→</span>
                       </div>
                     </Link>
                   </div>

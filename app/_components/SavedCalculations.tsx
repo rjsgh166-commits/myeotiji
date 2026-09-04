@@ -87,7 +87,7 @@ export default function SavedCalculations() {
               </p>
             </div>
             {hydrated && items.length > 0 ? (
-              <span className="text-xs font-semibold text-slate-400">
+              <span className="text-xs font-semibold text-slate-500">
                 {items.length}/{MAX_SAVED_CALCULATIONS}
               </span>
             ) : null}
@@ -118,7 +118,7 @@ export default function SavedCalculations() {
                     <button
                       type="button"
                       onClick={() => remove(item)}
-                      className="shrink-0 text-xs font-medium text-slate-400 hover:text-slate-700"
+                      className="min-h-11 shrink-0 rounded-lg px-2 text-xs font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-800 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
                       aria-label={`${item.title} 저장 삭제`}
                     >
                       삭제
@@ -129,7 +129,7 @@ export default function SavedCalculations() {
                     <Link
                       href={cleanPath(item.href)}
                       onClick={() => prepareOpen(item)}
-                      className="inline-flex text-sm font-semibold text-blue-600 hover:text-blue-700"
+                      className="inline-flex min-h-11 items-center rounded-lg text-sm font-semibold text-blue-600 hover:text-blue-700 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
                     >
                       다시 열기 →
                     </Link>
@@ -142,9 +142,9 @@ export default function SavedCalculations() {
       </section>
 
       {undoItem ? (
-        <div className="fixed bottom-5 left-1/2 z-50 flex -translate-x-1/2 items-center gap-4 rounded-full bg-slate-950 px-4 py-3 text-sm text-white shadow-lg">
+        <div className="fixed bottom-5 left-1/2 z-50 flex -translate-x-1/2 items-center gap-4 rounded-full bg-slate-950 px-4 py-3 text-sm text-white shadow-lg" role="status" aria-live="polite">
           <span>계산을 삭제했어요.</span>
-          <button type="button" onClick={undo} className="font-bold text-blue-300">
+          <button type="button" onClick={undo} className="min-h-10 rounded-lg px-2 font-bold text-blue-200 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
             실행취소
           </button>
         </div>

@@ -5,6 +5,7 @@ import RelatedCalculators from "../_components/RelatedCalculators";
 import ResultActionBar from "../_components/ResultActionBar";
 import DecisionSummaryCard from "../_components/DecisionSummaryCard";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
+import AccessibleResultStatus from "../_components/AccessibleResultStatus";
 import TrustStrip from "../_components/TrustStrip";
 import CoupangDeals from "../_components/CoupangDeals";
 import { useEffect, useMemo, useState } from "react";
@@ -59,6 +60,7 @@ function ModeButton({
       type="button"
       data-calculation-control="true"
       onClick={onClick}
+      aria-pressed={active}
       className={`flex-1 rounded-xl border px-3 py-3 text-xs font-semibold transition sm:px-4 sm:text-sm ${
         active
           ? "border-blue-600 bg-blue-50 text-blue-700"
@@ -285,7 +287,7 @@ export default function DiscountPage() {
                     placeholder="100,000"
                     className="h-14 w-full rounded-2xl border border-gray-200 bg-white px-4 pr-12 text-right text-lg font-bold outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
                   />
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500">
                     원
                   </span>
                 </div>
@@ -305,7 +307,7 @@ export default function DiscountPage() {
                       placeholder="20"
                       className="h-14 w-full rounded-2xl border border-gray-200 bg-white px-4 pr-12 text-right text-lg font-bold outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
                     />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500">
                       %
                     </span>
                   </div>
@@ -340,7 +342,7 @@ export default function DiscountPage() {
                       placeholder="80,000"
                       className="h-14 w-full rounded-2xl border border-gray-200 bg-white px-4 pr-12 text-right text-lg font-bold outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
                     />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500">
                       원
                     </span>
                   </div>
@@ -367,7 +369,7 @@ export default function DiscountPage() {
                           onChange={(e) => setFirstRate(e.target.value)}
                           className="h-14 w-full rounded-2xl border border-gray-200 px-4 pr-12 text-right text-lg font-bold outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
                         />
-                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">%</span>
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500">%</span>
                       </div>
                     </label>
                     <label className="block">
@@ -382,7 +384,7 @@ export default function DiscountPage() {
                           onChange={(e) => setSecondRate(e.target.value)}
                           className="h-14 w-full rounded-2xl border border-gray-200 px-4 pr-12 text-right text-lg font-bold outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
                         />
-                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">%</span>
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500">%</span>
                       </div>
                     </label>
                   </div>
@@ -402,9 +404,9 @@ export default function DiscountPage() {
                         placeholder="5,000"
                         className="h-14 w-full rounded-2xl border border-gray-200 px-4 pr-12 text-right text-lg font-bold outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
                       />
-                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">원</span>
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500">원</span>
                     </div>
-                    <p className="mt-2 text-xs leading-5 text-gray-400">
+                    <p className="mt-2 text-xs leading-5 text-gray-500">
                       쿠폰이 없다면 0원으로 두면 돼요.
                     </p>
                   </label>
@@ -599,6 +601,12 @@ export default function DiscountPage() {
         </section>
 
         <RelatedCalculators currentHref="/discount" />
+        <AccessibleResultStatus
+          signature={`${mode}|${originalPrice}|${discountRate}|${salePrice}|${firstRate}|${secondRate}|${couponAmount}`}
+          message={invalidSalePrice
+            ? "계산 결과가 업데이트되었습니다. 판매가가 정가보다 높아 할인으로 볼 수 없습니다."
+            : `계산 결과가 업데이트되었습니다. 실제 할인율은 ${formatPercent(result.rate)}, 최종 가격은 ${formatWon(result.finalPrice)}입니다.`}
+        />
       </div>
     </main>
   );

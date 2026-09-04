@@ -175,12 +175,13 @@ export default function ResultActionBar({
 
   return (
     <div className="mt-4 flex flex-wrap items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50/70 p-2.5">
-      <button type="button" onClick={share} className={buttonClass} aria-live="polite">
-        {copied ? "✓ 복사됨" : "↗ 공유"}
+      <button type="button" onClick={share} className={buttonClass}>
+        <span aria-hidden="true">{copied ? "✓ " : "↗ "}</span>{copied ? "복사됨" : "공유"}
       </button>
+      <span className="sr-only" role="status" aria-live="polite">{copied ? "공유 내용이 클립보드에 복사되었습니다." : ""}</span>
       {image ? (
         <button type="button" onClick={saveImage} className={buttonClass}>
-          ▣ 이미지
+          <span aria-hidden="true">▣ </span>이미지
         </button>
       ) : null}
       {children}

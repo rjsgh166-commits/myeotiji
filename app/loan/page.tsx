@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import MoneyInput from "../_components/MoneyInput";
 import RelatedCalculators from "../_components/RelatedCalculators";
@@ -8,6 +8,7 @@ import ResultActionBar from "../_components/ResultActionBar";
 import DecisionSummaryCard from "../_components/DecisionSummaryCard";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
 import StickyResultBar from "../_components/StickyResultBar";
+import AccessibleResultStatus from "../_components/AccessibleResultStatus";
 import ViewEventTracker from "../_components/ViewEventTracker";
 import TrustStrip from "../_components/TrustStrip";
 import CalculationAnalytics from "../_components/CalculationAnalytics";
@@ -146,7 +147,7 @@ function ResultCard({
     >
       <p
         className={`text-xs font-bold ${
-          accent ? "text-blue-100" : "text-gray-400"
+          accent ? "text-white" : "text-gray-500"
         }`}
       >
         {label}
@@ -177,6 +178,7 @@ function MethodSelector({
           type="button"
           data-calculation-control="true"
           onClick={() => onChange(id)}
+          aria-pressed={value === id}
           className={`rounded-xl px-2 py-3 text-xs font-bold transition ${
             value === id
               ? "bg-blue-600 text-white"
@@ -245,7 +247,7 @@ function ScenarioEditor({
               onChange={(event) => setRate(event.target.value)}
               className="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3.5 pr-12 text-base font-semibold outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-50"
             />
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">
+            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500">
               %
             </span>
           </div>
@@ -262,18 +264,18 @@ function ScenarioEditor({
               onChange={(event) => setMonths(event.target.value)}
               className="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3.5 pr-14 text-base font-semibold outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-50"
             />
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">
+            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500">
               개월
             </span>
           </div>
           <div className="mt-2 flex flex-wrap gap-2">
             {[12, 60, 120, 240, 360].map((value) => (
-              <button key={value} type="button" onClick={() => setMonths(String(value))} className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200">
+              <button key={value} type="button" onClick={() => setMonths(String(value))} aria-pressed={months === String(value)} className="min-h-10 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100">
                 {value / 12}년
               </button>
             ))}
           </div>
-          <p className="mt-2 text-xs text-slate-400">{Number(months) > 0 ? `${months}개월 · 약 ${(Number(months) / 12).toFixed(1)}년` : ""}</p>
+          <p className="mt-2 text-xs text-slate-500">{Number(months) > 0 ? `${months}개월 · 약 ${(Number(months) / 12).toFixed(1)}년` : ""}</p>
         </label>
 
         <div>
@@ -302,25 +304,25 @@ function ScenarioResult({
         accent ? "bg-blue-600 text-white" : "bg-slate-950 text-white"
       }`}
     >
-      <p className={`text-xs font-black ${accent ? "text-blue-100" : "text-slate-400"}`}>
+      <p className={`text-xs font-black ${accent ? "text-white" : "text-slate-500"}`}>
         {title} · {methodName(method)}
       </p>
       {result ? (
         <div className="mt-4 space-y-3 text-sm">
           <div className="flex items-center justify-between gap-4">
-            <span className={accent ? "text-blue-100" : "text-slate-400"}>
+            <span className={accent ? "text-white" : "text-slate-500"}>
               {result.mainLabel}
             </span>
             <strong>{won(result.main)}원</strong>
           </div>
           <div className="flex items-center justify-between gap-4">
-            <span className={accent ? "text-blue-100" : "text-slate-400"}>
+            <span className={accent ? "text-white" : "text-slate-500"}>
               총 이자
             </span>
             <strong>{won(result.totalInterest)}원</strong>
           </div>
           <div className="flex items-center justify-between gap-4 border-t border-white/10 pt-3">
-            <span className={accent ? "text-blue-100" : "text-slate-300"}>
+            <span className={accent ? "text-white" : "text-slate-300"}>
               총 상환금액
             </span>
             <strong className="text-base">{won(result.total)}원</strong>
@@ -355,6 +357,7 @@ export default function LoanPage() {
   const [bMonths, setBMonths] = useState("360");
   const [bMethod, setBMethod] = useState<Method>("annuity");
   const [samePrincipal, setSamePrincipal] = useState(true);
+  const differentBPrincipalRef = useRef("300000000");
 
   useEffect(() => {
     const transferred = consumeCalculationTransfer("/loan") || {};
@@ -381,6 +384,7 @@ export default function LoanPage() {
     setAMonths(read("aMonths", "360"));
     setAMethod(readMethod("aMethod", "annuity"));
     setBPrincipal(restoredBPrincipal);
+    differentBPrincipalRef.current = restoredBPrincipal;
     const restoredSamePrincipal = transferred.samePrincipal;
     setSamePrincipal(
       typeof restoredSamePrincipal === "boolean"
@@ -461,6 +465,7 @@ export default function LoanPage() {
           <button
             type="button"
             onClick={() => setView("single")}
+            aria-pressed={view === "single"}
             className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${view === "single" ? "bg-blue-600 text-white" : "text-slate-600 hover:bg-slate-50"}`}
           >
             하나 계산
@@ -468,6 +473,7 @@ export default function LoanPage() {
           <button
             type="button"
             onClick={() => setView("compare")}
+            aria-pressed={view === "compare"}
             className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${view === "compare" ? "bg-blue-600 text-white" : "text-slate-600 hover:bg-slate-50"}`}
           >
             두 조건 비교
@@ -495,7 +501,7 @@ export default function LoanPage() {
                   onChange={(event) => setRate(event.target.value)}
                   className="w-full rounded-2xl border border-gray-200 px-4 py-3.5 pr-12 text-base font-semibold outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-50"
                 />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">%</span>
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500">%</span>
               </div>
             </label>
 
@@ -510,16 +516,16 @@ export default function LoanPage() {
                   onChange={(event) => setMonths(event.target.value)}
                   className="w-full rounded-2xl border border-gray-200 px-4 py-3.5 pr-14 text-base font-semibold outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-50"
                 />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">개월</span>
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500">개월</span>
               </div>
               <div className="mt-2 flex flex-wrap gap-2">
                 {[12, 60, 120, 240, 360].map((value) => (
-                  <button key={value} type="button" onClick={() => setMonths(String(value))} className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200">
+                  <button key={value} type="button" onClick={() => setMonths(String(value))} aria-pressed={months === String(value)} className="min-h-10 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-100">
                     {value / 12}년
                   </button>
                 ))}
               </div>
-              <p className="mt-2 text-xs text-gray-400">
+              <p className="mt-2 text-xs text-gray-500">
                 {Number(months) > 0 ? `${months}개월 · 약 ${(Number(months) / 12).toFixed(1)}년` : ""}
               </p>
             </label>
@@ -531,7 +537,7 @@ export default function LoanPage() {
           </section>
 
           <section id="loan-single-result" className="scroll-mt-24 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-            <p className="text-sm font-bold text-gray-400">{methodName(method)} 예상 결과</p>
+            <p className="text-sm font-bold text-gray-500">{methodName(method)} 예상 결과</p>
 
             {result ? (
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -623,9 +629,16 @@ export default function LoanPage() {
                 type="button"
                 data-calculation-control="true"
                 onClick={() => {
-                  if (!samePrincipal) setBPrincipal(aPrincipal);
-                  setSamePrincipal((value) => !value);
+                  if (samePrincipal) {
+                    setBPrincipal(differentBPrincipalRef.current || aPrincipal);
+                    setSamePrincipal(false);
+                  } else {
+                    differentBPrincipalRef.current = bPrincipal;
+                    setBPrincipal(aPrincipal);
+                    setSamePrincipal(true);
+                  }
                 }}
+                aria-pressed={!samePrincipal}
                 className="rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50"
               >
                 {samePrincipal ? "금액을 다르게 비교" : "같은 금액으로 비교"}
@@ -649,7 +662,10 @@ export default function LoanPage() {
             <ScenarioEditor
               title="조건 B"
               principal={bPrincipal}
-              setPrincipal={setBPrincipal}
+              setPrincipal={(value) => {
+                setBPrincipal(value);
+                differentBPrincipalRef.current = value;
+              }}
               rate={bRate}
               setRate={setBRate}
               months={bMonths}
@@ -704,12 +720,12 @@ export default function LoanPage() {
                 <p className="mt-2 text-xs leading-5 text-slate-500">B의 기간과 상환방식은 그대로 두고, A와 총 이자가 같아지는 금리를 역산했어요.</p>
               </div>
               <div className="mt-4 rounded-xl bg-white px-4 py-3 text-center ring-1 ring-blue-100 sm:mt-0 sm:min-w-44">
-                <p className="text-[10px] text-slate-400">현재 B 금리 vs 마지노선</p>
+                <p className="text-xs text-slate-500">현재 B 금리 vs 마지노선</p>
                 <p className={`mt-1 text-base font-bold ${bRateGap !== null && bRateGap <= 0 ? "text-emerald-600" : "text-rose-600"}`}>{bRate}% · {bRateGap !== null && bRateGap <= 0 ? `${Math.abs(bRateGap).toFixed(2)}%p 여유` : `${Math.abs(bRateGap ?? 0).toFixed(2)}%p 높음`}</p>
               </div>
             </div>
           ) : view === "compare" && !samePrincipal ? (
-            <p className="mt-3 text-xs text-slate-400">금리 마지노선은 A와 B의 대출금액이 같을 때 표시해요.</p>
+            <p className="mt-3 text-xs text-slate-500">금리 마지노선은 A와 B의 대출금액이 같을 때 표시해요.</p>
           ) : null}
 
           {aResult && bResult && (
@@ -773,6 +789,18 @@ export default function LoanPage() {
         </section>
 
         <RelatedCalculators currentHref="/loan" />
+        <AccessibleResultStatus
+          signature={`${view}|${samePrincipal}|${principal}|${rate}|${months}|${method}|${aPrincipal}|${aRate}|${aMonths}|${aMethod}|${bPrincipal}|${bRate}|${bMonths}|${bMethod}`}
+          message={view === "single"
+            ? result
+              ? `계산 결과가 업데이트되었습니다. ${result.mainLabel}은 ${won(result.main)}원, 총 이자는 ${won(result.totalInterest)}원입니다.`
+              : "계산 결과를 확인하려면 대출 조건을 입력해주세요."
+            : aResult && bResult
+              ? bRateBreakEven !== null
+                ? `계산 결과가 업데이트되었습니다. B 금리 마지노선은 ${bRateBreakEven.toFixed(2)}퍼센트 이하입니다.`
+                : `계산 결과가 업데이트되었습니다. B와 A의 총 이자 차이는 ${signedWon(interestDifference)}입니다.`
+              : "두 대출 조건을 입력하면 비교 결과를 알려드립니다."}
+        />
       </div>
 
       {view === "single" && result ? (

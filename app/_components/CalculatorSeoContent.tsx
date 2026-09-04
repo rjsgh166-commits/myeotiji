@@ -1160,7 +1160,7 @@ export default function CalculatorSeoContent({ pathname }: { pathname: string })
                 {guide.eyebrow}
               </p>
               {guide.updated && (
-                <span className="rounded-full bg-gray-100 px-2.5 py-1 text-[11px] font-bold text-gray-500">
+                <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-bold text-gray-500">
                   {guide.updated}
                 </span>
               )}
@@ -1237,11 +1237,12 @@ export default function CalculatorSeoContent({ pathname }: { pathname: string })
                       )}
                     </div>
 
-                    <p className="border-t border-gray-200 bg-white px-4 pt-3 text-[11px] font-semibold text-gray-400 sm:hidden">
+                    <p className="border-t border-gray-200 bg-white px-4 pt-3 text-xs font-semibold text-gray-500 sm:hidden">
                       ← 표는 좌우로 밀어서 볼 수 있어요 →
                     </p>
                     <div className="overflow-x-auto overscroll-x-contain">
                       <table className="w-full min-w-max border-collapse text-left text-sm">
+                        <caption className="sr-only">{table.title}</caption>
                         <thead>
                           <tr className="border-t border-gray-200 bg-white">
                             {table.headers.map((header) => (
@@ -1321,14 +1322,14 @@ export default function CalculatorSeoContent({ pathname }: { pathname: string })
                     rel="noreferrer"
                     className="text-sm font-bold text-blue-600 hover:text-blue-700"
                   >
-                    {link.label} →
+                    {link.label} ↗<span className="sr-only"> (새 창)</span>
                   </a>
                 ))}
               </div>
             </section>
           )}
 
-          <div className="mt-7 text-xs leading-6 text-gray-400">
+          <div className="mt-7 text-xs leading-6 text-gray-500">
             {guide.note ??
               "몇이지?의 계산 결과와 안내 내용은 이해를 돕기 위한 참고용입니다. 법령·요율·개인별 조건에 따라 실제 결과가 달라질 수 있으므로 중요한 의사결정에는 관계기관의 최신 공식자료를 함께 확인하세요."}
           </div>

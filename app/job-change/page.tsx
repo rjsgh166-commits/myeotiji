@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import ResultActionBar from "../_components/ResultActionBar";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
 import StickyResultBar from "../_components/StickyResultBar";
+import AccessibleResultStatus from "../_components/AccessibleResultStatus";
 import TrustStrip from "../_components/TrustStrip";
 import CalculationAnalytics from "../_components/CalculationAnalytics";
 import ViewEventTracker from "../_components/ViewEventTracker";
@@ -160,24 +161,54 @@ function NumericInput({
   min?: number;
   description?: string;
 }) {
+  const [draft, setDraft] = useState(String(value));
+  const [editing, setEditing] = useState(false);
+
+  useEffect(() => {
+    if (!editing) setDraft(String(value));
+  }, [value, editing]);
+
+  const commit = () => {
+    const parsed = Number(draft);
+    if (draft.trim() === "" || !Number.isFinite(parsed)) {
+      setDraft(String(value));
+      return;
+    }
+    const next = Math.max(min, parsed);
+    onChange(next);
+    setDraft(String(next));
+  };
+
   return (
     <label className="block">
       <span className="text-sm font-bold text-slate-700">{label}</span>
       <div className="relative mt-2">
         <input
           type="number"
+          inputMode="decimal"
           min={min}
           step={step}
-          value={value}
-          onChange={(event) => onChange(Number(event.target.value))}
+          value={draft}
+          onFocus={() => setEditing(true)}
+          onChange={(event) => {
+            const raw = event.target.value;
+            setDraft(raw);
+            if (raw.trim() === "") return;
+            const parsed = Number(raw);
+            if (Number.isFinite(parsed)) onChange(Math.max(min, parsed));
+          }}
+          onBlur={() => {
+            setEditing(false);
+            commit();
+          }}
           className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 pr-16 text-base font-bold outline-none transition focus:border-violet-500 focus:bg-white focus:ring-4 focus:ring-violet-50"
         />
-        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">
+        <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500" aria-hidden="true">
           {unit}
         </span>
       </div>
       {description && (
-        <p className="mt-1.5 text-xs leading-5 text-slate-400">{description}</p>
+        <p className="mt-1.5 text-xs leading-5 text-slate-500">{description}</p>
       )}
     </label>
   );
@@ -251,6 +282,7 @@ function ScenarioEditor({
                   type="button"
                   data-calculation-control="true"
                   onClick={() => set("commuteDays", days)}
+                  aria-pressed={scenario.commuteDays === days}
                   className={`rounded-xl border px-2 py-3 text-sm font-semibold transition ${
                     scenario.commuteDays === days
                       ? "border-violet-500 bg-violet-50 text-violet-700"
@@ -261,7 +293,7 @@ function ScenarioEditor({
                 </button>
               ))}
             </div>
-            <p className="mt-1.5 text-xs leading-5 text-slate-400">현재 {scenario.commuteDays}일 · 재택일은 제외한 주 평균 출근일</p>
+            <p className="mt-1.5 text-xs leading-5 text-slate-500">현재 {scenario.commuteDays}일 · 재택일은 제외한 주 평균 출근일</p>
           </div>
         ) : null}
         {advanced ? (
@@ -339,6 +371,7 @@ export default function JobChangePage() {
     monthlyWorkCost: 0,
     annualExtraValue: 0,
   });
+  const [undoOffer, setUndoOffer] = useState<Scenario | null>(null);
 
   useEffect(() => {
     const transferred = consumeCalculationTransfer("/job-change") || {};
@@ -516,16 +549,16 @@ export default function JobChangePage() {
             <p className="text-sm font-semibold text-slate-800">입력은 간단하게 시작해도 돼요</p>
             <p className="mt-1 text-xs text-slate-500">기본은 연봉·근무시간·출퇴근·주 출근일만 비교합니다.</p>
           </div>
-          <button type="button" onClick={() => setAdvanced((value) => !value)} className="rounded-xl bg-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-200">
+          <button type="button" onClick={() => setAdvanced((value) => !value)} aria-expanded={advanced} aria-controls="job-change-advanced" className="min-h-11 rounded-xl bg-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-100">
             {advanced ? "간편 계산으로" : "+ 상세 조건까지 반영"}
           </button>
         </div>
 
         {advanced ? (
-        <section className="mt-4 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
+        <section id="job-change-advanced" className="mt-4 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-xs font-black text-slate-400">공통 세금 조건</p>
+              <p className="text-xs font-black text-slate-500">공통 세금 조건</p>
               <h2 className="mt-1 text-lg font-black">두 직장에 같은 가족 조건을 적용해요</h2>
             </div>
             <div className="grid w-full gap-3 sm:w-auto sm:grid-cols-2">
@@ -538,7 +571,7 @@ export default function JobChangePage() {
 
         <div className="mt-5 grid gap-5 lg:grid-cols-2">
           <ScenarioEditor title="A. 현재 직장" scenario={current} setScenario={setCurrent} advanced={advanced} />
-          <ScenarioEditor title="B. 이직 제안" scenario={offer} setScenario={setOffer} accent advanced={advanced} />
+          <ScenarioEditor title="B. 이직 제안" scenario={offer} setScenario={(scenario) => { setOffer(scenario); setUndoOffer(null); }} accent advanced={advanced} />
         </div>
 
         <section id="job-change-decision" className="mt-6 scroll-mt-24 overflow-hidden rounded-3xl bg-slate-950 p-6 text-white shadow-sm sm:p-8">
@@ -610,7 +643,7 @@ export default function JobChangePage() {
                   </p>
                   {item.salaryEquivalent > 0 ? (
                     <div className="mt-3 rounded-xl bg-violet-50 px-3 py-2.5">
-                      <p className="text-[10px] font-semibold text-violet-500">연봉으로 환산한 조건 가치</p>
+                      <p className="text-xs font-semibold text-violet-600">연봉으로 환산한 조건 가치</p>
                       <p className="mt-0.5 text-sm font-bold text-violet-800">약 +{item.salaryEquivalent.toLocaleString("ko-KR")}만원</p>
                     </div>
                   ) : null}
@@ -620,8 +653,8 @@ export default function JobChangePage() {
                     data-ga-event="what_if_apply"
                     data-ga-scenario={item.id}
                     data-ga-calculator="job_change"
-                    onClick={() => setOffer(item.scenario)}
-                    className="mt-4 text-sm font-semibold text-violet-700 hover:text-violet-900"
+                    onClick={() => { setUndoOffer({ ...offer }); setOffer(item.scenario); }}
+                    className="mt-4 min-h-11 rounded-lg px-2 text-sm font-semibold text-violet-700 hover:bg-violet-50 hover:text-violet-900 focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-100"
                   >
                     이 조건 적용 →
                   </button>
@@ -631,7 +664,7 @@ export default function JobChangePage() {
             <div className="mt-5 rounded-2xl border border-violet-100 bg-violet-50/60 p-4 text-sm leading-6 text-violet-900">
               <strong>협상에 이렇게 써보세요.</strong> 연봉으로 환산한 조건 가치는 해당 조건 개선으로 이직 마지노선이 얼마나 낮아지는지를 뜻해요. 예를 들어 +200만원이면 그 조건 개선이 대략 연봉 200만원 인상과 비슷한 효과를 낸다는 의미입니다.
             </div>
-            <p className="mt-4 text-xs leading-5 text-slate-400">
+            <p className="mt-4 text-xs leading-5 text-slate-500">
               What-if는 다른 조건은 그대로 두고 한 가지 조건만 바꿔 비교한 참고값이에요.
             </p>
           </section>
@@ -643,7 +676,7 @@ export default function JobChangePage() {
               <p className="text-xs font-semibold text-violet-600">두 조건 비교</p>
               <h2 className="mt-1 text-xl font-bold">왜 이런 결론이 나왔을까?</h2>
             </div>
-            <p className="text-xs text-slate-400">보너스·복지는 사용자가 입력한 체감가치를 그대로 사용</p>
+            <p className="text-xs text-slate-500">보너스·복지는 사용자가 입력한 체감가치를 그대로 사용</p>
           </div>
 
           <div className="mt-5 grid gap-4 lg:grid-cols-2">
@@ -713,7 +746,19 @@ export default function JobChangePage() {
           <Link href="/retirement" data-ga-event="calculation_continue" data-ga-from-calculator="job_change" data-ga-destination="/retirement" className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">퇴직금까지 확인 →</Link>
           <Link href="/situations" data-ga-event="calculation_continue" data-ga-from-calculator="job_change" data-ga-destination="/situations" className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">상황별 계산 가이드 →</Link>
         </div>
+        <AccessibleResultStatus
+          signature={`${familyCount}|${childrenCount}|${Object.values(current).join("|")}|${Object.values(offer).join("|")}`}
+          message={`계산 결과가 업데이트되었습니다. 이직 마지노선 연봉은 ${result.breakEvenSalary.toLocaleString("ko-KR")}만원입니다.`}
+        />
       </div>
+
+      {undoOffer ? (
+        <div className="fixed bottom-24 left-1/2 z-[60] flex -translate-x-1/2 items-center gap-3 rounded-full bg-slate-950 px-4 py-3 text-sm text-white shadow-xl lg:bottom-6" role="status" aria-live="polite">
+          <span>제안 조건을 적용했어요.</span>
+          <button type="button" onClick={() => { setOffer(undoOffer); setUndoOffer(null); }} className="min-h-10 rounded-lg px-2 font-bold text-violet-200 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white">되돌리기</button>
+          <button type="button" onClick={() => setUndoOffer(null)} className="min-h-10 min-w-10 rounded-lg text-slate-300 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white" aria-label="알림 닫기">✕</button>
+        </div>
+      ) : null}
 
       <StickyResultBar
         calculator="job_change"
