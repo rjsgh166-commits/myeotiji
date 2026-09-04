@@ -74,7 +74,7 @@ export default function Home() {
             <span className="text-blue-600">몇이지?</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-500 sm:text-lg">
-            계산한 숫자가 무슨 뜻인지까지. 비교하고, 저장하고, 다음 계산으로 이어가세요.
+            숫자만 계산하지 않습니다. 어디부터 이득인지 비교하고, 저장하고, 다음 계산으로 이어가세요.
           </p>
 
           <div id="calculator-search" className="scroll-mt-24">

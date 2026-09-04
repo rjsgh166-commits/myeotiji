@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import RelatedCalculators from "../_components/RelatedCalculators";
-import ResultShareButton from "../_components/ResultShareButton";
-import ResultImageButton from "../_components/ResultImageButton";
+import ResultActionBar from "../_components/ResultActionBar";
 import DecisionSummaryCard from "../_components/DecisionSummaryCard";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
 import TrustStrip from "../_components/TrustStrip";
@@ -509,37 +508,6 @@ export default function DiscountPage() {
               </div>
             )}
 
-            <ResultShareButton
-              title={mode === "stacked" ? "추가 할인 계산 결과" : "할인율 계산 결과"}
-              calculatorPath="/discount"
-              text={shareText}
-            />
-            <ResultImageButton
-              eyebrow="몇이지? · 쇼핑 할인 계산"
-              title={mode === "stacked" ? "진짜 할인율은 몇 %?" : "할인하면 얼마?"}
-              tone="amber"
-              filename="myeotiji-discount-result.png"
-              lines={[
-                { label: "정가", value: formatWon(result.original) },
-                ...(mode === "stacked"
-                  ? [
-                      { label: "1차 할인", value: formatPercent(safeRate(firstRate)) },
-                      { label: "추가 할인", value: formatPercent(safeRate(secondRate)) },
-                      { label: "쿠폰", value: `-${formatWon(result.couponApplied)}` },
-                    ]
-                  : []),
-                { label: "실제 총 할인율", value: formatPercent(result.rate), strong: true },
-                { label: "최종 가격", value: formatWon(result.finalPrice), strong: true },
-              ]}
-              caption={mode === "stacked" ? "중복 할인은 퍼센트를 단순히 더하지 않고 순서대로 적용해 계산합니다." : "몇이지?에서 계산한 예상 할인 결과입니다."}
-            />
-            <SaveCalculationButton
-              title={mode === "stacked" ? "추가 할인·쿠폰 계산" : "할인율 계산"}
-              href="/discount"
-              state={savedState}
-              primaryValue={`최종 ${formatWon(result.finalPrice)}`}
-              summary={`실제 할인율 ${formatPercent(result.rate)} · ${formatWon(result.discountAmount)} 절약`}
-            />
           </section>
         </div>
 
@@ -554,6 +522,39 @@ export default function DiscountPage() {
             { label: "최종 가격", value: formatWon(result.finalPrice) },
           ]}
         />
+
+        <ResultActionBar
+          calculatorPath="/discount"
+          shareTitle={mode === "stacked" ? "추가 할인 계산 결과" : "할인율 계산 결과"}
+          shareText={shareText}
+          image={{
+            eyebrow: "몇이지? · 쇼핑 할인 계산",
+            title: mode === "stacked" ? "진짜 할인율은 몇 %?" : "할인하면 얼마?",
+            tone: "amber",
+            filename: "myeotiji-discount-result.png",
+            lines: [
+              { label: "정가", value: formatWon(result.original) },
+              ...(mode === "stacked"
+                ? [
+                    { label: "1차 할인", value: formatPercent(safeRate(firstRate)) },
+                    { label: "추가 할인", value: formatPercent(safeRate(secondRate)) },
+                    { label: "쿠폰", value: `-${formatWon(result.couponApplied)}` },
+                  ]
+                : []),
+              { label: "실제 총 할인율", value: formatPercent(result.rate), strong: true },
+              { label: "최종 가격", value: formatWon(result.finalPrice), strong: true },
+            ],
+            caption: mode === "stacked" ? "중복 할인은 퍼센트를 단순히 더하지 않고 순서대로 적용해 계산합니다." : "몇이지?에서 계산한 예상 할인 결과입니다.",
+          }}
+        >
+          <SaveCalculationButton
+            title={mode === "stacked" ? "추가 할인·쿠폰 계산" : "할인율 계산"}
+            href="/discount"
+            state={savedState}
+            primaryValue={`최종 ${formatWon(result.finalPrice)}`}
+            summary={`실제 할인율 ${formatPercent(result.rate)} · ${formatWon(result.discountAmount)} 절약`}
+          />
+        </ResultActionBar>
 
         <TrustStrip
           items={["중복 할인 순차 적용", "쿠폰은 마지막에 차감", "입력값은 브라우저에서만 계산"]}

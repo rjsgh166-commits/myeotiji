@@ -6,8 +6,7 @@ import {
   calculateLocalIncomeTax,
 } from "./incomeTaxTable";
 import RelatedCalculators from "../_components/RelatedCalculators";
-import ResultShareButton from "../_components/ResultShareButton";
-import ResultImageButton from "../_components/ResultImageButton";
+import ResultActionBar from "../_components/ResultActionBar";
 import DecisionSummaryCard from "../_components/DecisionSummaryCard";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
 import TrustStrip from "../_components/TrustStrip";
@@ -172,6 +171,7 @@ function ComparisonCard({
 }
 
 export default function SalaryPage() {
+  const [view, setView] = useState<"single" | "compare">("single");
   const [annualSalary, setAnnualSalary] = useState(5000); // 만원
   const [monthlyTaxFree, setMonthlyTaxFree] = useState(20); // 만원
   const [familyCount, setFamilyCount] = useState(1);
@@ -188,6 +188,11 @@ export default function SalaryPage() {
       const value = Number(raw);
       return Number.isFinite(value) && value >= min ? value : fallback;
     };
+
+    const restoredView = transferred.view;
+    const hasCompareTransfer = transferred.compareSalary !== undefined || transferred.b !== undefined || params.get("b") !== null;
+    if (restoredView === "compare" || hasCompareTransfer) setView("compare");
+    else if (restoredView === "single") setView("single");
 
     setAnnualSalary(readNumber("annualSalary", "a", 5000));
     setCompareSalary(readNumber("compareSalary", "b", 5500));
@@ -232,7 +237,8 @@ export default function SalaryPage() {
         ? `B 연봉이 월 실수령 기준 ${formatWon(Math.abs(monthlyNetDifference))} 더 유리해요.`
         : `A 연봉이 월 실수령 기준 ${formatWon(Math.abs(monthlyNetDifference))} 더 유리해요.`;
 
-  const savedState = { annualSalary, compareSalary, monthlyTaxFree, familyCount, childrenCount };
+  const savedState = { view: "compare", annualSalary, compareSalary, monthlyTaxFree, familyCount, childrenCount };
+  const singleSavedState = { view: "single", annualSalary, monthlyTaxFree, familyCount, childrenCount };
   const jobChangeState = {
     currentSalary: annualSalary,
     offerSalary: compareSalary,
@@ -244,10 +250,10 @@ export default function SalaryPage() {
     <main className="min-h-screen bg-[#f7f8fa] text-slate-900">
       <CalculationAnalytics
         calculator="salary"
-        mode="compare"
-        hasCompare
-        valid={annualSalary > 0 && compareSalary > 0}
-        signature={`${annualSalary}|${compareSalary}|${monthlyTaxFree}|${familyCount}|${childrenCount}`}
+        mode={view}
+        hasCompare={view === "compare"}
+        valid={view === "compare" ? annualSalary > 0 && compareSalary > 0 : annualSalary > 0}
+        signature={`${view}|${annualSalary}|${compareSalary}|${monthlyTaxFree}|${familyCount}|${childrenCount}`}
       />
       <div className="mx-auto max-w-5xl px-5 py-10 sm:py-14">
         <a href="/" className="text-sm font-semibold text-slate-500 hover:text-slate-900">
@@ -261,10 +267,29 @@ export default function SalaryPage() {
             연봉 실수령액 계산기
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-500 sm:text-base">
-            예상 월 실수령액을 확인하고, 현재 연봉과 이직·협상 연봉의 실제
-            월 수령액 차이까지 비교해보세요.
+            예상 월 실수령액만 빠르게 보거나, 필요할 때 현재 연봉과 이직·협상 연봉의
+            실제 통장 금액 차이까지 비교해보세요.
           </p>
         </section>
+
+        <div className="mb-5 inline-flex rounded-xl border border-slate-200 bg-white p-1">
+          <button
+            type="button"
+            data-calculation-control="true"
+            onClick={() => setView("single")}
+            className={`rounded-lg px-4 py-2.5 text-sm font-semibold transition ${view === "single" ? "bg-blue-600 text-white" : "text-slate-600 hover:bg-slate-50"}`}
+          >
+            내 실수령액
+          </button>
+          <button
+            type="button"
+            data-calculation-control="true"
+            onClick={() => setView("compare")}
+            className={`rounded-lg px-4 py-2.5 text-sm font-semibold transition ${view === "compare" ? "bg-blue-600 text-white" : "text-slate-600 hover:bg-slate-50"}`}
+          >
+            연봉 비교
+          </button>
+        </div>
 
         <div className="grid gap-6 lg:grid-cols-[1fr_1.05fr]">
           <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
@@ -403,11 +428,34 @@ export default function SalaryPage() {
               </p>
             </div>
 
-            <ResultShareButton
-              title="2026 연봉 실수령액 계산 결과"
+            {view === "single" ? (
+            <ResultActionBar
               calculatorPath="/salary"
-              text={`💰 2026 연봉 실수령액 계산\n연봉: ${(annualSalary * 10_000).toLocaleString("ko-KR")}원\n월 세전 급여: ${formatWon(result.monthlyGross)}\n월 총 공제액: ${formatWon(result.totalDeduction)}\n예상 월 실수령액: ${formatWon(result.netSalary)}`}
-            />
+              shareTitle="2026 연봉 실수령액 계산 결과"
+              shareText={`💰 2026 연봉 실수령액 계산\n연봉: ${(annualSalary * 10_000).toLocaleString("ko-KR")}원\n월 세전 급여: ${formatWon(result.monthlyGross)}\n월 총 공제액: ${formatWon(result.totalDeduction)}\n예상 월 실수령액: ${formatWon(result.netSalary)}`}
+              image={{
+                eyebrow: "몇이지? · 2026 연봉",
+                title: "내 월 실수령액은?",
+                tone: "blue",
+                filename: "myeotiji-salary-net.png",
+                lines: [
+                  { label: "세전 연봉", value: `${annualSalary.toLocaleString("ko-KR")}만원` },
+                  { label: "월 세전", value: formatWon(result.monthlyGross) },
+                  { label: "월 총 공제", value: formatWon(result.totalDeduction) },
+                  { label: "월 실수령", value: formatWon(result.netSalary), strong: true },
+                ],
+                caption: "2026년 간이세액표와 4대보험 근로자 부담분을 반영한 예상값입니다.",
+              }}
+            >
+              <SaveCalculationButton
+                title={`연봉 ${annualSalary.toLocaleString("ko-KR")}만원 실수령`}
+                href="/salary"
+                state={singleSavedState}
+                primaryValue={`월 ${formatWon(result.netSalary)}`}
+                summary={`월 세전 ${formatWon(result.monthlyGross)} · 공제 ${formatWon(result.totalDeduction)}`}
+              />
+            </ResultActionBar>
+            ) : null}
           </section>
         </div>
 
@@ -416,11 +464,12 @@ export default function SalaryPage() {
           note="실제 급여명세서는 회사의 비과세 항목, 연말정산, 보험료 정산 등에 따라 달라질 수 있어요."
         />
 
+        {view === "compare" ? (
         <section className="mt-6 rounded-3xl border border-blue-100 bg-white p-6 shadow-sm sm:p-8">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-xs font-black text-blue-600">SALARY COMPARE</p>
-              <h2 className="mt-1 text-xl font-black">현재 연봉 vs 이직·협상 연봉</h2>
+              <p className="text-xs font-semibold text-blue-600">두 연봉 비교</p>
+              <h2 className="mt-1 text-xl font-bold">현재 연봉 vs 이직·협상 연봉</h2>
               <p className="mt-2 text-sm leading-6 text-slate-500">
                 같은 비과세액·가족 조건으로 비교해, 연봉 변화가 실제 통장 금액에
                 얼마나 반영되는지 보여드려요.
@@ -472,34 +521,36 @@ export default function SalaryPage() {
             analyticsId="salary"
           />
 
-          <ResultShareButton
-            title="연봉 비교 계산 결과"
+          <ResultActionBar
             calculatorPath="/salary"
-            text={`💼 연봉 비교\nA 연봉: ${annualSalary.toLocaleString("ko-KR")}만원 → 월 실수령 ${formatWon(result.netSalary)}\nB 연봉: ${compareSalary.toLocaleString("ko-KR")}만원 → 월 실수령 ${formatWon(compareResult.netSalary)}\n월 실수령 차이: ${formatSignedWon(monthlyNetDifference)}\n연간 환산 차이: ${formatSignedWon(annualNetDifference)}`}
-          />
-          <ResultImageButton
-            eyebrow="몇이지? · 2026 연봉 비교"
-            title="이직하면 통장에 얼마 더?"
-            tone="violet"
-            filename="myeotiji-salary-compare.png"
-            lines={[
-              { label: "현재 연봉 A", value: `${annualSalary.toLocaleString("ko-KR")}만원` },
-              { label: "비교 연봉 B", value: `${compareSalary.toLocaleString("ko-KR")}만원` },
-              { label: "A 월 실수령", value: formatWon(result.netSalary) },
-              { label: "B 월 실수령", value: formatWon(compareResult.netSalary) },
-              { label: "월 실수령 차이", value: formatSignedWon(monthlyNetDifference), strong: true },
-              { label: "연간 환산 차이", value: formatSignedWon(annualNetDifference), strong: true },
-            ]}
-            caption="비과세액·공제대상가족 조건을 동일하게 적용한 예상 비교값입니다."
-          />
-          <SaveCalculationButton
-            title={`연봉 ${annualSalary.toLocaleString("ko-KR")} vs ${compareSalary.toLocaleString("ko-KR")}만원`}
-            href="/salary"
-            state={savedState}
-            primaryValue={`월 실수령 ${formatSignedWon(monthlyNetDifference)}`}
-            summary={`연간 환산 차이 ${formatSignedWon(annualNetDifference)}`}
-          />
+            shareTitle="연봉 비교 계산 결과"
+            shareText={`💼 연봉 비교\nA 연봉: ${annualSalary.toLocaleString("ko-KR")}만원 → 월 실수령 ${formatWon(result.netSalary)}\nB 연봉: ${compareSalary.toLocaleString("ko-KR")}만원 → 월 실수령 ${formatWon(compareResult.netSalary)}\n월 실수령 차이: ${formatSignedWon(monthlyNetDifference)}\n연간 환산 차이: ${formatSignedWon(annualNetDifference)}`}
+            image={{
+              eyebrow: "몇이지? · 2026 연봉 비교",
+              title: "이직하면 통장에 얼마 더?",
+              tone: "violet",
+              filename: "myeotiji-salary-compare.png",
+              lines: [
+                { label: "현재 연봉 A", value: `${annualSalary.toLocaleString("ko-KR")}만원` },
+                { label: "비교 연봉 B", value: `${compareSalary.toLocaleString("ko-KR")}만원` },
+                { label: "A 월 실수령", value: formatWon(result.netSalary) },
+                { label: "B 월 실수령", value: formatWon(compareResult.netSalary) },
+                { label: "월 실수령 차이", value: formatSignedWon(monthlyNetDifference), strong: true },
+                { label: "연간 환산 차이", value: formatSignedWon(annualNetDifference), strong: true },
+              ],
+              caption: "비과세액·공제대상가족 조건을 동일하게 적용한 예상 비교값입니다.",
+            }}
+          >
+            <SaveCalculationButton
+              title={`연봉 ${annualSalary.toLocaleString("ko-KR")} vs ${compareSalary.toLocaleString("ko-KR")}만원`}
+              href="/salary"
+              state={savedState}
+              primaryValue={`월 실수령 ${formatSignedWon(monthlyNetDifference)}`}
+              summary={`연간 환산 차이 ${formatSignedWon(annualNetDifference)}`}
+            />
+          </ResultActionBar>
         </section>
+        ) : null}
 
         <section className="mt-6 rounded-3xl border border-slate-200 bg-white p-6 sm:p-8">
           <h2 className="text-lg font-extrabold">계산 기준</h2>

@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import ResultImageButton from "../_components/ResultImageButton";
-import ResultShareButton from "../_components/ResultShareButton";
+import ResultActionBar from "../_components/ResultActionBar";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
 import TrustStrip from "../_components/TrustStrip";
 import CalculationAnalytics from "../_components/CalculationAnalytics";
@@ -116,6 +115,33 @@ function analyzeScenario(
   };
 }
 
+function calculateBreakEvenSalary(
+  targetHourly: number,
+  offerScenario: Scenario,
+  familyCount: number,
+  childrenCount: number,
+) {
+  let low = 0;
+  let high = Math.max(30_000, offerScenario.salary * 2);
+  while (
+    analyzeScenario({ ...offerScenario, salary: high }, familyCount, childrenCount).effectiveHourly < targetHourly &&
+    high < 1_000_000
+  ) {
+    high *= 2;
+  }
+  for (let i = 0; i < 48; i += 1) {
+    const mid = (low + high) / 2;
+    const candidate = analyzeScenario(
+      { ...offerScenario, salary: mid },
+      familyCount,
+      childrenCount,
+    );
+    if (candidate.effectiveHourly < targetHourly) low = mid;
+    else high = mid;
+  }
+  return Math.ceil(high / 10) * 10;
+}
+
 function NumericInput({
   label,
   value,
@@ -214,6 +240,29 @@ function ScenarioEditor({
           unit="분"
           step={5}
         />
+        {!advanced ? (
+          <div>
+            <p className="text-sm font-bold text-slate-700">주 출근일</p>
+            <div className="mt-2 grid grid-cols-4 gap-2">
+              {[0, 2, 3, 5].map((days) => (
+                <button
+                  key={days}
+                  type="button"
+                  data-calculation-control="true"
+                  onClick={() => set("commuteDays", days)}
+                  className={`rounded-xl border px-2 py-3 text-sm font-semibold transition ${
+                    scenario.commuteDays === days
+                      ? "border-violet-500 bg-violet-50 text-violet-700"
+                      : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                  }`}
+                >
+                  {days}일
+                </button>
+              ))}
+            </div>
+            <p className="mt-1.5 text-xs leading-5 text-slate-400">현재 {scenario.commuteDays}일 · 재택일은 제외한 주 평균 출근일</p>
+          </div>
+        ) : null}
         {advanced ? (
           <>
             <NumericInput
@@ -341,19 +390,12 @@ export default function JobChangePage() {
     const a = analyzeScenario(current, familyCount, childrenCount);
     const b = analyzeScenario(offer, familyCount, childrenCount);
 
-    let low = 0;
-    let high = Math.max(30_000, current.salary * 4, offer.salary * 2);
-    for (let i = 0; i < 48; i += 1) {
-      const mid = (low + high) / 2;
-      const candidate = analyzeScenario(
-        { ...offer, salary: mid },
-        familyCount,
-        childrenCount,
-      );
-      if (candidate.effectiveHourly < a.effectiveHourly) low = mid;
-      else high = mid;
-    }
-    const breakEvenSalary = Math.ceil(high / 10) * 10;
+    const breakEvenSalary = calculateBreakEvenSalary(
+      a.effectiveHourly,
+      offer,
+      familyCount,
+      childrenCount,
+    );
     const offerVsBreakEven = offer.salary - breakEvenSalary;
 
     return {
@@ -366,6 +408,56 @@ export default function JobChangePage() {
       hourlyDifference: b.effectiveHourly - a.effectiveHourly,
     };
   }, [current, offer, familyCount, childrenCount]);
+
+  const whatIfScenarios = useMemo(() => {
+    const targetHourly = result.a.effectiveHourly;
+    const variants: {
+      id: string;
+      title: string;
+      scenario: Scenario;
+    }[] = [];
+
+    const daysReduction = Math.min(2, Math.max(0, offer.commuteDays));
+    if (daysReduction > 0) {
+      variants.push({
+        id: "remote",
+        title: `주 출근을 ${daysReduction}일 줄이면`,
+        scenario: { ...offer, commuteDays: Math.max(0, offer.commuteDays - daysReduction) },
+      });
+    }
+
+    const commuteReduction = Math.min(20, Math.max(0, offer.commuteOneWay));
+    if (commuteReduction > 0) {
+      variants.push({
+        id: "commute",
+        title: `편도 통근을 ${commuteReduction}분 줄이면`,
+        scenario: { ...offer, commuteOneWay: Math.max(0, offer.commuteOneWay - commuteReduction) },
+      });
+    }
+
+    const hoursReduction = Math.min(5, Math.max(0, offer.weeklyHours - 1));
+    if (hoursReduction > 0) {
+      variants.push({
+        id: "hours",
+        title: `주 근무를 ${hoursReduction}시간 줄이면`,
+        scenario: { ...offer, weeklyHours: Math.max(1, offer.weeklyHours - hoursReduction) },
+      });
+    }
+
+    return variants.map((variant) => {
+      const breakEvenSalary = calculateBreakEvenSalary(
+        targetHourly,
+        variant.scenario,
+        familyCount,
+        childrenCount,
+      );
+      return {
+        ...variant,
+        breakEvenSalary,
+        difference: breakEvenSalary - result.breakEvenSalary,
+      };
+    });
+  }, [offer, familyCount, childrenCount, result.a.effectiveHourly, result.breakEvenSalary]);
 
   const conclusion =
     result.offerVsBreakEven >= 0
@@ -420,7 +512,7 @@ export default function JobChangePage() {
         <div className="mt-8 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-4">
           <div>
             <p className="text-sm font-semibold text-slate-800">입력은 간단하게 시작해도 돼요</p>
-            <p className="mt-1 text-xs text-slate-500">기본은 연봉·근무시간·출퇴근만 비교합니다.</p>
+            <p className="mt-1 text-xs text-slate-500">기본은 연봉·근무시간·출퇴근·주 출근일만 비교합니다.</p>
           </div>
           <button type="button" onClick={() => setAdvanced((value) => !value)} className="rounded-xl bg-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-200">
             {advanced ? "간편 계산으로" : "+ 상세 조건까지 반영"}
@@ -480,6 +572,55 @@ export default function JobChangePage() {
           note="조직문화·성장성·스톡옵션처럼 금액으로 단정하기 어려운 요소는 결론에서 제외했어요."
         />
 
+        {whatIfScenarios.length > 0 ? (
+          <section id="job-change-what-if" className="mt-6 rounded-3xl border border-violet-100 bg-white p-6 shadow-sm sm:p-8">
+            <ViewEventTracker
+              targetId="job-change-what-if"
+              eventName="what_if_view"
+              params={{ calculator: "job_change" }}
+            />
+            <div>
+              <p className="text-xs font-semibold text-violet-600">조건이 바뀌면?</p>
+              <h2 className="mt-1 text-xl font-bold">연봉 말고 조건으로 협상해보세요</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                재택·통근·근무시간이 달라질 때 같은 시간당 가치를 만들기 위한 연봉 마지노선이 얼마나 움직이는지 보여드려요.
+              </p>
+            </div>
+
+            <div className="mt-5 grid gap-3 lg:grid-cols-3">
+              {whatIfScenarios.map((item) => (
+                <div key={item.id} className="rounded-2xl border border-slate-200 bg-slate-50/70 p-5">
+                  <p className="text-sm font-semibold text-slate-700">{item.title}</p>
+                  <p className="mt-2 text-2xl font-bold text-violet-700">
+                    {item.breakEvenSalary.toLocaleString("ko-KR")}만원
+                  </p>
+                  <p className="mt-1 text-xs leading-5 text-slate-500">
+                    {item.difference === 0
+                      ? "현재 마지노선과 같아요."
+                      : item.difference < 0
+                        ? `현재보다 ${Math.abs(item.difference).toLocaleString("ko-KR")}만원 낮아져요.`
+                        : `현재보다 ${item.difference.toLocaleString("ko-KR")}만원 높아져요.`}
+                  </p>
+                  <button
+                    type="button"
+                    data-calculation-control="true"
+                    data-ga-event="what_if_apply"
+                    data-ga-scenario={item.id}
+                    data-ga-calculator="job_change"
+                    onClick={() => setOffer(item.scenario)}
+                    className="mt-4 text-sm font-semibold text-violet-700 hover:text-violet-900"
+                  >
+                    이 조건 적용 →
+                  </button>
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 text-xs leading-5 text-slate-400">
+              What-if는 다른 조건은 그대로 두고 한 가지 조건만 바꿔 비교한 참고값이에요.
+            </p>
+          </section>
+        ) : null}
+
         <section className="mt-6 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:p-8">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
@@ -514,33 +655,34 @@ export default function JobChangePage() {
             <strong>해석 팁:</strong> 연봉이 올라도 근무시간과 통근시간이 크게 늘면 시간당 보상은 오히려 내려갈 수 있어요. 반대로 연봉 차이가 작아도 재택·짧은 통근·복지가 좋아지면 체감 조건은 더 좋아질 수 있습니다.
           </div>
 
-          <ResultShareButton
-            title="이직 마지노선 계산 결과"
+          <ResultActionBar
             calculatorPath="/job-change"
-            text={`💼 이직 마지노선 계산\n현재 연봉: ${current.salary.toLocaleString("ko-KR")}만원\n제안 연봉: ${offer.salary.toLocaleString("ko-KR")}만원\n이직 마지노선: ${result.breakEvenSalary.toLocaleString("ko-KR")}만원\n연간 체감 현금흐름 차이: ${formatSignedWon(result.annualCashDifference)}\n시간당 실질 보상 차이: ${formatSignedWon(result.hourlyDifference)}`}
-          />
-          <ResultImageButton
-            eyebrow="몇이지? · 이직 마지노선"
-            title="이직, 최소 얼마 받아야 할까?"
-            tone="violet"
-            filename="myeotiji-job-change-break-even.png"
-            lines={[
-              { label: "현재 연봉", value: `${current.salary.toLocaleString("ko-KR")}만원` },
-              { label: "제안 연봉", value: `${offer.salary.toLocaleString("ko-KR")}만원` },
-              { label: "이직 마지노선", value: `${result.breakEvenSalary.toLocaleString("ko-KR")}만원`, strong: true },
-              { label: "연간 체감 현금 차이", value: formatSignedWon(result.annualCashDifference) },
-              { label: "연간 시간 변화", value: formatSignedHours(result.annualTimeDifference) },
-              { label: "시간당 보상 차이", value: formatSignedWon(result.hourlyDifference), strong: true },
-            ]}
-            caption="2026 세후 실수령 추정 + 사용자가 입력한 근무·통근·복지 조건을 같은 기준으로 비교한 참고값입니다."
-          />
-          <SaveCalculationButton
-            title={`이직 ${current.salary.toLocaleString("ko-KR")} → ${offer.salary.toLocaleString("ko-KR")}만원`}
-            href="/job-change"
-            state={savedState}
-            primaryValue={`마지노선 ${result.breakEvenSalary.toLocaleString("ko-KR")}만원`}
-            summary={`시간당 실질 보상 차이 ${formatSignedWon(result.hourlyDifference)}`}
-          />
+            shareTitle="이직 마지노선 계산 결과"
+            shareText={`💼 이직 마지노선 계산\n현재 연봉: ${current.salary.toLocaleString("ko-KR")}만원\n제안 연봉: ${offer.salary.toLocaleString("ko-KR")}만원\n이직 마지노선: ${result.breakEvenSalary.toLocaleString("ko-KR")}만원\n연간 체감 현금흐름 차이: ${formatSignedWon(result.annualCashDifference)}\n시간당 실질 보상 차이: ${formatSignedWon(result.hourlyDifference)}`}
+            image={{
+              eyebrow: "몇이지? · 이직 마지노선",
+              title: "이직, 최소 얼마 받아야 할까?",
+              tone: "violet",
+              filename: "myeotiji-job-change-break-even.png",
+              lines: [
+                { label: "현재 연봉", value: `${current.salary.toLocaleString("ko-KR")}만원` },
+                { label: "제안 연봉", value: `${offer.salary.toLocaleString("ko-KR")}만원` },
+                { label: "이직 마지노선", value: `${result.breakEvenSalary.toLocaleString("ko-KR")}만원`, strong: true },
+                { label: "연간 체감 현금 차이", value: formatSignedWon(result.annualCashDifference) },
+                { label: "연간 시간 변화", value: formatSignedHours(result.annualTimeDifference) },
+                { label: "시간당 보상 차이", value: formatSignedWon(result.hourlyDifference), strong: true },
+              ],
+              caption: "2026 세후 실수령 추정 + 사용자가 입력한 근무·통근·복지 조건을 같은 기준으로 비교한 참고값입니다.",
+            }}
+          >
+            <SaveCalculationButton
+              title={`이직 ${current.salary.toLocaleString("ko-KR")} → ${offer.salary.toLocaleString("ko-KR")}만원`}
+              href="/job-change"
+              state={savedState}
+              primaryValue={`마지노선 ${result.breakEvenSalary.toLocaleString("ko-KR")}만원`}
+              summary={`시간당 실질 보상 차이 ${formatSignedWon(result.hourlyDifference)}`}
+            />
+          </ResultActionBar>
         </section>
 
         <section className="mt-6 rounded-3xl border border-amber-100 bg-amber-50 p-6 sm:p-8">

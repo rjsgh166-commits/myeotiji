@@ -9,6 +9,7 @@ import {
   storeCalculationTransfer,
 } from "../_lib/calculationTransfer";
 import {
+  MAX_SAVED_CALCULATIONS,
   SAVED_CALCULATIONS_KEY,
   type SavedCalculation,
 } from "./SaveCalculationButton";
@@ -31,10 +32,14 @@ function writeSaved(items: SavedCalculation[]) {
 
 export default function SavedCalculations() {
   const [items, setItems] = useState<SavedCalculation[]>([]);
+  const [hydrated, setHydrated] = useState(false);
   const [undoItem, setUndoItem] = useState<SavedCalculation | null>(null);
 
   useEffect(() => {
-    const sync = () => setItems(readSaved());
+    const sync = () => {
+      setItems(readSaved());
+      setHydrated(true);
+    };
     sync();
     window.addEventListener("storage", sync);
     window.addEventListener("myeotiji:saved-updated", sync);
@@ -43,8 +48,6 @@ export default function SavedCalculations() {
       window.removeEventListener("myeotiji:saved-updated", sync);
     };
   }, []);
-
-  if (items.length === 0 && !undoItem) return null;
 
   const remove = (item: SavedCalculation) => {
     const next = items.filter((candidate) => candidate.id !== item.id);
@@ -58,7 +61,7 @@ export default function SavedCalculations() {
 
   const undo = () => {
     if (!undoItem) return;
-    const next = [undoItem, ...items].slice(0, 8);
+    const next = [undoItem, ...items].slice(0, MAX_SAVED_CALCULATIONS);
     writeSaved(next);
     setItems(next);
     setUndoItem(null);
@@ -74,19 +77,29 @@ export default function SavedCalculations() {
 
   return (
     <>
-      {items.length > 0 ? (
-        <section id="my-calculations" className="px-5 pb-10 sm:pb-12">
-          <div className="mx-auto max-w-6xl rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-            <div className="flex items-end justify-between gap-4">
-              <div>
-                <h2 className="text-lg font-bold text-slate-900">내 계산함</h2>
-                <p className="mt-1 text-xs text-slate-500">
-                  로그인 없이 이 브라우저에만 저장돼요.
-                </p>
-              </div>
-              <span className="text-xs font-semibold text-slate-400">{items.length}/8</span>
+      <section id="my-calculations" className="scroll-mt-24 px-5 pb-10 sm:pb-12">
+        <div className="mx-auto max-w-6xl rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-bold text-slate-900">내 계산함</h2>
+              <p className="mt-1 text-xs text-slate-500">
+                계산마다 이름을 붙여 여러 결과를 이 브라우저에 저장할 수 있어요.
+              </p>
             </div>
+            {hydrated && items.length > 0 ? (
+              <span className="text-xs font-semibold text-slate-400">
+                {items.length}/{MAX_SAVED_CALCULATIONS}
+              </span>
+            ) : null}
+          </div>
 
+          {hydrated && items.length === 0 ? (
+            <div className="mt-4 rounded-2xl bg-slate-50 px-4 py-4 text-sm text-slate-500">
+              아직 저장한 계산이 없어요. 계산 결과에서 <strong className="text-slate-700">☆ 저장</strong>을 누르면 여기에 모여요.
+            </div>
+          ) : null}
+
+          {items.length > 0 ? (
             <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {items.map((item) => (
                 <div
@@ -95,8 +108,12 @@ export default function SavedCalculations() {
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-semibold text-slate-800">{item.title}</p>
-                      <p className="mt-1 break-words text-base font-bold leading-6 text-blue-600">{item.primaryValue}</p>
+                      <p className="truncate text-sm font-semibold text-slate-800" title={item.title}>
+                        {item.title}
+                      </p>
+                      <p className="mt-1 break-words text-base font-bold leading-6 text-blue-600">
+                        {item.primaryValue}
+                      </p>
                     </div>
                     <button
                       type="button"
@@ -120,9 +137,9 @@ export default function SavedCalculations() {
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-      ) : null}
+          ) : null}
+        </div>
+      </section>
 
       {undoItem ? (
         <div className="fixed bottom-5 left-1/2 z-50 flex -translate-x-1/2 items-center gap-4 rounded-full bg-slate-950 px-4 py-3 text-sm text-white shadow-lg">

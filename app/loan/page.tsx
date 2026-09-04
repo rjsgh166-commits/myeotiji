@@ -4,8 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import MoneyInput from "../_components/MoneyInput";
 import RelatedCalculators from "../_components/RelatedCalculators";
-import ResultShareButton from "../_components/ResultShareButton";
-import ResultImageButton from "../_components/ResultImageButton";
+import ResultActionBar from "../_components/ResultActionBar";
 import DecisionSummaryCard from "../_components/DecisionSummaryCard";
 import SaveCalculationButton from "../_components/SaveCalculationButton";
 import TrustStrip from "../_components/TrustStrip";
@@ -171,6 +170,7 @@ function ScenarioEditor({
   method,
   setMethod,
   accent = false,
+  showPrincipal = true,
 }: {
   title: string;
   principal: string;
@@ -182,6 +182,7 @@ function ScenarioEditor({
   method: Method;
   setMethod: (value: Method) => void;
   accent?: boolean;
+  showPrincipal?: boolean;
 }) {
   return (
     <div
@@ -193,12 +194,14 @@ function ScenarioEditor({
         {title}
       </p>
       <div className="mt-4 space-y-4">
-        <MoneyInput
-          label="대출금액"
-          value={principal}
-          onChange={setPrincipal}
-          placeholder="300,000,000"
-        />
+        {showPrincipal ? (
+          <MoneyInput
+            label="대출금액"
+            value={principal}
+            onChange={setPrincipal}
+            placeholder="300,000,000"
+          />
+        ) : null}
 
         <label className="block">
           <span className="text-sm font-bold text-gray-800">연 이자율</span>
@@ -320,6 +323,7 @@ export default function LoanPage() {
   const [bRate, setBRate] = useState("3.5");
   const [bMonths, setBMonths] = useState("360");
   const [bMethod, setBMethod] = useState<Method>("annuity");
+  const [samePrincipal, setSamePrincipal] = useState(true);
 
   useEffect(() => {
     const transferred = consumeCalculationTransfer("/loan") || {};
@@ -339,11 +343,19 @@ export default function LoanPage() {
     setRate(read("rate", "4"));
     setMonths(read("months", "360"));
     setMethod(readMethod("method", "annuity"));
-    setAPrincipal(read("aPrincipal", "300000000"));
+    const restoredAPrincipal = read("aPrincipal", "300000000");
+    const restoredBPrincipal = read("bPrincipal", "300000000");
+    setAPrincipal(restoredAPrincipal);
     setARate(read("aRate", "4"));
     setAMonths(read("aMonths", "360"));
     setAMethod(readMethod("aMethod", "annuity"));
-    setBPrincipal(read("bPrincipal", "300000000"));
+    setBPrincipal(restoredBPrincipal);
+    const restoredSamePrincipal = transferred.samePrincipal;
+    setSamePrincipal(
+      typeof restoredSamePrincipal === "boolean"
+        ? restoredSamePrincipal
+        : restoredAPrincipal === restoredBPrincipal,
+    );
     setBRate(read("bRate", "3.5"));
     setBMonths(read("bMonths", "360"));
     setBMethod(readMethod("bMethod", "annuity"));
@@ -376,10 +388,11 @@ export default function LoanPage() {
       : "두 조건을 입력하면 차이를 비교해드려요.";
 
   const savedState = {
-    view: "compare", principal, rate, months, method,
+    view: "compare", samePrincipal, principal, rate, months, method,
     aPrincipal, aRate, aMonths, aMethod,
     bPrincipal, bRate, bMonths, bMethod,
   };
+  const singleSavedState = { view: "single", principal, rate, months, method };
 
   return (
     <main className="min-h-screen bg-[#f7f8fa] px-5 py-10 text-[#191f28]">
@@ -388,7 +401,7 @@ export default function LoanPage() {
         mode={view}
         hasCompare={view === "compare"}
         valid={view === "compare" ? Boolean(aResult && bResult) : Boolean(result)}
-        signature={`${view}|${principal}|${rate}|${months}|${method}|${aPrincipal}|${aRate}|${aMonths}|${aMethod}|${bPrincipal}|${bRate}|${bMonths}|${bMethod}`}
+        signature={`${view}|${samePrincipal}|${principal}|${rate}|${months}|${method}|${aPrincipal}|${aRate}|${aMonths}|${aMethod}|${bPrincipal}|${bRate}|${bMonths}|${bMethod}`}
       />
       <div className="mx-auto max-w-4xl">
         <Link href="/" className="text-sm font-semibold text-gray-500 hover:text-gray-900">
@@ -490,11 +503,34 @@ export default function LoanPage() {
                 <ResultCard label="마지막 달 상환액" value={`${won(result.last)}원`} />
                 <div className="sm:col-span-2">
                   <ResultCard label="총 상환금액" value={`${won(result.total)}원`} />
-                  <ResultShareButton
-                    title="대출이자 계산 결과"
+                  <ResultActionBar
                     calculatorPath="/loan"
-                    text={`🏠 대출이자 계산\n대출금액: ${won(Number(principal))}원\n연 이자율: ${rate}%\n기간: ${months}개월\n상환방식: ${methodName(method)}\n${result.mainLabel}: ${won(result.main)}원\n총 이자: ${won(result.totalInterest)}원\n총 상환금액: ${won(result.total)}원`}
-                  />
+                    shareTitle="대출이자 계산 결과"
+                    shareText={`🏠 대출이자 계산\n대출금액: ${won(Number(principal))}원\n연 이자율: ${rate}%\n기간: ${months}개월\n상환방식: ${methodName(method)}\n${result.mainLabel}: ${won(result.main)}원\n총 이자: ${won(result.totalInterest)}원\n총 상환금액: ${won(result.total)}원`}
+                    image={{
+                      eyebrow: "몇이지? · 대출 계산",
+                      title: "이 대출, 얼마나 갚을까?",
+                      tone: "blue",
+                      filename: "myeotiji-loan-result.png",
+                      lines: [
+                        { label: "대출금액", value: `${won(Number(principal))}원` },
+                        { label: "연 이자율", value: `${rate}%` },
+                        { label: "기간", value: `${months}개월` },
+                        { label: result.mainLabel, value: `${won(result.main)}원`, strong: true },
+                        { label: "총 이자", value: `${won(result.totalInterest)}원` },
+                        { label: "총 상환금액", value: `${won(result.total)}원`, strong: true },
+                      ],
+                      caption: "상환일·변동금리·수수료 등을 제외한 예상 계산값입니다.",
+                    }}
+                  >
+                    <SaveCalculationButton
+                      title={`대출 ${rate}% · ${months}개월`}
+                      href="/loan"
+                      state={singleSavedState}
+                      primaryValue={`${result.mainLabel} ${won(result.main)}원`}
+                      summary={`총 이자 ${won(result.totalInterest)}원 · ${methodName(method)}`}
+                    />
+                  </ResultActionBar>
                 </div>
               </div>
             ) : (
@@ -525,7 +561,41 @@ export default function LoanPage() {
             얼마나 차이 나는지 확인해보세요.
           </p>
 
-          <div className="mt-6 grid gap-4 lg:grid-cols-2">
+          <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div className="min-w-[240px] flex-1">
+                {samePrincipal ? (
+                  <MoneyInput
+                    label="공통 대출금액"
+                    value={aPrincipal}
+                    onChange={(value) => {
+                      setAPrincipal(value);
+                      setBPrincipal(value);
+                    }}
+                    placeholder="300,000,000"
+                  />
+                ) : (
+                  <div>
+                    <p className="text-sm font-bold text-slate-800">대출금액을 각각 비교 중</p>
+                    <p className="mt-1 text-xs leading-5 text-slate-500">A와 B의 대출금액이 다를 때만 사용하세요.</p>
+                  </div>
+                )}
+              </div>
+              <button
+                type="button"
+                data-calculation-control="true"
+                onClick={() => {
+                  if (!samePrincipal) setBPrincipal(aPrincipal);
+                  setSamePrincipal((value) => !value);
+                }}
+                className="rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50"
+              >
+                {samePrincipal ? "금액을 다르게 비교" : "같은 금액으로 비교"}
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-4 lg:grid-cols-2">
             <ScenarioEditor
               title="조건 A"
               principal={aPrincipal}
@@ -536,6 +606,7 @@ export default function LoanPage() {
               setMonths={setAMonths}
               method={aMethod}
               setMethod={setAMethod}
+              showPrincipal={!samePrincipal}
             />
             <ScenarioEditor
               title="조건 B"
@@ -547,6 +618,7 @@ export default function LoanPage() {
               setMonths={setBMonths}
               method={bMethod}
               setMethod={setBMethod}
+              showPrincipal={!samePrincipal}
               accent
             />
           </div>
@@ -582,33 +654,34 @@ export default function LoanPage() {
 
           {aResult && bResult && (
             <>
-              <ResultShareButton
-                title="대출 조건 비교 결과"
+              <ResultActionBar
                 calculatorPath="/loan"
-                text={`🏠 대출 조건 비교\nA: ${won(Number(aPrincipal))}원 · ${aRate}% · ${aMonths}개월 · ${methodName(aMethod)}\n총 이자 ${won(aResult.totalInterest)}원\nB: ${won(Number(bPrincipal))}원 · ${bRate}% · ${bMonths}개월 · ${methodName(bMethod)}\n총 이자 ${won(bResult.totalInterest)}원\nB - A 총 이자 차이: ${signedWon(interestDifference)}`}
-              />
-              <ResultImageButton
-                eyebrow="몇이지? · 대출 A/B 비교"
-                title="어느 대출이 덜 부담될까?"
-                tone="blue"
-                filename="myeotiji-loan-compare.png"
-                lines={[
-                  { label: "조건 A", value: `${aRate}% · ${aMonths}개월` },
-                  { label: "A 총 이자", value: `${won(aResult.totalInterest)}원` },
-                  { label: "조건 B", value: `${bRate}% · ${bMonths}개월` },
-                  { label: "B 총 이자", value: `${won(bResult.totalInterest)}원` },
-                  { label: "B - A 총 이자", value: signedWon(interestDifference), strong: true },
-                  { label: "B - A 기준 납입액", value: signedWon(paymentDifference), strong: true },
-                ]}
-                caption="금리·기간·상환방식에 따른 예상값이며 실제 금융기관 납입액과 다를 수 있습니다."
-              />
-              <SaveCalculationButton
-                title={`대출 A ${aRate}% vs B ${bRate}%`}
-                href="/loan"
-                state={savedState}
-                primaryValue={`총 이자 차이 ${signedWon(interestDifference)}`}
-                summary={`기준 납입액 차이 ${signedWon(paymentDifference)} · 총 상환액 차이 ${signedWon(totalDifference)}`}
-              />
+                shareTitle="대출 조건 비교 결과"
+                shareText={`🏠 대출 조건 비교\nA: ${won(Number(aPrincipal))}원 · ${aRate}% · ${aMonths}개월 · ${methodName(aMethod)}\n총 이자 ${won(aResult.totalInterest)}원\nB: ${won(Number(bPrincipal))}원 · ${bRate}% · ${bMonths}개월 · ${methodName(bMethod)}\n총 이자 ${won(bResult.totalInterest)}원\nB - A 총 이자 차이: ${signedWon(interestDifference)}`}
+                image={{
+                  eyebrow: "몇이지? · 대출 A/B 비교",
+                  title: "어느 대출이 덜 부담될까?",
+                  tone: "blue",
+                  filename: "myeotiji-loan-compare.png",
+                  lines: [
+                    { label: "조건 A", value: `${aRate}% · ${aMonths}개월` },
+                    { label: "A 총 이자", value: `${won(aResult.totalInterest)}원` },
+                    { label: "조건 B", value: `${bRate}% · ${bMonths}개월` },
+                    { label: "B 총 이자", value: `${won(bResult.totalInterest)}원` },
+                    { label: "B - A 총 이자", value: signedWon(interestDifference), strong: true },
+                    { label: "B - A 기준 납입액", value: signedWon(paymentDifference), strong: true },
+                  ],
+                  caption: "금리·기간·상환방식에 따른 예상값이며 실제 금융기관 납입액과 다를 수 있습니다.",
+                }}
+              >
+                <SaveCalculationButton
+                  title={`대출 A ${aRate}% vs B ${bRate}%`}
+                  href="/loan"
+                  state={savedState}
+                  primaryValue={`총 이자 차이 ${signedWon(interestDifference)}`}
+                  summary={`기준 납입액 차이 ${signedWon(paymentDifference)} · 총 상환액 차이 ${signedWon(totalDifference)}`}
+                />
+              </ResultActionBar>
             </>
           )}
         </section>
