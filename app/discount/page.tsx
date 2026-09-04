@@ -3,10 +3,11 @@
 import Link from "next/link";
 import RelatedCalculators from "../_components/RelatedCalculators";
 import ResultShareButton from "../_components/ResultShareButton";
+import ResultImageButton from "../_components/ResultImageButton";
 import CoupangDeals from "../_components/CoupangDeals";
 import { useMemo, useState } from "react";
 
-type Mode = "rate" | "price";
+type Mode = "rate" | "price" | "stacked";
 
 function digitsOnly(value: string) {
   return value.replace(/[^\d]/g, "");
@@ -24,7 +25,7 @@ function parseMoney(value: string) {
 }
 
 function formatWon(value: number) {
-  return `${Math.round(value).toLocaleString("ko-KR")}원`;
+  return `${Math.max(0, Math.round(value)).toLocaleString("ko-KR")}원`;
 }
 
 function formatPercent(value: number) {
@@ -33,6 +34,11 @@ function formatPercent(value: number) {
   return `${rounded.toLocaleString("ko-KR", {
     maximumFractionDigits: 2,
   })}%`;
+}
+
+function safeRate(value: string) {
+  const rate = Number(value);
+  return Number.isFinite(rate) && rate >= 0 ? Math.min(rate, 100) : 0;
 }
 
 function ModeButton({
@@ -48,7 +54,7 @@ function ModeButton({
     <button
       type="button"
       onClick={onClick}
-      className={`flex-1 rounded-xl border px-4 py-3 text-sm font-semibold transition ${
+      className={`flex-1 rounded-xl border px-3 py-3 text-xs font-semibold transition sm:px-4 sm:text-sm ${
         active
           ? "border-blue-600 bg-blue-50 text-blue-700"
           : "border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
@@ -93,45 +99,92 @@ export default function DiscountPage() {
   const [originalPrice, setOriginalPrice] = useState("100,000");
   const [discountRate, setDiscountRate] = useState("20");
   const [salePrice, setSalePrice] = useState("80,000");
+  const [firstRate, setFirstRate] = useState("20");
+  const [secondRate, setSecondRate] = useState("10");
+  const [couponAmount, setCouponAmount] = useState("0");
 
   const result = useMemo(() => {
     const original = parseMoney(originalPrice);
 
     if (mode === "rate") {
-      const rate = Number(discountRate);
-      const safeRate =
-        Number.isFinite(rate) && rate >= 0 ? Math.min(rate, 100) : 0;
-
-      const discountAmount = original * (safeRate / 100);
+      const rate = safeRate(discountRate);
+      const discountAmount = original * (rate / 100);
       const finalPrice = Math.max(original - discountAmount, 0);
 
       return {
         original,
-        rate: safeRate,
+        rate,
         discountAmount,
         finalPrice,
+        afterFirst: finalPrice,
+        afterSecond: finalPrice,
+        couponApplied: 0,
         valid: original > 0,
       };
     }
 
-    const sale = parseMoney(salePrice);
-    const discountAmount = Math.max(original - sale, 0);
-    const rate =
-      original > 0 ? Math.max(((original - sale) / original) * 100, 0) : 0;
+    if (mode === "price") {
+      const sale = parseMoney(salePrice);
+      const discountAmount = Math.max(original - sale, 0);
+      const rate =
+        original > 0 ? Math.max(((original - sale) / original) * 100, 0) : 0;
+
+      return {
+        original,
+        rate,
+        discountAmount,
+        finalPrice: sale,
+        afterFirst: sale,
+        afterSecond: sale,
+        couponApplied: 0,
+        valid: original > 0 && sale >= 0,
+      };
+    }
+
+    const first = safeRate(firstRate);
+    const second = safeRate(secondRate);
+    const afterFirst = original * (1 - first / 100);
+    const afterSecond = afterFirst * (1 - second / 100);
+    const requestedCoupon = Math.max(0, parseMoney(couponAmount));
+    const couponApplied = Math.min(requestedCoupon, afterSecond);
+    const finalPrice = Math.max(afterSecond - couponApplied, 0);
+    const discountAmount = Math.max(original - finalPrice, 0);
+    const rate = original > 0 ? (discountAmount / original) * 100 : 0;
 
     return {
       original,
       rate,
       discountAmount,
-      finalPrice: sale,
-      valid: original > 0 && sale >= 0,
+      finalPrice,
+      afterFirst,
+      afterSecond,
+      couponApplied,
+      valid: original > 0,
     };
-  }, [mode, originalPrice, discountRate, salePrice]);
+  }, [
+    mode,
+    originalPrice,
+    discountRate,
+    salePrice,
+    firstRate,
+    secondRate,
+    couponAmount,
+  ]);
 
   const invalidSalePrice =
     mode === "price" &&
     result.original > 0 &&
     parseMoney(salePrice) > result.original;
+
+  const stackedRateWithoutCoupon =
+    mode === "stacked" && result.original > 0
+      ? ((result.original - result.afterSecond) / result.original) * 100
+      : 0;
+
+  const shareText =
+    mode === "stacked"
+      ? `🛒 추가 할인 계산\n정가: ${formatWon(result.original)}\n1차 할인: ${formatPercent(safeRate(firstRate))}\n2차 할인: ${formatPercent(safeRate(secondRate))}\n쿠폰: ${formatWon(result.couponApplied)}\n실제 총 할인율: ${formatPercent(result.rate)}\n최종 가격: ${formatWon(result.finalPrice)}`
+      : `🛒 할인율 계산\n정가: ${formatWon(result.original)}\n할인율: ${formatPercent(result.rate)}\n할인 금액: ${formatWon(result.discountAmount)}\n최종 가격: ${formatWon(result.finalPrice)}`;
 
   return (
     <main className="min-h-screen bg-gray-50 text-gray-900">
@@ -150,8 +203,8 @@ export default function DiscountPage() {
               할인율 계산기
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-gray-500 sm:text-base">
-              할인율로 최종 가격을 계산하거나, 실제 판매가를 기준으로 할인율을
-              역산할 수 있어요.
+              단일 할인뿐 아니라 1차 할인 + 추가 할인 + 쿠폰까지 순서대로 적용해
+              실제 최종 할인율을 계산할 수 있어요.
             </p>
           </div>
         </div>
@@ -160,20 +213,24 @@ export default function DiscountPage() {
           <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200 sm:p-8">
             <h2 className="mb-5 text-lg font-bold">계산 방식</h2>
 
-            <div className="mb-8 flex gap-2">
+            <div className="mb-8 grid grid-cols-3 gap-2">
               <ModeButton active={mode === "rate"} onClick={() => setMode("rate")}>
                 할인율로 계산
               </ModeButton>
               <ModeButton active={mode === "price"} onClick={() => setMode("price")}>
-                판매가로 할인율 계산
+                판매가 역산
+              </ModeButton>
+              <ModeButton
+                active={mode === "stacked"}
+                onClick={() => setMode("stacked")}
+              >
+                추가 할인·쿠폰
               </ModeButton>
             </div>
 
             <div className="space-y-7">
               <div>
-                <label className="mb-2 block text-sm font-semibold">
-                  정가
-                </label>
+                <label className="mb-2 block text-sm font-semibold">정가</label>
                 <div className="relative">
                   <input
                     type="text"
@@ -191,11 +248,9 @@ export default function DiscountPage() {
                 </div>
               </div>
 
-              {mode === "rate" ? (
+              {mode === "rate" && (
                 <div>
-                  <label className="mb-2 block text-sm font-semibold">
-                    할인율
-                  </label>
+                  <label className="mb-2 block text-sm font-semibold">할인율</label>
                   <div className="relative">
                     <input
                       type="number"
@@ -224,7 +279,9 @@ export default function DiscountPage() {
                     ))}
                   </div>
                 </div>
-              ) : (
+              )}
+
+              {mode === "price" && (
                 <div>
                   <label className="mb-2 block text-sm font-semibold">
                     실제 판매가
@@ -251,29 +308,116 @@ export default function DiscountPage() {
                   )}
                 </div>
               )}
+
+              {mode === "stacked" && (
+                <>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <label className="block">
+                      <span className="mb-2 block text-sm font-semibold">1차 할인</span>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          min="0"
+                          max="100"
+                          step="0.1"
+                          value={firstRate}
+                          onChange={(e) => setFirstRate(e.target.value)}
+                          className="h-14 w-full rounded-2xl border border-gray-200 px-4 pr-12 text-right text-lg font-bold outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
+                        />
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">%</span>
+                      </div>
+                    </label>
+                    <label className="block">
+                      <span className="mb-2 block text-sm font-semibold">추가 할인</span>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          min="0"
+                          max="100"
+                          step="0.1"
+                          value={secondRate}
+                          onChange={(e) => setSecondRate(e.target.value)}
+                          className="h-14 w-full rounded-2xl border border-gray-200 px-4 pr-12 text-right text-lg font-bold outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
+                        />
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">%</span>
+                      </div>
+                    </label>
+                  </div>
+
+                  <label className="block">
+                    <span className="mb-2 block text-sm font-semibold">
+                      정액 쿠폰
+                    </span>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        value={couponAmount}
+                        onChange={(e) =>
+                          setCouponAmount(formatMoneyInput(e.target.value))
+                        }
+                        placeholder="5,000"
+                        className="h-14 w-full rounded-2xl border border-gray-200 px-4 pr-12 text-right text-lg font-bold outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
+                      />
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">원</span>
+                    </div>
+                    <p className="mt-2 text-xs leading-5 text-gray-400">
+                      쿠폰이 없다면 0원으로 두면 돼요.
+                    </p>
+                  </label>
+
+                  <div className="rounded-2xl border border-amber-100 bg-amber-50 p-4 text-sm leading-6 text-amber-800">
+                    20% 할인 후 추가 10% 할인은 30%가 아니라 실제로는{" "}
+                    <strong>28% 할인</strong>이에요. 두 번째 할인은 이미 할인된
+                    가격에 적용되기 때문이에요.
+                  </div>
+                </>
+              )}
             </div>
           </section>
 
           <section className="h-fit rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200 sm:p-8 lg:sticky lg:top-6">
             <div className="mb-6">
               <p className="text-sm font-semibold text-gray-500">
-                {mode === "rate" ? "할인 후 가격" : "실제 할인율"}
+                {mode === "price"
+                  ? "실제 할인율"
+                  : mode === "stacked"
+                    ? "실제 총 할인율"
+                    : "할인 후 가격"}
               </p>
               <div className="mt-2 text-4xl font-black tracking-tight text-blue-600">
                 {mode === "rate"
                   ? formatWon(result.finalPrice)
                   : formatPercent(result.rate)}
               </div>
+              {mode === "stacked" && (
+                <p className="mt-2 text-sm font-semibold text-gray-500">
+                  최종 가격 {formatWon(result.finalPrice)}
+                </p>
+              )}
             </div>
 
             <div className="divide-y divide-gray-100 border-y border-gray-100">
               <ResultRow label="정가" value={formatWon(result.original)} />
+              {mode === "stacked" && (
+                <>
+                  <ResultRow
+                    label={`1차 할인 후 (${formatPercent(safeRate(firstRate))})`}
+                    value={formatWon(result.afterFirst)}
+                  />
+                  <ResultRow
+                    label={`추가 할인 후 (${formatPercent(safeRate(secondRate))})`}
+                    value={formatWon(result.afterSecond)}
+                  />
+                  <ResultRow
+                    label="쿠폰 적용"
+                    value={`- ${formatWon(result.couponApplied)}`}
+                  />
+                </>
+              )}
+              <ResultRow label="실제 할인율" value={formatPercent(result.rate)} />
               <ResultRow
-                label="할인율"
-                value={formatPercent(result.rate)}
-              />
-              <ResultRow
-                label="할인 금액"
+                label="총 할인 금액"
                 value={formatWon(result.discountAmount)}
               />
               <ResultRow
@@ -286,27 +430,64 @@ export default function DiscountPage() {
             <div className="mt-6 rounded-2xl bg-gray-50 p-5">
               <p className="text-sm font-bold text-gray-800">계산식</p>
 
-              {mode === "rate" ? (
+              {mode === "rate" && (
                 <p className="mt-2 text-sm leading-6 text-gray-500">
                   할인 금액 = 정가 × 할인율
                   <br />
                   최종 가격 = 정가 - 할인 금액
                 </p>
-              ) : (
+              )}
+
+              {mode === "price" && (
                 <p className="mt-2 text-sm leading-6 text-gray-500">
                   할인율 = (정가 - 판매가) ÷ 정가 × 100
                 </p>
               )}
+
+              {mode === "stacked" && (
+                <p className="mt-2 text-sm leading-6 text-gray-500">
+                  1차 할인가 = 정가 × (1 - 1차 할인율)
+                  <br />
+                  2차 할인가 = 1차 할인가 × (1 - 추가 할인율)
+                  <br />
+                  최종가 = 2차 할인가 - 쿠폰
+                  <br />
+                  실제 총 할인율 = (정가 - 최종가) ÷ 정가 × 100
+                </p>
+              )}
             </div>
 
+            {mode === "stacked" && (
+              <div className="mt-4 rounded-2xl bg-blue-50 p-4 text-sm leading-6 text-blue-800">
+                퍼센트 할인만 합치면 실제 할인율은{" "}
+                <strong>{formatPercent(stackedRateWithoutCoupon)}</strong>이고,
+                쿠폰까지 반영하면 <strong>{formatPercent(result.rate)}</strong>예요.
+              </div>
+            )}
+
             <ResultShareButton
-              title="할인율 계산 결과"
+              title={mode === "stacked" ? "추가 할인 계산 결과" : "할인율 계산 결과"}
               calculatorPath="/discount"
-              text={`🛒 할인율 계산
-정가: ${formatWon(result.original)}
-할인율: ${formatPercent(result.rate)}
-할인 금액: ${formatWon(result.discountAmount)}
-최종 가격: ${formatWon(result.finalPrice)}`}
+              text={shareText}
+            />
+            <ResultImageButton
+              eyebrow="몇이지? · 쇼핑 할인 계산"
+              title={mode === "stacked" ? "진짜 할인율은 몇 %?" : "할인하면 얼마?"}
+              tone="amber"
+              filename="myeotiji-discount-result.png"
+              lines={[
+                { label: "정가", value: formatWon(result.original) },
+                ...(mode === "stacked"
+                  ? [
+                      { label: "1차 할인", value: formatPercent(safeRate(firstRate)) },
+                      { label: "추가 할인", value: formatPercent(safeRate(secondRate)) },
+                      { label: "쿠폰", value: `-${formatWon(result.couponApplied)}` },
+                    ]
+                  : []),
+                { label: "실제 총 할인율", value: formatPercent(result.rate), strong: true },
+                { label: "최종 가격", value: formatWon(result.finalPrice), strong: true },
+              ]}
+              caption={mode === "stacked" ? "중복 할인은 퍼센트를 단순히 더하지 않고 순서대로 적용해 계산합니다." : "몇이지?에서 계산한 예상 할인 결과입니다."}
             />
           </section>
         </div>
@@ -326,12 +507,12 @@ export default function DiscountPage() {
               </p>
             </div>
 
-            <div className="rounded-2xl bg-gray-50 p-5">
-              <p className="mb-1 font-bold text-gray-800">5만원에서 30% 할인</p>
-              <p>
-                할인 금액은 15,000원,
+            <div className="rounded-2xl bg-blue-50 p-5">
+              <p className="mb-1 font-bold text-blue-800">20% + 10% 추가 할인</p>
+              <p className="text-blue-700">
+                100,000원 → 80,000원 → 72,000원.
                 <br />
-                최종 가격은 35,000원이에요.
+                실제 총 할인율은 28%예요.
               </p>
             </div>
 

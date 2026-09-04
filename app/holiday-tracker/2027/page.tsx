@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import RelatedCalculators from "../../_components/RelatedCalculators";
+import ResultImageButton from "../../_components/ResultImageButton";
 
 export const metadata: Metadata = {
   title: "2027 황금연휴 | 연차 2일로 추석 9일 쉬기",
@@ -133,6 +134,23 @@ export default function Holiday2027Page() {
             <SeptemberCalendar />
           </div>
         </section>
+
+        <div className="mt-3">
+          <ResultImageButton
+            eyebrow="몇이지? · 2027 황금연휴"
+            title="연차 2일로 9일 휴가"
+            tone="amber"
+            filename="myeotiji-2027-holiday.png"
+            lines={[
+              { label: "휴가 기간", value: "9/11(토) ~ 9/19(일)", strong: true },
+              { label: "사용 연차", value: "2일" },
+              { label: "추천 연차 ①", value: "9/13(월)" },
+              { label: "추천 연차 ②", value: "9/17(금)" },
+              { label: "연속 휴가", value: "9일", strong: true },
+            ]}
+            caption="2026.09.04 현재 시행 중인 공휴일·대체공휴일 규정 기준입니다."
+          />
+        </div>
 
         <section className="mt-8">
           <div>

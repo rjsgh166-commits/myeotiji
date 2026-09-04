@@ -14,8 +14,8 @@ export const CALCULATORS: CalculatorItem[] = [
     icon: "💰",
     title: "연봉 실수령액",
     shortTitle: "연봉 실수령액",
-    description: "내 월급은 실제로 얼마일까?",
-    aliases: ["연봉", "월급", "실수령액", "세후", "세전", "급여", "연봉계산기", "월급계산기"],
+    description: "실수령액 계산 + 이직 연봉 비교",
+    aliases: ["연봉", "월급", "실수령액", "세후", "세전", "급여", "연봉계산기", "월급계산기", "연봉비교", "이직연봉", "연봉인상", "협상연봉"],
     category: "work",
   },
   {
@@ -69,8 +69,8 @@ export const CALCULATORS: CalculatorItem[] = [
     icon: "🏠",
     title: "대출이자",
     shortTitle: "대출이자",
-    description: "월 상환액과 총 대출이자 계산",
-    aliases: ["대출", "이자", "원리금균등", "원금균등", "만기일시", "주담대", "주택담보대출", "대출계산기"],
+    description: "월 상환액·총이자 계산 + 대출 비교",
+    aliases: ["대출", "이자", "원리금균등", "원금균등", "만기일시", "주담대", "주택담보대출", "대출계산기", "대출비교", "금리비교", "총이자비교"],
     category: "finance",
   },
   {
@@ -189,8 +189,8 @@ export const CALCULATORS: CalculatorItem[] = [
     icon: "🛒",
     title: "할인율",
     shortTitle: "할인율",
-    description: "할인 후 가격과 실제 할인율 계산",
-    aliases: ["할인", "세일", "할인가", "정가", "할인율계산기", "쿠폰", "몇퍼센트"],
+    description: "추가 할인·쿠폰까지 실제 할인율 계산",
+    aliases: ["할인", "세일", "할인가", "정가", "할인율계산기", "쿠폰", "몇퍼센트", "추가할인", "중복할인", "쿠폰할인", "실제할인율"],
     category: "life",
   },
   {

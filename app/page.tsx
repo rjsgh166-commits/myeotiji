@@ -41,7 +41,7 @@ const ownerPicks = [
     kicker: "쇼핑 전에 빠르게 확인",
     title: "🛒 할인율 계산기",
     description:
-      "정가와 할인율만 넣으면 최종 가격을, 정가와 판매가를 넣으면 실제 할인율을 바로 계산해요.",
+      "정가·판매가 계산은 물론 1차 할인 + 추가 할인 + 쿠폰까지 적용한 실제 총 할인율을 확인해요.",
     cta: "할인가 계산하기",
     theme: "blue",
   },
@@ -60,8 +60,11 @@ export default function Home() {
             <a href="#year-2027" className="hover:text-black">
               2027 미리보기
             </a>
-            <a href="#owner-picks" className="hover:text-black">
-              주인장 추천
+            <a href="#compare" className="hover:text-black">
+              비교 계산
+            </a>
+            <a href="#situations" className="hover:text-black">
+              상황별 계산
             </a>
             <a href="#calculators" className="hover:text-black">
               자주 찾는 계산기
@@ -145,6 +148,96 @@ export default function Home() {
               <p className="mt-2 text-xl font-black">연차 2일 → 9일</p>
               <p className="mt-1 text-sm text-gray-500">9월 추석 황금연휴 달력 확인</p>
               <p className="mt-4 text-sm font-black text-amber-700">2027 연휴 보기 →</p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section id="compare" className="px-5 pb-14 sm:pb-16">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-6">
+            <p className="text-xs font-black tracking-wider text-violet-600">COMPARE, NOT JUST CALCULATE</p>
+            <h2 className="mt-2 text-2xl font-black">숫자 하나보다, 두 선택지를 비교해보세요</h2>
+            <p className="mt-2 text-sm leading-6 text-gray-500">
+              몇이지?는 단순 계산에서 끝내지 않고 실제 선택에 필요한 차이를 보여주는 기능을 늘려가고 있어요.
+            </p>
+          </div>
+
+          <div className="grid gap-3 md:grid-cols-3">
+            <Link href="/salary" className="group rounded-2xl border border-violet-100 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-violet-200 hover:shadow-md">
+              <p className="text-xs font-black text-violet-600">💼 연봉 A/B 비교</p>
+              <p className="mt-2 text-lg font-black">이직하면 통장에 얼마 더?</p>
+              <p className="mt-2 text-sm leading-6 text-gray-500">현재 연봉과 제안 연봉의 월·연간 실수령 차이를 계산해요.</p>
+              <p className="mt-4 text-sm font-black text-violet-600">연봉 비교하기 →</p>
+            </Link>
+
+            <Link href="/loan" className="group rounded-2xl border border-blue-100 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md">
+              <p className="text-xs font-black text-blue-600">🏠 대출 A/B 비교</p>
+              <p className="mt-2 text-lg font-black">금리만 낮으면 유리할까?</p>
+              <p className="mt-2 text-sm leading-6 text-gray-500">금리·기간·상환방식이 다른 두 조건의 월 부담과 총 이자를 비교해요.</p>
+              <p className="mt-4 text-sm font-black text-blue-600">대출 비교하기 →</p>
+            </Link>
+
+            <Link href="/discount" className="group rounded-2xl border border-amber-100 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-amber-200 hover:shadow-md">
+              <p className="text-xs font-black text-amber-700">🛒 실제 할인율</p>
+              <p className="mt-2 text-lg font-black">20% + 10% = 30%?</p>
+              <p className="mt-2 text-sm leading-6 text-gray-500">추가 할인과 쿠폰을 순서대로 반영해 진짜 최종 할인율을 보여줘요.</p>
+              <p className="mt-4 text-sm font-black text-amber-700">추가 할인 계산 →</p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section id="situations" className="px-5 pb-14 sm:pb-16">
+        <div className="mx-auto max-w-6xl rounded-3xl bg-slate-950 p-6 text-white sm:p-8">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-xs font-black tracking-wider text-violet-300">SITUATION GUIDE</p>
+              <h2 className="mt-2 text-2xl font-black">계산기를 찾지 말고, 상황부터 골라보세요</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
+                이직·알바·집 구하기·휴가·쇼핑처럼 실제 상황에 필요한 계산을 순서대로 묶었어요.
+              </p>
+            </div>
+            <Link href="/situations" className="rounded-xl bg-white px-4 py-3 text-sm font-black text-slate-900 transition hover:bg-slate-100">
+              상황별 가이드 전체 보기 →
+            </Link>
+          </div>
+
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            {[
+              ["💼", "이직·퇴사", "연봉 → 퇴직금 → 실업급여"],
+              ["🧾", "알바·첫 월급", "시급 → 주휴수당 → 월급"],
+              ["🏠", "집 구하기", "대출 비교 → 전월세 → 저축"],
+              ["🍯", "2027 휴가", "황금연휴 → D-Day"],
+              ["🛒", "쇼핑", "실제 할인율 → 수수료"],
+            ].map(([icon, title, description]) => (
+              <Link key={title} href="/situations" className="rounded-2xl bg-white/5 p-4 transition hover:bg-white/10">
+                <div className="text-2xl">{icon}</div>
+                <p className="mt-3 font-black">{title}</p>
+                <p className="mt-1 text-xs leading-5 text-slate-400">{description}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="insights" className="px-5 pb-14 sm:pb-16">
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-3xl border border-blue-100 bg-gradient-to-br from-white via-blue-50/50 to-violet-50 p-6 sm:p-8">
+          <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <p className="text-xs font-black tracking-wider text-blue-600">MYEOTIJI DATA</p>
+              <h2 className="mt-2 text-2xl font-black">계산 결과를 넘어, 숫자의 변화를 봅니다</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-gray-500">
+                2027 최저임금·기준 중위소득·황금연휴처럼 공식 데이터를 서로 비교해 실제 생활에서 의미 있는 차이를 정리했어요.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2 text-xs font-black">
+                <span className="rounded-full bg-white px-3 py-2 text-blue-700 shadow-sm">최저임금 +380원</span>
+                <span className="rounded-full bg-white px-3 py-2 text-violet-700 shadow-sm">4인 중위소득 +435,147원</span>
+                <span className="rounded-full bg-white px-3 py-2 text-amber-700 shadow-sm">연차 2일 → 9일</span>
+              </div>
+            </div>
+            <Link href="/insights/2027" className="inline-flex rounded-xl bg-blue-600 px-5 py-3 text-sm font-black text-white transition hover:bg-blue-700">
+              2027 숫자 리포트 보기 →
             </Link>
           </div>
         </div>

@@ -7,79 +7,199 @@ import {
 } from "./incomeTaxTable";
 import RelatedCalculators from "../_components/RelatedCalculators";
 import ResultShareButton from "../_components/ResultShareButton";
+import ResultImageButton from "../_components/ResultImageButton";
 
 const formatWon = (value: number) =>
   `${Math.max(0, Math.round(value)).toLocaleString("ko-KR")}원`;
 
+const formatSignedWon = (value: number) => {
+  const rounded = Math.round(value);
+  const sign = rounded > 0 ? "+" : rounded < 0 ? "-" : "";
+  return `${sign}${Math.abs(rounded).toLocaleString("ko-KR")}원`;
+};
+
 const floorWon = (value: number) => Math.floor(Math.max(0, value));
+
+type SalaryResult = {
+  monthlyGross: number;
+  taxFreeWon: number;
+  monthlyTaxable: number;
+  nationalPension: number;
+  healthInsurance: number;
+  longTermCare: number;
+  employmentInsurance: number;
+  incomeTax: number;
+  localIncomeTax: number;
+  totalDeduction: number;
+  netSalary: number;
+};
+
+function calculateSalary(
+  annualSalaryManwon: number,
+  monthlyTaxFreeManwon: number,
+  familyCount: number,
+  childrenCount: number,
+): SalaryResult {
+  const annualSalaryWon = Math.max(0, annualSalaryManwon) * 10_000;
+  const monthlyGross = annualSalaryWon / 12;
+  const taxFreeWon = Math.min(
+    Math.max(0, monthlyTaxFreeManwon) * 10_000,
+    monthlyGross,
+  );
+  const monthlyTaxable = Math.max(0, monthlyGross - taxFreeWon);
+
+  // 2026년 기준 근로자 부담분
+  // 국민연금: 4.75%, 기준소득월액 하한/상한 적용
+  const pensionBase = Math.min(Math.max(monthlyTaxable, 410_000), 6_590_000);
+  const nationalPension =
+    monthlyTaxable > 0 ? floorWon(pensionBase * 0.0475) : 0;
+
+  // 건강보험: 근로자 부담 3.595%
+  const healthInsurance = floorWon(monthlyTaxable * 0.03595);
+
+  // 장기요양보험: 건강보험료 × (0.9448 / 7.19)
+  const longTermCare = floorWon(healthInsurance * (0.9448 / 7.19));
+
+  // 고용보험: 근로자 부담 0.9%
+  const employmentInsurance = floorWon(monthlyTaxable * 0.009);
+
+  // 2026.03.01 근로소득 간이세액표 기준
+  const incomeTax = calculateIncomeTax2026(
+    monthlyTaxable,
+    Math.max(1, familyCount),
+    Math.max(0, childrenCount),
+  );
+  const localIncomeTax = calculateLocalIncomeTax(incomeTax);
+
+  const totalDeduction =
+    nationalPension +
+    healthInsurance +
+    longTermCare +
+    employmentInsurance +
+    incomeTax +
+    localIncomeTax;
+
+  const netSalary = Math.max(0, monthlyGross - totalDeduction);
+
+  return {
+    monthlyGross,
+    taxFreeWon,
+    monthlyTaxable,
+    nationalPension,
+    healthInsurance,
+    longTermCare,
+    employmentInsurance,
+    incomeTax,
+    localIncomeTax,
+    totalDeduction,
+    netSalary,
+  };
+}
+
+function ResultRow({
+  label,
+  value,
+}: {
+  label: string;
+  value: number;
+}) {
+  const isNegative = value < 0;
+  return (
+    <div className="flex items-center justify-between gap-4">
+      <span className="text-slate-400">{label}</span>
+      <span className="font-semibold text-slate-200">
+        {isNegative ? "- " : ""}
+        {formatWon(Math.abs(value))}
+      </span>
+    </div>
+  );
+}
+
+function ComparisonCard({
+  label,
+  salary,
+  result,
+  accent = false,
+}: {
+  label: string;
+  salary: number;
+  result: SalaryResult;
+  accent?: boolean;
+}) {
+  return (
+    <div
+      className={`rounded-2xl p-5 sm:p-6 ${
+        accent ? "bg-blue-600 text-white" : "bg-slate-50 text-slate-900"
+      }`}
+    >
+      <p
+        className={`text-xs font-black ${
+          accent ? "text-blue-100" : "text-slate-400"
+        }`}
+      >
+        {label}
+      </p>
+      <p className="mt-2 text-xl font-black">
+        연봉 {Math.max(0, salary).toLocaleString("ko-KR")}만원
+      </p>
+      <div className="mt-5 space-y-3 text-sm">
+        <div className="flex items-center justify-between gap-4">
+          <span className={accent ? "text-blue-100" : "text-slate-500"}>
+            월 세전
+          </span>
+          <strong>{formatWon(result.monthlyGross)}</strong>
+        </div>
+        <div className="flex items-center justify-between gap-4">
+          <span className={accent ? "text-blue-100" : "text-slate-500"}>
+            월 공제
+          </span>
+          <strong>{formatWon(result.totalDeduction)}</strong>
+        </div>
+        <div className="flex items-center justify-between gap-4 border-t border-current/10 pt-3">
+          <span className={accent ? "text-blue-100" : "text-slate-600"}>
+            월 실수령
+          </span>
+          <strong className="text-lg">{formatWon(result.netSalary)}</strong>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function SalaryPage() {
   const [annualSalary, setAnnualSalary] = useState(5000); // 만원
   const [monthlyTaxFree, setMonthlyTaxFree] = useState(20); // 만원
   const [familyCount, setFamilyCount] = useState(1);
   const [childrenCount, setChildrenCount] = useState(0);
+  const [compareSalary, setCompareSalary] = useState(5500); // 만원
 
-  const result = useMemo(() => {
-    const annualSalaryWon = Math.max(0, annualSalary) * 10_000;
-    const monthlyGross = annualSalaryWon / 12;
-    const taxFreeWon = Math.min(
-      Math.max(0, monthlyTaxFree) * 10_000,
-      monthlyGross,
-    );
-    const monthlyTaxable = Math.max(0, monthlyGross - taxFreeWon);
+  const result = useMemo(
+    () =>
+      calculateSalary(
+        annualSalary,
+        monthlyTaxFree,
+        familyCount,
+        childrenCount,
+      ),
+    [annualSalary, monthlyTaxFree, familyCount, childrenCount],
+  );
 
-    // 2026년 기준 근로자 부담분
-    // 국민연금: 4.75%, 기준소득월액 하한/상한 적용
-    const pensionBase = Math.min(
-      Math.max(monthlyTaxable, 410_000),
-      6_590_000,
-    );
-    const nationalPension =
-      monthlyTaxable > 0 ? floorWon(pensionBase * 0.0475) : 0;
+  const compareResult = useMemo(
+    () =>
+      calculateSalary(
+        compareSalary,
+        monthlyTaxFree,
+        familyCount,
+        childrenCount,
+      ),
+    [compareSalary, monthlyTaxFree, familyCount, childrenCount],
+  );
 
-    // 건강보험: 근로자 부담 3.595%
-    const healthInsurance = floorWon(monthlyTaxable * 0.03595);
-
-    // 장기요양보험: 건강보험료 × (0.9448 / 7.19)
-    const longTermCare = floorWon(
-      healthInsurance * (0.9448 / 7.19),
-    );
-
-    // 고용보험: 근로자 부담 0.9%
-    const employmentInsurance = floorWon(monthlyTaxable * 0.009);
-
-    // 2026.03.01 근로소득 간이세액표 기준
-    const incomeTax = calculateIncomeTax2026(
-      monthlyTaxable,
-      Math.max(1, familyCount),
-      Math.max(0, childrenCount),
-    );
-    const localIncomeTax = calculateLocalIncomeTax(incomeTax);
-
-    const totalDeduction =
-      nationalPension +
-      healthInsurance +
-      longTermCare +
-      employmentInsurance +
-      incomeTax +
-      localIncomeTax;
-
-    const netSalary = Math.max(0, monthlyGross - totalDeduction);
-
-    return {
-      monthlyGross,
-      taxFreeWon,
-      monthlyTaxable,
-      nationalPension,
-      healthInsurance,
-      longTermCare,
-      employmentInsurance,
-      incomeTax,
-      localIncomeTax,
-      totalDeduction,
-      netSalary,
-    };
-  }, [annualSalary, monthlyTaxFree, familyCount, childrenCount]);
+  const salaryDifference = (compareSalary - annualSalary) * 10_000;
+  const monthlyGrossDifference =
+    compareResult.monthlyGross - result.monthlyGross;
+  const monthlyNetDifference = compareResult.netSalary - result.netSalary;
+  const annualNetDifference = monthlyNetDifference * 12;
 
   return (
     <main className="min-h-screen bg-[#f7f8fa] text-slate-900">
@@ -100,14 +220,14 @@ export default function SalaryPage() {
       <div className="mx-auto max-w-5xl px-5 py-10 sm:py-14">
         <section className="mb-8">
           <div className="mb-3 inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700">
-            2026년 기준
+            2026년 기준 · 연봉 비교 지원
           </div>
           <h1 className="text-3xl font-black tracking-tight sm:text-4xl">
             연봉 실수령액 계산기
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-500 sm:text-base">
-            연봉, 비과세액, 공제대상가족 수를 입력하면 예상 월 실수령액과
-            공제 항목을 계산해요.
+            예상 월 실수령액을 확인하고, 현재 연봉과 이직·협상 연봉의 실제
+            월 수령액 차이까지 비교해보세요.
           </p>
         </section>
 
@@ -251,14 +371,107 @@ export default function SalaryPage() {
             <ResultShareButton
               title="2026 연봉 실수령액 계산 결과"
               calculatorPath="/salary"
-              text={`💰 2026 연봉 실수령액 계산
-연봉: ${(annualSalary * 10_000).toLocaleString("ko-KR")}원
-월 세전 급여: ${formatWon(result.monthlyGross)}
-월 총 공제액: ${formatWon(result.totalDeduction)}
-예상 월 실수령액: ${formatWon(result.netSalary)}`}
+              text={`💰 2026 연봉 실수령액 계산\n연봉: ${(annualSalary * 10_000).toLocaleString("ko-KR")}원\n월 세전 급여: ${formatWon(result.monthlyGross)}\n월 총 공제액: ${formatWon(result.totalDeduction)}\n예상 월 실수령액: ${formatWon(result.netSalary)}`}
             />
           </section>
         </div>
+
+        <section className="mt-6 rounded-3xl border border-blue-100 bg-white p-6 shadow-sm sm:p-8">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-xs font-black text-blue-600">SALARY COMPARE</p>
+              <h2 className="mt-1 text-xl font-black">현재 연봉 vs 이직·협상 연봉</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                같은 비과세액·가족 조건으로 비교해, 연봉 변화가 실제 통장 금액에
+                얼마나 반영되는지 보여드려요.
+              </p>
+            </div>
+          </div>
+
+          <label className="mt-6 block max-w-sm">
+            <span className="mb-2 block text-sm font-bold text-slate-700">
+              비교할 연봉
+            </span>
+            <div className="relative">
+              <input
+                type="number"
+                min="0"
+                step="100"
+                value={compareSalary}
+                onChange={(e) => setCompareSalary(Number(e.target.value))}
+                className="w-full rounded-2xl border border-blue-200 bg-blue-50/50 px-4 py-4 pr-16 text-lg font-black outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"
+              />
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">
+                만원
+              </span>
+            </div>
+          </label>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <ComparisonCard label="현재 조건 A" salary={annualSalary} result={result} />
+            <ComparisonCard
+              label="비교 조건 B"
+              salary={compareSalary}
+              result={compareResult}
+              accent
+            />
+          </div>
+
+          <div className="mt-5 rounded-2xl bg-slate-950 p-5 text-white sm:p-6">
+            <p className="text-xs font-black text-slate-400">한 줄 비교</p>
+            <p className="mt-2 text-lg font-black leading-7">
+              연봉 {formatSignedWon(salaryDifference)} 변화 → 월 실수령액은{" "}
+              <span className="text-blue-300">
+                {formatSignedWon(monthlyNetDifference)}
+              </span>{" "}
+              변해요.
+            </p>
+            <div className="mt-5 grid gap-3 text-sm sm:grid-cols-3">
+              <div className="rounded-xl bg-white/5 p-4">
+                <p className="text-slate-400">월 세전 차이</p>
+                <strong className="mt-1 block text-base">
+                  {formatSignedWon(monthlyGrossDifference)}
+                </strong>
+              </div>
+              <div className="rounded-xl bg-white/5 p-4">
+                <p className="text-slate-400">월 실수령 차이</p>
+                <strong className="mt-1 block text-base">
+                  {formatSignedWon(monthlyNetDifference)}
+                </strong>
+              </div>
+              <div className="rounded-xl bg-white/5 p-4">
+                <p className="text-slate-400">연간 환산 차이</p>
+                <strong className="mt-1 block text-base">
+                  {formatSignedWon(annualNetDifference)}
+                </strong>
+              </div>
+            </div>
+            <p className="mt-4 text-xs leading-5 text-slate-400">
+              연간 환산 차이는 현재 월 실수령 예상액의 차이를 12개월로 단순 환산한 값이며, 성과급·연말정산 등은 포함하지 않아요.
+            </p>
+          </div>
+
+          <ResultShareButton
+            title="연봉 비교 계산 결과"
+            calculatorPath="/salary"
+            text={`💼 연봉 비교\nA 연봉: ${annualSalary.toLocaleString("ko-KR")}만원 → 월 실수령 ${formatWon(result.netSalary)}\nB 연봉: ${compareSalary.toLocaleString("ko-KR")}만원 → 월 실수령 ${formatWon(compareResult.netSalary)}\n월 실수령 차이: ${formatSignedWon(monthlyNetDifference)}\n연간 환산 차이: ${formatSignedWon(annualNetDifference)}`}
+          />
+          <ResultImageButton
+            eyebrow="몇이지? · 2026 연봉 비교"
+            title="이직하면 통장에 얼마 더?"
+            tone="violet"
+            filename="myeotiji-salary-compare.png"
+            lines={[
+              { label: "현재 연봉 A", value: `${annualSalary.toLocaleString("ko-KR")}만원` },
+              { label: "비교 연봉 B", value: `${compareSalary.toLocaleString("ko-KR")}만원` },
+              { label: "A 월 실수령", value: formatWon(result.netSalary) },
+              { label: "B 월 실수령", value: formatWon(compareResult.netSalary) },
+              { label: "월 실수령 차이", value: formatSignedWon(monthlyNetDifference), strong: true },
+              { label: "연간 환산 차이", value: formatSignedWon(annualNetDifference), strong: true },
+            ]}
+            caption="비과세액·공제대상가족 조건을 동일하게 적용한 예상 비교값입니다."
+          />
+        </section>
 
         <section className="mt-6 rounded-3xl border border-slate-200 bg-white p-6 sm:p-8">
           <h2 className="text-lg font-extrabold">계산 기준</h2>
@@ -280,6 +493,11 @@ export default function SalaryPage() {
               급여 구간 산식을 적용합니다.
             </p>
             <p>
+              • 연봉 비교는 두 조건에 동일한 비과세액·가족 수·자녀 수를 적용한
+              예상치입니다. 실제 이직 조건의 비과세·성과급 구조가 다르면 결과도
+              달라집니다.
+            </p>
+            <p>
               • 실제 급여명세서는 회사의 보수 산정, 비과세 항목, 원천징수
               비율(80%·100%·120%) 등에 따라 달라질 수 있습니다.
             </p>
@@ -289,28 +507,5 @@ export default function SalaryPage() {
         <RelatedCalculators currentHref="/salary" />
       </div>
     </main>
-  );
-}
-
-function ResultRow({
-  label,
-  value,
-  strong = false,
-}: {
-  label: string;
-  value: number;
-  strong?: boolean;
-}) {
-  const isMinus = value < 0;
-  return (
-    <div className="flex items-center justify-between gap-4">
-      <span className={strong ? "font-bold text-slate-200" : "text-slate-400"}>
-        {label}
-      </span>
-      <span className={strong ? "font-extrabold" : "font-semibold text-slate-200"}>
-        {isMinus ? "- " : ""}
-        {formatWon(Math.abs(value))}
-      </span>
-    </div>
   );
 }
