@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import CalculatorSeoContentV29 from "../_components/CalculatorSeoContentV29";
 
 export const metadata: Metadata = {
   title: "할인율 계산기 · 추가 할인 쿠폰 계산",
@@ -19,8 +20,18 @@ export const metadata: Metadata = {
       "20% + 10% 추가 할인은 실제 몇 %일까? 쿠폰까지 포함한 최종 가격과 실제 할인율을 계산하세요.",
     url: "/discount",
   },
+  twitter: {
+    card: "summary",
+    title: "할인율 · 추가 할인 계산기 | 몇이지?",
+    description: "연속 할인과 쿠폰을 적용한 실제 최종 가격과 총 할인율을 확인하세요.",
+  },
 };
 
 export default function Layout({ children }: { children: ReactNode }) {
-  return children;
+  return (
+    <>
+      {children}
+      <CalculatorSeoContentV29 pathname="/discount" />
+    </>
+  );
 }
