@@ -38,6 +38,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/unit-converter",
     "/calorie-burn",
     "/dog-age",
+    "/guides",
+    "/guides/fee-calculation",
+    "/guides/2027-holidays",
+    "/guides/age",
+    "/guides/lunar-birthday",
+    "/guides/stacked-discount",
+    "/guides/stock-average",
+    "/guides/editorial-policy",
     "/about",
     "/privacy",
     "/contact",
@@ -54,12 +62,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/holiday-tracker/2027/october",
   ]);
 
+  const editorialGuides = new Set([
+    "/guides",
+    "/guides/fee-calculation",
+    "/guides/2027-holidays",
+    "/guides/age",
+    "/guides/lunar-birthday",
+    "/guides/stacked-discount",
+    "/guides/stock-average",
+    "/guides/editorial-policy",
+  ]);
+
   return routes.map((route) => ({
     url: `${SITE_URL}${route}`,
     changeFrequency:
       route === ""
         ? "weekly"
-        : holidayGuides.has(route)
+        : holidayGuides.has(route) || editorialGuides.has(route)
           ? "weekly"
           : ["/about", "/privacy", "/contact", "/disclaimer"].includes(route)
             ? "yearly"
@@ -69,8 +88,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ? 1
         : holidayGuides.has(route)
           ? 0.9
-          : ["/about", "/privacy", "/contact", "/disclaimer"].includes(route)
-            ? 0.4
-            : 0.8,
+          : editorialGuides.has(route)
+            ? 0.85
+            : ["/about", "/privacy", "/contact", "/disclaimer"].includes(route)
+              ? 0.4
+              : 0.8,
   }));
 }

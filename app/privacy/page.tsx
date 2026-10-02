@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "개인정보처리방침",
   description:
-    "몇이지?의 Google Analytics, 쿠키, 호스팅 로그 등 개인정보 및 이용정보 처리 방침을 확인하세요.",
+    "몇이지?의 Google Analytics, 광고, 쿠키, 호스팅 로그 등 개인정보 및 이용정보 처리 방침을 확인하세요.",
   alternates: {
     canonical: "/privacy",
   },
@@ -21,13 +21,12 @@ export default function Page() {
           ← 몇이지? 홈
         </Link>
 
-        
         <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200 sm:p-9">
           <p className="text-sm font-bold text-blue-600">PRIVACY</p>
           <h1 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">
             개인정보처리방침
           </h1>
-          <p className="mt-4 text-sm text-gray-400">최종 업데이트: 2026년 9월 3일</p>
+          <p className="mt-4 text-sm text-gray-400">최종 업데이트: 2026년 10월 2일</p>
 
           <div className="mt-8 space-y-9 text-sm leading-7 text-gray-600">
             <section>
@@ -41,9 +40,7 @@ export default function Page() {
             </section>
 
             <section>
-              <h2 className="text-lg font-bold text-gray-900">
-                2. 자동으로 처리될 수 있는 정보
-              </h2>
+              <h2 className="text-lg font-bold text-gray-900">2. 자동으로 처리될 수 있는 정보</h2>
               <ul className="mt-3 list-disc space-y-2 pl-5">
                 <li>접속 일시, 방문 페이지, 클릭·계산기 이용 이벤트</li>
                 <li>브라우저 종류, 운영체제, 기기 유형 등 기술 정보</li>
@@ -54,20 +51,17 @@ export default function Page() {
             </section>
 
             <section>
-              <h2 className="text-lg font-bold text-gray-900">
-                3. 이용 목적
-              </h2>
+              <h2 className="text-lg font-bold text-gray-900">3. 이용 목적</h2>
               <ul className="mt-3 list-disc space-y-2 pl-5">
                 <li>사이트 이용 현황 및 계산기 사용 패턴 분석</li>
                 <li>서비스 품질과 사용자 경험 개선</li>
                 <li>오류 탐지, 보안 유지 및 비정상적인 이용 방지</li>
+                <li>광고 서비스가 활성화된 경우 광고 제공 및 효과 측정</li>
               </ul>
             </section>
 
             <section>
-              <h2 className="text-lg font-bold text-gray-900">
-                4. 계산기 입력값 처리
-              </h2>
+              <h2 className="text-lg font-bold text-gray-900">4. 계산기 입력값 처리</h2>
               <p className="mt-3">
                 연봉, 금액, 생년월일, 기념일, 출산 예정일 계산에 사용하는 날짜
                 등 이용자가 계산기에 입력한 값은 현재 브라우저에서 계산에
@@ -79,9 +73,7 @@ export default function Page() {
             </section>
 
             <section>
-              <h2 className="text-lg font-bold text-gray-900">
-                5. Google Analytics
-              </h2>
+              <h2 className="text-lg font-bold text-gray-900">5. Google Analytics</h2>
               <p className="mt-3">
                 몇이지?는 Google Analytics 4를 이용하여 방문자 수, 세션 통계,
                 대략적인 지역, 브라우저·기기 정보 및 페이지·이벤트 이용 정보를
@@ -91,9 +83,7 @@ export default function Page() {
             </section>
 
             <section>
-              <h2 className="text-lg font-bold text-gray-900">
-                6. 호스팅 서비스
-              </h2>
+              <h2 className="text-lg font-bold text-gray-900">6. 호스팅 서비스</h2>
               <p className="mt-3">
                 사이트는 Vercel을 통해 제공됩니다. 서비스 운영과 보안 과정에서
                 Vercel이 접속 로그, IP 주소, 기기·브라우저 정보, IP 기반의
@@ -102,43 +92,38 @@ export default function Page() {
             </section>
 
             <section>
-              <h2 className="text-lg font-bold text-gray-900">
-                7. 보관 및 제3자 서비스
-              </h2>
+              <h2 className="text-lg font-bold text-gray-900">7. 보관 및 제3자 서비스</h2>
               <p className="mt-3">
-                분석 및 호스팅 정보의 보관 기간과 처리 위치는 각 서비스의 설정과
-                제공업체 정책에 따라 달라질 수 있습니다. 몇이지?는 서비스 운영에
-                필요한 범위에서만 관련 데이터를 이용합니다.
+                분석, 광고 및 호스팅 정보의 보관 기간과 처리 위치는 각 서비스의
+                설정과 제공업체 정책에 따라 달라질 수 있습니다. 몇이지?는 서비스
+                운영에 필요한 범위에서 관련 데이터를 이용합니다.
               </p>
             </section>
 
             <section>
-              <h2 className="text-lg font-bold text-gray-900">
-                8. 광고 서비스에 관한 안내
-              </h2>
+              <h2 className="text-lg font-bold text-gray-900">8. Google AdSense 및 광고 서비스</h2>
               <p className="mt-3">
-                향후 Google AdSense 등 광고 서비스를 도입할 수 있습니다. 광고
-                서비스가 적용되면 광고 제공 및 효과 측정을 위해 쿠키, 웹 비콘,
-                IP 주소 또는 기타 식별 기술이 사용될 수 있으며, 필요한 경우 본
-                방침을 업데이트합니다.
+                몇이지?는 Google AdSense에 사이트를 연결해 광고 게재 승인을
+                진행하고 있으며, 승인 및 게재 상태에 따라 광고가 표시되지 않을
+                수 있습니다. 광고 기능이 활성화되면 광고 제공, 빈도 관리,
+                부정사용 방지 및 효과 측정을 위해 쿠키, 웹 비콘, IP 주소 또는
+                기타 식별 기술이 사용될 수 있습니다. 지역별 법령과 Google 정책에
+                따라 필요한 경우 동의 관리 절차를 적용합니다.
               </p>
             </section>
 
             <section>
-              <h2 className="text-lg font-bold text-gray-900">
-                9. 이용자의 선택
-              </h2>
+              <h2 className="text-lg font-bold text-gray-900">9. 이용자의 선택</h2>
               <p className="mt-3">
                 이용자는 브라우저 설정을 통해 쿠키를 삭제하거나 차단할 수
-                있습니다. 쿠키를 차단하면 일부 분석 기능의 정확도가 낮아질 수
-                있으나 기본 계산기 기능 이용에는 영향을 주지 않도록 운영합니다.
+                있습니다. 쿠키를 차단하면 분석 또는 광고 기능의 정확도가 낮아질
+                수 있으나 기본 계산기 기능 이용에는 영향을 주지 않도록
+                운영합니다.
               </p>
             </section>
 
             <section>
-              <h2 className="text-lg font-bold text-gray-900">
-                10. 개인정보 관련 문의
-              </h2>
+              <h2 className="text-lg font-bold text-gray-900">10. 개인정보 관련 문의</h2>
               <p className="mt-3">
                 개인정보 또는 서비스 데이터 처리와 관련한 문의는 문의 페이지의
                 운영자 연락처를 이용해 주세요.
@@ -152,9 +137,7 @@ export default function Page() {
             </section>
 
             <section>
-              <h2 className="text-lg font-bold text-gray-900">
-                11. 방침 변경
-              </h2>
+              <h2 className="text-lg font-bold text-gray-900">11. 방침 변경</h2>
               <p className="mt-3">
                 서비스 기능이나 이용하는 외부 서비스가 변경되는 경우 본 방침도
                 수정될 수 있습니다. 중요한 변경은 이 페이지를 통해 안내합니다.
@@ -162,7 +145,6 @@ export default function Page() {
             </section>
           </div>
         </section>
-
       </div>
     </main>
   );

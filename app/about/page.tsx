@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "몇이지? 소개",
   description:
-    "몇이지?가 제공하는 급여·금융·부동산·날짜·생활 계산기와 계산 기준, 검증 및 운영 원칙을 소개합니다.",
+    "몇이지?가 제공하는 급여·금융·부동산·날짜·생활 계산기와 계산 가이드, 계산 기준, 검증 및 운영 원칙을 소개합니다.",
   alternates: {
     canonical: "/about",
   },
@@ -21,15 +21,15 @@ const categories = [
 const principles = [
   {
     title: "계산 기준을 가능한 범위에서 공개합니다.",
-    text: "법령·요율·공공기준이 필요한 계산기는 계산기 아래에서 적용 기준과 주요 공식을 설명합니다.",
+    text: "법령·요율·공공기준이 필요한 계산기는 계산기 아래에서 적용 기준과 주요 공식을 설명하고, 별도 가이드에서는 실제 사례와 해석 방법을 더 자세히 정리합니다.",
   },
   {
     title: "공식자료를 우선 확인합니다.",
-    text: "최저임금, 실업급여, 기준 중위소득처럼 매년 바뀌는 정보는 정부·공공기관의 최신 자료를 우선 확인하고 기준 연도 또는 확인일을 표시합니다.",
+    text: "최저임금, 실업급여, 기준 중위소득, 공휴일처럼 바뀔 수 있는 정보는 정부·공공기관의 최신 자료를 우선 확인하고 기준 연도 또는 확인일을 표시합니다.",
   },
   {
     title: "계산값과 정보성 안내를 구분합니다.",
-    text: "계산 결과는 사용자가 입력한 조건에 따른 예상값이며, 실제 계약·신고·수급자격·의료적 판단을 대신하지 않습니다.",
+    text: "계산 결과는 사용자가 입력한 조건에 따른 예상값이며, 실제 계약·신고·수급자격·의료적 판단·투자판단을 대신하지 않습니다.",
   },
   {
     title: "입력값을 불필요하게 수집하지 않습니다.",
@@ -60,9 +60,9 @@ export default function Page() {
           <p className="mt-5 max-w-3xl text-base leading-8 text-gray-600">
             몇이지?는 급여와 근로조건부터 금융, 날짜, 복지, 생활까지 일상에서
             자주 궁금해지는 숫자를 직접 입력해 빠르게 확인할 수 있도록 만든
-            생활 계산기 서비스입니다. 현재 23개의 계산기를 제공하고 있으며,
-            계산 결과뿐 아니라 계산에 사용한 기준과 주의사항도 함께 이해할 수
-            있도록 페이지를 지속적으로 보완하고 있습니다.
+            생활 계산기 서비스입니다. 현재 24개의 계산기를 제공하며, 계산기에
+            숫자만 보여주는 데서 끝나지 않고 계산 원리·실제 예시·공식 자료를
+            독립적인 가이드로도 정리하고 있습니다.
           </p>
 
           <div className="mt-9">
@@ -80,6 +80,19 @@ export default function Page() {
                 </div>
               ))}
             </div>
+          </div>
+
+          <div className="mt-10 rounded-2xl border border-blue-100 bg-blue-50 p-5">
+            <p className="text-xs font-black tracking-wider text-blue-700">PUBLISHER GUIDES</p>
+            <h2 className="mt-2 text-xl font-black text-blue-950">계산 전에 읽는 가이드</h2>
+            <p className="mt-2 text-sm leading-7 text-blue-900/80">
+              수수료, 만나이, 음력 생일, 2027 공휴일, 중복 할인, 주식 평단처럼
+              자주 헷갈리는 주제는 계산 원리와 사례를 별도 글로 정리합니다.
+              공식 기준이 있는 주제는 출처와 확인일을 함께 표시합니다.
+            </p>
+            <Link href="/guides" className="mt-4 inline-flex rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white hover:bg-blue-700">
+              계산 가이드 보기 →
+            </Link>
           </div>
 
           <div className="mt-10 border-t border-gray-100 pt-8">
@@ -115,6 +128,12 @@ export default function Page() {
           </div>
 
           <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href="/guides"
+              className="rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white"
+            >
+              계산 가이드
+            </Link>
             <Link
               href="/contact"
               className="rounded-xl bg-gray-900 px-4 py-3 text-sm font-bold text-white"

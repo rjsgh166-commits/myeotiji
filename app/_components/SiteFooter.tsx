@@ -10,14 +10,17 @@ export default function SiteFooter() {
               몇이지?
             </Link>
             <p className="mt-3 max-w-sm text-sm leading-6 text-gray-500">
-              일상에서 궁금한 숫자를 쉽고 빠르게 계산할 수 있는 생활 계산기
-              서비스입니다.
+              일상에서 궁금한 숫자를 계산하고, 그 숫자가 어떻게 나온 것인지까지
+              이해할 수 있는 생활 계산기 서비스입니다.
             </p>
           </div>
 
           <div>
             <p className="text-sm font-bold text-gray-900">서비스</p>
             <div className="mt-3 flex flex-col gap-2 text-sm text-gray-500">
+              <Link href="/guides" className="hover:text-gray-900">
+                계산 가이드
+              </Link>
               <Link href="/about" className="hover:text-gray-900">
                 몇이지? 소개
               </Link>
@@ -35,6 +38,9 @@ export default function SiteFooter() {
               </Link>
               <Link href="/disclaimer" className="hover:text-gray-900">
                 계산 결과 및 면책 안내
+              </Link>
+              <Link href="/guides/editorial-policy" className="hover:text-gray-900">
+                콘텐츠 작성·검수 원칙
               </Link>
             </div>
           </div>

@@ -10,6 +10,8 @@ import AnalyticsTracker from "./_components/AnalyticsTracker";
 import SiteFooter from "./_components/SiteFooter";
 import CalculatorQuickNav from "./_components/CalculatorQuickNav";
 import BackToTop from "./_components/BackToTop";
+import HomeGuideSpotlight from "./_components/HomeGuideSpotlight";
+import RelatedGuideBanner from "./_components/RelatedGuideBanner";
 
 const GA_ID = "G-6FC374VXMH";
 
@@ -110,6 +112,8 @@ export default function RootLayout({
       <body className="min-h-full bg-gray-50">
         <CalculatorQuickNav />
         {children}
+        <HomeGuideSpotlight />
+        <RelatedGuideBanner />
 
         <SiteFooter />
         <BackToTop />
