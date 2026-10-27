@@ -690,6 +690,16 @@ export default function DaysPage() {
           />
         </section>
 
+        <section className="mt-10 rounded-2xl border border-blue-100 bg-blue-50 p-5 sm:p-6" aria-labelledby="days-pregnancy-link-title">
+          <h2 id="days-pregnancy-link-title" className="text-base font-black text-gray-900">출산 예정일까지 남은 날짜가 궁금한가요?</h2>
+          <p className="mt-2 text-sm leading-6 text-gray-600">
+            일반적인 D-Day 계산과 달리 출산예정일은 마지막 생리 시작일 또는 수정일을 기준으로 추정해요.
+          </p>
+          <Link href="/due-date" className="mt-3 inline-flex text-sm font-bold text-blue-700 hover:text-blue-800">
+            출산예정일·임신주수 계산하기 →
+          </Link>
+        </section>
+
         <section className="mt-10 border-t border-gray-200 pt-8">
           <h2 className="text-lg font-bold">다른 계산기도 확인해보세요</h2>
           <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
