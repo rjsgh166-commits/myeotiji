@@ -159,6 +159,17 @@ export default function DueDatePage() {
           </section>
         </div>
 
+        <section className="mt-8 rounded-2xl border border-blue-100 bg-blue-50 p-5 sm:p-6" aria-labelledby="due-date-related-days-title">
+          <h2 id="due-date-related-days-title" className="text-base font-black text-gray-900">출산예정일 외에 날짜 차이도 계산해보세요</h2>
+          <p className="mt-2 text-sm leading-6 text-gray-600">
+            오늘부터 특정 날짜까지 남은 일수나 날짜의 요일은 일반 날짜 계산기에서 확인할 수 있어요.
+            임신주수와 진료 일정은 의료진이 정한 기준을 우선하세요.
+          </p>
+          <Link href="/days" className="mt-3 inline-flex text-sm font-bold text-blue-700 hover:text-blue-800">
+            며칠·D-Day·요일 계산기 열기 →
+          </Link>
+        </section>
+
         <RelatedCalculators currentHref="/due-date" />
       </div>
     </main>
