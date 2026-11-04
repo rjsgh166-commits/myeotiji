@@ -73,8 +73,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/guides/editorial-policy",
   ]);
 
+  // Report real content-update dates, not the current build date.
+  // Avoid fabricating freshness signals for unchanged URLs.
+  const materiallyUpdated: Record<string, string> = {
+    "/days": "2026-10-27",
+    "/due-date": "2026-10-27",
+  };
+
   return routes.map((route) => ({
     url: `${SITE_URL}${route}`,
+    ...(materiallyUpdated[route] ? { lastModified: materiallyUpdated[route] } : {}),
     changeFrequency:
       route === ""
         ? "weekly"
