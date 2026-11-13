@@ -257,7 +257,7 @@ export default function InternationalCalculator({ locale, tool, guide }: { local
             <h2 className="mb-5 text-lg font-black">{t.results}</h2>
             {valid ? <div>{rows.map(row => <Result key={row.label} label={row.label} value={row.value} />)}</div>
               : <p role="alert" className="rounded-xl bg-amber-50 p-4 text-sm font-semibold text-amber-900">{t.invalid}</p>}
-            <p className="mt-5 text-xs leading-6 text-slate-500">{t.disclaimer}</p>
+            <p className="mt-5 text-sm leading-7 text-slate-700">{t.disclaimer}</p>
           </section>
         </div>
 
@@ -283,7 +283,7 @@ export default function InternationalCalculator({ locale, tool, guide }: { local
               </Link>)}
           </div>
         </section>
-        <footer className="mt-12 border-t border-slate-200 pt-6 text-xs leading-6 text-slate-500">
+        <footer className="mt-12 border-t border-slate-200 pt-6 text-sm leading-7 text-slate-700">
           <Link href="/" hrefLang="ko" className="font-semibold text-blue-700">{t.source}</Link>
           <p className="mt-1">© 2026 Myeotiji · {t.disclaimer}</p>
         </footer>

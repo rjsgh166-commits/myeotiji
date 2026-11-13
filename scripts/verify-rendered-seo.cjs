@@ -30,7 +30,7 @@ for (const [file, expected] of Object.entries(baseline)) {
 }
 const sitemap = fs.readFileSync(path.join(output, 'sitemap.xml.body'), 'utf8');
 const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => m[1]);
-assert.equal(urls.length, 115); assert.equal(new Set(urls).size, 115);
+assert.equal(urls.length, 124); assert.equal(new Set(urls).size, 124);
 let international = 0;
 for (const url of urls) {
   const pathname = new URL(url).pathname;
@@ -51,7 +51,7 @@ for (const url of urls) {
     locale === 'en' ? 'en_US' : locale === 'ja' ? 'ja_JP' : 'zh_CN');
   doc.defaultView.close();
 }
-assert.equal(international, 69);
+assert.equal(international, 78);
 assert(!sitemap.includes('localhost'));
 const notFound = fs.readFileSync(path.join(output, '_not-found.html'), 'utf8');
 assert(/name="robots" content="noindex/.test(notFound));
