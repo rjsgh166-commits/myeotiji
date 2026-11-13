@@ -18,7 +18,7 @@ const NUMBER = "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 tex
 const CARD = "rounded-2xl border border-slate-200 bg-white p-5 sm:p-6";
 
 function epochDay(value: string): number {
-  if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(value)) return NaN;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return NaN;
   const [y, m, d] = value.split("-").map(Number);
   const date = new Date(Date.UTC(y, m - 1, d));
   if (date.getUTCFullYear() !== y || date.getUTCMonth() !== m - 1 || date.getUTCDate() !== d) return NaN;
