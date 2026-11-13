@@ -1,6 +1,11 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 export default function SiteFooter() {
+  const pathname = usePathname();
+  if (/^\/(en|ja|zh-hans)(\/|$)/.test(pathname)) return null;
   return (
     <footer className="border-t border-gray-200 bg-white">
       <div className="mx-auto max-w-6xl px-5 py-10 sm:px-8">
@@ -45,6 +50,13 @@ export default function SiteFooter() {
             </div>
           </div>
         </div>
+
+        <nav aria-label="다국어 계산기" className="mt-7 flex flex-wrap items-center gap-3 border-t border-slate-100 pt-5 text-sm">
+          <span className="font-bold text-slate-700">다국어 계산기</span>
+          <Link href="/en" hrefLang="en" className="text-blue-700 hover:underline">English</Link>
+          <Link href="/ja" hrefLang="ja" className="text-blue-700 hover:underline">日本語</Link>
+          <Link href="/zh-hans" hrefLang="zh-Hans" className="text-blue-700 hover:underline">简体中文</Link>
+        </nav>
 
         <div className="mt-8 border-t border-gray-100 pt-6 text-xs leading-5 text-gray-400">
           <p>© 2026 몇이지? All rights reserved.</p>

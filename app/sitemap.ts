@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { SITE_URL } from "./_lib/site";
+import { LOCALES, TOOLS, localizedAlternates } from "./_lib/international";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
@@ -80,7 +81,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/due-date": "2026-10-27",
   };
 
-  return routes.map((route) => ({
+  const globalPages: MetadataRoute.Sitemap = LOCALES.flatMap(locale => [
+    { url: `${SITE_URL}/${locale}`, lastModified: "2026-11-13", changeFrequency: "monthly" as const,
+      alternates: { languages: localizedAlternates() } },
+    ...TOOLS.map(tool => ({ url: `${SITE_URL}/${locale}/${tool}`, lastModified: "2026-11-13",
+      changeFrequency: "monthly" as const, alternates: { languages: localizedAlternates(tool) } })),
+  ]);
+
+  const koreanPages: MetadataRoute.Sitemap = routes.map((route) => ({
     url: `${SITE_URL}${route}`,
     ...(materiallyUpdated[route] ? { lastModified: materiallyUpdated[route] } : {}),
     changeFrequency:
@@ -102,4 +110,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
               ? 0.4
               : 0.8,
   }));
+
+  return [...koreanPages, ...globalPages];
 }
