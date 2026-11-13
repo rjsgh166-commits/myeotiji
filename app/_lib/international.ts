@@ -490,5 +490,5 @@ export const COPY = {
 } as const;
 export function localizedAlternates(tool?: IntlTool) {
   const suffix = tool ? `/${tool}` : "";
-  return { en: `/en${suffix}`, ja: `/ja${suffix}`, "zh-Hans": `/zh-hans${suffix}`, "x-default": `/en${suffix}` };
+  return { en: `https://myeotiji.kr/en${suffix}`, ja: `https://myeotiji.kr/ja${suffix}`, "zh-Hans": `https://myeotiji.kr/zh-hans${suffix}`, "x-default": `https://myeotiji.kr/en${suffix}` };
 }
