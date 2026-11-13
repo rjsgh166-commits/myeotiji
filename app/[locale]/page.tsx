@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { COUNTRY_TOOLS } from "../_lib/countryTools";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { COPY, LOCALES, TOOLS, isIntlLocale, localizedAlternates } from "../_lib/international";
@@ -45,6 +46,32 @@ export default async function InternationalHome({ params }: Props) {
               <h3 className="text-lg font-bold group-hover:text-blue-700">{text.tools[tool].title}</h3>
               <p className="mt-3 text-sm leading-7 text-slate-600">{text.tools[tool].description}</p>
             </Link>)}
+          </div>
+        </section>
+        <section className="mt-12 border-t border-slate-200 pt-10">
+          <p className="text-xs font-black uppercase tracking-widest text-blue-600">
+            {locale === "en" ? "Country-specific calculators · United States" :
+              locale === "ja" ? "日本の制度に特化した計算ツール" : "中国大陆专项计算器"}
+          </p>
+          <h2 className="mt-3 text-2xl font-black">
+            {locale === "en" ? "US salary, taxes & retirement" :
+              locale === "ja" ? "年収・寄附・通勤をもっと簡単に" : "调休、五险一金与个人所得税"}
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-600">
+            {locale === "en" ? "Choose a calculator that uses US rules and clearly states which tax year applies." :
+              locale === "ja" ? "日本の制度や運賃を前提とする計算です。各ページの適用条件と公式情報も確認できます。" :
+                "根据中国大陆及北京实际制度提供计算，并在每个页面标明适用年份和地区。"}
+          </p>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            {COUNTRY_TOOLS.filter(entry => entry.locale === locale).map(entry =>
+              <Link key={entry.id} href={`/${entry.locale}/${entry.region}/${entry.id}`}
+                className="rounded-2xl border border-blue-100 bg-white p-6 transition hover:border-blue-300 hover:shadow-sm">
+                <h3 className="text-lg font-bold text-slate-900">{entry.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-slate-600">{entry.description}</p>
+                <p className="mt-3 text-xs font-bold text-blue-700">
+                  {locale === "en" ? "Open calculator →" : locale === "ja" ? "計算する →" : "开始计算 →"}
+                </p>
+              </Link>)}
           </div>
         </section>
         <footer className="mt-14 border-t border-slate-200 pt-6 text-sm text-slate-500">
