@@ -1,0 +1,186 @@
+{
+  "due-date.html": {
+    "head": "e9fe76b6f92b2be13c346a7dcdbba763297e8da0ace203ae044641dd2e16699c",
+    "body": "182d9fe5cdaefa3d1a31d18be6e16f0d87037264bce45742206d030b65beacb3"
+  },
+  "guides.html": {
+    "head": "d9fd032d44abe6e06c56c34c2045dc5048bb8d6d0221f07a0a9e1398c13904d3",
+    "body": "b3fa522adffe7ab0cb45729fac6a84e446db7692ae42c2a048ae507fa97e65e3"
+  },
+  "job-change.html": {
+    "head": "44d194d69a81f2a5866515c0671ce3d4733d93c3b1bc7b6309621630534e4404",
+    "body": "16327dd2194881c3ba789bce56b1bfa3c7d4bd26bae88d51e38e19d0543ee860"
+  },
+  "contact.html": {
+    "head": "7e3a09681f157d30da3edf96bfd3b60478a764fcd3afd167a805d0fb407d9406",
+    "body": "e53995e0f1f2d8df36cccaca35b52f4a1b017f4a02d519b0c48a1b2ab4fd35ed"
+  },
+  "holiday-tracker.html": {
+    "head": "932b923b9eeeee961c460c97e09e3426b877c87ba36a0cdfc0e6f813ec16ca19",
+    "body": "f212f66ccd80077d6946f1cb0bed9de90b302a8162a6b0d4279fb84ff30309bc"
+  },
+  "situations.html": {
+    "head": "1b04340c4738f8a4727c9aa96fdf285debce29b6bcb96ef7fd38b577ab707d4f",
+    "body": "93f330a86fd43442829a3c2a55de492091148a5eb4d9a1defd7a2730948dad4b"
+  },
+  "calorie-burn.html": {
+    "head": "fe99a0cb6579e9beedfadccc022c3edc83712e439a224e1798d9bb0440ae77ed",
+    "body": "f25a427f4111dec5c9aa5621935834d6dd8bc9a79997c9faed591175dbb3a78b"
+  },
+  "disclaimer.html": {
+    "head": "240977674fff4fcc6b3241ace44ea145a341136090b803e03908189ac8a57f4b",
+    "body": "971732d5e1fe3723dbbdfc58ee64c61fd21473f8f22d3234ccac3d7bbe4fdce8"
+  },
+  "unemployment.html": {
+    "head": "6d270806262d0a9d0cc4ed1147ad2b789f4b2bc74228e8a999a47ed527788282",
+    "body": "f89a3c6111f8717d74186e674853613ac021528a68693c25a52430132de53577"
+  },
+  "rent-conversion.html": {
+    "head": "5e33d184df9fd2489003c189bccd01ad80ab03bba636d66611f51653f3aba636",
+    "body": "8b729384266700ae3be4291ba034580101e7554edf8e9c03847fd7a5922ae6d0"
+  },
+  "loan.html": {
+    "head": "e7286b5030bab79baec0a05026c4e621612f882df56ecfe6ba069b0fe0ea0273",
+    "body": "b9fb9b98e643d8ef25b12cffb1cb20dd68dde034f220ef8f105912fa0e3f0f31"
+  },
+  "days.html": {
+    "head": "b6987e7d39d4f93ab4de7ff6d1eca4c56580a9b9ac6c196ca0a9292217f34d21",
+    "body": "dfe4ec73d29a756323a3031c2d9e508db2290e66c7f0f3903091aa2585b695c3"
+  },
+  "discount.html": {
+    "head": "96a17d86159c82f2421ae3af6ad9c7125856ab4ede0dbca71453f7f5aafe2beb",
+    "body": "894dbb51b7fa28f6e3a2d7e1bb50c22e34f355461243c32c13b9e752a02d270f"
+  },
+  "unit-converter.html": {
+    "head": "43bff633758cf486fafa81ceecafaab00843ec5d60ce960625b0e4402fc1f251",
+    "body": "43ce2f2d013a388b9c91087857b39e7464831f31bec9e322df582b7153f9fff0"
+  },
+  "dog-age.html": {
+    "head": "ba148f466f72fcd5def322ec7993571a757bea4e0d528d49c4275dad45249e6a",
+    "body": "3b10a6f4d80859f6f23e7b23e206687941139fcc01e6f305d86332e9507c6315"
+  },
+  "compound.html": {
+    "head": "558ca4521f8a9a7bc483653710508d5a395f7ae40af4b9b13ec3ae69d40f44f5",
+    "body": "aa2d1b217c0ab547a9a8824e2e204c073e372955b486471305870bbd47b90c31"
+  },
+  "retirement.html": {
+    "head": "f89fc4a00968d3a2b5417a6a50837176831e28a722b2f0733497d463390ae31b",
+    "body": "1451d0d8df7ad233b52987aa5071000e0152e23e0f8a713e4ea8820a2fe81913"
+  },
+  "weekly-pay.html": {
+    "head": "de4c0ab1afd5c89a3ed64d8b75c8e18e924f25242418f9cd961d913f9c197308",
+    "body": "bab60a0314c74b40fab92f9b51dbbaa27c9915af8dbf3b913b53c95b0034b2a5"
+  },
+  "salary.html": {
+    "head": "2c08db79a28e0df38ff0737a7c59182c57cd67d99f16b99f29ecfa19c873dd2b",
+    "body": "4e7b342e1667739179a83af96370f4385ad67ec9ddb31b956c9fb38c2cae4e8b"
+  },
+  "hourly-monthly.html": {
+    "head": "b7b6d76c4fb895ef0cdb3611f66270dc934581bbd178c2c4f9a1928519a97f09",
+    "body": "86043f37b97de3dd8875740b441eefbd1ffc1cbb544c00e2b1b1ec953f8032e5"
+  },
+  "lunar.html": {
+    "head": "b4fe286ab8e214e829e117c8b05892b90784ff774c51d17eb8c8d87b0185a8a0",
+    "body": "76c46caa252f98e693695a564a750462b07ab5a9f191d8ab10d5aca55abb5f98"
+  },
+  "fee.html": {
+    "head": "116027ec4510f46a5d1e13f6c365d47e5632ac39ee675628211e30830215b172",
+    "body": "c97ad56742751da10f853b59a17d93bf939f1229aec39f9147387e347a5b8ec9"
+  },
+  "median-income.html": {
+    "head": "41c9d680e895fe6108da8a042a6d50949deee5c63fe2506347c6838ef49cc1c9",
+    "body": "bff6bf58edac20a3d5d3bad4ad9598fcfdb6577834557c18cefa4e1ab6bfe46e"
+  },
+  "goal-savings.html": {
+    "head": "773d3ba002d68f778010c42753bfcd6d3c7fbc17636852d1ab2ee9bbf987ede4",
+    "body": "2ca4f04837afdb92ba3dfdea8e50d5e00165fe46a09e7666160f95ff9d4acf31"
+  },
+  "privacy.html": {
+    "head": "23621c4663fac6c63f766dc8c99a3660e98bcbdcdba8f931f4ec87295d950687",
+    "body": "2b3b45ea3ae5f70a3cae8ed283ea16c12e3310ebdb8db1786e065619b3ff1e41"
+  },
+  "age.html": {
+    "head": "1b1f8dc8223a6fa21e1b1abe014bef7b0af8f6c40026cd6867b094731292b06b",
+    "body": "997c4113f7d7d90e425f6fe6b78bdcb9bc309d7651a941738aaf112c31c4e366"
+  },
+  "index.html": {
+    "head": "8c80b34012f1e1e52aaa74812886fa02b55de5db3fd87a0b2c01bf2e0385afc2",
+    "body": "fb2863c98afedfb3a67b2538564a6f8f0d59eb42b3f56ec8cedc69aee44eae02"
+  },
+  "stock-average.html": {
+    "head": "594102cf94831e9d776d77afdb4ef3d747f0aea64c6d58818a5f2382e63089f3",
+    "body": "dbcdd63fda4bf627af9fe12bfbc3a43f328153cd73260a48342d9d8160838553"
+  },
+  "savings-interest.html": {
+    "head": "095501d654b0d576fb1ee79c5ecf3def5c3b5b63b3885518bc113154c05eda47",
+    "body": "1ddbe6632ae506608b1e15a87a572bd956a7a8d1b19a3fd01d6cddff8f366846"
+  },
+  "about.html": {
+    "head": "d47b6a7ed9f6d5c51f0b6dca18cd8d966443b3dba30e02efbfade3cab29fae90",
+    "body": "f319456d5e86b01b2709038ceba5a3a3c3cfc94291333c672194aae02cf3d4ea"
+  },
+  "annual-leave.html": {
+    "head": "f83a88befbce8714f4a7634779c33130dcd4285fa76dfd9b4aabdbf3bc8e9c6b",
+    "body": "7c56ec2c29180b009202e7903e39bbc0b658df038b43766aaa62a1cd94bfd24c"
+  },
+  "insights/2027.html": {
+    "head": "64d2c09cf8b0637226e45d23acfbc9ce3363367fb93b2977b3c8d3018574702c",
+    "body": "71b32816d34c5c2aba17fd890bbdd537e74dec7c87b82d98b573f6f143a1c00d"
+  },
+  "holiday-tracker/2027.html": {
+    "head": "48632ad50a0d54eeb8ecdb18ecf3adcc83536a500cd103139e9a3b0fea7abc19",
+    "body": "870bd9c44a86fdf68ab512ed71d280b1a14fbe7f3824078cd6737ecd5d07eed3"
+  },
+  "guides/stacked-discount.html": {
+    "head": "6c67b201db187731dd16e8573875e61aa3a1e570708d6455f97675659cda3dc3",
+    "body": "fbe6cd15088ec316d877f6aceb9438ab6756b95a30d432c075efdc2a9999dc38"
+  },
+  "guides/editorial-policy.html": {
+    "head": "92e7dadb48b6c6c6d9704b7228a7791b0b78f9be868979f98d7414b4770dab49",
+    "body": "6eea3b8cb486d1b478e88102cc19dc9681155a5eadf19019f1057f964c60231b"
+  },
+  "guides/2027-holidays.html": {
+    "head": "7fc50b400c81ad920d257ce56bc052e12a73d2f876ceecd1715bc80570d3beb2",
+    "body": "9a7ab916609134b1ce4ff18cf48b72f41c4126b88c3d11a6fa594f1f4e342161"
+  },
+  "guides/age.html": {
+    "head": "c6cc98899130f9748b2ab368142d4b5badf4c1a38ec14f8e19f76de6aa975ca2",
+    "body": "b6e5b0085d9846f0387dfae37e84c677ce407cf493906f3f41fc858996249a2b"
+  },
+  "guides/lunar-birthday.html": {
+    "head": "b378669ecbf03acb3681486e5f7ee73b736cf6803915edb103a391b2a1d8226a",
+    "body": "1489992d10052137c6e84e50fbd2cfbc2363b2db7e6c7ed92756f933d9348430"
+  },
+  "guides/stock-average.html": {
+    "head": "40f6c63ef291e73ab0768d2f5626b8f4431e6e661db01c6cd4053871489e0a3c",
+    "body": "a27e3fc93aee9edd1ec61cee9be76e43466b2393a867728812c6a89953a064df"
+  },
+  "guides/fee-calculation.html": {
+    "head": "945e6156e50749c05240773ec8bbd611403a6dfe951261b73e320c2bb999266f",
+    "body": "455f5d4ce8ebb97d6cdc9356577d4ac41ddc66ae09ef5cd03e06eace434161bd"
+  },
+  "holiday-tracker/2027/pto-1.html": {
+    "head": "ac1214707b9b0f3f17f2fd098a054ea2ab289fe52f6497bd7438b40f221393de",
+    "body": "c9cd238bdd32d86ebe883d0dbfdce5ca47cb3f6431d4018dd5d294eec2a327dd"
+  },
+  "holiday-tracker/2027/pto-2.html": {
+    "head": "01cccd503185d06593ee76622e9eea13a8e76c93b4c56697f80fb2757ea051cc",
+    "body": "3f7421ad4ae1dd24c7589e0e5cb8f4a257b18985ea06f4a1f39dbb154d3c06b4"
+  },
+  "holiday-tracker/2027/chuseok.html": {
+    "head": "ae9e0d0bddf1565cccd92d334771e151cad3bef86661c91dc8b816b4d8bb4f97",
+    "body": "4bf49e74d297f9eb84eecfdada63a06a6e6ec67235394f0214f445451149a661"
+  },
+  "holiday-tracker/2027/october.html": {
+    "head": "f99d9efcec2792b296acd3591ab7d1f73ebf2097ad8e3809f3c6cc9633f1b826",
+    "body": "5a7b6262abfbe3cb162c8a696f404ad627b76b2e1ce55247087cf0cfd00774c1"
+  },
+  "holiday-tracker/2027/may.html": {
+    "head": "9c2696e3674b5df4b0a0cc8ce749cf1995916fa3a8a9efb0692a336ae1660d42",
+    "body": "15bf57e09034fed7027287c87e167f8419e2ee7c3a57fb68d1aaa3cf13a52c68"
+  },
+  "holiday-tracker/2027/seollal.html": {
+    "head": "e605e5f3f461f00339517e8cff8f9dfe3248c5ebb793efff383e926cd3c0f90b",
+    "body": "e6b37e7954f0ea21768b6a00e399872b1e04343c1d865d7f08ed744fb2517dbf"
+  }
+}

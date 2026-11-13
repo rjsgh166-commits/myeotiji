@@ -18,8 +18,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: { absolute: entry.title + " | Myeotiji" },
     description: entry.description,
     alternates: { canonical: url },
+    twitter: { card: "summary", title: entry.title + " | Myeotiji", description: entry.description, images: ["/twitter-image.png"] },
     openGraph: {
       type: "website", title: entry.title, description: entry.description, url,
+      images: ["/opengraph-image.png"],
       locale: locale === "zh-hans" ? "zh_CN" : locale === "ja" ? "ja_JP" : "en_US",
     },
   };

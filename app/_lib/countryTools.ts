@@ -59,6 +59,10 @@ export const COUNTRY_TOOLS = [
       {
         "label": "IRS: Social Security and Medicare withholding",
         "url": "https://www.irs.gov/taxtopics/tc751"
+      },
+      {
+        "label": "SSA: 2026 Social Security taxable maximum",
+        "url": "https://www.ssa.gov/OACT/cola/cbb.html"
       }
     ]
   },
@@ -77,6 +81,10 @@ export const COUNTRY_TOOLS = [
       {
         "label": "厚生労働省：「年収の壁」への対応",
         "url": "https://www.mhlw.go.jp/stf/taiou_001_00002.html"
+      },
+      {
+        "label": "日本年金機構：2026年10月の賃金要件撤廃と加入条件",
+        "url": "https://www.nenkin.go.jp/oshirase/taisetu/jigyosho/2026/202610/100104.html"
       }
     ]
   },
@@ -125,7 +133,7 @@ export const COUNTRY_TOOLS = [
     "intro": "2027年元旦、春节、清明、劳动节、端午、中秋和国庆假期已公布。选择节日与可用年假天数，计算包含该假期的最长连续休息区间，同时识别周末调休补班日。",
     "formula": "以国务院公布的节假日日期、调休上班日为准；周末通常休息，但标记为调休上班的日期视为工作日。以不超过可用年假的工作日数量寻找最长连续休息区间。",
     "example": "2027年春节放假时间为2月5日至13日，共9天。1月31日、2月14日需调休上班，不可直接当作休息日。",
-    "scope": "仅适用于中国大陆国务院2027年公布的统一节假日安排。部分单位轮班、地方特殊安排、公司自行调休和年假审批不包含在内。年假建议不等于审批通过。",
+    "scope": "仅适用于中国大陆国务院2027年公布的统一节假日安排。连续休假区间限定在2027年内，不跨年计算。部分单位轮班、地方特殊安排、公司自行调休和年假审批不包含在内。年假建议不等于审批通过。",
     "updated": "2026-11-13",
     "source": [
       {

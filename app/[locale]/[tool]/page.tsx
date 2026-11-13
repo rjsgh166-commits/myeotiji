@@ -13,10 +13,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const copy = COPY[locale].tools[tool];
   const pathname = `/${locale}/${tool}`;
   return {
-    title: `${copy.title} | Myeotiji`,
+    title: { absolute: `${copy.title} | Myeotiji` },
     description: copy.description,
     alternates: { canonical: pathname, languages: localizedAlternates(tool) },
-    openGraph: { type: "website", title: copy.title, description: copy.description, url: pathname, locale: COPY[locale].tag },
+    openGraph: { type: "website", title: copy.title, description: copy.description, url: pathname, locale: locale === "en" ? "en_US" : locale === "ja" ? "ja_JP" : "zh_CN", images: ["/opengraph-image.png"] },
+    twitter: { card: "summary", title: `${copy.title} | Myeotiji`, description: copy.description, images: ["/twitter-image.png"] },
   };
 }
 export default async function IntlToolPage({ params }: Props) {

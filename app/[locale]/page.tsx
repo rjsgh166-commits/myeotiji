@@ -11,10 +11,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!isIntlLocale(locale)) notFound();
   const text = COPY[locale];
   return {
-    title: `${text.home} | Myeotiji`,
+    title: { absolute: `${text.home} | Myeotiji` },
     description: text.subtitle,
     alternates: { canonical: `/${locale}`, languages: localizedAlternates() },
-    openGraph: { title: text.home, description: text.subtitle, url: `/${locale}`, type: "website", locale: text.tag },
+    openGraph: { title: text.home, description: text.subtitle, url: `/${locale}`, type: "website", locale: locale === "en" ? "en_US" : locale === "ja" ? "ja_JP" : "zh_CN", images: ["/opengraph-image.png"] },
+    twitter: { card: "summary", title: `${text.home} | Myeotiji`, description: text.subtitle, images: ["/twitter-image.png"] },
   };
 }
 export default async function InternationalHome({ params }: Props) {
