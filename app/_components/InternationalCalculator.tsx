@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { COPY, LOCALES, TOOLS, type IntlLocale, type IntlTool } from "../_lib/international";
+import CalculatorGuideTeaser, { type GuideTeaser } from "./CalculatorGuideTeaser";
 
 const CURRENCIES = ["USD", "EUR", "GBP", "JPY", "CNY", "KRW", "CAD", "AUD", "TWD", "SGD"] as const;
 const UNIT_SETS = {
@@ -14,6 +15,13 @@ const UNIT_SETS = {
   data: [["B", 1], ["kB", 1000], ["MB", 1000000], ["GB", 1000000000], ["KiB", 1024], ["MiB", 1048576], ["GiB", 1073741824]]
 } as const;
 type UnitCategory = keyof typeof UNIT_SETS;
+// Keep static HTML date-neutral, then read the visitor's local date after hydration.
+const subscribeToLocalDate = () => () => {};
+const serverLocalDate = () => "";
+function clientLocalDate() {
+  const now = new Date();
+  return [now.getFullYear(), String(now.getMonth() + 1).padStart(2, "0"), String(now.getDate()).padStart(2, "0")].join("-");
+}
 const NUMBER = "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-base text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100";
 const CARD = "rounded-2xl border border-slate-200 bg-white p-5 sm:p-6";
 
@@ -52,7 +60,7 @@ function Result({ label, value }: { label: string; value: string }) {
   </div>;
 }
 
-export default function InternationalCalculator({ locale, tool }: { locale: IntlLocale; tool: IntlTool }) {
+export default function InternationalCalculator({ locale, tool, guide }: { locale: IntlLocale; tool: IntlTool; guide?: GuideTeaser }) {
   const t = COPY[locale];
   const toolCopy = t.tools[tool];
   const langTag = t.tag;
@@ -72,15 +80,10 @@ export default function InternationalCalculator({ locale, tool }: { locale: Intl
   const [end, setEnd] = useState("2026-12-31");
   const [inclusive, setInclusive] = useState(false);
   const [birth, setBirth] = useState("2000-01-01");
-  const [today, setToday] = useState("");
+  const today = useSyncExternalStore(subscribeToLocalDate, clientLocalDate, serverLocalDate);
   const [unitCategory, setUnitCategory] = useState<UnitCategory>("length");
   const [fromUnit, setFromUnit] = useState<string>("m");
   const [toUnit, setToUnit] = useState<string>("km");
-
-  useEffect(() => {
-    const now = new Date();
-    setToday([now.getFullYear(), String(now.getMonth() + 1).padStart(2, "0"), String(now.getDate()).padStart(2, "0")].join("-"));
-  }, []);
 
   const num = (value: string) => Number(value);
   const formatted = (value: number, digits = 2) =>
@@ -269,6 +272,7 @@ export default function InternationalCalculator({ locale, tool }: { locale: Intl
           <p className="mt-2 text-sm leading-7 text-slate-700">{toolCopy.note}</p>
         </section>
 
+        <CalculatorGuideTeaser guide={guide} />
         <section className="mt-10"><h2 className="text-xl font-black">{t.related}</h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {TOOLS.filter(item => item !== tool).map(item =>

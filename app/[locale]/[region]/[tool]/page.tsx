@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { COUNTRY_TOOLS, countryTool } from "../../../_lib/countryTools";
 import CountryCalculator from "../../../_components/CountryCalculator";
+import { countryLanguageTag, guideTeaserForCalculator } from "../../../_lib/intl-guides";
+import InternationalCalculatorSchema from "../../../_components/InternationalStructuredData";
 
 type Props = { params: Promise<{ locale: string; region: string; tool: string }> };
 export const dynamicParams = false;
@@ -17,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: { absolute: entry.title + " | Myeotiji" },
     description: entry.description,
-    alternates: { canonical: url },
+    alternates: { canonical: url, languages: { [countryLanguageTag(entry.locale)]: url } },
     twitter: { card: "summary", title: entry.title + " | Myeotiji", description: entry.description, images: ["/twitter-image.png"] },
     openGraph: {
       type: "website", title: entry.title, description: entry.description, url,
@@ -30,5 +32,8 @@ export default async function CountryToolPage({ params }: Props) {
   const { locale, region, tool } = await params;
   const entry = countryTool(locale, region, tool);
   if (!entry) notFound();
-  return <CountryCalculator entry={entry}/>;
+  return <>
+    <InternationalCalculatorSchema locale={entry.locale} path={`/${entry.locale}/${entry.region}/${entry.id}`} title={entry.title} description={entry.description} />
+    <CountryCalculator entry={entry} guide={guideTeaserForCalculator(entry.locale, tool)} />
+  </>;
 }

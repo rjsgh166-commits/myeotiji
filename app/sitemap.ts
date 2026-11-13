@@ -3,6 +3,7 @@ import { COUNTRY_TOOLS } from "./_lib/countryTools";
 
 import { SITE_URL } from "./_lib/site";
 import { LOCALES, TOOLS, localizedAlternates } from "./_lib/international";
+import { INTERNATIONAL_GUIDES, GUIDE_PUBLISHED, countryLanguageTag, guideAlternates, guideHubAlternates, guidePath } from "./_lib/intl-guides";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
@@ -116,7 +117,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${SITE_URL}/${entry.locale}/${entry.region}/${entry.id}`,
     lastModified: entry.updated,
     changeFrequency: "monthly" as const,
+    alternates: { languages: { [countryLanguageTag(entry.locale)]: `${SITE_URL}/${entry.locale}/${entry.region}/${entry.id}` } },
   }));
 
-  return [...koreanPages, ...globalPages, ...countryPages];
+  const guidePages: MetadataRoute.Sitemap = INTERNATIONAL_GUIDES.map(guide => ({
+    url: SITE_URL + guidePath(guide), lastModified: guide.updated, changeFrequency: "monthly",
+    alternates: { languages: guideAlternates(guide) },
+  }));
+  const guideHubs: MetadataRoute.Sitemap = LOCALES.flatMap(locale => [
+    { url: `${SITE_URL}/${locale}/guides`, lastModified: GUIDE_PUBLISHED, changeFrequency: "monthly" as const,
+      alternates: { languages: guideHubAlternates() } },
+    { url: `${SITE_URL}/${locale}/guides/editorial-policy`, lastModified: GUIDE_PUBLISHED, changeFrequency: "yearly" as const,
+      alternates: { languages: guideHubAlternates("/editorial-policy") } },
+  ]);
+
+  return [...koreanPages, ...globalPages, ...countryPages, ...guidePages, ...guideHubs];
 }

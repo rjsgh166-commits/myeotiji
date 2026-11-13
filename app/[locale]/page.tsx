@@ -3,25 +3,29 @@ import { COUNTRY_TOOLS } from "../_lib/countryTools";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { COPY, LOCALES, TOOLS, isIntlLocale, localizedAlternates } from "../_lib/international";
+import { guidePath, guidesForLocale } from "../_lib/intl-guides";
+import { GUIDE_LABELS } from "../_lib/intl-guides/labels";
 
 type Props = { params: Promise<{ locale: string }> };
 export function generateStaticParams() { return LOCALES.map(locale => ({ locale })); }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   if (!isIntlLocale(locale)) notFound();
-  const text = COPY[locale];
+  const search = GUIDE_LABELS[locale];
   return {
-    title: { absolute: `${text.home} | Myeotiji` },
-    description: text.subtitle,
+    title: { absolute: search.homeTitle },
+    description: search.homeDescription,
     alternates: { canonical: `/${locale}`, languages: localizedAlternates() },
-    openGraph: { title: text.home, description: text.subtitle, url: `/${locale}`, type: "website", locale: locale === "en" ? "en_US" : locale === "ja" ? "ja_JP" : "zh_CN", images: ["/opengraph-image.png"] },
-    twitter: { card: "summary", title: `${text.home} | Myeotiji`, description: text.subtitle, images: ["/twitter-image.png"] },
+    openGraph: { title: search.homeHeading, description: search.homeDescription, url: `/${locale}`, type: "website", locale: locale === "en" ? "en_US" : locale === "ja" ? "ja_JP" : "zh_CN", images: ["/opengraph-image.png"] },
+    twitter: { card: "summary", title: search.homeTitle, description: search.homeDescription, images: ["/twitter-image.png"] },
   };
 }
 export default async function InternationalHome({ params }: Props) {
   const { locale } = await params;
   if (!isIntlLocale(locale)) notFound();
   const text = COPY[locale];
+  const search = GUIDE_LABELS[locale];
+  const featuredGuides = guidesForLocale(locale).filter(guide => guide.kind === "country" || guide.tool === "compound");
   return (
     <main lang={text.tag} className="min-h-screen bg-[#f7f8fa] text-slate-950">
       <div className="mx-auto max-w-5xl px-5 py-10 sm:px-8">
@@ -35,9 +39,10 @@ export default async function InternationalHome({ params }: Props) {
         </header>
         <section className="py-12 sm:py-16">
           <p className="text-sm font-black uppercase tracking-widest text-blue-600">Myeotiji calculators</p>
-          <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-5xl">{text.home}</h1>
-          <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">{text.subtitle}</p>
+          <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-5xl">{search.homeHeading}</h1>
+          <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">{search.homeDescription}</p>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-500">{text.indexIntro}</p>
+          <Link href={`/${locale}/guides`} className="mt-5 inline-block text-sm font-bold text-blue-700 underline underline-offset-4">{search.guides} →</Link>
         </section>
         <section>
           <h2 className="mb-5 text-xl font-black">{text.choose}</h2>
@@ -75,7 +80,24 @@ export default async function InternationalHome({ params }: Props) {
               </Link>)}
           </div>
         </section>
+        <section className="mt-12 border-t border-slate-200 pt-10">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="text-2xl font-black">{search.guides}</h2>
+            <Link href={`/${locale}/guides`} className="text-sm font-semibold text-blue-700 hover:underline">{search.title} →</Link>
+          </div>
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600">{search.intro}</p>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            {featuredGuides.map(guide => <article key={guide.slug} className="rounded-2xl border border-slate-200 bg-white p-6">
+              <h3 className="font-bold leading-7"><Link href={guidePath(guide)} className="text-blue-800 hover:underline">{guide.title}</Link></h3>
+              <p className="mt-3 text-sm leading-7 text-slate-600">{guide.description}</p>
+            </article>)}
+          </div>
+        </section>
         <footer className="mt-14 border-t border-slate-200 pt-6 text-sm text-slate-500">
+          <nav className="mb-4 flex flex-wrap gap-x-5 gap-y-2">
+            <Link href={`/${locale}/guides`} className="font-semibold text-blue-700 hover:underline">{search.guides}</Link>
+            <Link href={`/${locale}/guides/editorial-policy`} className="hover:underline">{search.policy}</Link>
+          </nav>
           <Link href="/" hrefLang="ko" className="font-semibold text-blue-700">{text.source}</Link>
           <p className="mt-2 text-xs">{text.disclaimer}</p>
           <p className="mt-2 text-xs">© 2026 Myeotiji</p>
