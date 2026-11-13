@@ -335,6 +335,11 @@ export default function CountryCalculator({ entry, guide }: { entry: CountryTool
         <p className="mt-4 text-base leading-8 text-slate-600">{entry.intro}</p>
       </header>
 
+      <section className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-5">
+        <h2 className="font-black">{entry.locale==="en"?"Scope & limitations":entry.locale==="ja"?"適用範囲・注意事項":"适用范围与限制"}</h2>
+        <p className="mt-2 text-sm leading-7 text-slate-700">{entry.scope}</p>
+        <p className="mt-3 text-xs text-slate-600">Last reviewed / 最終確認 / 更新日期: {entry.updated}</p>
+      </section>
       <div className="mt-8 grid gap-5 md:grid-cols-2">
         <section className={boxClass}>
           <h2 className="mb-5 text-lg font-black">{entry.locale==="en"?"Enter your details":entry.locale==="ja"?"計算条件を入力":"请输入计算条件"}</h2>
@@ -346,7 +351,7 @@ export default function CountryCalculator({ entry, guide }: { entry: CountryTool
             <p role="alert" className="rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
               {entry.locale==="en"?"Check that all inputs are within their allowed ranges.":entry.locale==="ja"?"入力した数値・条件を確認してください。":"请检查输入的金额和范围。"}
             </p>}
-          <p className="mt-5 text-xs leading-6 text-slate-500">
+          <p className="mt-5 rounded-xl bg-amber-50 p-4 text-sm leading-7 text-slate-800">
             {entry.locale==="en"?"Informational estimate only; not tax, payroll or legal advice.":
               entry.locale==="ja"?"参考用の概算です。税務・労務上の判断は専門家や公的機関へご確認ください。":
               "仅供估算参考；不属于税务、法律或薪资结算意见。"}
@@ -361,11 +366,7 @@ export default function CountryCalculator({ entry, guide }: { entry: CountryTool
         <article className={boxClass}><h2 className="text-lg font-black">{entry.locale==="en"?"Example":entry.locale==="ja"?"計算例":"计算示例"}</h2>
           <p className="mt-3 text-sm leading-7 text-slate-700">{entry.example}</p></article>
       </section>
-      <section className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-5">
-        <h2 className="font-black">{entry.locale==="en"?"Scope & limitations":entry.locale==="ja"?"適用範囲・注意事項":"适用范围与限制"}</h2>
-        <p className="mt-2 text-sm leading-7 text-slate-700">{entry.scope}</p>
-        <p className="mt-3 text-xs text-slate-600">Last reviewed / 最終確認 / 更新日期: {entry.updated}</p>
-      </section>
+
       <section className={boxClass+" mt-4"}>
         <h2 className="text-lg font-black">{entry.locale==="en"?"Official references":entry.locale==="ja"?"公式の参考資料":"官方依据"}</h2>
         <ul className="mt-3 space-y-2 text-sm">

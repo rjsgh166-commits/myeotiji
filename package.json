@@ -10,7 +10,8 @@
     "test:country": "node scripts/verify-country-calculators.cjs",
     "test:seo": "node scripts/verify-rendered-seo.cjs",
     "test:guides": "node scripts/verify-intl-guides.cjs",
-    "test:global": "node scripts/verify-global-calculators.cjs"
+    "test:global": "node scripts/verify-global-calculators.cjs",
+    "test:privacy": "node scripts/verify-intl-privacy.cjs"
   },
   "dependencies": {
     "korean-lunar-calendar": "^0.4.0",

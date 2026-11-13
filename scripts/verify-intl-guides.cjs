@@ -109,7 +109,7 @@ while (queue.length) {
     if (!reached.has(u.href)) queue.push(u.href);
   }
 }
-assert.equal(reached.size, 69, 'Every international URL must be discoverable from a language home');
+assert.equal(reached.size, 78, 'Every international URL must be discoverable from a language home');
 // Numeric worked examples were calculated independently and compared with the calculator regression suite.
 const enCompound = pages.get(`${site}/en/guides/compound-interest`);
 assert(enCompound.tableCells.includes('$2,277.26'));
