@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!entry) notFound();
   const url = "https://myeotiji.kr/" + locale + "/" + region + "/" + tool;
   return {
-    title: entry.title + " | Myeotiji",
+    title: { absolute: entry.title + " | Myeotiji" }
     description: entry.description,
     alternates: { canonical: url },
     openGraph: {
