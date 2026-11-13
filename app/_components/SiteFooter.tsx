@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function SiteFooter() {
   const pathname = usePathname();
-  if (/^\\/(en|ja|zh-hans)(\\/|$)/.test(pathname)) return null;
+  if (/^\/(en|ja|zh-hans)(\/|$)/.test(pathname)) return null;
   return (
     <footer className="border-t border-gray-200 bg-white">
       <div className="mx-auto max-w-6xl px-5 py-10 sm:px-8">
