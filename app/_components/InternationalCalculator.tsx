@@ -80,9 +80,7 @@ export default function InternationalCalculator({ locale, tool }: { locale: Intl
   useEffect(() => {
     const now = new Date();
     setToday([now.getFullYear(), String(now.getMonth() + 1).padStart(2, "0"), String(now.getDate()).padStart(2, "0")].join("-"));
-    document.documentElement.lang = langTag;
-    return () => { document.documentElement.lang = "ko"; };
-  }, [langTag]);
+  }, []);
 
   const num = (value: string) => Number(value);
   const formatted = (value: number, digits = 2) =>
