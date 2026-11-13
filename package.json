@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:country": "node scripts/verify-country-calculators.cjs",
+    "test:seo": "node scripts/verify-rendered-seo.cjs"
   },
   "dependencies": {
     "korean-lunar-calendar": "^0.4.0",
@@ -21,6 +23,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
+    "jsdom": "26.1.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

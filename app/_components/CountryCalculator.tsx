@@ -32,8 +32,22 @@ function holidayPlan(id: string, allowed: number) {
   const h = HOLIDAYS.find(item => item.id === id) ?? HOLIDAYS[1];
   const hs = toDay(h.start), he = toDay(h.end);
   let best: { start: number; end: number; leave: number; days: number } = { start: hs, end: he, leave: 0, days: h.days };
-  for (let start = hs - 7; start <= hs; start += 1) {
-    for (let end = he; end <= he + 7; end += 1) {
+  if (!Number.isInteger(allowed) || allowed < 0 || allowed > 7) return { h, ...best };
+  // Stop only once the leave budget is exceeded, not after seven calendar days.
+  // Restrict to 2027: adjacent years' official makeup days are not modeled.
+  let first = hs, last = he, usedBefore = 0, usedAfter = 0;
+  while (first > toDay("2027-01-01")) {
+    if (isWorkingDay(first - 1)) usedBefore += 1;
+    if (usedBefore > allowed) break;
+    first -= 1;
+  }
+  while (last < toDay("2027-12-31")) {
+    if (isWorkingDay(last + 1)) usedAfter += 1;
+    if (usedAfter > allowed) break;
+    last += 1;
+  }
+  for (let start = first; start <= hs; start += 1) {
+    for (let end = he; end <= last; end += 1) {
       let used = 0;
       for (let day = start; day <= end; day += 1) if (isWorkingDay(day)) used += 1;
       const days = end - start + 1;
@@ -67,12 +81,12 @@ function chinaTax(taxable: number): number {
   const idx = limits.findIndex(limit => taxable <= limit);
   return Math.max(0, taxable * rate[idx] - quick[idx]);
 }
-function NumInput({ label, value, set, min = 0, max }: {
-  label: string; value: string; set: (value: string) => void; min?: number; max?: number;
+function NumInput({ label, value, set, min = 0, max, integer = false }: {
+  label: string; value: string; set: (value: string) => void; min?: number; max?: number; integer?: boolean;
 }) {
   return <label className="block">
     <span className="mb-2 block text-sm font-semibold text-slate-700">{label}</span>
-    <input className={inputClass} type="number" inputMode="decimal" step="any" min={min} max={max}
+    <input className={inputClass} type="number" inputMode={integer ? "numeric" : "decimal"} step={integer ? 1 : "any"} min={min} max={max}
       value={value} onChange={e => set(e.target.value)}/>
   </label>;
 }
@@ -107,27 +121,28 @@ export default function CountryCalculator({ entry }: { entry: CountryTool }) {
   const [values, setValues] = useState<Record<string, string>>(defaults);
   const change = (key: string) => (value: string) => setValues(previous => ({ ...previous, [key]: value }));
   const N = (key: string) => values[key]?.trim() === "" ? NaN : Number(values[key]);
-  const numeric: Record<string, { min: number; max: number }> = {};
-  const use = (key: string, min = 0, max = 100000000) => { numeric[key] = { min, max }; return N(key); };
+  const numeric: Record<string, { min: number; max: number; integer: boolean }> = {};
+  const readNumber = (key: string, min = 0, max = 100000000, integer = false) => {
+    numeric[key] = { min, max, integer }; return N(key);
+  };
   const intl = entry.locale === "ja" ? "ja-JP" : entry.locale === "zh-hans" ? "zh-CN" : "en-US";
   const money = (number: number, currency: "USD" | "JPY" | "CNY") =>
     new Intl.NumberFormat(intl, { style: "currency", currency, maximumFractionDigits: currency === "JPY" ? 0 : 2 }).format(number);
   const number = (value: number, digits = 2) =>
     Number.isFinite(value) ? new Intl.NumberFormat(intl, { maximumFractionDigits: digits }).format(value) : "—";
   const usd = (x: number) => money(x, "USD"), jpy = (x: number) => money(x, "JPY"), cny = (x: number) => money(x, "CNY");
-  const pct = (x: number) => number(x) + "%";
-  const inp = (key: string, label: string, min = 0, max = 100000000) =>
-    <NumInput key={key} label={label} value={values[key]} set={change(key)} min={min} max={max}/>;
+  const inp = (key: string, label: string, min = 0, max = 100000000, integer = false) =>
+    <NumInput key={key} label={label} value={values[key]} set={change(key)} min={min} max={max} integer={integer}/>;
   const sel = (key: string, label: string, options: Array<{ value: string; label: string }>) =>
     <SelectInput key={key} label={label} value={values[key]} set={change(key)} options={options}/>;
   const results: Output[] = [];
   let fields: React.ReactNode = null;
   let extra: React.ReactNode = null;
-  let resultHeading = entry.locale === "en" ? "Estimated result" : entry.locale === "ja" ? "計算結果（概算）" : "计算结果（估算）";
+  const resultHeading = entry.locale === "en" ? "Estimated result" : entry.locale === "ja" ? "計算結果（概算）" : "计算结果（估算）";
 
   switch (entry.id) {
     case "401k-match": {
-      const salary = use("salary"), contribution = use("contrib", 0, 100), cap = use("matchCap", 0, 100), rate = use("matchRate", 0, 1000);
+      const salary = readNumber("salary"), contribution = readNumber("contrib", 0, 100), cap = readNumber("matchCap", 0, 100), rate = readNumber("matchRate", 0, 1000);
       const limit = values.taxYear === "2027" ? 25500 : 24500;
       const employee = Math.min(salary * contribution / 100, limit);
       const employer = Math.min(employee, salary * cap / 100) * rate / 100;
@@ -143,7 +158,7 @@ export default function CountryCalculator({ entry }: { entry: CountryTool }) {
       break;
     }
     case "overtime-pay": {
-      const hours = use("hours", 0, 168), rate = use("rate", 0, 100000);
+      const hours = readNumber("hours", 0, 168), rate = readNumber("rate", 0, 100000);
       const regular = Math.min(hours, 40) * rate;
       const excess = Math.max(0, hours - 40);
       const overtimePay = excess * rate * 1.5;
@@ -151,12 +166,12 @@ export default function CountryCalculator({ entry }: { entry: CountryTool }) {
         {label:"Regular weekly pay",value:usd(regular)},
         {label:"Overtime pay (1.5×)",value:usd(overtimePay)},
         {label:"Total weekly gross pay",value:usd(regular + overtimePay)});
-      fields = <>{inp("hours", "Hours worked this workweek", 0, 168)}{inp("rate", "Regular hourly rate ($)")}</>;
+      fields = <>{inp("hours", "Hours worked this workweek", 0, 168)}{inp("rate", "Regular hourly rate ($)", 0, 100000)}</>;
       break;
     }
     case "take-home-pay": {
-      const salary = use("salary"), contribPct = use("traditional", 0, 100);
-      const statePct = use("stateRate", 0, 100);
+      const salary = readNumber("salary"), contribPct = readNumber("traditional", 0, 100);
+      const statePct = readNumber("stateRate", 0, 100);
       const filing = US_TAX[values.filing] ?? US_TAX.single;
       const preTax401k = Math.min(salary * contribPct / 100, 24500);
       const taxable = Math.max(0, salary - preTax401k - filing.deduction);
@@ -177,8 +192,8 @@ export default function CountryCalculator({ entry }: { entry: CountryTool }) {
       break;
     }
     case "income-wall": {
-      const monthly = use("monthlyJapan"), hours = use("weeklyHours", 0, 168);
-      const employees = use("employees", 1, 10000000), premiumRate = use("premiumRate", 0, 100);
+      const monthly = readNumber("monthlyJapan"), hours = readNumber("weeklyHours", 0, 168);
+      const employees = readNumber("employees", 1, 10000000, true), premiumRate = readNumber("premiumRate", 0, 100);
       const annual = monthly * 12;
       const eligible = hours >= 20 && employees >= 51 && values.isStudent === "no";
       const premium = eligible ? annual * premiumRate / 100 : 0;
@@ -188,7 +203,7 @@ export default function CountryCalculator({ entry }: { entry: CountryTool }) {
         {label:"会社の社会保険・本人負担概算",value:eligible?jpy(premium):"会社加入なしとして計算"},
         {label:"社会保険料を差引いた概算年収（税引前）",value:jpy(annual-premium)});
       fields = <>{inp("monthlyJapan","月額給与（円）")}{inp("weeklyHours","週の所定労働時間",0,168)}
-        {inp("employees","適用対象となる企業規模（厚生年金の被保険者数）",1)}
+        {inp("employees","適用対象となる企業規模（厚生年金の被保険者数）",1,10000000,true)}
         {sel("isStudent","学生区分",[{value:"no",label:"学生ではない"},{value:"yes",label:"学生（原則として適用外）"}])}
         {inp("premiumRate","本人負担の社会保険料率（概算・%）",0,100)}</>;
       extra = <p className="rounded-xl bg-amber-50 p-3 text-sm leading-6 text-amber-900">
@@ -197,7 +212,7 @@ export default function CountryCalculator({ entry }: { entry: CountryTool }) {
       break;
     }
     case "furusato-tax": {
-      const levy = use("residentTax"), donation = use("donation");
+      const levy = readNumber("residentTax"), donation = readNumber("donation");
       const rate = Number(values.incomeTaxRate)/100;
       const effective = rate * 1.021;
       const ceiling = 2000 + levy * 0.2 / (0.9-effective);
@@ -212,7 +227,7 @@ export default function CountryCalculator({ entry }: { entry: CountryTool }) {
         {label:"推定自己負担額",value:jpy(own)});
       fields = <>{inp("residentTax","住民税所得割額（円／年）")}
         {sel("incomeTaxRate","所得税の限界税率（課税所得に応じて選択）",
-          [5,10,20,23,33,40,45].map(v=>({value:String(v),label:String(v)+"%"})))}
+          [0,5,10,20,23,33,40,45].map(v=>({value:String(v),label:String(v)+"%"})))}
         {inp("donation","寄附予定額（円）")}</>;
       extra=<p className="rounded-xl bg-amber-50 p-3 text-sm leading-6 text-amber-900">
         これは住民税所得割額がわかる方向けの概算です。上限の前提となる所得税率は給与年収ではなく課税所得で判断してください。住宅ローン控除や所得制限などによって自己負担が増えることがあります。
@@ -220,7 +235,7 @@ export default function CountryCalculator({ entry }: { entry: CountryTool }) {
       break;
     }
     case "commuter-pass": {
-      const fare = use("oneWayFare"), pass = use("passPrice"), days = use("commuteDays",0,31);
+      const fare = readNumber("oneWayFare"), pass = readNumber("passPrice"), days = readNumber("commuteDays",0,31,true);
       const single = fare * 2 * days;
       const gap = single - pass;
       const breakEven = fare > 0 ? Math.floor(pass/(fare*2))+1 : NaN;
@@ -231,30 +246,30 @@ export default function CountryCalculator({ entry }: { entry: CountryTool }) {
         {label:"定期券を選んだ場合の差額",value:jpy(gap)});
       fields = <>{inp("oneWayFare","片道のIC運賃・切符運賃（円）")}
         {inp("passPrice","1か月通勤定期券の価格（円）")}
-        {inp("commuteDays","月の往復出社日数",0,31)}</>;
+        {inp("commuteDays","月の往復出社日数",0,31,true)}</>;
       break;
     }
     case "2027-holidays": {
-      const allowed = use("leave",0,7);
+      const allowed = readNumber("leave",0,7,true);
       const plan = holidayPlan(values.holiday, Math.floor(allowed));
-      results.push({label:"選定節日",value:plan.h.name},
+      results.push({label:"所选节日",value:plan.h.name},
         {label:"官方放假区间",value:plan.h.start+"～"+plan.h.end},
         {label:"官方放假天数",value:plan.h.days+"天"},
         {label:"最长连续休息时间（含年假）",value:plan.days+"天"},
         {label:"需要请假的工作日",value:plan.leave+"天"},
         {label:"连续休假日期",value:fromDay(plan.start)+" ～ "+fromDay(plan.end)});
       fields = <>{sel("holiday","选择2027年节日",HOLIDAYS.map(h=>({value:h.id,label:h.name+" ("+h.start+" ～ "+h.end+")"})))}
-        {inp("leave","可使用的年假天数（0–7）",0,7)}</>;
+        {inp("leave","可使用的年假天数（0–7）",0,7,true)}</>;
       extra = <div className="rounded-xl bg-amber-50 p-4 text-sm leading-7 text-amber-950">
         <strong className="block">2027年全国调休上班日（周末也要上班）</strong>
         <span>1月31日（日）、2月14日（日）、5月8日（六）、9月26日（日）、10月9日（六）</span>
-        <p className="mt-2">算法以所选节日完整假期为中心，仅在前后各7天内寻找年假用量不超过输入值的最长连续休息区间。不同单位应以实际上班安排为准。</p>
+        <p className="mt-2">算法在2027年内寻找包含所选节日完整假期、年假用量不超过输入值的最长连续休息区间，不跨年计算。不同单位应以实际上班安排为准。</p>
       </div>;
       break;
     }
     case "five-insurances-fund": {
-      const salary = use("monthSalary"), requestedSocial = use("socialBase");
-      const requestedHouse = use("houseBase"), housingRate = use("fundRate",5,12);
+      const salary = readNumber("monthSalary"), requestedSocial = readNumber("socialBase");
+      const requestedHouse = readNumber("houseBase"), housingRate = readNumber("fundRate",5,12);
       const social = Math.min(36348,Math.max(7270,requestedSocial));
       const house = Math.min(36348,Math.max(2540,requestedHouse));
       const pension = social*0.08, health = social*0.02 + 3, unemployed = social*0.005, housing = house*housingRate/100;
@@ -276,8 +291,8 @@ export default function CountryCalculator({ entry }: { entry: CountryTool }) {
       break;
     }
     case "income-tax": {
-      const salary = use("monthSalary"), social = use("monthlySocial"), add = use("additional");
-      const month = use("monthNumber",1,12);
+      const salary = readNumber("monthSalary"), social = readNumber("monthlySocial"), add = readNumber("additional");
+      const month = readNumber("monthNumber",1,12);
       const perMonthTaxable = salary - social - add - 5000;
       const cumulative = (m:number) => chinaTax(Math.max(0,perMonthTaxable*m));
       const currentTax = cumulative(Math.floor(month)) - cumulative(Math.floor(month)-1);
@@ -299,7 +314,7 @@ export default function CountryCalculator({ entry }: { entry: CountryTool }) {
 
   const valid = Object.entries(numeric).every(([key, rule]) => {
     const v = N(key);
-    return Number.isFinite(v) && v >= rule.min && v <= rule.max;
+    return Number.isFinite(v) && v >= rule.min && v <= rule.max && (!rule.integer || Number.isInteger(v));
   });
   const regionName = entry.region === "us" ? "United States · 2026/2027" :
     entry.region === "jp" ? "日本 · 2026年版" : "中国大陆 · 2026/2027";
