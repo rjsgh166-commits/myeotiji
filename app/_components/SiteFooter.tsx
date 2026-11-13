@@ -51,6 +51,13 @@ export default function SiteFooter() {
           </div>
         </div>
 
+        <nav aria-label="다국어 계산기" className="mt-7 flex flex-wrap items-center gap-3 border-t border-slate-100 pt-5 text-sm">
+          <span className="font-bold text-slate-700">다국어 계산기</span>
+          <Link href="/en" hrefLang="en" className="text-blue-700 hover:underline">English</Link>
+          <Link href="/ja" hrefLang="ja" className="text-blue-700 hover:underline">日本語</Link>
+          <Link href="/zh-hans" hrefLang="zh-Hans" className="text-blue-700 hover:underline">简体中文</Link>
+        </nav>
+
         <div className="mt-8 border-t border-gray-100 pt-6 text-xs leading-5 text-gray-400">
           <p>© 2026 몇이지? All rights reserved.</p>
           <p className="mt-1">
