@@ -112,7 +112,7 @@ export const COUNTRY_TOOLS = [
     "source": [
       {
         "label": "JR東日本：運賃・料金案内",
-        "url": "https://www.jreast.co.jp/"
+        "url": "https://jreastfaq.jreast.co.jp/faq/show/1125?site_domain=default"
       }
     ]
   },
@@ -157,6 +157,10 @@ export const COUNTRY_TOOLS = [
       {
         "label": "北京：城镇职工社保缴费比例",
         "url": "https://www.bjfsh.gov.cn/zsk/zcwd/202608/t20260818_40116625.shtml"
+      },
+      {
+        "label": "北京师范大学：2026年社保缴费标准及医疗保险2%+3元",
+        "url": "https://hr.bnu.edu.cn/fwzn/skbx/56326.htm"
       }
     ]
   },
