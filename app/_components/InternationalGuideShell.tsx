@@ -13,11 +13,11 @@ export default function InternationalGuideShell({ locale, children, languagePath
         <header className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-6">
           <Link href={`/${locale}`} className="text-xl font-black text-blue-700">Myeotiji</Link>
           <nav aria-label={COPY[locale].lang} className="flex flex-wrap gap-2">
-            {LOCALES.map(code => <Link key={code} href={languagePaths?.[code] ?? `/${code}/guides`}
+            {LOCALES.map(code => <a key={code} href={languagePaths?.[code] ?? `/${code}/guides`}
               hrefLang={COPY[code].tag} aria-current={locale === code ? "page" : undefined}
               className={`rounded-xl px-3 py-2 text-sm font-semibold ${locale === code ? "bg-blue-600 text-white" : "bg-white text-slate-700 ring-1 ring-slate-200"}`}>
               {COPY[code].label}
-            </Link>)}
+            </a>)}
           </nav>
         </header>
         <main className="py-8 sm:py-12">{children}</main>

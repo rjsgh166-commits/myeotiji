@@ -6,7 +6,7 @@ const { JSDOM } = require('jsdom');
 const root = path.resolve(__dirname, '../.next/server/app');
 const xml = fs.readFileSync(path.join(root, 'sitemap.xml.body'), 'utf8');
 const urls = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => m[1]);
-let checked = 0;
+let checked = 0, controls = 0;
 for (const url of urls) {
  const pathname = new URL(url).pathname;
  const locale = pathname.split('/')[1];
@@ -15,6 +15,8 @@ for (const url of urls) {
  const scripts = [...doc.querySelectorAll('script')];
  assert(!scripts.some(s => /googletagmanager|google-analytics|adsbygoogle|googlesyndication|gtag\(|G-6FC374VXMH/.test((s.src||'')+s.textContent)), `${pathname}: optional tracking active`);
  assert(!doc.querySelector('meta[name="google-adsense-account"]'));
+ if(locale === "zh-hans") assert(!doc.querySelector("[data-analytics-settings]"));
+ else { assert(doc.querySelector("[data-analytics-settings]")); controls++; }
  const footer = doc.querySelector('[data-international-safety]');
  assert(footer, `${pathname}: safety footer`);
  for(const page of ['privacy','terms','contact']) assert(footer.querySelector(`a[href="/${locale}/${page}"]`), `${pathname}: ${page} not reachable`);
@@ -27,4 +29,4 @@ for (const url of urls) {
 assert.equal(checked,78);
 // The Korean root retains its existing analytics configuration.
 assert(fs.readFileSync(path.join(root,'index.html'),'utf8').includes('G-6FC374VXMH'));
-console.log(JSON.stringify({status:'PASS',internationalPagesWithoutTracking:checked,localizedPolicyPages:9,koreanAnalyticsPreserved:true}));
+console.log(JSON.stringify({status:'PASS',internationalPagesWithoutPreConsentTracking:checked,englishJapaneseConsentControls:controls, chinesePagesWithoutAnalytics:26,localizedPolicyPages:9,koreanAnalyticsPreserved:true}));

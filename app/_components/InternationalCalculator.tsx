@@ -235,9 +235,9 @@ export default function InternationalCalculator({ locale, tool, guide }: { local
         <header className="mb-8 flex flex-wrap items-center justify-between gap-3">
           <Link href={`/${locale}`} className="text-lg font-black text-blue-700">Myeotiji · {t.home}</Link>
           <nav aria-label={t.lang} className="flex flex-wrap gap-2">
-            {LOCALES.map(code => <Link key={code} href={`/${code}/${tool}`} hrefLang={COPY[code].tag}
+            {LOCALES.map(code => <a key={code} href={`/${code}/${tool}`} hrefLang={COPY[code].tag}
               aria-current={code === locale ? "page" : undefined}
-              className={`rounded-lg px-3 py-2 text-sm font-semibold ${code === locale ? "bg-blue-600 text-white" : "bg-white text-slate-700 ring-1 ring-slate-200"}`}>{COPY[code].label}</Link>)}
+              className={`rounded-lg px-3 py-2 text-sm font-semibold ${code === locale ? "bg-blue-600 text-white" : "bg-white text-slate-700 ring-1 ring-slate-200"}`}>{COPY[code].label}</a>)}
           </nav>
         </header>
 
