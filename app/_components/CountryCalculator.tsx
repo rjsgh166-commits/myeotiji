@@ -31,7 +31,7 @@ function isWorkingDay(day: number): boolean {
 function holidayPlan(id: string, allowed: number) {
   const h = HOLIDAYS.find(item => item.id === id) ?? HOLIDAYS[1];
   const hs = toDay(h.start), he = toDay(h.end);
-  let best = { start: hs, end: he, leave: 0, days: h.days };
+  let best: { start: number; end: number; leave: number; days: number } = { start: hs, end: he, leave: 0, days: h.days };
   for (let start = hs - 7; start <= hs; start += 1) {
     for (let end = he; end <= he + 7; end += 1) {
       let used = 0;
