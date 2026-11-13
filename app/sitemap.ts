@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { COUNTRY_TOOLS } from "./_lib/countryTools";
 
 import { SITE_URL } from "./_lib/site";
 import { LOCALES, TOOLS, localizedAlternates } from "./_lib/international";
@@ -111,5 +112,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
               : 0.8,
   }));
 
-  return [...koreanPages, ...globalPages];
+  const countryPages: MetadataRoute.Sitemap = COUNTRY_TOOLS.map(entry => ({
+    url: `${SITE_URL}/${entry.locale}/${entry.region}/${entry.id}`,
+    lastModified: entry.updated,
+    changeFrequency: "monthly" as const,
+  }));
+
+  return [...koreanPages, ...globalPages, ...countryPages];
 }
