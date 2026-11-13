@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import InternationalCalculator from "../../_components/InternationalCalculator";
 import { COPY, LOCALES, TOOLS, isIntlLocale, isIntlTool, localizedAlternates } from "../../_lib/international";
+import { guideTeaserForCalculator } from "../../_lib/intl-guides";
+import InternationalCalculatorSchema from "../../_components/InternationalStructuredData";
 
 type Props = { params: Promise<{ locale: string; tool: string }> };
 export function generateStaticParams() {
@@ -23,5 +25,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function IntlToolPage({ params }: Props) {
   const { locale, tool } = await params;
   if (!isIntlLocale(locale) || !isIntlTool(tool)) notFound();
-  return <InternationalCalculator locale={locale} tool={tool} />;
+  const copy = COPY[locale].tools[tool];
+  return <>
+    <InternationalCalculatorSchema locale={locale} path={`/${locale}/${tool}`} title={copy.title} description={copy.description} />
+    <InternationalCalculator locale={locale} tool={tool} guide={guideTeaserForCalculator(locale, tool)} />
+  </>;
 }

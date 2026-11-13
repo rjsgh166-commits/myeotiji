@@ -9,7 +9,7 @@ Object.assign(global,{self:dom.window,window:dom.window,document:dom.window.docu
 Object.defineProperty(global,'navigator',{value:dom.window.navigator,configurable:true});
 const ts=req('typescript'),React=req('react'),{act}=React,{createRoot}=req('react-dom/client');
 function load(file){const m=new Module(file,module);m.filename=file;m.paths=Module._nodeModulePaths(path.dirname(file));let text=fs.readFileSync(file,'utf8');text=text.replace('"../_lib/countryTools"',JSON.stringify(path.join(repo,'app/_lib/countryTools.ts')));m._compile(ts.transpileModule(text,{compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.ReactJSX,target:ts.ScriptTarget.ES2020}}).outputText,file);return m.exports;}
-require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText,f);
+require.extensions['.tsx']=require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.ReactJSX,target:ts.ScriptTarget.ES2020}}).outputText,f);
 const {COUNTRY_TOOLS}=load(path.join(repo,'app/_lib/countryTools.ts'));
 const Country=load(path.join(repo,'app/_components/CountryCalculator.tsx')).default;
 const root=createRoot(document.getElementById('root'));let assertions=0,errors=[];

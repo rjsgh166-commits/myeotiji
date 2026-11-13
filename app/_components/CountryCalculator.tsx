@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { COUNTRY_TOOLS, type CountryTool } from "../_lib/countryTools";
+import CalculatorGuideTeaser, { type GuideTeaser } from "./CalculatorGuideTeaser";
 
 type Output = { label: string; value: string };
 const inputClass = "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-base text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100";
@@ -117,7 +118,7 @@ const defaults: Record<string, string> = {
   monthSalary: "15000", socialBase: "15000", houseBase: "15000", fundRate: "12",
   monthlySocial: "2000", additional: "1000", monthNumber: "6",
 };
-export default function CountryCalculator({ entry }: { entry: CountryTool }) {
+export default function CountryCalculator({ entry, guide }: { entry: CountryTool; guide?: GuideTeaser }) {
   const [values, setValues] = useState<Record<string, string>>(defaults);
   const change = (key: string) => (value: string) => setValues(previous => ({ ...previous, [key]: value }));
   const N = (key: string) => values[key]?.trim() === "" ? NaN : Number(values[key]);
@@ -353,6 +354,7 @@ export default function CountryCalculator({ entry }: { entry: CountryTool }) {
         </section>
       </div>
       {extra && <div className="mt-4">{extra}</div>}
+      <CalculatorGuideTeaser guide={guide} />
       <section className="mt-5 grid gap-4 md:grid-cols-2">
         <article className={boxClass}><h2 className="text-lg font-black">{entry.locale==="en"?"Formula":entry.locale==="ja"?"計算方法":"计算方法"}</h2>
           <p className="mt-3 text-sm leading-7 text-slate-700">{entry.formula}</p></article>
