@@ -2170,5 +2170,2725 @@ export const EXPANSION = {
         "text": "यदि आपको कोई गलत सूत्र, स्रोत, अनुवाद या उदाहरण मिलता है, तो कृपया पृष्ठ का पता, प्रासंगिक इनपुट और अपेक्षित परिणाम हमारे संपर्क पते पर भेजें। पहचान दस्तावेज़, पूर्ण वेतन विवरण, खाता संख्या या अन्य अनावश्यक व्यक्तिगत जानकारी न भेजें। हम स्पष्टीकरण की जांच और अद्यतन करने के लिए एक प्रतिलिपि प्रस्तुत करने योग्य उदाहरण का उपयोग कर सकते हैं।"
       }
     ]
+  },
+  "fr": {
+    "labels": {
+      "home": "Calculatrices",
+      "guides": "Guides de calcul",
+      "policy": "Comment nous préparons ces guides",
+      "title": "Guides de calcul : formules et exemples concrets",
+      "description": "Calculs pratiques pour les dates, l'argent et les décisions quotidiennes. Choisissez une calculatrice et voyez la formule derrière la réponse.",
+      "intro": "Commencez par la question à laquelle vous souhaitez répondre. Chaque guide explique la méthode, passe en revue les chiffres et propose des liens vers une calculatrice que vous pouvez utiliser avec vos propres entrées.",
+      "global": "Argent, dates et calculs quotidiens",
+      "country": "États-Unis : salaire, impôts et retraite",
+      "quick": "Réponse rapide",
+      "contents": "Sur cette page",
+      "try": "Essayez la calculatrice",
+      "related": "Guides associés",
+      "questions": "Questions courantes",
+      "references": "Sources et lectures complémentaires",
+      "updated": "Mis à jour",
+      "author": "Préparé par Myeotiji",
+      "exampleNote": "Des exemples illustrent les hypothèses énoncées. Les frais, rendements et montants de paie réels peuvent différer.",
+      "policyTitle": "Guides de calcul Myeotiji : sources et méthode éditoriale",
+      "policyDescription": "Comment Myeotiji explique les calculs, vérifie les exemples, cite les sources et gère les corrections et les estimations.",
+      "calculatorLink": "Voir la formule, un exemple concret et les erreurs courantes →",
+      "homeTitle": "Calculatrices financières et quotidiennes gratuites | Myéotiji",
+      "homeHeading": "Calculatrices gratuites pour l'argent, le travail et la vie quotidienne",
+      "homeDescription": "Calculs pratiques pour les dates, l'argent et les décisions quotidiennes. Choisissez une calculatrice et voyez la formule derrière la réponse."
+    },
+    "guides": {
+      "fee": {
+        "title": "Calcul des frais : combien facturer pour recevoir le montant net souhaité ?",
+        "description": "Calculez le produit net après pourcentage et frais fixes, puis inversez la formule pour trouver les frais nécessaires à un paiement cible.",
+        "answer": "Soustrayez à la fois le pourcentage et les frais fixes des frais. Pour recevoir un montant particulier après frais, divisez l'objectif plus les frais fixes par un moins le taux en pourcentage.",
+        "sections": [
+          {
+            "heading": "Séparez les deux parties des frais",
+            "paragraphs": [
+              "Un pourcentage de frais augmente avec le montant collecté ; ce n’est pas le cas des frais de transaction fixes. Écrivez le pourcentage sous forme décimale avant de multiplier. Pour des frais hypothétiques de 3 %, utilisez 0,03. Des frais fixes de 0,30 signifient 30 cents dans la devise que vous avez sélectionnée, et non un autre pourcentage.",
+              "Produit net = frais × (1 − taux) − frais fixes. Vérifiez à quel montant le fournisseur applique son tarif : les frais d'expédition, les taxes, la conversion de devises et les frais transfrontaliers peuvent avoir un traitement distinct. Ce guide décrit l'arithmétique, et non le tarif actuel d'un fournisseur.",
+              "Montant net = montant facturé × (1 − taux de frais) − frais fixes. Montant à facturer = (net souhaité + frais fixes) ÷ (1 − taux de frais)."
+            ]
+          },
+          {
+            "heading": "Un exemple concret : pourquoi ajouter 3 % ne suffit pas",
+            "paragraphs": [
+              "Supposons que vous perceviez 100 $ et que les frais hypothétiques soient de 3 % plus 0,30 $. La partie en pourcentage est de 3 $ ; l'ajout de la partie fixe donne des frais de 3,30 $ et un produit net de 96,70 $.",
+              "Pour recevoir 100 $ net, résolvez les frais × 0,97 − 0,30 = 100. Les frais non arrondis requis sont 100,30 ÷ 0,97, soit environ 103,4021 $. Ajouter 3 % à 100 $ donne 103 $, dont le montant net n'est que de 99,61 $. La différence vient du fait que le fournisseur facture également des frais sur l’augmentation des frais."
+            ],
+            "table": {
+              "headers": [
+                "Frais",
+                "Frais hypothétiques",
+                "Filet"
+              ],
+              "rows": [
+                [
+                  "100,00 $",
+                  "3,30 $",
+                  "96,70 $"
+                ],
+                [
+                  "103,00 $",
+                  "3,39 $",
+                  "99,61 $"
+                ],
+                [
+                  "103,40 $",
+                  "3,402 $ avant arrondi",
+                  "99,998 $ avant arrondi"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Utiliser le résultat comme vérification des prix",
+            "paragraphs": [
+              "Saisissez le montant collecté pour un calcul direct ou sélectionnez le mode cible-net pour un calcul inverse. Gardez la devise sélectionnée cohérente avec vos frais fixes. La sélection de la devise modifie le formatage ; il n'effectue pas de conversion de taux de change.",
+              "L'écran arrondit le résultat pour l'afficher. Si un paiement minimum doit être atteint exactement, vérifiez le prochain plus petit incrément de devise et les règles d'arrondi de votre fournisseur. Les remboursements, les frais minimums, les taxes sur les frais et la question de savoir si les suppléments sont autorisés nécessitent des contrôles séparés."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Des frais de 0 % signifient-ils toujours que je reçois la totalité des frais ?",
+            "answer": "Uniquement si les frais fixes sont également nuls et qu'aucune autre déduction ne s'applique. Un pourcentage de frais de 0 % plus des frais fixes de 0,30 $ laisse toujours 99,70 $ sur des frais de 100 $."
+          },
+          {
+            "question": "Puis-je comparer différents prestataires de paiement ?",
+            "answer": "Oui, saisissez le tarif publié et les frais fixes de chaque fournisseur en utilisant les mêmes frais. Comparez le résultat avec les éventuels frais supplémentaires et les conditions applicables à votre compte."
+          }
+        ]
+      },
+      "discount": {
+        "title": "Remises successives : pourquoi 20 % puis 10 % donnent 28 %",
+        "description": "Calculez les remises successives, comparez les combinaisons de coupons et distinguez le pourcentage du prix final du montant économisé.",
+        "answer": "Appliquez la deuxième remise sur le prix déjà réduit. Une remise de 20 % suivie de 10 % laisse 80 % × 90 % = 72 % du prix d'origine, donc l'économie totale est de 28 %.",
+        "sections": [
+          {
+            "heading": "Multipliez le prix que vous continuez à payer",
+            "paragraphs": [
+              "Pour chaque pourcentage de remise, soustrayez le taux décimal de un. Multipliez le prix initial par les fractions restantes. Avec deux remises, prix final = original × (1 − premier tarif) × (1 − deuxième tarif). Remise effective = 1 − prix final ÷ prix d'origine.",
+              "L'ajout des tarifs traiterait les deux remises comme si elles s'appliquaient au prix d'origine. C'est une offre différente. Un magasin promettant une seule réduction de 30 % accorde un pourcentage de réduction plus important que les réductions successives de 20 % et 10 %, avant que d'autres conditions ne soient prises en compte."
+            ]
+          },
+          {
+            "heading": "Comparez deux offres sur un article à 100$",
+            "paragraphs": [
+              "Après les premiers 20 % de réduction, l'article coûte 80 $. La deuxième réduction de 10 % supprime 8 $, laissant 72 $. L'économie totale est de 28 $. Inverser l’ordre de deux pourcentages purs de remise donne le même résultat mathématique, car les facteurs de prix restants se multiplient.",
+              "Cette règle d’ordre ne s’étend pas automatiquement à un coupon à valeur fixe. Un coupon de 10 $ après 20 % de réduction sur un article de 100 $ donne 70 $. Prendre 10 $ de réduction d'abord, puis appliquer 20 %, donne 72 $. Les dépenses minimales, les plafonds et les produits exclus peuvent modifier l'offre qui peut réellement être utilisée."
+            ],
+            "table": {
+              "headers": [
+                "Offre",
+                "Prix final",
+                "Économiser"
+              ],
+              "rows": [
+                [
+                  "20%, puis 10%",
+                  "72 $",
+                  "28%"
+                ],
+                [
+                  "Une remise de 30%",
+                  "70 $",
+                  "30%"
+                ],
+                [
+                  "20%, puis un coupon de 10$",
+                  "70 $",
+                  "30 $"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Saisissez la réduction annoncée, pas le prix restant",
+            "paragraphs": [
+              "Les champs du calculateur prennent en compte les pourcentages de remise. Une étiquette indiquant de payer 80 % du prix initial signifie une réduction de 20 %. Entrer 80 calculerait plutôt une réduction de 80 %.",
+              "L’outil modélise deux pourcentages de réduction successifs. Il n'ajoute pas de taxe de vente, de livraison, de remise en argent ou de coupons fixes. Comparez les totaux de paiement lorsque ces articles diffèrent et autorisez l'arrondi réel du vendeur à chaque étape."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Est-ce que 50 % de réduction suivi de 50 % de réduction sont gratuits ?",
+            "answer": "Non. La moitié du prix initial reste après la première réduction, et la moitié après la seconde. Vous payez 25 % du prix initial, soit une économie de 75 %."
+          },
+          {
+            "question": "Pourquoi l'économie sur mon reçu diffère-t-elle légèrement ?",
+            "answer": "Un détaillant peut arrondir chaque article ou chaque remise séparément, ou appliquer des remises à différents montants éligibles. Cette calculatrice utilise les deux pourcentages indiqués avant d'afficher un résultat arrondi."
+          }
+        ]
+      },
+      "days": {
+        "title": "Jours entre deux dates : premier jour, années bissextiles et jours calendaires",
+        "description": "Comprenez les jours écoulés par rapport au nombre de dates incluses, les jours bissextiles, les week-ends et pourquoi un outil de jours calendaires est différent d'un calculateur de délais.",
+        "answer": "Pour les jours calendaires écoulés, soustrayez la date de début de la date de fin. Si le jour de début est le jour 1, ajoutez-en un pour une plage de dates à venir. Du 1er janvier au 11 janvier, c'est 10 jours écoulés ou 11 jours inclus.",
+        "sections": [
+          {
+            "heading": "Choisissez d'abord la convention de comptage",
+            "paragraphs": [
+              "Un séjour du lundi au mardi s'étend sur une nuit mais touche deux dates calendaires. Les deux nombres peuvent être corrects car ils répondent à des questions différentes. Décidez si vous souhaitez inclure les jours écoulés ou le nombre de dates dans une période avant de comparer les résultats.",
+              "Pour une plage ascendante, l'option d'inclusion-démarrage de la calculatrice ajoute un jour. Une même date de début et de fin donne donc zéro jour écoulé ou un jour inclus. Une date de fin antérieure à la date de début donne un intervalle négatif ; inversez les dates lorsque vous souhaitez une période de transfert normale."
+            ]
+          },
+          {
+            "heading": "Travailler sur un exemple d’année bissextile",
+            "paragraphs": [
+              "En 2028, la période du 28 février au 1er mars s'étend sur deux jours écoulés car le 29 février se situe entre eux. Le comptage inclusif donne trois dates calendaires : le 28 février, le 29 février et le 1er mars. En 2027, la période du 28 février au 1er mars ne s'étend que sur un seul jour écoulé.",
+              "L'outil normalise les dates du calendrier saisies au format UTC pour la soustraction. Cela empêche un changement d’heure d’été de transformer un intervalle de jours calendaires ordinaires en un jour fractionnaire. Il ne s'agit pas d'un calculateur de durées de vol ou d'heures exactes entre des horodatages spécifiques à un fuseau horaire."
+            ],
+            "table": {
+              "headers": [
+                "Dates",
+                "Écoulé",
+                "Y compris le début"
+              ],
+              "rows": [
+                [
+                  "1 janvier → 11 janvier",
+                  "10 jours",
+                  "11 jours"
+                ],
+                [
+                  "Même date",
+                  "0 jours",
+                  "1 jour"
+                ],
+                [
+                  "28 février → 1 mars 2028",
+                  "2 jours",
+                  "3 jours"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Les jours calendaires ne signifient pas les jours ouvrables",
+            "paragraphs": [
+              "Les samedis, dimanches et jours fériés comptent tous comme jours calendaires. Pour planifier les congés, utilisez une calculatrice qui connaît les jours fériés du pays concerné et les jours de travail de substitution. Un décalage de date ne peut à lui seul déterminer le nombre de jours de congé payé dont vous avez besoin.",
+              "Les contrats et les délais officiels peuvent définir différemment le premier jour, les heures limites de fin de journée et les prolongations des jours fériés. Vérifiez la règle applicable lorsqu’un délai non respecté est important. Pour les comptes à rebours et les anniversaires quotidiens, indiquez votre convention de comptage à côté du résultat."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Dois-je inclure le premier jour ?",
+            "answer": "Incluez-le lorsque cette date compte comme le premier jour de la période. Laissez-le exclu lors de la mesure de l’écart écoulé entre les dates. Une règle issue d’un contrat ou d’une autorité a priorité sur une convention générale du calendrier."
+          },
+          {
+            "question": "Est-ce que 30 jours équivalent toujours à un mois ?",
+            "answer": "Non. Les mois civils ont des durées différentes. Utilisez les dates de début et de fin réelles plutôt que de convertir chaque mois en 30 jours."
+          }
+        ]
+      },
+      "stock-average": {
+        "title": "Prix moyen des actions : moyenne pondérée après un nouvel achat",
+        "description": "Utilisez une moyenne pondérée pour calculer un nouveau prix d'achat moyen, le total des actions et le montant investi sans le confondre avec un choix de lot fiscal.",
+        "answer": "Additionnez les montants dépensés pour les actions existantes et nouvelles, puis divisez par le nombre total d'actions. La moyenne simple de deux prix ne fonctionne que lorsque les quantités partagées sont égales.",
+        "sections": [
+          {
+            "heading": "Peser chaque achat par sa quantité",
+            "paragraphs": [
+              "Nouveau prix d'achat moyen = (quantité existante × moyenne existante + nouvelle quantité × nouveau prix) ÷ quantité totale. Les prix et les quantités doivent utiliser la même unité d'action et la même devise. Des fractions d’actions peuvent être utilisées lorsqu’elles reflètent vos avoirs réels.",
+              "Par exemple, 100 actions achetées à 50 $ et 100 autres achetées à 40 $ coûtent au total 9 000 $. Divisez par 200 actions pour obtenir 45 $. Si le deuxième achat ne porte que sur 50 actions à 40 $, le total devient 7 000 $ sur 150 actions, ce qui donne environ 46,67 $, et non 45 $."
+            ]
+          },
+          {
+            "heading": "Une moyenne inférieure ne supprime pas une perte",
+            "paragraphs": [
+              "Immédiatement après avoir acheté les 100 actions supplémentaires à 40 $, une participation de 200 actions d'une valeur de 40 $ par action a une valeur marchande de 8 000 $ contre 9 000 $ dépensés. Le prix moyen a baissé, mais il reste une différence non réalisée de 1 000 $ et davantage d’argent est exposé à l’investissement.",
+              "Un passage de 40 $ à la moyenne de 45 $ représenterait une augmentation de prix de 12,5 % avant frais. C’est de l’arithmétique, pas une prévision ou une raison d’acheter. Augmenter la position modifie le montant à risque ainsi que le prix moyen."
+            ],
+            "table": {
+              "headers": [
+                "Tenir",
+                "Actions",
+                "Montant dépensé"
+              ],
+              "rows": [
+                [
+                  "Existant : 50 $/action",
+                  "100",
+                  "5 000 $"
+                ],
+                [
+                  "Nouveau : 40 $/action",
+                  "100",
+                  "4 000 $"
+                ],
+                [
+                  "Moyenne combinée : 45$",
+                  "200",
+                  "9 000 $"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Séparez les moyennes d'achat des dossiers fiscaux",
+            "paragraphs": [
+              "Le calculateur modélise deux blocs d'achats et exclut les frais de courtage, les taux de change, les dividendes, les ventes et les opérations sur titres. Convertissez les enregistrements de manière cohérente avant de comparer les achats effectués dans différentes devises.",
+              "Une moyenne arithmétique de détention ne constitue pas une détermination de la base du coût imposable. Les règles de lotissement fiscal et les méthodes autorisées varient selon la juridiction et l'actif. Conservez les relevés de transactions originaux du courtier plutôt que de traiter ce résultat comme une instruction de déclaration fiscale."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Puis-je l'utiliser lors d'un achat à un prix plus élevé ?",
+            "answer": "Oui. La même formule de moyenne pondérée s’applique. Acheter au-dessus de votre moyenne existante l’augmente ; l'ampleur du changement dépend de la nouvelle quantité."
+          },
+          {
+            "question": "Pourquoi la moyenne de mon courtier est-elle différente ?",
+            "answer": "Les frais, les conversions de devises, les arrondis, les opérations sur titres ou la méthode comptable d'un courtier peuvent être inclus dans son chiffre. Cet outil utilise uniquement les entrées de prix et de quantité indiquées."
+          }
+        ]
+      },
+      "compound": {
+        "title": "Intérêts composés avec versements mensuels : formule et exemple",
+        "description": "Comprenez les rendements annuels effectifs, les cotisations de fin de mois et la différence entre l’argent versé et la croissance hypothétique des investissements.",
+        "answer": "Convertissez le rendement annuel effectif en taux mensuel, augmentez le solde existant, puis ajoutez la cotisation mensuelle. Séparez l’argent des cotisations de la croissance afin qu’un dépôt plus important ne soit pas confondu avec un meilleur rendement.",
+        "sections": [
+          {
+            "heading": "Convertir l'hypothèse annuelle de manière cohérente",
+            "paragraphs": [
+              "Myeotiji traite le rendement annuel comme un taux annuel effectif. Le taux mensuel est (1 + taux annuel) ^ (1/12) - 1. À 5 % par an, ce taux mensuel est d'environ 0,4074 %, pas exactement 5 % ÷ 12. L'utilisation d'un taux nominal indiqué divisé par 12 décrirait une convention de composition différente.",
+              "Pour chaque mois, nouveau solde = solde précédent × (1 + taux mensuel) + cotisation. Les cotisations sont ajoutées à la fin du mois, de sorte que le premier dépôt rapporte des rendements dans les mois suivants plutôt qu'avant d'être versé."
+            ]
+          },
+          {
+            "heading": "Vérifiez un exemple sur un an en séparant les dépôts",
+            "paragraphs": [
+              "Commencez avec 1 000 $, cotisez 100 $ à la fin de chaque mois et supposez un rendement annuel effectif constant de 5 % pendant un an. Le montant de départ de 1 000 $ passe à 1 050 $ ; les douze dépôts mensuels s'élèvent à environ 1 227,26 $. Le total est d’environ 2 277,26 $.",
+              "Vous avez fourni 2 200 $ : 1 000 $ initialement plus douze dépôts de 100 $. Les 77,26 $ restants correspondent à une croissance modélisée. Avec un rendement de 0 %, le solde est exactement de 2 200 $. Cette comparaison sans retour est utile pour vérifier si les entrées ont du sens."
+            ],
+            "table": {
+              "headers": [
+                "Scénario sur un an",
+                "Argent fourni",
+                "Solde estimé"
+              ],
+              "rows": [
+                [
+                  "0 % de rendement annuel",
+                  "2 200 $",
+                  "2 200,00 $"
+                ],
+                [
+                  "Rendement annuel effectif de 5 %",
+                  "2 200 $",
+                  "2 277,26 $"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Utilisez des scénarios plutôt qu’un résultat promis",
+            "paragraphs": [
+              "Comparez les hypothèses inférieures, moyennes et supérieures tout en maintenant les dépôts constants. Les investissements réels ne génèrent pas un rendement mensuel régulier, et l’ordre des gains et des pertes compte lorsque de l’argent est ajouté ou retiré.",
+              "Le résultat ne déduit pas l’impôt, les frais d’investissement ou l’inflation. Il ne s'agit ni d'un devis de dépôt ni d'une prévision d'un investissement spécifique. Si une banque ou un fournisseur indique un taux nominal, un calendrier de cotisation différent ou un calendrier de composition différent, alignez ces conventions avant de comparer son illustration avec cet outil."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Les cotisations mensuelles sont-elles versées en début ou en fin de mois ?",
+            "answer": "A la fin de chaque mois modélisé. Un calendrier de début de mois donne à chaque contribution un mois supplémentaire de croissance et peut produire un solde différent."
+          },
+          {
+            "question": "Le résultat inclut-il les impôts ou l’inflation ?",
+            "answer": "Non. Le résultat est un bilan hypothétique avant ces effets. Un solde nominal et son pouvoir d'achat futur sont des quantités différentes."
+          }
+        ]
+      },
+      "unit-converter": {
+        "title": "Convertir les unités : longueur, température et stockage numérique",
+        "description": "Convertissez les mesures courantes tout en vérifiant le volume américain par rapport au volume impérial, les décalages de température et les unités de stockage décimales par rapport aux unités binaires.",
+        "answer": "Convertissez via une unité de base commune et vérifiez d’abord la définition de l’unité. Un gallon américain diffère d'un gallon impérial et un gigaoctet décimal diffère d'un gibioctet. La température a également besoin d'un décalage, pas seulement d'un multiplicateur.",
+        "sections": [
+          {
+            "heading": "Facteurs de conversion utilisant la longueur, la masse, la surface et le volume",
+            "paragraphs": [
+              "Pour les unités de même dimension, convertissez la quantité source en unité de base et divisez-la par le facteur de l'unité de destination. Un mile équivaut à 1,609344 kilomètres, donc 5 miles équivaut à 8,04672 kilomètres. Ne confondez pas un facteur de longueur avec un facteur de surface : les unités carrées nécessitent une conversion au carré.",
+              "Le menu de volume utilise explicitement les gallons liquides américains et les tasses américaines. Un gallon liquide américain équivaut à 3,785411784 litres ; ce n'est pas le plus gros gallon impérial. La tasse d'une recette peut utiliser une autre convention, alors vérifiez la recette ou le récipient doseur avant d'appliquer un numéro."
+            ]
+          },
+          {
+            "heading": "La température et le stockage sont des pièges courants",
+            "paragraphs": [
+              "Pour Celsius en Fahrenheit, utilisez °F = °C × 9/5 + 32. Pour l’inverse, utilisez °C = (°F − 32) × 5/9. C'est pourquoi 100°F équivaut à environ 37,78°C plutôt qu'un résultat obtenu en multipliant 100 par 5/9 seul.",
+              "Les unités de stockage décimales utilisent des puissances de 1 000 ; les unités binaires utilisent des puissances de 1 024. Ici, 1 Go équivaut à 1 000 000 000 d'octets, tandis que 1 Gio équivaut à 1 073 741 824 octets. Il s'agit de quantités de données, et non de vitesses de connexion Internet ou de temps de transfert de fichiers."
+            ],
+            "table": {
+              "headers": [
+                "Entrée",
+                "Valeur convertie"
+              ],
+              "rows": [
+                [
+                  "1 mille",
+                  "1,609344 km"
+                ],
+                [
+                  "1 gallon liquide américain",
+                  "3.785411784L"
+                ],
+                [
+                  "100°F",
+                  "37,777…°C"
+                ],
+                [
+                  "1 Gio",
+                  "1 073 741 824B"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Gardez une précision totale jusqu'à la dernière étape",
+            "paragraphs": [
+              "Choisissez une catégorie, entrez une valeur et sélectionnez les unités source et de destination. La calculatrice affiche jusqu'à huit décimales, donc une très petite quantité peut nécessiter une unité de destination plus petite pour rester lisible.",
+              "Arrondir un facteur de conversion avant de multiplier peut amplifier une erreur. Pour les travaux de fabrication tolérants, les rapports scientifiques ou une norme industrielle prescrite, vérifiez la précision requise et la définition exacte utilisée dans ce contexte."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Puis-je convertir les grammes directement en millilitres ?",
+            "answer": "Non sans la densité du matériau. Les grammes mesurent la masse et les millilitres mesurent le volume ; une conversion entre eux n’est pas un facteur unitaire universel."
+          },
+          {
+            "question": "Le gallon du menu signifie-t-il un gallon impérial britannique ?",
+            "answer": "Non. Le menu est étiqueté US gal et utilise le gallon liquide américain. Utilisez la définition requise par votre matériel source."
+          }
+        ]
+      },
+      "age": {
+        "title": "Calcul de l’âge : anniversaire, années révolues et jours écoulés",
+        "description": "Calculez les années révolues, distinguez l'âge des différences entre les années civiles et comprenez les conventions de date locale et d'anniversaire bissextile.",
+        "answer": "Soustrayez l’année de naissance de l’année de référence, puis soustrayez-en une si l’anniversaire n’a pas encore eu lieu cette année-là. Myeotiji utilise la date du calendrier d'aujourd'hui dans votre navigateur comme date de référence.",
+        "sections": [
+          {
+            "heading": "Une différence d'un an n'est pas toujours un âge révolu",
+            "paragraphs": [
+              "Une personne née le 31 décembre 2000 aura 25 ans le 30 décembre 2026 et aura 26 ans le 31 décembre. Soustraire simplement 2000 de 2026 un jour plus tôt reviendrait à surestimer l'âge révolu d'un.",
+              "Comparez d'abord le mois, puis le jour. Si le mois de référence est antérieur au mois de naissance, soustrayez une année. Si les mois correspondent mais que le jour de référence est antérieur, soustrayez-en également un. Sinon, gardez la différence d'année."
+            ]
+          },
+          {
+            "heading": "Comprendre la date utilisée par la calculatrice",
+            "paragraphs": [
+              "Entrez la date de naissance dans le calculateur d'âge. Il utilise la date actuelle du calendrier local de votre navigateur et signale également les jours calendaires écoulés depuis la naissance. Les dates de référence dans le tableau de ce guide sont des illustrations fixes ; l'outil en direct ne fournit pas de champ de date de référence historique distinct.",
+              "Les utilisateurs de différents fuseaux horaires peuvent voir différents âges vers minuit le jour d'un anniversaire. Le décompte des jours utilise uniquement l’arithmétique de la date, plutôt que l’heure exacte de naissance. Une date de naissance future ne constitue pas une entrée d'âge révolu valide."
+            ],
+            "table": {
+              "headers": [
+                "Date de naissance",
+                "Date de référence en exemple",
+                "Âge révolu"
+              ],
+              "rows": [
+                [
+                  "2000-12-31",
+                  "2026-12-30",
+                  "25"
+                ],
+                [
+                  "2000-12-31",
+                  "2026-12-31",
+                  "26"
+                ],
+                [
+                  "2000-12-31",
+                  "2027-01-01",
+                  "26"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Les jours bissextiles et les règles d’éligibilité officielles doivent être pris en compte",
+            "paragraphs": [
+              "Pour un anniversaire le 29 février, cet outil compare directement le mois et le jour. Dans une année non bissextile, le nombre d'années révolues augmente le 1er mars. Il s'agit d'une convention de calcul déclarée, et non d'une décision sur l'âge légal dans chaque juridiction.",
+              "Une admission, une prestation, un contrat d'assurance ou toute autre démarche officielle peut utiliser un âge à une date précise ou une règle particulière d'anniversaire. Vérifiez la définition de ce processus. Un résultat quotidien selon l’âge actuel ne peut pas remplacer son évaluation d’éligibilité."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Pourquoi le résultat peut-il différer de l’année indiquée dans un calendrier ?",
+            "answer": "La soustraction de l'année civile ne tient pas compte de la date ou non de l'anniversaire. L'âge atteint compte les anniversaires réellement atteints selon la convention de date indiquée."
+          },
+          {
+            "question": "Puis-je utiliser les jours écoulés divisés par 365 à la place ?",
+            "answer": "Pas pour un âge exact d’une année révolue. Les années bissextiles et la position de l’anniversaire rendent ce raccourci peu fiable en ce qui concerne les limites d’âge."
+          }
+        ]
+      }
+    },
+    "legalLabels": {
+      "privacy": "Confidentialité et cookies",
+      "terms": "Utilisation et limites",
+      "contact": "Contact & corrections",
+      "notice": "Estimations pour information générale. Ce service ne fournit pas de conseils fiscaux, juridiques, de paie ou d'investissement aux particuliers, ne prépare pas de déclarations et ne vous représente pas. Vérifiez l’année indiquée, le lieu et les exclusions avant de vous fier à un résultat.",
+      "tracking": "Google Analytics est activé par défaut et peut être désactivé au bas de la page. Les entrées des calculatrices ne sont pas envoyées. AdSense est connecté pour demander des annonces non personnalisées. Google et ses partenaires peuvent utiliser des cookies, balises web, adresses IP et identifiants pour diffuser et mesurer les annonces. Des annonces non personnalisées peuvent aussi utiliser des cookies. Leur affichage dépend de l’approbation du site et des paramètres du compte, notamment du consentement applicable. Les pages chinoises gardent analyses et annonces désactivées."
+    },
+    "legal": {
+      "privacy": [
+        [
+          "Portée et opérateur",
+          "Myeotiji est exploité depuis la Corée du Sud. Cet avis concerne les pages en français. Contact : contact@myeotiji.kr. Les autres langues peuvent avoir des paramètres différents."
+        ],
+        [
+          "Entrées de la calculatrice",
+          "Les calculs s'exécutent dans votre navigateur. Cette version n'envoie pas les montants du calculateur, le salaire, les dates ou les résultats à une base de données d'opérateur ou à un service d'analyse. Ne placez pas de données personnelles dans des URL et ne nous envoyez pas de documents d’identité, de détails de compte ou de fiches de paie."
+        ],
+        [
+          "Analyses, publicités et cookies",
+          "Google Analytics est activé par défaut et peut être désactivé au bas de la page. Les entrées des calculatrices ne sont pas envoyées. AdSense est connecté pour demander des annonces non personnalisées. Google et ses partenaires peuvent utiliser des cookies, balises web, adresses IP et identifiants pour diffuser et mesurer les annonces. Des annonces non personnalisées peuvent aussi utiliser des cookies. Leur affichage dépend de l’approbation du site et des paramètres du compte, notamment du consentement applicable. Les pages chinoises gardent analyses et annonces désactivées."
+        ],
+        [
+          "Hébergement nécessaire et traitement à l’étranger",
+          "Vercel délivre et protège ce site Internet. Les demandes exposent nécessairement des informations de connexion telles que l'adresse IP, l'URL demandée, l'heure, les en-têtes de l'appareil/navigateur et les signaux de sécurité à l'infrastructure d'hébergement. Ces informations peuvent être traitées en dehors de votre pays, y compris aux États-Unis ou dans d'autres emplacements d'infrastructure. La désactivation de l'analyse ne supprime pas ce traitement. Nous l'utilisons pour la livraison, la sécurité et les enquêtes sur les défauts, et non pour des profils publicitaires."
+        ],
+        [
+          "La rétention et vos choix",
+          "Les entrées de la calculatrice ne sont pas conservées par nous en tant qu'enregistrements sur le serveur. Les journaux d'hébergement suivent la rétention du fournisseur et les paramètres de projet applicables ; nous n'avons pas vérifié une seule période de conservation fixe pour tous les journaux d'infrastructure. Contactez-nous pour obtenir les détails applicables ou pour demander l'accès, la correction, la suppression ou la restriction lorsque cela est disponible en vertu de votre loi. Nous évaluons les demandes et les exceptions légales et ne promettons pas que tous les journaux des fournisseurs puissent être immédiatement supprimés. La fermeture de la page efface son état de calcul en mémoire ; votre navigateur peut conserver l'historique ou restaurer un onglet."
+        ],
+        [
+          "E-mail et liens externes",
+          "Si vous choisissez de nous envoyer un e-mail, nous recevons votre adresse et votre message pour traiter la demande et ne conservons que ce qui est nécessaire à cette fin ou à nos obligations légales. Utilisez des exemples fictifs, et non de véritables dossiers financiers personnels. L'e-mail n'est pas requis pour le calcul. Les références officielles ouvrent des sites Web tiers avec leurs propres politiques. Les modifications apportées au suivi ou à l'utilisation des données nécessitent la mise à jour de cet avis et la mise en œuvre de tous les choix légalement requis avant l'activation."
+        ]
+      ],
+      "terms": [
+        [
+          "Objectif",
+          "Arithmétique et explications générales gratuites et en libre-service. Nous ne nous présentons pas comme votre avocat, comptable, préparateur de déclarations de revenus, fournisseur de paie, conseiller en investissement ou organisme gouvernemental. Aucune relation professionnel-client ne se crée simplement à l’aide d’une calculatrice."
+        ],
+        [
+          "Vérifiez les hypothèses",
+          "Les résultats sont des estimations pour l’année, la juridiction et le modèle indiqués. Le statut fiscal, les exonérations, les documents du régime, les règles locales, les arrondis et les modifications de la loi peuvent modifier les résultats réels. Un exemple n'est pas une garantie. Vérifiez auprès du service officiel compétent ou d'un professionnel qualifié avant de déposer une demande, de payer un salaire, d'investir, de faire un don ou de réserver un voyage."
+        ],
+        [
+          "Limites spécifiques",
+          "Les heures supplémentaires aux États-Unis utilisent la base de référence fédérale couverte et non exonérée, et non toutes les règles des États. Le salaire net est une illustration annuelle simplifiée, et non un calcul W-4 ou de dépôt. Une correspondance 401(k) n’est pas un solde acquis ni une recommandation de contribution. Les outils de moyenne boursière et composés ne recommandent pas de titres ni ne garantissent les rendements. Les outils de date et d’âge ne décident pas de l’éligibilité légale ni des délais."
+        ],
+        [
+          "Erreurs et responsabilité",
+          "Signalez une erreur suspectée à l’aide d’entrées fictives et de l’URL concernée. Nous pouvons corriger, avertir ou restreindre temporairement un outil concerné lorsque ses hypothèses ne peuvent pas être vérifiées. Cet avis décrit la portée ; il n'exclut pas la responsabilité qui ne peut légalement être exclue, y compris la responsabilité applicable en cas de faute intentionnelle ou de négligence grave, ni ne supprime les droits obligatoires des consommateurs."
+        ],
+        [
+          "Prise en charge et modifications",
+          "Le support gère les défauts techniques et les corrections générales des sources. Ne demandez pas de positions fiscales individuelles, de décisions juridiques, de préparation de dossiers ou de représentation. Nous adresserons ces demandes à l’autorité compétente ou à un professionnel qualifié. Les changements importants sont reflétés dans la date de la page ; revérifiez les hypothèses à chaque fois."
+        ]
+      ],
+      "contact": [
+        [
+          "Problèmes techniques, corrections et demandes de confidentialité",
+          "Envoyez un e-mail à contact@myeotiji.kr avec l'URL de la page, l'année/la région applicable et un exemple fictif montrant le résultat attendu et affiché. Vous pouvez également demander des informations sur le traitement des données ou exercer les droits de confidentialité applicables ici. Nous n'avons pas besoin d'un compte ou d'un formulaire."
+        ],
+        [
+          "Protégez vos informations",
+          "N’envoyez pas par courrier électronique des identifiants gouvernementaux, des comptes bancaires, des mots de passe, des fiches de paie complètes ou de véritables documents fiscaux. Nous n’offrons pas de consultations fiscales, juridiques ou d’investissement personnelles et n’agissons pas en votre nom. Pour une date limite de dépôt, de paiement ou d’emploi, contactez directement l’autorité compétente ou un professionnel qualifié."
+        ]
+      ]
+    },
+    "policy": [
+      {
+        "heading": "Objectif et paternité",
+        "text": "Myeotiji publie des explications sur les calculatrices disponibles sur ce site. Ces guides ont été préparés avec l’aide de l’IA et vérifiés par rapport à la méthode de calcul indiquée, aux exemples concrets et aux références citées. Le nom de l'auteur identifie Myeotiji comme le service de publication ; il ne prétend pas être examiné par un comptable, un avocat ou un conseiller réglementé désigné."
+      },
+      {
+        "heading": "Sources, dates et règles applicables",
+        "text": "Pour les sujets liés au droit, à la fiscalité, à la paie et aux assurances sociales, nous privilégions les publications des autorités publiques compétentes et les liens vers les documents pertinents. Les conditions du fournisseur et les normes techniques sont identifiées comme telles. Un exemple mathématique écrit par Myeotiji est une illustration et non une citation d'une autorité. La date de mise à jour visible enregistre une révision du contenu matériel, et non une actualisation quotidienne automatique. Le pays, l’année et les exclusions indiquées dans chaque guide sont importants."
+      },
+      {
+        "heading": "Ce qu'un calcul peut et ne peut pas établir",
+        "text": "Nous vérifions des exemples numériques représentatifs et des conditions aux limites. Les modèles simples omettent toujours les faits susceptibles de modifier un paiement ou un droit réel. Une croissance hypothétique des investissements n’est pas un rendement promis, et une estimation de la masse salariale n’est pas une évaluation fiscale finale. Les exemples utilisent les hypothèses indiquées ; les lecteurs doivent vérifier les dossiers réels du fournisseur, de l'employeur ou de l'autorité avant de se fier à un chiffre pour prendre une décision conséquente."
+      },
+      {
+        "heading": "Corrections et retours",
+        "text": "Si vous trouvez une formule, une source, une traduction ou un exemple incorrect, veuillez envoyer l'adresse de la page, les entrées pertinentes et le résultat que vous attendiez à notre adresse de contact. N'envoyez pas de documents d'identification, de relevés de salaire complets, de numéros de compte ou d'autres informations personnelles inutiles. Nous pouvons utiliser un exemple reproductible pour étudier et mettre à jour l’explication."
+      }
+    ]
+  },
+  "ar": {
+    "labels": {
+      "home": "الآلات الحاسبة",
+      "guides": "أدلة الحساب",
+      "policy": "كيف نقوم بإعداد هذه الأدلة",
+      "title": "أدلة الحساب: الصيغ والأمثلة العملية",
+      "description": "الحسابات العملية للتواريخ والمال والقرارات اليومية. اختر آلة حاسبة وشاهد الصيغة وراء الإجابة.",
+      "intro": "ابدأ بالسؤال الذي تريد الإجابة عليه. يشرح كل دليل الطريقة، ويعمل من خلال الأرقام والروابط إلى الآلة الحاسبة التي يمكنك استخدامها مع المدخلات الخاصة بك.",
+      "global": "المال والتواريخ والحسابات اليومية",
+      "country": "الولايات المتحدة: الأجور والضرائب والتقاعد",
+      "quick": "إجابة سريعة",
+      "contents": "في هذه الصفحة",
+      "try": "جرب الآلة الحاسبة",
+      "related": "أدلة ذات صلة",
+      "questions": "الأسئلة الشائعة",
+      "references": "المصادر ومزيد من القراءة",
+      "updated": "تم التحديث",
+      "author": "من إعداد ميوتيجي",
+      "exampleNote": "وتوضح الأمثلة الافتراضات المذكورة. يمكن أن تختلف الرسوم الفعلية والعائدات ومبالغ الرواتب.",
+      "policyTitle": "أدلة حساب Myeotiji: المصادر وطريقة التحرير",
+      "policyDescription": "كيف يشرح Myeotiji الحسابات ويتحقق من الأمثلة ويستشهد بالمصادر ويتعامل مع التصحيحات والتقديرات.",
+      "calculatorLink": "راجع الصيغة والمثال العملي والأخطاء الشائعة →",
+      "homeTitle": "الآلات الحاسبة المالية واليومية المجانية | ميوتيجي",
+      "homeHeading": "الآلات الحاسبة المجانية للمال والعمل والحياة اليومية",
+      "homeDescription": "الحسابات العملية للتواريخ والمال والقرارات اليومية. اختر آلة حاسبة وشاهد الصيغة وراء الإجابة."
+    },
+    "guides": {
+      "fee": {
+        "title": "حساب الرسوم: كم تطلب لتحصل على المبلغ الصافي المطلوب؟",
+        "description": "احسب صافي العائدات بعد النسبة المئوية والرسوم الثابتة، ثم اعكس الصيغة للعثور على الرسوم اللازمة للدفع المستهدف.",
+        "answer": "اطرح كلاً من النسبة المئوية للرسوم والرسوم الثابتة من الرسوم. للحصول على مبلغ معين بعد الرسوم، قم بتقسيم الهدف بالإضافة إلى الرسوم الثابتة على واحد ناقص معدل النسبة المئوية.",
+        "sections": [
+          {
+            "heading": "افصل بين جزأين من الرسوم",
+            "paragraphs": [
+              "تنمو النسبة المئوية للرسوم مع المبلغ الذي تم جمعه؛ رسوم المعاملات الثابتة لا. اكتب النسبة المئوية على صورة عدد عشري قبل الضرب. للحصول على رسوم افتراضية قدرها 3%، استخدم 0.03. الرسوم الثابتة البالغة 0.30 تعني 30 سنتًا بالعملة التي حددتها، وليس نسبة مئوية أخرى.",
+              "صافي العائدات = الرسوم × (1 - المعدل) - الرسوم الثابتة. تحقق من المبلغ الذي يطبق عليه المزود سعره: الشحن والضرائب وتحويل العملات والرسوم عبر الحدود قد يكون لها معاملة منفصلة. يصف هذا الدليل العملية الحسابية، وليس التعريفة الحالية لأي مزود.",
+              "الصافي = المبلغ المحصل × (1 − نسبة الرسوم) − الرسوم الثابتة. المبلغ المطلوب تحصيله = (الصافي المستهدف + الرسوم الثابتة) ÷ (1 − نسبة الرسوم)."
+            ]
+          },
+          {
+            "heading": "مثال عملي: لماذا إضافة 3% ليس كافياً",
+            "paragraphs": [
+              "لنفترض أنك جمعت 100 دولار وأن الرسوم الافتراضية هي 3% بالإضافة إلى 0.30 دولار. الجزء المئوي هو 3 دولارات؛ تؤدي إضافة الجزء الثابت إلى رسم قدره 3.30 دولارًا أمريكيًا وعائدات صافية قدرها 96.70 دولارًا أمريكيًا.",
+              "للحصول على صافي 100 دولار، قم بحل الرسوم × 0.97 − 0.30 = 100. الرسوم المطلوبة غير المقربة هي 100.30 ÷ 0.97، أي حوالي 103.4021 دولار. إضافة 3% إلى 100 دولار يعطي 103 دولارات، صافيها 99.61 دولار فقط. ينشأ الفرق لأن المزود يفرض رسومًا على الرسوم المتزايدة أيضًا."
+            ],
+            "table": {
+              "headers": [
+                "تهمة",
+                "رسوم افتراضية",
+                "صافي"
+              ],
+              "rows": [
+                [
+                  "100.00 دولار",
+                  "3.30 دولار",
+                  "96.70 دولارًا"
+                ],
+                [
+                  "103.00 دولار",
+                  "3.39 دولار",
+                  "99.61 دولارًا"
+                ],
+                [
+                  "103.40 دولار",
+                  "3.402 دولار قبل التقريب",
+                  "99.998 دولارًا قبل التقريب"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "استخدم النتيجة كفحص للتسعير",
+            "paragraphs": [
+              "أدخل المبلغ الذي تم جمعه للحساب الآجل، أو حدد وضع الشبكة المستهدفة للحساب العكسي. اجعل العملة المحددة متوافقة مع الرسوم الثابتة الخاصة بك. تحديد العملة يغير التنسيق؛ ولا يقوم بإجراء تحويل لسعر الصرف.",
+              "تقوم الشاشة بتقريب النتيجة للعرض. إذا كان من الضروري استيفاء الحد الأدنى للدفع تمامًا، فتحقق من أصغر زيادة في العملة التالية وقواعد التقريب الخاصة بمزود الخدمة الخاص بك. المبالغ المستردة، والحد الأدنى من الرسوم، والضرائب على الرسوم وما إذا كان مسموحًا برسوم إضافية تتطلب فحوصات منفصلة."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "هل الرسوم البالغة 0% تعني دائمًا أنني أتلقى الرسوم بالكامل؟",
+            "answer": "فقط إذا كانت الرسوم الثابتة أيضًا صفرًا ولا ينطبق أي خصم آخر. لا تزال الرسوم المئوية بنسبة 0% بالإضافة إلى الرسوم الثابتة البالغة 0.30 دولارًا تترك 99.70 دولارًا من الرسوم البالغة 100 دولار."
+          },
+          {
+            "question": "هل يمكنني مقارنة مقدمي خدمات الدفع المختلفين؟",
+            "answer": "نعم، أدخل السعر المنشور لكل مزود والرسوم الثابتة باستخدام نفس الرسوم. قارن النتيجة بأي رسوم إضافية والشروط المطبقة على حسابك."
+          }
+        ]
+      },
+      "discount": {
+        "title": "خصم 20% ثم 10%: لماذا يكون الخصم الإجمالي 28%؟",
+        "description": "احسب الخصومات المتتالية، وقارن مجموعات القسائم، وميز نسبة السعر النهائي عن المبلغ الذي تم توفيره.",
+        "answer": "قم بتطبيق الخصم الثاني على السعر المخفض بالفعل. خصم 20% يتبعه 10% يترك 80% × 90% = 72% من السعر الأصلي، فيكون إجمالي التوفير 28%.",
+        "sections": [
+          {
+            "heading": "اضرب السعر الذي تستمر في دفعه",
+            "paragraphs": [
+              "لكل نسبة خصم، قم بطرح المعدل العشري من واحد. اضرب السعر الأصلي بالكسور المتبقية. مع خصمين السعر النهائي = الأصلي × (1 − الدرجة الأولى) × (1 − الدرجة الثانية). الخصم الفعلي = 1 – السعر النهائي ÷ السعر الأصلي.",
+              "ستؤدي إضافة الأسعار إلى التعامل مع كلا الخصمين كما لو كانا مطبقين على السعر الأصلي. هذا عرض مختلف. المتجر الذي يعد بتخفيض واحد بنسبة 30% يعطي تخفيضًا بنسبة أكبر من التخفيضات المتتالية البالغة 20% و10%، قبل النظر في الشروط الأخرى."
+            ]
+          },
+          {
+            "heading": "قارن عرضين على منتج بقيمة 100 دولار",
+            "paragraphs": [
+              "بعد التخفيض الأول بنسبة 20%، تبلغ تكلفة المنتج 80 دولارًا. التخفيض الثاني بنسبة 10% يزيل 8 دولارات، ويتبقى 72 دولارًا. إجمالي التوفير هو 28 دولارًا. إن عكس ترتيب خصمين مئويين خالصين يعطي نفس النتيجة الرياضية، لأن عوامل السعر المتبقية تتضاعف.",
+              "لا تمتد قاعدة الطلب هذه تلقائيًا إلى قسيمة ذات قيمة ثابتة. قسيمة بقيمة 10 دولارات بعد خصم 20٪ على منتج بقيمة 100 دولار تمنحك 70 دولارًا. أخذ خصم 10 دولارات أولاً ثم تطبيق 20% يعطيك 72 دولارًا. يمكن أن يؤدي الحد الأدنى للإنفاق والحدود القصوى والمنتجات المستبعدة إلى تغيير العرض الذي يمكن استخدامه فعليًا."
+            ],
+            "table": {
+              "headers": [
+                "العرض",
+                "السعر النهائي",
+                "الادخار"
+              ],
+              "rows": [
+                [
+                  "20% ثم 10%",
+                  "72 دولارًا",
+                  "28%"
+                ],
+                [
+                  "خصم واحد 30%",
+                  "70 دولارًا",
+                  "30%"
+                ],
+                [
+                  "20% ثم قسيمة 10 دولار",
+                  "70 دولارًا",
+                  "30 دولارًا"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "أدخل التخفيض المعلن عنه، وليس السعر المتبقي",
+            "paragraphs": [
+              "تأخذ حقول الآلة الحاسبة نسب الخصم. الملصق الذي يقول ادفع 80% من السعر الأصلي يعني خصم 20%. سيؤدي إدخال 80 بدلاً من ذلك إلى حساب تخفيض بنسبة 80%.",
+              "تصمم الأداة تخفيضين متتاليين في النسبة المئوية. لا يضيف ضريبة المبيعات أو التسليم أو الاسترداد النقدي أو الكوبونات الثابتة. قارن إجماليات الخروج عندما تختلف هذه العناصر، واسمح بالتقريب الفعلي للبائع في كل خطوة."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "هل خصم 50% يليه خصم 50% مجاني؟",
+            "answer": "لا، يبقى نصف السعر الأصلي بعد التخفيض الأول، ويبقى النصف بعد التخفيض الثاني. أنت تدفع 25% من السعر الأصلي، وتوفير 75%."
+          },
+          {
+            "question": "لماذا يختلف التوفير في إيصالي قليلاً؟",
+            "answer": "يجوز لمتاجر التجزئة تقريب كل عنصر أو كل خصم على حدة، أو تطبيق الخصومات على مبالغ مؤهلة مختلفة. تستخدم هذه الآلة الحاسبة النسبتين المذكورتين قبل عرض نتيجة مقربة."
+          }
+        ]
+      },
+      "days": {
+        "title": "عدد الأيام بين تاريخين: احتساب اليوم الأول والسنة الكبيسة",
+        "description": "افهم الأيام المنقضية مقابل أعداد التاريخ الشاملة والأيام الكبيسة وعطلات نهاية الأسبوع وسبب اختلاف أداة اليوم التقويمي عن حاسبة الموعد النهائي.",
+        "answer": "بالنسبة للأيام التقويمية المنقضية، قم بطرح تاريخ البدء من تاريخ الانتهاء. إذا كان يوم البدء هو اليوم الأول، أضف واحدًا لنطاق زمني للأمام. من 1 يناير إلى 11 يناير هو 10 أيام منقضية أو 11 يومًا شاملة.",
+        "sections": [
+          {
+            "heading": "اختر اتفاقية العد أولاً",
+            "paragraphs": [
+              "تمتد الإقامة من الاثنين إلى الثلاثاء لليلة واحدة ولكنها تلامس تاريخين تقويميين. يمكن أن يكون كلا الرقمين صحيحين لأنهما يجيبان على أسئلة مختلفة. حدد ما إذا كنت تريد الأيام المنقضية أو عدد التواريخ المضمنة في فترة ما قبل مقارنة النتائج.",
+              "بالنسبة للنطاق التصاعدي، يضيف خيار التضمين والبدء في الآلة الحاسبة يومًا واحدًا. وبالتالي فإن نفس تاريخ البدء والانتهاء يعطي صفرًا من الأيام المنقضية أو يومًا واحدًا شاملاً. تاريخ الانتهاء قبل تاريخ البدء يعطي فاصل زمني سلبي؛ قم بعكس التواريخ عندما تريد فترة عادية للأمام."
+            ]
+          },
+          {
+            "heading": "العمل من خلال مثال سنة كبيسة",
+            "paragraphs": [
+              "في عام 2028، يمتد الفترة من 28 فبراير إلى 1 مارس على مدار يومين منقضيين، لأن يوم 29 فبراير يقع بينهما. يعطي العد الشامل ثلاثة تواريخ تقويمية: 28 فبراير، و29 فبراير، و1 مارس. وفي عام 2027، يمتد الفترة من 28 فبراير إلى 1 مارس يومًا واحدًا منقضيًا فقط.",
+              "تقوم الأداة بتطبيع تواريخ التقويم المدخلة إلى التوقيت العالمي المنسق (UTC) للطرح. يمنع هذا تغيير الساعة التوقيت الصيفي من تحويل الفاصل الزمني العادي ليوم التقويم إلى يوم كسري. إنها ليست آلة حاسبة لمدد الرحلة أو الساعات المحددة بين الطوابع الزمنية الخاصة بالمنطقة الزمنية."
+            ],
+            "table": {
+              "headers": [
+                "التواريخ",
+                "انقضى",
+                "بما في ذلك البداية"
+              ],
+              "rows": [
+                [
+                  "1 يناير → 11 يناير",
+                  "10 أيام",
+                  "11 يوما"
+                ],
+                [
+                  "نفس التاريخ",
+                  "0 أيام",
+                  "يوم واحد"
+                ],
+                [
+                  "28 فبراير → 1 مارس 2028",
+                  "2 أيام",
+                  "3 أيام"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "أيام التقويم لا تعني أيام العمل",
+            "paragraphs": [
+              "يتم احتساب أيام السبت والأحد والعطلات الرسمية كأيام تقويمية. للتخطيط للإجازات، استخدم الآلة الحاسبة التي تعرف أيام العطل في البلد المعني وأيام العمل البديلة. لا يمكن لفارق التاريخ وحده تحديد عدد أيام الإجازة مدفوعة الأجر التي تحتاجها.",
+              "يمكن أن تحدد العقود والمواعيد النهائية الرسمية اليوم الأول ومواعيد نهاية اليوم وتمديدات العطلات بشكل مختلف. تحقق من القاعدة الحاكمة عندما يكون الموعد النهائي المفقود مهمًا. بالنسبة لعمليات العد التنازلي واحتفالات الذكرى السنوية اليومية، اذكر اتفاقية العد الخاصة بك بجانب النتيجة."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "هل يجب أن أدرج اليوم الأول؟",
+            "answer": "قم بتضمينه عندما يتم احتساب هذا التاريخ باعتباره اليوم الأول من الفترة. اتركها مستبعدة عند قياس الفجوة المنقضية بين التواريخ. تتمتع قاعدة من عقد أو سلطة بالأولوية على اتفاقية التقويم العامة."
+          },
+          {
+            "question": "هل 30 يوما تساوي دائما شهرا واحدا؟",
+            "answer": "لا، الأشهر التقويمية لها أطوال مختلفة. استخدم تواريخ البدء والانتهاء الفعلية بدلاً من التحويل كل شهر إلى 30 يومًا."
+          }
+        ]
+      },
+      "stock-average": {
+        "title": "متوسط سعر الأسهم: حساب المتوسط المرجح بعد شراء إضافي",
+        "description": "استخدم المتوسط المرجح لحساب متوسط سعر الشراء الجديد وإجمالي الأسهم والمبلغ المستثمر دون الخلط بينه وبين اختيار الحصة الضريبية.",
+        "answer": "أضف المبالغ التي أنفقت على الأسهم الحالية والجديدة، ثم قسمها على إجمالي عدد الأسهم. المتوسط ​​البسيط لسعرين لا يعمل إلا عندما تكون كميات الأسهم متساوية.",
+        "sections": [
+          {
+            "heading": "وزن كل عملية شراء بكميتها",
+            "paragraphs": [
+              "متوسط سعر الشراء الجديد = (الكمية الموجودة × المتوسط الموجود + الكمية الجديدة × السعر الجديد) ÷ الكمية الإجمالية. يجب أن تستخدم الأسعار والكميات نفس وحدة المشاركة والعملة. يمكن استخدام الأسهم الكسرية عندما تعكس ممتلكاتك الفعلية.",
+              "على سبيل المثال، تم شراء 100 سهم بسعر 50 دولارًا أمريكيًا و100 سهم آخر تم شراؤها بسعر 40 دولارًا أمريكيًا بتكلفة إجمالية قدرها 9000 دولار أمريكي. اقسم على 200 سهم لتحصل على 45 دولارًا. إذا كانت عملية الشراء الثانية عبارة عن 50 سهمًا فقط بسعر 40 دولارًا، يصبح المجموع 7000 دولار عبر 150 سهمًا، مما يعطي حوالي 46.67 دولارًا، وليس 45 دولارًا."
+            ]
+          },
+          {
+            "heading": "المتوسط الأقل لا يزيل الخسارة",
+            "paragraphs": [
+              "مباشرة بعد شراء 100 سهم إضافي بسعر 40 دولارًا، تبلغ القيمة السوقية لحيازة 200 سهم بقيمة 40 دولارًا للسهم الواحد 8000 دولار مقابل 9000 دولار تم إنفاقها. انخفض متوسط ​​السعر، ولكن لا يزال هناك فرق غير محقق قدره 1000 دولار، مما يؤدي إلى تعرض المزيد من الأموال للاستثمار.",
+              "إن الانتقال من 40 دولارًا إلى متوسط ​​45 دولارًا سيكون بمثابة زيادة في السعر بنسبة 12.5٪ قبل الرسوم. هذه عملية حسابية، وليست توقعات أو سببًا للشراء. تؤدي زيادة المركز إلى تغيير المبلغ المعرض للخطر بالإضافة إلى متوسط ​​السعر."
+            ],
+            "table": {
+              "headers": [
+                "عقد",
+                "أسهم",
+                "المبلغ الذي تم إنفاقه"
+              ],
+              "rows": [
+                [
+                  "القائمة: 50 دولارًا للسهم",
+                  "100",
+                  "5000 دولار"
+                ],
+                [
+                  "جديد: 40 دولارًا للسهم",
+                  "100",
+                  "4000 دولار"
+                ],
+                [
+                  "المتوسط المشترك: 45 دولارًا",
+                  "200",
+                  "9000 دولار"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "احتفظ بمتوسطات الشراء منفصلة عن السجلات الضريبية",
+            "paragraphs": [
+              "تقوم الآلة الحاسبة بنموذج كتلتين من المشتريات وتستبعد رسوم الوساطة وأسعار الصرف والأرباح والمبيعات وإجراءات الشركات. قم بتحويل السجلات باستمرار قبل مقارنة المشتريات التي تمت بعملات مختلفة.",
+              "إن متوسط ​​الاحتفاظ الحسابي ليس تحديدًا لأساس التكلفة الخاضعة للضريبة. تختلف قواعد الحصة الضريبية والأساليب المسموح بها حسب الولاية القضائية والأصول. احتفظ بسجلات المعاملات الأصلية للوسيط بدلاً من التعامل مع هذه النتيجة كتعليمات للإبلاغ الضريبي."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "هل يمكنني استخدامه عند الشراء بسعر أعلى؟",
+            "answer": "نعم. تنطبق نفس صيغة المتوسط ​​المرجح. الشراء فوق المتوسط ​​الحالي يزيده؛ حجم التغيير يعتمد على الكمية الجديدة."
+          },
+          {
+            "question": "لماذا يختلف متوسط ​​وسيطي؟",
+            "answer": "قد يتم تضمين الرسوم أو تحويلات العملات أو التقريب أو إجراءات الشركات أو طريقة المحاسبة الخاصة بالوسيط في رقمها. تستخدم هذه الأداة فقط مدخلات السعر والكمية المعروضة."
+          }
+        ]
+      },
+      "compound": {
+        "title": "الفائدة المركبة مع إيداع شهري: طريقة الحساب ومثال",
+        "description": "فهم العوائد السنوية الفعالة ومساهمات نهاية الشهر والفرق بين الأموال المساهمة ونمو الاستثمار الافتراضي.",
+        "answer": "تحويل العائد السنوي الفعلي إلى معدل شهري، وزيادة الرصيد الحالي، ثم إضافة مساهمة الشهر. احتفظ بالأموال المساهمة منفصلة عن النمو حتى لا يخطئ أي شخص في الإيداع الأكبر على أنه عائد أفضل.",
+        "sections": [
+          {
+            "heading": "تحويل الافتراض السنوي باستمرار",
+            "paragraphs": [
+              "يتعامل Myeotiji مع العائد السنوي كمعدل سنوي فعال. المعدل الشهري هو (1 + المعدل السنوي)^(1/12) − 1. عند 5% سنويًا، يكون هذا المعدل الشهري حوالي 0.4074%، وليس بالضبط 5% ÷ 12. إن استخدام المعدل الاسمي المقتبس مقسومًا على 12 سيصف اتفاقية مركبة مختلفة.",
+              "لكل شهر الرصيد الجديد = الرصيد السابق × (1 + المعدل الشهري) + المساهمة. تتم إضافة المساهمات في نهاية الشهر، وبالتالي فإن الإيداع الأول يحصل على عوائد في الأشهر اللاحقة وليس قبل أن يتم دفعه."
+            ]
+          },
+          {
+            "heading": "تحقق من مثال سنة واحدة عن طريق فصل الودائع",
+            "paragraphs": [
+              "ابدأ بمبلغ 1000 دولار، وساهم بمبلغ 100 دولار في نهاية كل شهر وافترض عائدًا سنويًا فعالاً ثابتًا بنسبة 5٪ لمدة عام واحد. يبدأ مبلغ 1000 دولار أمريكي بالزيادة إلى 1050 دولارًا أمريكيًا؛ تنمو الودائع الشهرية الاثني عشر إلى حوالي 1،227.26 دولارًا. المجموع هو حوالي 2،277.26 دولار.",
+              "لقد قدمت 2200 دولار: 1000 دولار في البداية بالإضافة إلى اثني عشر وديعة بقيمة 100 دولار. أما المبلغ المتبقي البالغ 77.26 دولارًا تقريبًا فهو عبارة عن نمو نموذجي. مع عائد 0٪، يصبح الرصيد بالضبط 2200 دولار. تعتبر مقارنة العائد الصفري هذه مفيدة عند التحقق مما إذا كانت المدخلات منطقية."
+            ],
+            "table": {
+              "headers": [
+                "سيناريو سنة واحدة",
+                "الأموال المقدمة",
+                "الرصيد المقدر"
+              ],
+              "rows": [
+                [
+                  "0% عائد سنوي",
+                  "2200 دولار",
+                  "2,200.00 دولار"
+                ],
+                [
+                  "عائد سنوي فعال 5%",
+                  "2200 دولار",
+                  "2,277.26 دولار"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "استخدم السيناريوهات بدلاً من النتيجة الموعودة",
+            "paragraphs": [
+              "قارن بين الافتراضات الدنيا والمتوسطة والعليا مع الحفاظ على ثبات الودائع. لا توفر الاستثمارات الحقيقية عائدًا شهريًا سلسًا، كما أن ترتيب المكاسب والخسائر مهم عند إضافة الأموال أو سحبها.",
+              "والنتيجة لا تخصم الضرائب أو رسوم الاستثمار أو التضخم. إنه ليس عرض أسعار للودائع ولا توقعات لاستثمار معين. إذا ذكر البنك أو مقدم الخدمة سعرًا اسميًا، أو توقيتًا مختلفًا للمساهمة، أو جدولًا مركبًا مختلفًا، فقم بمواءمة تلك الاتفاقيات قبل مقارنة الرسم التوضيحي الخاص به بهذه الأداة."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "هل الاشتراكات الشهرية تتم في بداية الشهر أم في نهايته؟",
+            "answer": "في نهاية كل شهر نموذجي. يمنح جدول بداية الشهر كل مساهمة شهرًا إضافيًا من النمو ويمكن أن ينتج عنه رصيد مختلف."
+          },
+          {
+            "question": "هل النتيجة تشمل الضرائب أم التضخم؟",
+            "answer": "لا، فالمخرجات عبارة عن توازن افتراضي قبل تلك التأثيرات. الرصيد الاسمي وقوته الشرائية المستقبلية كميات مختلفة."
+          }
+        ]
+      },
+      "unit-converter": {
+        "title": "تحويل وحدات الطول والحرارة وتخزين البيانات",
+        "description": "قم بتحويل القياسات الشائعة أثناء التحقق من الحجم الأمريكي مقابل الحجم الإمبراطوري، وإزاحات درجة الحرارة والوحدات العشرية مقابل وحدات التخزين الثنائية.",
+        "answer": "قم بالتحويل من خلال وحدة أساسية مشتركة وتحقق من تعريف الوحدة أولاً. ويختلف الجالون الأمريكي عن الجالون الإمبراطوري، ويختلف الجيجابايت العشري عن الجيبيبايت. تحتاج درجة الحرارة أيضًا إلى إزاحة، وليس مجرد مضاعف.",
+        "sections": [
+          {
+            "heading": "الطول والكتلة والمساحة والحجم تستخدم عوامل التحويل",
+            "paragraphs": [
+              "بالنسبة للوحدات ذات البعد نفسه، قم بتحويل كمية المصدر إلى وحدة أساسية وتقسيمها على عامل وحدة الوجهة. الميل الواحد يساوي 1.609344 كيلومترًا، لذا فإن 5 أميال تساوي 8.04672 كيلومترًا. لا تخلط بين عامل الطول وعامل المساحة: تتطلب الوحدات المربعة تحويلاً مربعًا.",
+              "تستخدم قائمة الحجم بشكل واضح جالونات سائلة أمريكية وأكواب أمريكية. الجالون السائل الأمريكي هو 3.785411784 لترًا؛ إنه ليس الجالون الإمبراطوري الأكبر. قد يستخدم كوب الوصفة تقليدًا آخر، لذا تحقق من الوصفة أو وعاء القياس قبل وضع الرقم."
+            ]
+          },
+          {
+            "heading": "تعتبر درجة الحرارة والتخزين من الفخاخ الشائعة",
+            "paragraphs": [
+              "لتحويل درجة مئوية إلى فهرنهايت استخدم درجة فهرنهايت = درجة مئوية × 9/5 + 32. وللاستخدام العكسي درجة مئوية = (درجة فهرنهايت - 32) × 5/9. وهذا هو السبب في أن 100 درجة فهرنهايت تعادل حوالي 37.78 درجة مئوية وليس النتيجة التي يتم الحصول عليها بضرب 100 في 5/9 وحده.",
+              "وحدات التخزين العشرية تستخدم صلاحيات 1000؛ تستخدم الوحدات الثنائية صلاحيات 1,024. هنا 1 جيجا بايت هو 1,000,000,000 بايت، بينما 1 جيجا بايت هو 1,073,741,824 بايت. هذه هي كميات البيانات، وليست سرعات الاتصال بالإنترنت أو أوقات نقل الملفات."
+            ],
+            "table": {
+              "headers": [
+                "الإدخال",
+                "القيمة المحولة"
+              ],
+              "rows": [
+                [
+                  "1 ميل",
+                  "1.609344 كم"
+                ],
+                [
+                  "1 جالون سائل أمريكي",
+                  "3.785411784 ل"
+                ],
+                [
+                  "100 درجة فهرنهايت",
+                  "37.777…درجة مئوية"
+                ],
+                [
+                  "1 جيجا بايت",
+                  "1,073,741,824 ب"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "حافظ على الدقة الكاملة حتى الخطوة الأخيرة",
+            "paragraphs": [
+              "اختر فئة، وأدخل قيمة وحدد وحدات المصدر والوجهة. تعرض الآلة الحاسبة ما يصل إلى ثمانية منازل عشرية، لذا قد تحتاج الكمية الصغيرة جدًا إلى وحدة وجهة أصغر لتظل قابلة للقراءة.",
+              "قد يؤدي تقريب عامل التحويل قبل الضرب إلى تضخيم الخطأ. بالنسبة لأعمال التصنيع المسموح بها أو التقارير العلمية أو معيار الصناعة المحدد، تحقق من الدقة المطلوبة والتعريف الدقيق المستخدم في هذا السياق."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "هل يمكنني تحويل الجرام مباشرة إلى ملليلتر؟",
+            "answer": "لا يخلو من كثافة المادة. غرام يقيس الكتلة والمليلتر يقيس الحجم. التحويل بينهما ليس عامل وحدة عالمية."
+          },
+          {
+            "question": "هل يعني جالون القائمة جالونًا إمبراطوريًا بريطانيًا؟",
+            "answer": "لا، القائمة تحمل علامة US gal وتستخدم الجالون السائل الأمريكي. استخدم التعريف الذي تتطلبه المادة المصدر الخاصة بك."
+          }
+        ]
+      },
+      "age": {
+        "title": "حساب العمر: عيد الميلاد والسنوات المكتملة والأيام المنقضية",
+        "description": "احسب سنوات العمر الكاملة، وميز بين العمر وفروقات السنة التقويمية، وافهم اصطلاحات التاريخ المحلي وأعياد الميلاد الكبيسة.",
+        "answer": "اطرح سنة الميلاد من السنة المرجعية، ثم اطرح واحدة إذا لم يحدث عيد الميلاد بعد في تلك السنة. يستخدم Myeotiji تاريخ تقويم اليوم في متصفحك للتاريخ المرجعي.",
+        "sections": [
+          {
+            "heading": "فارق السنة لا يعني دائمًا عمرًا مكتملًا",
+            "paragraphs": [
+              "الشخص الذي ولد في 31 ديسمبر 2000 يبلغ 25 عامًا في 30 ديسمبر 2026 ويبلغ 26 عامًا في 31 ديسمبر. إن طرح 2000 من 2026 في اليوم السابق من شأنه أن يبالغ في تقدير العمر الكامل بواحد.",
+              "قارن الشهر أولاً ثم اليوم. إذا كان الشهر المرجعي أقدم من شهر الميلاد، فاطرح سنة واحدة. إذا كانت الأشهر متطابقة ولكن اليوم المرجعي سابق، فاطرح واحدًا أيضًا. وإلا احتفظ بفارق السنة."
+            ]
+          },
+          {
+            "heading": "فهم التاريخ الذي تستخدمه الآلة الحاسبة",
+            "paragraphs": [
+              "أدخل تاريخ الميلاد في حاسبة العمر. ويستخدم تاريخ التقويم المحلي الحالي من متصفحك، كما يُبلغ عن أيام التقويم المنقضية منذ الولادة. التواريخ المرجعية في جدول هذا الدليل عبارة عن رسوم توضيحية ثابتة؛ لا توفر الأداة المباشرة حقل تاريخ مرجعي منفصل.",
+              "يمكن للمستخدمين في مناطق زمنية مختلفة رؤية أعمار مختلفة حوالي منتصف الليل في عيد ميلاد. يستخدم حساب الأيام حساب التاريخ فقط، بدلاً من وقت الميلاد المحدد. تاريخ الميلاد المستقبلي ليس إدخالاً صالحًا للعمر المكتمل."
+            ],
+            "table": {
+              "headers": [
+                "تاريخ الميلاد",
+                "التاريخ المرجعي في المثال",
+                "اكتمل العمر"
+              ],
+              "rows": [
+                [
+                  "2000-12-31",
+                  "2026-12-30",
+                  "25"
+                ],
+                [
+                  "2000-12-31",
+                  "2026-12-31",
+                  "26"
+                ],
+                [
+                  "2000-12-31",
+                  "2027-01-01",
+                  "26"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "تحتاج قواعد اليوم الكبيسة والأهلية الرسمية إلى الرعاية",
+            "paragraphs": [
+              "بالنسبة لعيد ميلاد 29 فبراير، تقوم هذه الأداة بمقارنة الشهر واليوم مباشرة. وفي السنة غير الكبيسة، يزداد عدد السنوات الكاملة في الأول من مارس. وهذا هو تقليد محدد للآلة الحاسبة، وليس حكمًا بشأن السن القانوني في كل ولاية قضائية.",
+              "قد يستخدم القبول أو المزايا أو عقد التأمين أو أي إجراء رسمي آخر عمرًا في تاريخ محدد أو قاعدة خاصة لعيد الميلاد. تحقق من تعريف تلك العملية. لا يمكن أن تحل نتيجة العصر الحالي اليومية محل تقييم الأهلية."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "لماذا يمكن أن تختلف النتيجة عن السنة المعروضة في التقويم؟",
+            "answer": "يتجاهل طرح سنة التقويم ما إذا كان عيد الميلاد قد حدث أم لا. العمر المكتمل يحسب أعياد الميلاد التي تم الوصول إليها بالفعل بموجب اتفاقية التاريخ المعلنة."
+          },
+          {
+            "question": "هل يمكنني استخدام الأيام المنقضية مقسومة على 365 بدلاً من ذلك؟",
+            "answer": "ليس لعمر سنة كاملة بالضبط. السنوات الكبيسة وموضع عيد الميلاد يجعلان هذا الاختصار غير موثوق به فيما يتعلق بالحدود العمرية."
+          }
+        ]
+      }
+    },
+    "legalLabels": {
+      "privacy": "الخصوصية وملفات تعريف الارتباط",
+      "terms": "الاستخدام والقيود",
+      "contact": "الاتصال والتصحيحات",
+      "notice": "تقديرات للمعلومات العامة. لا تقدم هذه الخدمة مشورة ضريبية أو قانونية أو كشوف مرتبات أو استثمارية فردية أو إعداد عوائد أو تمثيلك. تحقق من السنة والموقع والاستثناءات المذكورة قبل الاعتماد على النتيجة.",
+      "tracking": "تحليل Google Analytics مفعّل افتراضياً ويمكن إيقافه أسفل الصفحة. لا تُرسل مدخلات الحاسبات. تم توصيل AdSense لطلب إعلانات غير مخصصة. قد تستخدم Google وشركاؤها ملفات تعريف الارتباط وإشارات الويب وعناوين IP والمعرّفات لتقديم الإعلانات وقياسها. الإعلانات غير المخصصة قد تستخدم ملفات تعريف الارتباط أيضاً. يعتمد العرض على الموافقة على الموقع وإعدادات الحساب ومتطلبات الموافقة المعمول بها. تبقى الصفحات الصينية دون تحليل أو إعلانات."
+    },
+    "legal": {
+      "privacy": [
+        [
+          "النطاق والمشغل",
+          "تُدار خدمة Myeotiji من كوريا الجنوبية. ينطبق هذا الإشعار على الصفحات العربية. للتواصل: contact@myeotiji.kr. قد تختلف الإعدادات في الصفحات بلغات أخرى."
+        ],
+        [
+          "مدخلات الآلة الحاسبة",
+          "يتم تشغيل الحسابات في المتصفح الخاص بك. لا يرسل هذا الإصدار مبالغ الآلة الحاسبة أو الرواتب أو التواريخ أو النتائج إلى قاعدة بيانات المشغل أو خدمة التحليلات. لا تضع بيانات شخصية في عناوين URL أو ترسل إلينا مستندات الهوية أو تفاصيل الحساب أو سجلات الرواتب."
+        ],
+        [
+          "التحليلات والإعلانات وملفات تعريف الارتباط",
+          "تحليل Google Analytics مفعّل افتراضياً ويمكن إيقافه أسفل الصفحة. لا تُرسل مدخلات الحاسبات. تم توصيل AdSense لطلب إعلانات غير مخصصة. قد تستخدم Google وشركاؤها ملفات تعريف الارتباط وإشارات الويب وعناوين IP والمعرّفات لتقديم الإعلانات وقياسها. الإعلانات غير المخصصة قد تستخدم ملفات تعريف الارتباط أيضاً. يعتمد العرض على الموافقة على الموقع وإعدادات الحساب ومتطلبات الموافقة المعمول بها. تبقى الصفحات الصينية دون تحليل أو إعلانات."
+        ],
+        [
+          "الاستضافة اللازمة والمعالجة في الخارج",
+          "تقوم شركة Vercel بتسليم هذا الموقع وحمايته. تعرض الطلبات بالضرورة معلومات الاتصال مثل عنوان IP وعنوان URL المطلوب والوقت ورؤوس الجهاز/المتصفح وإشارات الأمان للبنية التحتية للاستضافة. قد تتم معالجة هذه المعلومات خارج بلدك، بما في ذلك الولايات المتحدة أو مواقع البنية التحتية الأخرى. لا يؤدي تعطيل التحليلات إلى إزالة هذه المعالجة. نحن نستخدمها للتسليم والأمن والتحقيق في الأخطاء، وليس الملفات التعريفية الإعلانية."
+        ],
+        [
+          "الاحتفاظ واختياراتك",
+          "لا نحتفظ بمدخلات الآلة الحاسبة كسجلات للخادم. تتبع سجلات الاستضافة الاحتفاظ بالموفر وإعدادات المشروع المعمول بها؛ لم نتحقق من فترة احتفاظ ثابتة واحدة لجميع سجلات البنية التحتية. اتصل بنا للحصول على التفاصيل المعمول بها أو لطلب الوصول أو التصحيح أو الحذف أو التقييد حيثما كان ذلك متاحًا بموجب القانون الخاص بك. نحن نقوم بتقييم الطلبات والاستثناءات القانونية، ولا نعد بإمكانية حذف جميع سجلات الموفر على الفور. يؤدي إغلاق الصفحة إلى مسح حالة الحساب في الذاكرة الخاصة بها؛ قد يحتفظ متصفحك بالسجل أو يستعيد علامة تبويب."
+        ],
+        [
+          "البريد الإلكتروني والروابط الخارجية",
+          "إذا اخترت مراسلتنا عبر البريد الإلكتروني، فإننا نتلقى عنوانك ورسالتك للتعامل مع الطلب ونحتفظ فقط بما هو مطلوب لهذا الغرض أو الالتزامات القانونية. استخدم أمثلة خيالية، وليس السجلات المالية الشخصية الفعلية. البريد الإلكتروني غير مطلوب لحساب. تفتح المراجع الرسمية مواقع الطرف الثالث بسياساتها الخاصة. تتطلب التغييرات في التتبع أو استخدام البيانات تحديث هذا الإشعار وتنفيذ أي خيارات مطلوبة قانونًا قبل التنشيط."
+        ]
+      ],
+      "terms": [
+        [
+          "الغرض",
+          "شرح حسابي وعامة مجاني للخدمة الذاتية. نحن لا نعتبر أنفسنا محاميك، أو محاسبك، أو معد الضرائب، أو مزود كشوف المرتبات، أو مستشار الاستثمار، أو وكالة حكومية. لا يتم إنشاء أي علاقة بين العميل والمحترف بمجرد استخدام الآلة الحاسبة."
+        ],
+        [
+          "التحقق من الافتراضات",
+          "النتائج هي تقديرات للسنة المذكورة، والاختصاص والنموذج. الحالة الضريبية، والإعفاءات، ووثائق الخطة، والقواعد المحلية، والتقريب وتغيير القانون يمكن أن تغير النتائج الفعلية. المثال ليس ضمانا. تحقق مع الخدمة الرسمية ذات الصلة أو المحترف المؤهل قبل التقديم أو دفع الأجور أو الاستثمار أو التبرع أو حجز السفر."
+        ],
+        [
+          "حدود محددة",
+          "يستخدم العمل الإضافي في الولايات المتحدة خط الأساس الفيدرالي المغطى وغير المعفي، وليس جميع قواعد الولاية. إن الأجر المستحق هو رسم توضيحي سنوي مبسط، وليس حساب W-4 أو حساب الإيداع. إن مطابقة 401 (ك) ليست رصيدًا مكتسبًا أو توصية مساهمة. متوسط ​​المخزون والأدوات المركبة لا توصي بالأوراق المالية أو تضمن العوائد. لا تحدد أدوات التاريخ والعمر الأهلية القانونية أو المواعيد النهائية."
+        ],
+        [
+          "الأخطاء والمسؤولية",
+          "قم بالإبلاغ عن خطأ مشتبه به باستخدام مدخلات وهمية وعنوان URL المتأثر. يجوز لنا تصحيح أداة متأثرة أو التحذير منها أو تقييدها مؤقتًا عندما لا يمكن التحقق من افتراضاتها. يصف هذا الإشعار النطاق؛ ولا يستبعد المسؤولية التي لا يمكن استبعادها قانونًا، بما في ذلك المسؤولية المطبقة عن سوء السلوك المتعمد أو الإهمال الجسيم، أو إزالة حقوق المستهلك الإلزامية."
+        ],
+        [
+          "الدعم والتغييرات",
+          "يعالج الدعم الأخطاء الفنية وتصحيحات المصدر العامة. لا تطلب مناصب ضريبية فردية أو قرارات قانونية أو إعداد إيداع أو تمثيل. سنقوم بتوجيه هذه الطلبات إلى السلطة المختصة أو أحد المتخصصين المؤهلين. تنعكس التغييرات المادية في تاريخ الصفحة؛ إعادة التحقق من الافتراضات في كل مرة."
+        ]
+      ],
+      "contact": [
+        [
+          "المشكلات الفنية والتصحيحات وطلبات الخصوصية",
+          "أرسل بريدًا إلكترونيًا إلى contact@myeotiji.kr مع عنوان URL للصفحة والسنة/المنطقة المعمول بها ومثال خيالي يوضح النتيجة المتوقعة والمعروضة. يمكنك أيضًا طلب معلومات حول معالجة البيانات أو ممارسة حقوق الخصوصية المعمول بها هنا. نحن لا نحتاج إلى حساب أو نموذج."
+        ],
+        [
+          "حافظ على معلوماتك آمنة",
+          "لا ترسل عبر البريد الإلكتروني المعرفات الحكومية أو الحسابات المصرفية أو كلمات المرور أو كشوف المرتبات الكاملة أو المستندات الضريبية الفعلية. نحن لا نقدم استشارات ضريبية أو قانونية أو استثمارية شخصية أو نتصرف نيابة عنك. بالنسبة لتقديم الملفات أو الدفع أو الموعد النهائي للتوظيف، اتصل بالسلطة المختصة أو المهني المؤهل مباشرة."
+        ]
+      ]
+    },
+    "policy": [
+      {
+        "heading": "الغرض والتأليف",
+        "text": "تقوم شركة Myeotiji بنشر شروحات للآلات الحاسبة المتوفرة على هذا الموقع. تم إعداد هذه الأدلة بمساعدة الذكاء الاصطناعي ومقارنتها بطريقة الحساب المذكورة والأمثلة العملية والمراجع المستشهد بها. يحدد اسم المؤلف Myeotiji كخدمة النشر؛ ولا تطالب بالمراجعة من قبل محاسب أو محام أو مستشار منظم."
+      },
+      {
+        "heading": "المصادر والتواريخ والقواعد المعمول بها",
+        "text": "بالنسبة لموضوعات القانون والضرائب والرواتب والتأمينات الاجتماعية، نفضل منشورات الهيئة العامة المسؤولة وربطها بالوثائق ذات الصلة. يتم تحديد شروط المزود والمعايير الفنية على هذا النحو. المثال الرياضي الذي كتبه ميوتيجي هو مثال توضيحي، وليس اقتباسًا من مرجع ما. يسجل تاريخ التحديث المرئي مراجعة محتوى المادة، وليس التحديث اليومي التلقائي. البلد والسنة والاستثناءات المذكورة في كل أمر دليلي."
+      },
+      {
+        "heading": "ما يمكن أن يحدده الحساب وما لا يمكن أن يحدده",
+        "text": "نتحقق من الأمثلة العددية التمثيلية وشروط الحدود. لا تزال النماذج البسيطة تتجاهل الحقائق التي قد تغير الدفع أو الاستحقاق الفعلي. إن نمو الاستثمار الافتراضي ليس عائدا موعودا، وتقدير الرواتب ليس تقييما ضريبيا نهائيا. تستخدم الأمثلة الافتراضات الموضحة؛ يجب على القراء التحقق من سجلات المزود أو صاحب العمل أو السلطة الفعلية قبل الاعتماد على الرقم لاتخاذ قرار لاحق."
+      },
+      {
+        "heading": "التصحيحات وردود الفعل",
+        "text": "إذا وجدت صيغة أو مصدر أو ترجمة أو مثال غير صحيح، فيرجى إرسال عنوان الصفحة والمدخلات ذات الصلة والنتيجة التي تتوقعها إلى عنوان الاتصال الخاص بنا. لا ترسل وثائق الهوية أو بيانات الراتب الكامل أو أرقام الحسابات أو غيرها من المعلومات الشخصية غير الضرورية. يمكننا استخدام مثال قابل للتكرار للتحقيق في الشرح وتحديثه."
+      }
+    ]
+  },
+  "bn": {
+    "labels": {
+      "home": "ক্যালকুলেটর",
+      "guides": "গণনার নির্দেশিকা",
+      "policy": "কিভাবে আমরা এই গাইড প্রস্তুত",
+      "title": "গণনার নির্দেশিকা: সূত্র এবং কাজের উদাহরণ",
+      "description": "তারিখ, টাকা এবং দৈনন্দিন সিদ্ধান্তের জন্য ব্যবহারিক গণনা। একটি ক্যালকুলেটর চয়ন করুন এবং উত্তরের পিছনে সূত্রটি দেখুন।",
+      "intro": "আপনি যে প্রশ্নটির উত্তর দিতে চান তা দিয়ে শুরু করুন। প্রতিটি গাইড পদ্ধতিটি ব্যাখ্যা করে, সংখ্যার মাধ্যমে কাজ করে এবং একটি ক্যালকুলেটরের লিঙ্ক যা আপনি নিজের ইনপুট দিয়ে ব্যবহার করতে পারেন।",
+      "global": "টাকা, তারিখ এবং দৈনন্দিন গণনা",
+      "country": "মার্কিন যুক্তরাষ্ট্র: বেতন, কর এবং অবসর",
+      "quick": "দ্রুত উত্তর",
+      "contents": "এই পৃষ্ঠায়",
+      "try": "ক্যালকুলেটর চেষ্টা করুন",
+      "related": "সম্পর্কিত গাইড",
+      "questions": "সাধারণ প্রশ্ন",
+      "references": "সূত্র এবং আরও পড়া",
+      "updated": "আপডেট করা হয়েছে",
+      "author": "মিয়োটিজি প্রস্তুত করেছেন",
+      "exampleNote": "উদাহরণগুলি বর্ণিত অনুমানগুলিকে ব্যাখ্যা করে৷ প্রকৃত ফি, রিটার্ন এবং বেতনের পরিমাণ ভিন্ন হতে পারে।",
+      "policyTitle": "Myeotiji গণনা নির্দেশিকা: উত্স এবং সম্পাদকীয় পদ্ধতি",
+      "policyDescription": "মিয়োটিজি কীভাবে গণনা ব্যাখ্যা করেন, উদাহরণগুলি পরীক্ষা করেন, উত্স উদ্ধৃত করেন এবং সংশোধন এবং অনুমান পরিচালনা করেন।",
+      "calculatorLink": "সূত্র দেখুন, একটি কার্যকর উদাহরণ এবং সাধারণ ভুল →",
+      "homeTitle": "বিনামূল্যে আর্থিক এবং দৈনন্দিন ক্যালকুলেটর | মিয়োটিজি",
+      "homeHeading": "টাকা, কাজ এবং দৈনন্দিন জীবনের জন্য বিনামূল্যে ক্যালকুলেটর",
+      "homeDescription": "তারিখ, টাকা এবং দৈনন্দিন সিদ্ধান্তের জন্য ব্যবহারিক গণনা। একটি ক্যালকুলেটর চয়ন করুন এবং উত্তরের পিছনে সূত্রটি দেখুন।"
+    },
+    "guides": {
+      "fee": {
+        "title": "লেনদেনের ফি হিসাব: নির্দিষ্ট নিট টাকা পেতে কত নিতে হবে?",
+        "description": "শতাংশ এবং নির্দিষ্ট ফি এর পরে নেট আয়ের কাজ করুন, তারপর একটি টার্গেট পেআউটের জন্য প্রয়োজনীয় চার্জ খুঁজে পেতে সূত্রটি বিপরীত করুন।",
+        "answer": "চার্জ থেকে শতাংশ ফি এবং নির্দিষ্ট ফি উভয়ই বিয়োগ করুন। ফি-র পরে একটি নির্দিষ্ট পরিমাণ পেতে, লক্ষ্য এবং নির্দিষ্ট ফিকে শতাংশ হার থেকে এক বিয়োগ করে ভাগ করুন।",
+        "sections": [
+          {
+            "heading": "ফি এর দুটি অংশ আলাদা করুন",
+            "paragraphs": [
+              "একটি শতাংশ ফি সংগৃহীত পরিমাণ সঙ্গে বৃদ্ধি; একটি নির্দিষ্ট লেনদেন ফি না. গুণ করার আগে দশমিক হিসাবে শতাংশ লিখুন। একটি অনুমানমূলক 3% ফি এর জন্য, 0.03 ব্যবহার করুন। একটি 0.30 নির্দিষ্ট ফি মানে আপনার নির্বাচিত মুদ্রায় 30 সেন্ট, অন্য শতাংশ নয়।",
+              "নেট আয় = চার্জ × (1 − হার) − নির্দিষ্ট ফি। প্রদানকারী তার হার কত পরিমাণে প্রযোজ্য তা পরীক্ষা করুন: শিপিং, ট্যাক্স, মুদ্রা রূপান্তর এবং ক্রস-বর্ডার চার্জের আলাদা চিকিত্সা থাকতে পারে। এই নির্দেশিকা পাটিগণিত বর্ণনা করে, কোনো প্রদানকারীর বর্তমান শুল্ক নয়।",
+              "নিট প্রাপ্তি = আদায়ের পরিমাণ × (1 − ফি-এর হার) − নির্দিষ্ট ফি। প্রয়োজনীয় আদায় = (কাঙ্ক্ষিত নিট টাকা + নির্দিষ্ট ফি) ÷ (1 − ফি-এর হার)।"
+            ]
+          },
+          {
+            "heading": "একটি কার্যকর উদাহরণ: কেন 3% যোগ করা যথেষ্ট নয়",
+            "paragraphs": [
+              "ধরুন আপনি $100 সংগ্রহ করেছেন এবং অনুমানমূলক ফি হল 3% প্লাস $0.30। শতাংশ অংশ হল $3; নির্দিষ্ট অংশ যোগ করলে একটি $3.30 ফি এবং $96.70 নেট আয় পাওয়া যায়।",
+              "$100 নেট পেতে, চার্জ সমাধান করুন × 0.97 − 0.30 = 100৷ প্রয়োজনীয় অগোলাকৃতি চার্জ হল 100.30 ÷ 0.97, প্রায় $103.4021৷ $100 এর সাথে 3% যোগ করলে $103 পাওয়া যায়, যার নেট মাত্র $99.61। পার্থক্য দেখা দেয় কারণ প্রদানকারী বর্ধিত চার্জের উপরও একটি ফি নেয়।"
+            ],
+            "table": {
+              "headers": [
+                "চার্জ",
+                "হাইপোথেটিকাল ফি",
+                "নেট"
+              ],
+              "rows": [
+                [
+                  "$100.00",
+                  "$3.30",
+                  "$96.70"
+                ],
+                [
+                  "$103.00",
+                  "$3.39",
+                  "$99.61"
+                ],
+                [
+                  "$103.40",
+                  "রাউন্ডিংয়ের আগে $3.402",
+                  "রাউন্ডিংয়ের আগে $99.998"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "একটি মূল্য চেক হিসাবে ফলাফল ব্যবহার করুন",
+            "paragraphs": [
+              "একটি ফরোয়ার্ড গণনার জন্য সংগৃহীত পরিমাণ লিখুন, অথবা একটি বিপরীত গণনার জন্য লক্ষ্য-নেট মোড নির্বাচন করুন। নির্বাচিত মুদ্রা আপনার নির্দিষ্ট ফি এর সাথে সামঞ্জস্যপূর্ণ রাখুন। মুদ্রা নির্বাচন বিন্যাস পরিবর্তন; এটি একটি বিনিময় হার রূপান্তর সঞ্চালন না.",
+              "স্ক্রীনটি প্রদর্শনের জন্য ফলাফলকে বৃত্তাকার করে। যদি একটি ন্যূনতম অর্থপ্রদান অবশ্যই ঠিক পূরণ করতে হয়, তাহলে পরবর্তী ক্ষুদ্রতম মুদ্রা বৃদ্ধি এবং আপনার প্রদানকারীর রাউন্ডিং নিয়মগুলি পরীক্ষা করুন৷ রিফান্ড, ন্যূনতম ফি, ফি এর উপর ট্যাক্স এবং সারচার্জ অনুমোদিত কিনা আলাদা চেকের প্রয়োজন।"
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "0% ফি সবসময় মানে আমি পুরো চার্জ গ্রহণ করি?",
+            "answer": "শুধুমাত্র যদি নির্দিষ্ট ফিও শূন্য হয় এবং অন্য কোন ছাড় প্রযোজ্য হবে না। একটি 0% শতাংশ ফি এবং $0.30 ফিক্সড ফি এখনও $100 চার্জ থেকে $99.70 ছাড়ে৷"
+          },
+          {
+            "question": "আমি কি বিভিন্ন পেমেন্ট প্রদানকারীর তুলনা করতে পারি?",
+            "answer": "হ্যাঁ, একই চার্জ ব্যবহার করে প্রতিটি প্রদানকারীর প্রকাশিত হার এবং নির্দিষ্ট ফি লিখুন। যেকোন অতিরিক্ত চার্জ এবং আপনার অ্যাকাউন্টে প্রযোজ্য শর্তাবলীর সাথে ফলাফলের তুলনা করুন।"
+          }
+        ]
+      },
+      "discount": {
+        "title": "২০% তারপর ১০% ছাড়: মোট ছাড় কেন ২৮%?",
+        "description": "ক্রমাগত ডিসকাউন্ট গণনা করুন, কুপন সংমিশ্রণ তুলনা করুন এবং সংরক্ষিত পরিমাণ থেকে চূড়ান্ত-মূল্য শতাংশকে আলাদা করুন।",
+        "answer": "ইতিমধ্যে হ্রাসকৃত মূল্যে দ্বিতীয় ছাড় প্রয়োগ করুন। 20% ছাড়ের পরে 10% ছাড় দিলে মূল মূল্যের 80% × 90% = 72% হয়, তাই মোট সঞ্চয় হল 28%।",
+        "sections": [
+          {
+            "heading": "আপনি যে মূল্য দিতে থাকেন তা গুণ করুন",
+            "paragraphs": [
+              "প্রতিটি শতাংশ ছাড়ের জন্য, একটি থেকে দশমিক হার বিয়োগ করুন। অবশিষ্ট ভগ্নাংশ দ্বারা মূল মূল্য গুণ করুন. দুটি ছাড় সহ, চূড়ান্ত মূল্য = আসল × (1 − প্রথম হার) × (1 − দ্বিতীয় হার)। কার্যকর ডিসকাউন্ট = 1 − চূড়ান্ত মূল্য ÷ আসল মূল্য।",
+              "হার যোগ করলে উভয় ডিসকাউন্টকে এমনভাবে বিবেচনা করা হবে যেন তারা আসল মূল্যে প্রয়োগ করেছে। এটি একটি ভিন্ন অফার। একটি দোকান একটি একক 30% হ্রাসের প্রতিশ্রুতি দেয়, অন্যান্য শর্তাদি বিবেচনা করার আগে ক্রমাগত 20% এবং 10% হ্রাসের তুলনায় একটি বড় শতাংশ হ্রাস প্রদান করে।"
+            ]
+          },
+          {
+            "heading": "একটি $100 আইটেমে দুটি অফার তুলনা করুন",
+            "paragraphs": [
+              "প্রথম 20% হ্রাসের পরে আইটেমটির দাম $80। দ্বিতীয় 10% হ্রাস $8 সরিয়ে দেয়, $72 ছেড়ে দেয়। মোট সঞ্চয় হল $28। দুটি বিশুদ্ধ শতাংশ ডিসকাউন্টের ক্রমকে বিপরীত করলে একই গাণিতিক ফলাফল পাওয়া যায়, কারণ অবশিষ্ট-মূল্য গুণনীয়কগুলি গুণিত হয়।",
+              "সেই অর্ডার নিয়মটি স্বয়ংক্রিয়ভাবে একটি নির্দিষ্ট-মানের কুপনে প্রসারিত হয় না। একটি $10 কুপন $100 আইটেম $70 দেয়। প্রথমে $10 ছাড় নিলে এবং তারপর 20% প্রয়োগ করলে $72 পাওয়া যায়। ন্যূনতম খরচ, ক্যাপ এবং বাদ দেওয়া পণ্যগুলি পরিবর্তন করতে পারে কোন অফারটি আসলে ব্যবহার করা যেতে পারে।"
+            ],
+            "table": {
+              "headers": [
+                "অফার",
+                "চূড়ান্ত মূল্য",
+                "সংরক্ষণ"
+              ],
+              "rows": [
+                [
+                  "20%, তারপর 10%",
+                  "$72",
+                  "28%"
+                ],
+                [
+                  "একটি 30% ছাড়",
+                  "$70",
+                  "30%"
+                ],
+                [
+                  "20%, তারপর একটি $10 কুপন",
+                  "$70",
+                  "$30"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "বিজ্ঞাপিত হ্রাস লিখুন, অবশিষ্ট মূল্য নয়",
+            "paragraphs": [
+              "ক্যালকুলেটরের ক্ষেত্রগুলি ছাড় শতাংশ নেয়। একটি লেবেল বলছে যে মূল মূল্যের 80% অর্থ প্রদানের অর্থ হল 20% ছাড়৷ 80 লিখলে পরিবর্তে 80% হ্রাস গণনা করা হবে।",
+              "টুলটি পরপর দুটি শতাংশ হ্রাসের মডেল। এটি বিক্রয় কর, বিতরণ, নগদ-ব্যাক বা নির্দিষ্ট কুপন যোগ করে না। সেই আইটেমগুলি ভিন্ন হলে চেকআউটের মোট সংখ্যার তুলনা করুন এবং প্রতিটি ধাপে বিক্রেতার প্রকৃত রাউন্ডিংয়ের জন্য অনুমতি দিন।"
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "50% ছাড়ের পরে 50% ছাড় কি বিনামূল্যে?",
+            "answer": "না। প্রথম কমানোর পর অর্ধেক আসল দাম থেকে যায় এবং দ্বিতীয়টির পরেও অর্ধেক থাকে। আপনি মূল মূল্যের 25% প্রদান করেন, একটি 75% সঞ্চয়।"
+          },
+          {
+            "question": "কেন আমার রসিদে সঞ্চয় সামান্য ভিন্ন?",
+            "answer": "একজন খুচরা বিক্রেতা প্রতিটি আইটেম বা প্রতিটি ডিসকাউন্টকে আলাদাভাবে রাউন্ড করতে পারে, বা বিভিন্ন যোগ্য পরিমাণে ডিসকাউন্ট প্রয়োগ করতে পারে। এই ক্যালকুলেটর একটি বৃত্তাকার ফলাফল প্রদর্শন করার আগে দুটি বিবৃত শতাংশ ব্যবহার করে।"
+          }
+        ]
+      },
+      "days": {
+        "title": "দুই তারিখের ব্যবধান: প্রথম দিন ও অধিবর্ষ কীভাবে গণনা করবেন",
+        "description": "অতিবাহিত দিনগুলি বনাম অন্তর্ভুক্ত তারিখ গণনা, লিপ ডে, উইকএন্ড এবং কেন একটি ক্যালেন্ডার-ডে টুল একটি সময়সীমা ক্যালকুলেটর থেকে আলাদা তা বুঝুন।",
+        "answer": "অতিবাহিত ক্যালেন্ডার দিনের জন্য, শেষ তারিখ থেকে শুরুর তারিখ বিয়োগ করুন। যদি শুরুর দিনটি 1 দিন হয়, একটি ফরোয়ার্ড তারিখ পরিসরের জন্য একটি যোগ করুন। জানুয়ারী 1 থেকে 11 জানুয়ারী হল 10 অতিবাহিত দিন বা 11 দিন সহ।",
+        "sections": [
+          {
+            "heading": "প্রথমে গণনা কনভেনশন বেছে নিন",
+            "paragraphs": [
+              "সোমবার থেকে মঙ্গলবার এক রাতের অবস্থান কিন্তু দুটি ক্যালেন্ডার তারিখ স্পর্শ করে। উভয় সংখ্যাই সঠিক হতে পারে কারণ তারা বিভিন্ন প্রশ্নের উত্তর দেয়। ফলাফলের তুলনা করার আগে আপনি অতিবাহিত দিন বা একটি নির্দিষ্ট সময়ের মধ্যে অন্তর্ভুক্ত তারিখের সংখ্যা চান কিনা তা নির্ধারণ করুন।",
+              "একটি আরোহী পরিসরের জন্য ক্যালকুলেটরের অন্তর্ভুক্ত-শুরু বিকল্পটি একদিন যোগ করে। একই শুরু এবং শেষ তারিখ তাই শূন্য অতিবাহিত দিন বা একটি অন্তর্ভুক্ত দিন দেয়। শুরুর তারিখের আগে একটি শেষ তারিখ একটি নেতিবাচক ব্যবধান দেয়; আপনি যখন একটি স্বাভাবিক ফরোয়ার্ড পিরিয়ড চান তখন তারিখগুলি বিপরীত করুন।"
+            ]
+          },
+          {
+            "heading": "একটি লিপ-বছরের উদাহরণ দিয়ে কাজ করুন",
+            "paragraphs": [
+              "2028 সালে, 28 ফেব্রুয়ারী থেকে 1 মার্চ পর্যন্ত দুটি অতিবাহিত দিন ব্যপ্ত হয় কারণ 29 ফেব্রুয়ারি তাদের মধ্যে পড়ে। ইনক্লুসিভ গণনা তিনটি ক্যালেন্ডার তারিখ দেয়: 28 ফেব্রুয়ারি, 29 ফেব্রুয়ারি এবং 1 মার্চ। 2027 সালে, 28 ফেব্রুয়ারি থেকে মার্চ 1 শুধুমাত্র একটি অতিবাহিত দিন জুড়ে থাকে।",
+              "টুলটি বিয়োগের জন্য UTC-তে প্রবেশ করা ক্যালেন্ডার তারিখগুলিকে স্বাভাবিক করে। এটি একটি দিবালোক-সংরক্ষণ ঘড়ির পরিবর্তনকে একটি সাধারণ ক্যালেন্ডার-দিনের ব্যবধানকে একটি ভগ্নাংশ দিনে পরিণত করতে বাধা দেয়। এটি ফ্লাইটের সময়কাল বা সময়-জোন-নির্দিষ্ট টাইমস্ট্যাম্পের মধ্যে সঠিক ঘন্টার জন্য একটি ক্যালকুলেটর নয়।"
+            ],
+            "table": {
+              "headers": [
+                "তারিখগুলি",
+                "অতিবাহিত",
+                "শুরু সহ"
+              ],
+              "rows": [
+                [
+                  "জানুয়ারী 1 → জানুয়ারী 11",
+                  "10 দিন",
+                  "11 দিন"
+                ],
+                [
+                  "একই তারিখ",
+                  "0 দিন",
+                  "1 দিন"
+                ],
+                [
+                  "ফেব্রুয়ারী 28 → মার্চ 1, 2028",
+                  "2 দিন",
+                  "3 দিন"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "ক্যালেন্ডার দিন মানে ব্যবসার দিন নয়",
+            "paragraphs": [
+              "শনিবার, রবিবার এবং সরকারী ছুটির দিনগুলি ক্যালেন্ডার দিন হিসাবে গণনা করা হয়। ছুটির পরিকল্পনার জন্য, একটি ক্যালকুলেটর ব্যবহার করুন যা প্রাসঙ্গিক দেশের ছুটির দিন এবং বিকল্প কর্মদিবস জানে। শুধুমাত্র তারিখের পার্থক্য আপনার কত বেতনের ছুটির দিন প্রয়োজন তা নির্ধারণ করতে পারে না।",
+              "চুক্তি এবং অফিসিয়াল সময়সীমা প্রথম দিন, দিনের শেষের কাটঅফ এবং ছুটির এক্সটেনশনকে ভিন্নভাবে সংজ্ঞায়িত করতে পারে। একটি মিস ডেডলাইন গুরুত্বপূর্ণ যখন গভর্নিং নিয়ম চেক করুন. প্রতিদিনের কাউন্টডাউন এবং বার্ষিকীগুলির জন্য, ফলাফলের পাশাপাশি আপনার গণনা সম্মেলনটি বলুন।"
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "আমি প্রথম দিন অন্তর্ভুক্ত করা উচিত?",
+            "answer": "যখন সেই তারিখটি পিরিয়ডের 1 দিন হিসাবে গণনা করা হয় তখন এটি অন্তর্ভুক্ত করুন। তারিখের মধ্যে অতিবাহিত ব্যবধান পরিমাপ করার সময় এটি বাদ দিন। একটি চুক্তি বা কর্তৃপক্ষের একটি নিয়ম একটি সাধারণ ক্যালেন্ডার কনভেনশনের উপর অগ্রাধিকার নেয়।"
+          },
+          {
+            "question": "30 দিন কি সবসময় এক মাসের সমান?",
+            "answer": "না। ক্যালেন্ডার মাসের বিভিন্ন দৈর্ঘ্য আছে। প্রতি মাসে 30 দিনে রূপান্তর করার পরিবর্তে প্রকৃত শুরু এবং শেষ তারিখগুলি ব্যবহার করুন৷"
+          }
+        ]
+      },
+      "stock-average": {
+        "title": "নতুন শেয়ার কেনার পর ভারিত গড় ক্রয়মূল্য কীভাবে বের করবেন",
+        "description": "ট্যাক্স-লট নির্বাচনের সাথে বিভ্রান্ত না করে একটি নতুন গড় ক্রয় মূল্য, মোট শেয়ার এবং বিনিয়োগকৃত পরিমাণ গণনা করতে একটি ওজনযুক্ত গড় ব্যবহার করুন।",
+        "answer": "বিদ্যমান এবং নতুন শেয়ারে ব্যয় করা পরিমাণ যোগ করুন, তারপর শেয়ারের মোট সংখ্যা দিয়ে ভাগ করুন। দুটি মূল্যের সাধারণ গড় শুধুমাত্র তখনই কাজ করে যখন শেয়ারের পরিমাণ সমান হয়।",
+        "sections": [
+          {
+            "heading": "প্রতিটি ক্রয়ের পরিমাণ অনুযায়ী ওজন করুন",
+            "paragraphs": [
+              "নতুন গড় ক্রয় মূল্য = (বিদ্যমান পরিমাণ × বিদ্যমান গড় + নতুন পরিমাণ × নতুন মূল্য) ÷ মোট পরিমাণ। মূল্য এবং পরিমাণ একই শেয়ার ইউনিট এবং মুদ্রা ব্যবহার করা আবশ্যক. ভগ্নাংশ শেয়ার ব্যবহার করা যেতে পারে যখন তারা আপনার প্রকৃত হোল্ডিং প্রতিফলিত করে।",
+              "উদাহরণস্বরূপ, 100টি শেয়ার 50 ডলারে কেনা হয়েছে এবং অন্য 100টি শেয়ার 40 ডলারে কেনা হয়েছে মোট $9,000। $45 পেতে 200 শেয়ার দিয়ে ভাগ করুন। যদি দ্বিতীয় ক্রয়টি $40 এ মাত্র 50টি শেয়ার হয়, তাহলে 150টি শেয়ার জুড়ে মোট $7,000 হয়ে যায়, যা প্রায় $46.67 দেয়, $45 নয়।"
+            ]
+          },
+          {
+            "heading": "একটি নিম্ন গড় একটি ক্ষতি অপসারণ না",
+            "paragraphs": [
+              "অতিরিক্ত 100টি শেয়ার $40 এ কেনার পরপরই, প্রতি শেয়ার $40 মূল্যের একটি 200-শেয়ার হোল্ডিংয়ের বাজার মূল্য $9,000 খরচের বিপরীতে $8,000। গড় দাম কমেছে, কিন্তু একটি অবাস্তব $1,000 পার্থক্য রয়ে গেছে এবং আরও বেশি অর্থ বিনিয়োগের জন্য উন্মুক্ত করা হয়েছে।",
+              "$40 থেকে $45 গড় একটি সরানো হবে একটি 12.5% ​​ফি আগে মূল্য বৃদ্ধি. এটি পাটিগণিত, একটি পূর্বাভাস বা কেনার কারণ নয়। অবস্থান বৃদ্ধি ঝুঁকির পরিমাণের পাশাপাশি গড় মূল্য পরিবর্তন করে।"
+            ],
+            "table": {
+              "headers": [
+                "হোল্ডিং",
+                "শেয়ার",
+                "খরচ করা পরিমাণ"
+              ],
+              "rows": [
+                [
+                  "বিদ্যমান: $50/শেয়ার",
+                  "100",
+                  "$5,000"
+                ],
+                [
+                  "নতুন: $40/শেয়ার",
+                  "100",
+                  "$4,000"
+                ],
+                [
+                  "মিলিত গড়: $45",
+                  "200",
+                  "$9,000"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "ক্রয়ের গড় ট্যাক্স রেকর্ড থেকে আলাদা রাখুন",
+            "paragraphs": [
+              "ক্যালকুলেটরটি ক্রয়ের দুটি ব্লককে মডেল করে এবং ব্রোকারেজ ফি, বিনিময় হার, লভ্যাংশ, বিক্রয় এবং কর্পোরেট ক্রিয়াগুলি বাদ দেয়। বিভিন্ন মুদ্রায় করা কেনাকাটার তুলনা করার আগে ধারাবাহিকভাবে রেকর্ড রূপান্তর করুন।",
+              "একটি গাণিতিক হোল্ডিং গড় করযোগ্য খরচের ভিত্তিতে নির্ধারণ নয়। ট্যাক্স-লট নিয়ম এবং অনুমোদিত পদ্ধতি এখতিয়ার এবং সম্পদ দ্বারা পরিবর্তিত হয়। এই ফলাফলটিকে ট্যাক্স-রিপোর্টিং নির্দেশনা হিসাবে বিবেচনা করার পরিবর্তে ব্রোকারের আসল লেনদেনের রেকর্ড রাখুন।"
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "উচ্চ মূল্যে কেনার সময় আমি কি এটি ব্যবহার করতে পারি?",
+            "answer": "হ্যাঁ। একই ওজনযুক্ত-গড় সূত্র প্রযোজ্য। আপনার বিদ্যমান গড় উপরে ক্রয় এটি বৃদ্ধি; পরিবর্তনের আকার নতুন পরিমাণের উপর নির্ভর করে।"
+          },
+          {
+            "question": "আমার ব্রোকারের গড় আলাদা কেন?",
+            "answer": "ফি, কারেন্সি কনভার্সন, রাউন্ডিং, কর্পোরেট অ্যাকশন বা ব্রোকারের অ্যাকাউন্টিং পদ্ধতি তার চিত্রে অন্তর্ভুক্ত করা যেতে পারে। এই টুলটি শুধুমাত্র দেখানো মূল্য এবং পরিমাণ ইনপুট ব্যবহার করে।"
+          }
+        ]
+      },
+      "compound": {
+        "title": "মাসিক জমাসহ চক্রবৃদ্ধি সুদ: সূত্র ও হিসাবের উদাহরণ",
+        "description": "কার্যকর বার্ষিক আয়, মাস-শেষের অবদান এবং অবদানকৃত অর্থ এবং অনুমানমূলক বিনিয়োগ বৃদ্ধির মধ্যে পার্থক্য বুঝুন।",
+        "answer": "কার্যকর বার্ষিক রিটার্নকে মাসিক হারে রূপান্তর করুন, বিদ্যমান ব্যালেন্স বাড়ান, তারপর মাসের অবদান যোগ করুন। প্রদত্ত অর্থ বৃদ্ধি থেকে আলাদা রাখুন যাতে একটি বড় আমানত একটি ভাল রিটার্নের জন্য ভুল না হয়।",
+        "sections": [
+          {
+            "heading": "বার্ষিক অনুমানকে ধারাবাহিকভাবে রূপান্তর করুন",
+            "paragraphs": [
+              "মিয়োটিজি বার্ষিক রিটার্নকে একটি কার্যকর বার্ষিক হার হিসাবে বিবেচনা করে। মাসিক হার হল (1 + বার্ষিক হার)^(1/12) − 1. বার্ষিক 5% এ, সেই মাসিক হার প্রায় 0.4074%, ঠিক 5% ÷ 12 নয়। 12 দ্বারা বিভক্ত একটি নামমাত্র উদ্ধৃত হার ব্যবহার করলে একটি ভিন্ন যৌগিক প্রথার বর্ণনা হবে।",
+              "প্রতি মাসের জন্য, নতুন ব্যালেন্স = আগের ব্যালেন্স × (1 + মাসিক হার) + অবদান। অবদানগুলি মাসের শেষে যোগ করা হয়, তাই প্রথম আমানতটি অর্থপ্রদানের আগে নয় বরং পরবর্তী মাসগুলিতে রিটার্ন অর্জন করে৷"
+            ]
+          },
+          {
+            "heading": "আমানত আলাদা করে এক বছরের উদাহরণ দেখুন",
+            "paragraphs": [
+              "$1,000 দিয়ে শুরু করুন, প্রতি মাসের শেষে $100 অবদান রাখুন এবং এক বছরের জন্য একটি স্থির 5% কার্যকরী বার্ষিক রিটার্ন অনুমান করুন। শুরুর $1,000 বেড়ে $1,050; বারোটি মাসিক আমানত প্রায় $1,227.26-এ বৃদ্ধি পায়। মোট প্রায় $2,277.26।",
+              "আপনি $2,200: $1,000 প্রাথমিকভাবে এবং বারো $100 ডিপোজিট সরবরাহ করেছেন। অবশিষ্ট আনুমানিক $77.26 মডেলের বৃদ্ধি। 0% রিটার্নের সাথে ব্যালেন্স ঠিক $2,200। ইনপুটগুলি অর্থপূর্ণ কিনা তা পরীক্ষা করার সময় এই শূন্য-রিটার্ন তুলনাটি কার্যকর।"
+            ],
+            "table": {
+              "headers": [
+                "এক বছরের দৃশ্যকল্প",
+                "অর্থ সরবরাহ করা হয়েছে",
+                "আনুমানিক ভারসাম্য"
+              ],
+              "rows": [
+                [
+                  "0% বার্ষিক রিটার্ন",
+                  "$2,200",
+                  "$2,200.00"
+                ],
+                [
+                  "5% কার্যকর বার্ষিক রিটার্ন",
+                  "$2,200",
+                  "$2,277.26"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "একটি প্রতিশ্রুত ফলাফলের পরিবর্তে পরিস্থিতি ব্যবহার করুন",
+            "paragraphs": [
+              "আমানত ধ্রুবক ধরে রাখার সময় নিম্ন, মধ্যম এবং উচ্চতর অনুমানের তুলনা করুন। প্রকৃত বিনিয়োগ একটি মসৃণ মাসিক রিটার্ন প্রদান করে না এবং অর্থ যোগ করা বা তোলা হলে লাভ এবং ক্ষতির ক্রম গুরুত্বপূর্ণ।",
+              "ফলাফল ট্যাক্স, বিনিয়োগ চার্জ বা মুদ্রাস্ফীতি কাটে না। এটি একটি আমানত উদ্ধৃতি বা একটি নির্দিষ্ট বিনিয়োগের পূর্বাভাস নয়৷ যদি একটি ব্যাঙ্ক বা প্রদানকারী একটি নামমাত্র হার, একটি ভিন্ন অবদানের সময় বা একটি ভিন্ন যৌগিক সময়সূচী জানায়, তাহলে এই টুলের সাথে তার উদাহরণ তুলনা করার আগে সেই নিয়মগুলিকে সারিবদ্ধ করুন৷"
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "মাসিক অবদান কি মাসের শুরুতে বা শেষে করা হয়?",
+            "answer": "প্রতিটি মডেলিং মাসের শেষে। মাসের শুরুর সময়সূচী প্রতিটি অবদানকে একটি অতিরিক্ত মাস বৃদ্ধি দেয় এবং একটি ভিন্ন ভারসাম্য তৈরি করতে পারে।"
+          },
+          {
+            "question": "ফলাফল ট্যাক্স বা মুদ্রাস্ফীতি অন্তর্ভুক্ত?",
+            "answer": "না। আউটপুট সেই প্রভাবগুলির আগে একটি অনুমানমূলক ভারসাম্য। একটি নামমাত্র ভারসাম্য এবং এর ভবিষ্যৎ ক্রয় ক্ষমতা বিভিন্ন পরিমাণ।"
+          }
+        ]
+      },
+      "unit-converter": {
+        "title": "দৈর্ঘ্য, তাপমাত্রা ও ডেটা সংরক্ষণের একক রূপান্তর",
+        "description": "ইউএস বনাম ইম্পেরিয়াল ভলিউম, তাপমাত্রা অফসেট এবং দশমিক বনাম বাইনারি স্টোরেজ ইউনিট চেক করার সময় সাধারণ পরিমাপ রূপান্তর করুন।",
+        "answer": "একটি সাধারণ বেস ইউনিটের মাধ্যমে রূপান্তর করুন এবং প্রথমে ইউনিট সংজ্ঞা পরীক্ষা করুন। একটি মার্কিন গ্যালন একটি ইম্পেরিয়াল গ্যালন থেকে পৃথক, এবং একটি দশমিক গিগাবাইট একটি গিবিবাইট থেকে পৃথক। তাপমাত্রারও একটি অফসেট প্রয়োজন, শুধুমাত্র একটি গুণক নয়।",
+        "sections": [
+          {
+            "heading": "দৈর্ঘ্য, ভর, ক্ষেত্রফল এবং আয়তন রূপান্তর উপাদান ব্যবহার করে",
+            "paragraphs": [
+              "একই মাত্রার এককের জন্য, উৎসের পরিমাণকে একটি বেস ইউনিটে রূপান্তর করুন এবং গন্তব্য ইউনিটের গুণক দ্বারা ভাগ করুন। এক মাইল হল 1.609344 কিলোমিটার, তাই 5 মাইল হল 8.04672 কিলোমিটার৷ একটি ক্ষেত্রফলের সাথে একটি দৈর্ঘ্য ফ্যাক্টরকে গুলিয়ে ফেলবেন না: বর্গ ইউনিটের জন্য একটি বর্গ রূপান্তর প্রয়োজন।",
+              "ভলিউম মেনু স্পষ্টভাবে ইউএস লিকুইড গ্যালন এবং ইউএস কাপ ব্যবহার করে। একটি মার্কিন তরল গ্যালন হল 3.785411784 লিটার; এটি বৃহত্তর ইম্পেরিয়াল গ্যালন নয়। একটি রেসিপির কাপ অন্য নিয়ম ব্যবহার করতে পারে, তাই একটি নম্বর প্রয়োগ করার আগে রেসিপি বা পরিমাপের পাত্রটি পরীক্ষা করে দেখুন।"
+            ]
+          },
+          {
+            "heading": "তাপমাত্রা এবং স্টোরেজ সাধারণ ফাঁদ",
+            "paragraphs": [
+              "সেলসিয়াস থেকে ফারেনহাইটের জন্য °F = °C × 9/5 + 32 ব্যবহার করুন। বিপরীতের জন্য °C = (°F −32) × 5/9 ব্যবহার করুন। এই কারণেই 100 °F হল আনুমানিক 37.78°C এর পরিবর্তে 100 কে 5/9 দ্বারা গুণ করে প্রাপ্ত ফলাফলের চেয়ে।",
+              "দশমিক স্টোরেজ ইউনিট 1,000 এর ক্ষমতা ব্যবহার করে; বাইনারি ইউনিট 1,024 এর ক্ষমতা ব্যবহার করে। এখানে 1 GB হল 1,000,000,000 বাইট, যেখানে 1 GiB হল 1,073,741,824 বাইট৷ এগুলি ডেটার পরিমাণ, ইন্টারনেট সংযোগের গতি বা ফাইল স্থানান্তরের সময় নয়।"
+            ],
+            "table": {
+              "headers": [
+                "ইনপুট",
+                "রূপান্তরিত মান"
+              ],
+              "rows": [
+                [
+                  "1 মাইল",
+                  "1.609344 কিমি"
+                ],
+                [
+                  "1 মার্কিন তরল গ্যালন",
+                  "3.785411784 এল"
+                ],
+                [
+                  "100°ফা",
+                  "37.777…°সে"
+                ],
+                [
+                  "1 জিবি",
+                  "1,073,741,824 খ"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "শেষ ধাপ পর্যন্ত সম্পূর্ণ নির্ভুলতা রাখুন",
+            "paragraphs": [
+              "একটি বিভাগ চয়ন করুন, একটি মান লিখুন এবং উত্স এবং গন্তব্য ইউনিট নির্বাচন করুন৷ ক্যালকুলেটরটি আট দশমিক স্থান পর্যন্ত প্রদর্শন করে, তাই খুব অল্প পরিমাণে পাঠযোগ্য থাকার জন্য একটি ছোট গন্তব্য ইউনিটের প্রয়োজন হতে পারে।",
+              "গুন করার আগে একটি রূপান্তর ফ্যাক্টর রাউন্ড করা একটি ত্রুটিকে বড় করতে পারে। সহনশীল উত্পাদন কাজের জন্য, বৈজ্ঞানিক প্রতিবেদন বা একটি নির্ধারিত শিল্প মান, প্রয়োজনীয় নির্ভুলতা এবং সেই প্রসঙ্গে ব্যবহৃত সঠিক সংজ্ঞা যাচাই করুন।"
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "আমি কি গ্রামকে সরাসরি মিলিলিটারে রূপান্তর করতে পারি?",
+            "answer": "উপাদান এর ঘনত্ব ছাড়া না. গ্রাম ভর পরিমাপ করে এবং মিলিলিটার আয়তন পরিমাপ করে; তাদের মধ্যে একটি রূপান্তর একটি সর্বজনীন একক ফ্যাক্টর নয়।"
+          },
+          {
+            "question": "মেনুর গ্যালন মানে কি ইউকে ইম্পেরিয়াল গ্যালন?",
+            "answer": "না। মেনুটি US gal লেবেলযুক্ত এবং US তরল গ্যালন ব্যবহার করে। আপনার উৎস উপাদান দ্বারা প্রয়োজনীয় সংজ্ঞা ব্যবহার করুন."
+          }
+        ]
+      },
+      "age": {
+        "title": "বয়স গণনা: জন্মদিন, পূর্ণ বছর ও জন্মের পর মোট দিন",
+        "description": "পূর্ণ বয়সের বছর গণনা করুন, ক্যালেন্ডার-বছরের পার্থক্য থেকে বয়সকে আলাদা করুন এবং স্থানীয়-তারিখ এবং লিপ-জন্মদিনের নিয়মগুলি বুঝুন।",
+        "answer": "রেফারেন্স বছর থেকে জন্ম সাল বিয়োগ করুন, তারপর যদি সেই বছর জন্মদিন না হয়ে থাকে তাহলে একটি বিয়োগ করুন। Myeotiji রেফারেন্স তারিখের জন্য আপনার ব্রাউজারে আজকের ক্যালেন্ডার তারিখ ব্যবহার করে।",
+        "sections": [
+          {
+            "heading": "একটি বছরের পার্থক্য সবসময় একটি সম্পূর্ণ বয়স নয়",
+            "paragraphs": [
+              "31 ডিসেম্বর, 2000-এ জন্মগ্রহণকারী কেউ 30 ডিসেম্বর, 2026-এ 25 বছর এবং 31 ডিসেম্বর 26-এ পরিণত হবে৷ কেবল একটি দিন আগে 2026 থেকে 2000 বিয়োগ করলে পূর্ণ বয়স এক দ্বারা বাড়াবে৷",
+              "প্রথমে মাস এবং তারপর দিন তুলনা করুন। রেফারেন্স মাস জন্ম মাসের চেয়ে আগের হলে, এক বছর বিয়োগ করুন। যদি মাস মেলে কিন্তু রেফারেন্স দিন আগে হয়, তাহলে একটিও বিয়োগ করুন। অন্যথায় বছরের পার্থক্য রাখুন।"
+            ]
+          },
+          {
+            "heading": "ক্যালকুলেটর দ্বারা ব্যবহৃত তারিখ বুঝুন",
+            "paragraphs": [
+              "বয়স ক্যালকুলেটরে জন্ম তারিখ লিখুন। এটি আপনার ব্রাউজার থেকে বর্তমান স্থানীয় ক্যালেন্ডার তারিখ ব্যবহার করে এবং জন্মের পর থেকে অতিবাহিত ক্যালেন্ডার দিনগুলিও রিপোর্ট করে৷ এই গাইডের সারণীতে রেফারেন্স তারিখগুলি নির্দিষ্ট চিত্র; লাইভ টুল একটি পৃথক ঐতিহাসিক-রেফারেন্স-তারিখ ক্ষেত্র প্রদান করে না।",
+              "বিভিন্ন সময় অঞ্চলের ব্যবহারকারীরা জন্মদিনে মধ্যরাতে বিভিন্ন বয়স দেখতে পারেন। দিন গণনা সঠিক জন্ম সময়ের পরিবর্তে শুধুমাত্র তারিখ-গণিত ব্যবহার করে। একটি ভবিষ্যত জন্ম তারিখ একটি বৈধ সম্পূর্ণ বয়স ইনপুট নয়।"
+            ],
+            "table": {
+              "headers": [
+                "জন্ম তারিখ",
+                "উদাহরণে রেফারেন্স তারিখ",
+                "বয়স পূর্ণ"
+              ],
+              "rows": [
+                [
+                  "2000-12-31",
+                  "2026-12-30",
+                  "25"
+                ],
+                [
+                  "2000-12-31",
+                  "2026-12-31",
+                  "26"
+                ],
+                [
+                  "2000-12-31",
+                  "2027-01-01",
+                  "26"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "লিপ-ডে এবং অফিসিয়াল যোগ্যতা নিয়ম যত্ন প্রয়োজন",
+            "paragraphs": [
+              "29 ফেব্রুয়ারির জন্মদিনের জন্য, এই টুলটি সরাসরি মাস এবং দিনের তুলনা করে। একটি নন-লিপ বছরে এটির পূর্ণ-বছরের গণনা মার্চ 1-এ বৃদ্ধি পায়। এটি একটি বিবৃত ক্যালকুলেটর কনভেনশন, প্রতিটি এখতিয়ারে আইনি বয়স সম্পর্কে কোনও শাসন নয়।",
+              "একটি ভর্তি, সুবিধা, বীমা চুক্তি বা অন্যান্য অফিসিয়াল প্রক্রিয়া একটি নির্দিষ্ট তারিখে বা একটি বিশেষ জন্মদিনের নিয়মে একটি বয়স ব্যবহার করতে পারে। সেই প্রক্রিয়ার সংজ্ঞা পরীক্ষা করুন। একটি দৈনন্দিন বর্তমান বয়সের ফলাফল তার যোগ্যতা মূল্যায়ন প্রতিস্থাপন করতে পারে না।"
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "কেন ফলাফল একটি ক্যালেন্ডারে দেখানো বছরের থেকে ভিন্ন হতে পারে?",
+            "answer": "ক্যালেন্ডার-বছরের বিয়োগ জন্মদিন হয়েছে কিনা তা উপেক্ষা করে। পূর্ণ বয়স গণনা জন্মদিন আসলে উল্লিখিত তারিখ কনভেনশনের অধীনে পৌঁছেছে।"
+          },
+          {
+            "question": "আমি কি এর পরিবর্তে 365 দ্বারা বিভক্ত অতিবাহিত দিনগুলি ব্যবহার করতে পারি?",
+            "answer": "একটি সঠিক পূর্ণ-বছর বয়সের জন্য নয়। লিপ ইয়ার এবং জন্মদিনের অবস্থান সেই শর্টকাটটিকে বয়সের সীমানায় অবিশ্বস্ত করে তোলে।"
+          }
+        ]
+      }
+    },
+    "legalLabels": {
+      "privacy": "গোপনীয়তা এবং কুকিজ",
+      "terms": "ব্যবহার এবং সীমাবদ্ধতা",
+      "contact": "যোগাযোগ এবং সংশোধন",
+      "notice": "সাধারণ তথ্যের জন্য অনুমান। এই পরিষেবাটি ব্যক্তিগত ট্যাক্স, আইনি, বেতন বা বিনিয়োগের পরামর্শ প্রদান করে না, রিটার্ন প্রস্তুত করে না বা আপনার প্রতিনিধিত্ব করে না। ফলাফলের উপর নির্ভর করার আগে বিবৃত বছর, অবস্থান এবং বর্জন পরীক্ষা করুন।",
+      "tracking": "Google Analytics সাধারণভাবে চালু থাকে এবং পৃষ্ঠার নিচে বন্ধ করা যায়। ক্যালকুলেটরের ইনপুট পাঠানো হয় না। অ-ব্যক্তিগতকৃত বিজ্ঞাপন চাওয়ার জন্য AdSense যুক্ত আছে। Google ও অংশীদাররা বিজ্ঞাপন দেখানো এবং পরিমাপের জন্য কুকি, ওয়েব বিকন, IP ঠিকানা ও শনাক্তকারী ব্যবহার করতে পারে। অ-ব্যক্তিগতকৃত বিজ্ঞাপনেও কুকি থাকতে পারে। বিজ্ঞাপন দেখানো সাইটের অনুমোদন, অ্যাকাউন্ট সেটিং এবং প্রযোজ্য সম্মতির ওপর নির্ভরশীল। চীনা পৃষ্ঠায় বিশ্লেষণ ও বিজ্ঞাপন বন্ধ থাকে।"
+    },
+    "legal": {
+      "privacy": [
+        [
+          "সুযোগ এবং অপারেটর",
+          "Myeotiji দক্ষিণ কোরিয়া থেকে পরিচালিত। এই বিজ্ঞপ্তি বাংলা পৃষ্ঠাগুলোর জন্য প্রযোজ্য। যোগাযোগ: contact@myeotiji.kr। অন্য ভাষার পৃষ্ঠায় সেটিং ভিন্ন হতে পারে।"
+        ],
+        [
+          "ক্যালকুলেটর ইনপুট",
+          "আপনার ব্রাউজারে গণনা চালানো হয়। এই সংস্করণটি অপারেটর ডাটাবেস বা বিশ্লেষণ পরিষেবাতে ক্যালকুলেটরের পরিমাণ, বেতন, তারিখ বা ফলাফল পাঠায় না। ইউআরএল-এ ব্যক্তিগত ডেটা রাখবেন না বা আমাদের কাছে পরিচয় নথি, অ্যাকাউন্টের বিবরণ বা বেতনের রেকর্ড পাঠাবেন না।"
+        ],
+        [
+          "বিশ্লেষণ, বিজ্ঞাপন এবং কুকিজ",
+          "Google Analytics সাধারণভাবে চালু থাকে এবং পৃষ্ঠার নিচে বন্ধ করা যায়। ক্যালকুলেটরের ইনপুট পাঠানো হয় না। অ-ব্যক্তিগতকৃত বিজ্ঞাপন চাওয়ার জন্য AdSense যুক্ত আছে। Google ও অংশীদাররা বিজ্ঞাপন দেখানো এবং পরিমাপের জন্য কুকি, ওয়েব বিকন, IP ঠিকানা ও শনাক্তকারী ব্যবহার করতে পারে। অ-ব্যক্তিগতকৃত বিজ্ঞাপনেও কুকি থাকতে পারে। বিজ্ঞাপন দেখানো সাইটের অনুমোদন, অ্যাকাউন্ট সেটিং এবং প্রযোজ্য সম্মতির ওপর নির্ভরশীল। চীনা পৃষ্ঠায় বিশ্লেষণ ও বিজ্ঞাপন বন্ধ থাকে।"
+        ],
+        [
+          "প্রয়োজনীয় হোস্টিং এবং বিদেশী প্রক্রিয়াকরণ",
+          "Vercel এই ওয়েবসাইটটি সরবরাহ করে এবং রক্ষা করে। অনুরোধগুলি অগত্যা হোস্টিং পরিকাঠামোতে সংযোগ তথ্য যেমন IP ঠিকানা, অনুরোধ করা URL, সময়, ডিভাইস/ব্রাউজার শিরোনাম এবং নিরাপত্তা সংকেত প্রকাশ করে। এই ধরনের তথ্য মার্কিন যুক্তরাষ্ট্র বা অন্যান্য অবকাঠামো অবস্থান সহ আপনার দেশের বাইরে প্রক্রিয়া করা হতে পারে। বিশ্লেষণ নিষ্ক্রিয় করা এই প্রক্রিয়াকরণকে সরিয়ে দেয় না। আমরা এটি বিতরণ, নিরাপত্তা এবং ত্রুটি তদন্তের জন্য ব্যবহার করি, বিজ্ঞাপন প্রোফাইল নয়।"
+        ],
+        [
+          "ধারণ এবং আপনার পছন্দ",
+          "ক্যালকুলেটর ইনপুট সার্ভার রেকর্ড হিসাবে আমাদের দ্বারা রাখা হয় না. হোস্টিং লগ প্রদানকারীর ধারণ এবং প্রযোজ্য প্রকল্প সেটিংস অনুসরণ করে; আমরা সমস্ত অবকাঠামো লগের জন্য একটি নির্দিষ্ট ধারণ সময় যাচাই করিনি। প্রযোজ্য বিবরণের জন্য বা আপনার আইনের অধীনে উপলব্ধ অ্যাক্সেস, সংশোধন, মুছে ফেলা বা সীমাবদ্ধতার অনুরোধ করতে আমাদের সাথে যোগাযোগ করুন। আমরা অনুরোধ এবং আইনি ব্যতিক্রমগুলি মূল্যায়ন করি, এবং প্রতিশ্রুতি দিই না যে সমস্ত প্রদানকারী লগ অবিলম্বে মুছে ফেলা হবে। পৃষ্ঠাটি বন্ধ করা তার ইন-মেমরি গণনা অবস্থা পরিষ্কার করে; আপনার ব্রাউজার ইতিহাস সংরক্ষণ করতে পারে বা একটি ট্যাব পুনরুদ্ধার করতে পারে।"
+        ],
+        [
+          "ইমেল এবং বহিরাগত লিঙ্ক",
+          "আপনি যদি আমাদের ইমেল করতে পছন্দ করেন, আমরা অনুরোধটি পরিচালনা করার জন্য আপনার ঠিকানা এবং বার্তা গ্রহণ করি এবং সেই উদ্দেশ্যে বা আইনি বাধ্যবাধকতার জন্য যা প্রয়োজন তা কেবল ধরে রাখি। কাল্পনিক উদাহরণ ব্যবহার করুন, প্রকৃত ব্যক্তিগত আর্থিক রেকর্ড নয়। হিসাব করার জন্য ইমেলের প্রয়োজন নেই। অফিসিয়াল রেফারেন্সগুলি তাদের নিজস্ব নীতি সহ তৃতীয় পক্ষের ওয়েবসাইটগুলি খোলে৷ ট্র্যাকিং বা ডেটা ব্যবহারের পরিবর্তনের জন্য এই বিজ্ঞপ্তিটি আপডেট করতে হবে এবং সক্রিয়করণের আগে আইনগতভাবে প্রয়োজনীয় পছন্দগুলি বাস্তবায়ন করতে হবে।"
+        ]
+      ],
+      "terms": [
+        [
+          "উদ্দেশ্য",
+          "বিনামূল্যে, স্ব-পরিষেবা পাটিগণিত এবং সাধারণ ব্যাখ্যা. আমরা আপনার আইনজীবী, হিসাবরক্ষক, ট্যাক্স প্রস্তুতকারী, বেতন প্রদানকারী, বিনিয়োগ উপদেষ্টা বা সরকারী সংস্থা হিসাবে নিজেদেরকে ধরে রাখি না। শুধুমাত্র একটি ক্যালকুলেটর ব্যবহার করে কোন পেশাদার-ক্লায়েন্ট সম্পর্ক তৈরি হয় না।"
+        ],
+        [
+          "অনুমান পরীক্ষা করুন",
+          "ফলাফল বিবৃত বছর, এখতিয়ার এবং মডেলের জন্য অনুমান। ট্যাক্স স্ট্যাটাস, ছাড়, পরিকল্পনা নথি, স্থানীয় নিয়ম, রাউন্ডিং এবং পরিবর্তন আইন প্রকৃত ফলাফল পরিবর্তন করতে পারে। একটি উদাহরণ একটি গ্যারান্টি নয়. ফাইলিং, মজুরি প্রদান, বিনিয়োগ, দান বা ভ্রমণ বুকিং করার আগে প্রাসঙ্গিক অফিসিয়াল পরিষেবা বা যোগ্য পেশাদারের সাথে যাচাই করুন।"
+        ],
+        [
+          "নির্দিষ্ট সীমা",
+          "ইউএস ওভারটাইম ফেডারেল কভারড-নন-এক্সেম্পট বেসলাইন ব্যবহার করে, সব রাজ্যের নিয়ম নয়। টেক-হোম পে হল একটি সরলীকৃত বার্ষিক চিত্র, W-4 বা ফাইলিং গণনা নয়। একটি 401(k) ম্যাচ একটি অর্পিত ব্যালেন্স বা অবদান সুপারিশ নয়। স্টক গড় এবং যৌগিক সরঞ্জাম সিকিউরিটিজ বা গ্যারান্টি রিটার্ন সুপারিশ করে না। তারিখ এবং বয়স সরঞ্জাম আইনি যোগ্যতা বা সময়সীমা নির্ধারণ করে না।"
+        ],
+        [
+          "ত্রুটি এবং দায়িত্ব",
+          "কাল্পনিক ইনপুট এবং প্রভাবিত URL ব্যবহার করে একটি সন্দেহজনক ত্রুটি রিপোর্ট করুন। যখন অনুমান যাচাই করা যায় না তখন আমরা প্রভাবিত টুলটিকে সংশোধন, সতর্ক বা সাময়িকভাবে সীমাবদ্ধ করতে পারি। এই বিজ্ঞপ্তি সুযোগ বর্ণনা করে; ইচ্ছাকৃত অসদাচরণ বা স্থূল অবহেলার জন্য প্রযোজ্য দায় সহ, বা বাধ্যতামূলক ভোক্তা অধিকার অপসারণ সহ আইনত বাদ দেওয়া যায় না এমন দায় বাদ দেয় না।"
+        ],
+        [
+          "সমর্থন এবং পরিবর্তন",
+          "সহায়তা প্রযুক্তিগত ত্রুটি এবং সাধারণ উত্স সংশোধন পরিচালনা করে। পৃথক করের অবস্থান, আইনি সিদ্ধান্ত, ফাইলিং প্রস্তুতি বা প্রতিনিধিত্বের জন্য অনুরোধ করবেন না। আমরা এই ধরনের অনুরোধগুলি প্রাসঙ্গিক কর্তৃপক্ষ বা একজন যোগ্যতাসম্পন্ন পেশাদারের কাছে নির্দেশ করব৷ উপাদান পরিবর্তন পৃষ্ঠা তারিখ প্রতিফলিত হয়; প্রতিবার অনুমানগুলি পুনরায় পরীক্ষা করুন।"
+        ]
+      ],
+      "contact": [
+        [
+          "প্রযুক্তিগত সমস্যা, সংশোধন এবং গোপনীয়তার অনুরোধ",
+          "পৃষ্ঠার URL, প্রযোজ্য বছর/অঞ্চল এবং প্রত্যাশিত এবং প্রদর্শিত ফলাফল দেখানো একটি কাল্পনিক উদাহরণ সহ contact@myeotiji.kr ইমেল করুন। এছাড়াও আপনি এখানে ডেটা প্রসেসিং বা প্রযোজ্য গোপনীয়তা অধিকার অনুশীলন সম্পর্কে তথ্যের জন্য অনুরোধ করতে পারেন। আমরা একটি অ্যাকাউন্ট বা একটি ফর্ম প্রয়োজন হয় না."
+        ],
+        [
+          "আপনার তথ্য নিরাপদ রাখুন",
+          "সরকারি শনাক্তকারী, ব্যাঙ্ক অ্যাকাউন্ট, পাসওয়ার্ড, সম্পূর্ণ পেস্লিপ বা প্রকৃত ট্যাক্স নথি ইমেল করবেন না। আমরা ব্যক্তিগত কর, আইনি বা বিনিয়োগ পরামর্শ বা আপনার পক্ষে কাজ অফার করি না। ফাইলিং, অর্থপ্রদান বা কর্মসংস্থানের সময়সীমার জন্য, সরাসরি সংশ্লিষ্ট কর্তৃপক্ষ বা যোগ্য পেশাদারের সাথে যোগাযোগ করুন।"
+        ]
+      ]
+    },
+    "policy": [
+      {
+        "heading": "উদ্দেশ্য এবং লেখকত্ব",
+        "text": "Myeotiji এই সাইটে উপলব্ধ ক্যালকুলেটরগুলির ব্যাখ্যা প্রকাশ করে। এই গাইডগুলি AI সহায়তায় প্রস্তুত করা হয়েছিল এবং বর্ণিত গণনা পদ্ধতি, কাজের উদাহরণ এবং উদ্ধৃত রেফারেন্সের বিপরীতে পরীক্ষা করা হয়েছিল। লেখকের নাম মাইয়োটিজিকে প্রকাশনা পরিষেবা হিসাবে চিহ্নিত করেছে; এটি কোনো নামধারী হিসাবরক্ষক, আইনজীবী বা নিয়ন্ত্রিত উপদেষ্টার দ্বারা পর্যালোচনার দাবি করে না।"
+      },
+      {
+        "heading": "উত্স, তারিখ এবং প্রযোজ্য নিয়ম",
+        "text": "আইন, কর, বেতন এবং সামাজিক-বীমা বিষয়ের জন্য, আমরা দায়িত্বশীল সরকারী কর্তৃপক্ষের প্রকাশনা এবং প্রাসঙ্গিক নথির লিঙ্ক পছন্দ করি। প্রদানকারী শর্তাবলী এবং প্রযুক্তিগত মান যেমন চিহ্নিত করা হয়. মিয়োটিজির লেখা একটি গাণিতিক উদাহরণ হল একটি দৃষ্টান্ত, কোনো কর্তৃপক্ষের উদ্ধৃতি নয়। দৃশ্যমান আপডেট তারিখটি একটি উপাদান সামগ্রী পর্যালোচনা রেকর্ড করে, একটি স্বয়ংক্রিয় দৈনিক রিফ্রেশ নয়। দেশ, বছর এবং বর্জন প্রতিটি নির্দেশিক বিষয় উল্লেখ করা হয়েছে."
+      },
+      {
+        "heading": "একটি গণনা কি স্থাপন করতে পারে এবং কি করতে পারে না",
+        "text": "আমরা প্রতিনিধি সংখ্যাসূচক উদাহরণ এবং সীমানা শর্ত চেক. সাধারণ মডেলগুলি এখনও এমন তথ্যগুলি ছেড়ে দেয় যা প্রকৃত অর্থপ্রদান বা এনটাইটেলমেন্ট পরিবর্তন করতে পারে। কাল্পনিক বিনিয়োগ বৃদ্ধি একটি প্রতিশ্রুত রিটার্ন নয়, এবং একটি বেতন অনুমান একটি চূড়ান্ত কর মূল্যায়ন নয়। উদাহরণ দেখানো অনুমান ব্যবহার; পাঠকদের প্রকৃত প্রদানকারী, নিয়োগকর্তা বা কর্তৃপক্ষের রেকর্ড যাচাই করা উচিত একটি ফলাফলের সিদ্ধান্তের জন্য একটি চিত্রের উপর নির্ভর করার আগে।"
+      },
+      {
+        "heading": "সংশোধন এবং প্রতিক্রিয়া",
+        "text": "আপনি যদি একটি ভুল সূত্র, উৎস, অনুবাদ বা উদাহরণ খুঁজে পান, তাহলে অনুগ্রহ করে আমাদের যোগাযোগের ঠিকানায় পৃষ্ঠার ঠিকানা, প্রাসঙ্গিক ইনপুট এবং ফলাফলটি পাঠান। শনাক্তকরণ নথি, সম্পূর্ণ বেতন বিবরণী, অ্যাকাউন্ট নম্বর বা অন্যান্য অপ্রয়োজনীয় ব্যক্তিগত তথ্য পাঠাবেন না। ব্যাখ্যাটি তদন্ত এবং আপডেট করতে আমরা একটি পুনরুত্পাদনযোগ্য উদাহরণ ব্যবহার করতে পারি।"
+      }
+    ]
+  },
+  "ur": {
+    "labels": {
+      "home": "کیلکولیٹر",
+      "guides": "حساب کتاب کے رہنما",
+      "policy": "ہم ان گائیڈز کو کیسے تیار کرتے ہیں۔",
+      "title": "کیلکولیشن گائیڈز: فارمولے اور کام کی مثالیں۔",
+      "description": "تاریخوں، پیسے اور روزمرہ کے فیصلوں کے لیے عملی حساب کتاب۔ ایک کیلکولیٹر کا انتخاب کریں اور جواب کے پیچھے فارمولہ دیکھیں۔",
+      "intro": "اس سوال سے شروع کریں جس کا آپ جواب دینا چاہتے ہیں۔ ہر گائیڈ طریقہ کار کی وضاحت کرتا ہے، نمبرز اور کیلکولیٹر کے لنکس کے ذریعے کام کرتا ہے جسے آپ اپنے ان پٹ کے ساتھ استعمال کر سکتے ہیں۔",
+      "global": "رقم، تاریخیں اور روزمرہ کے حساب کتاب",
+      "country": "ریاستہائے متحدہ: تنخواہ، ٹیکس اور ریٹائرمنٹ",
+      "quick": "فوری جواب",
+      "contents": "اس صفحہ پر",
+      "try": "کیلکولیٹر آزمائیں۔",
+      "related": "متعلقہ گائیڈز",
+      "questions": "عام سوالات",
+      "references": "ذرائع اور مزید پڑھنا",
+      "updated": "تازہ کاری",
+      "author": "مییوتی جی نے تیار کیا۔",
+      "exampleNote": "مثالیں بیان کردہ مفروضوں کو واضح کرتی ہیں۔ اصل فیس، ریٹرن اور پے رول کی رقم مختلف ہو سکتی ہے۔",
+      "policyTitle": "Myeotiji کیلکولیشن گائیڈز: ذرائع اور ادارتی طریقہ",
+      "policyDescription": "میوتی جی حساب کی وضاحت کیسے کرتے ہیں، مثالیں چیک کرتے ہیں، ذرائع کا حوالہ دیتے ہیں اور تصحیح اور تخمینوں کو سنبھالتے ہیں۔",
+      "calculatorLink": "فارمولہ دیکھیں، کام کی گئی مثال اور عام غلطیاں →",
+      "homeTitle": "مفت مالیاتی اور روزانہ کیلکولیٹر | میوتی جی",
+      "homeHeading": "پیسے، کام اور روزمرہ کی زندگی کے لیے مفت کیلکولیٹر",
+      "homeDescription": "تاریخوں، پیسے اور روزمرہ کے فیصلوں کے لیے عملی حساب کتاب۔ ایک کیلکولیٹر کا انتخاب کریں اور جواب کے پیچھے فارمولہ دیکھیں۔"
+    },
+    "guides": {
+      "fee": {
+        "title": "لین دین کی فیس: مطلوبہ خالص رقم کے لیے کتنی رقم وصول کریں؟",
+        "description": "فیصد اور مقررہ فیس کے بعد خالص آمدنی پر کام کریں، پھر ہدف کی ادائیگی کے لیے درکار چارج تلاش کرنے کے لیے فارمولے کو الٹ دیں۔",
+        "answer": "فی صد فیس اور مقررہ فیس دونوں کو چارج سے گھٹائیں۔ فیس کے بعد ایک خاص رقم وصول کرنے کے لیے، ہدف کے علاوہ مقررہ فیس کو ایک منفی فیصد کی شرح سے تقسیم کریں۔",
+        "sections": [
+          {
+            "heading": "فیس کے دو حصوں کو الگ کریں۔",
+            "paragraphs": [
+              "جمع شدہ رقم کے ساتھ ایک فیصد فیس بڑھ جاتی ہے۔ ایک مقررہ ٹرانزیکشن فیس نہیں ہے. ضرب کرنے سے پہلے فیصد کو اعشاریہ کے طور پر لکھیں۔ فرضی 3% فیس کے لیے، 0.03 استعمال کریں۔ 0.30 فکسڈ فیس کا مطلب ہے آپ کی منتخب کردہ کرنسی میں 30 سینٹ، کوئی اور فیصد نہیں۔",
+              "خالص آمدنی = چارج × (1 - شرح) - مقررہ فیس۔ چیک کریں کہ فراہم کنندہ اپنی شرح کو کس رقم پر لاگو کرتا ہے: شپنگ، ٹیکس، کرنسی کی تبدیلی اور سرحد پار چارجز کا الگ علاج ہو سکتا ہے۔ یہ گائیڈ ریاضی کی وضاحت کرتا ہے، کسی فراہم کنندہ کے موجودہ ٹیرف کی نہیں۔",
+              "خالص وصولی = وصول کی گئی رقم × (1 − فیس کی شرح) − مقررہ فیس۔ مطلوبہ وصولی = (مطلوبہ خالص رقم + مقررہ فیس) ÷ (1 − فیس کی شرح)۔"
+            ]
+          },
+          {
+            "heading": "ایک کام شدہ مثال: کیوں 3٪ شامل کرنا کافی نہیں ہے۔",
+            "paragraphs": [
+              "فرض کریں کہ آپ $100 جمع کرتے ہیں اور فرضی فیس 3% جمع $0.30 ہے۔ فیصد حصہ $3 ہے؛ مقررہ حصہ شامل کرنے سے $3.30 فیس اور $96.70 خالص آمدنی ملتی ہے۔",
+              "$100 نیٹ وصول کرنے کے لیے، چارج حل کریں × 0.97 − 0.30 = 100۔ مطلوبہ غیر گول چارج 100.30 ÷ 0.97 ہے، تقریباً $103.4021۔ $100 میں 3% کا اضافہ کرنے سے $103 ملتا ہے، جس کا خالص صرف $99.61 ہے۔ فرق پیدا ہوتا ہے کیونکہ فراہم کنندہ بڑھے ہوئے چارج پر بھی فیس لیتا ہے۔"
+            ],
+            "table": {
+              "headers": [
+                "چارج",
+                "فرضی فیس",
+                "نیٹ"
+              ],
+              "rows": [
+                [
+                  "$100.00",
+                  "$3.30",
+                  "$96.70"
+                ],
+                [
+                  "$103.00",
+                  "$3.39",
+                  "$99.61"
+                ],
+                [
+                  "$103.40",
+                  "راؤنڈنگ سے پہلے $3.402",
+                  "گول کرنے سے پہلے $99.998"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "نتیجہ کو قیمتوں کی جانچ کے طور پر استعمال کریں۔",
+            "paragraphs": [
+              "فارورڈ کیلکولیشن کے لیے جمع کی گئی رقم درج کریں، یا ریورس کیلکولیشن کے لیے ٹارگٹ نیٹ موڈ کو منتخب کریں۔ منتخب کرنسی کو اپنی مقررہ فیس کے مطابق رکھیں۔ کرنسی کا انتخاب فارمیٹنگ میں تبدیلی کرتا ہے۔ یہ شرح مبادلہ کی تبدیلی کو انجام نہیں دیتا۔",
+              "اسکرین ڈسپلے کے لیے نتیجہ کو گول کرتی ہے۔ اگر کم از کم ادائیگی کو بالکل پورا کرنا ضروری ہے، تو اگلی سب سے چھوٹی کرنسی میں اضافہ اور اپنے فراہم کنندہ کے راؤنڈنگ کے قواعد کو چیک کریں۔ ریفنڈز، کم از کم فیس، فیس پر ٹیکس اور آیا سرچارجز کی اجازت ہے الگ چیک کی ضرورت ہے۔"
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "کیا 0% فیس کا ہمیشہ یہ مطلب ہوتا ہے کہ میں پورا چارج وصول کرتا ہوں؟",
+            "answer": "صرف اس صورت میں جب مقررہ فیس بھی صفر ہو اور کوئی دوسری کٹوتی لاگو نہیں ہوتی ہے۔ 0% فیصد فیس کے علاوہ $0.30 مقررہ فیس اب بھی $100 چارج سے $99.70 چھوڑتی ہے۔"
+          },
+          {
+            "question": "کیا میں مختلف ادائیگی فراہم کرنے والوں کا موازنہ کر سکتا ہوں؟",
+            "answer": "ہاں، ایک ہی چارج کا استعمال کرتے ہوئے ہر فراہم کنندہ کی شائع شدہ شرح اور مقررہ فیس درج کریں۔ کسی بھی اضافی چارجز اور اپنے اکاؤنٹ پر لاگو ہونے والی شرائط کے ساتھ نتیجہ کا موازنہ کریں۔"
+          }
+        ]
+      },
+      "discount": {
+        "title": "20% کے بعد 10% رعایت: کل رعایت 28% کیوں بنتی ہے؟",
+        "description": "یکے بعد دیگرے چھوٹ کا حساب لگائیں، کوپن کے مجموعوں کا موازنہ کریں اور آخری قیمت کے فیصد کو محفوظ کردہ رقم سے الگ کریں۔",
+        "answer": "دوسری رعایت کو پہلے سے کم قیمت پر لاگو کریں۔ 20% ڈسکاؤنٹ کے بعد 10% اصل قیمت کا 80% × 90% = 72% چھوڑتا ہے، لہذا کل بچت 28% ہے۔",
+        "sections": [
+          {
+            "heading": "آپ جو قیمت ادا کرتے رہتے ہیں اسے ضرب دیں۔",
+            "paragraphs": [
+              "ہر فیصد رعایت کے لیے، اعشاریہ کی شرح کو ایک سے گھٹائیں۔ اصل قیمت کو باقی حصوں سے ضرب دیں۔ دو رعایتوں کے ساتھ، حتمی قیمت = اصل × (1 − پہلی شرح) × (1 − دوسری شرح)۔ مؤثر رعایت = 1 - حتمی قیمت ÷ اصل قیمت۔",
+              "نرخوں کو شامل کرنے سے دونوں رعایتوں کو ایسا ہی سمجھا جائے گا جیسے انہوں نے اصل قیمت پر لاگو کیا ہو۔ یہ ایک مختلف پیشکش ہے۔ ایک سٹور جس میں ایک 30% کمی کا وعدہ کیا جاتا ہے وہ دوسری شرائط پر غور کرنے سے پہلے، لگاتار 20% اور 10% کمیوں سے زیادہ فیصد کمی دے رہا ہے۔"
+            ]
+          },
+          {
+            "heading": "ایک $100 آئٹم پر دو پیشکشوں کا موازنہ کریں۔",
+            "paragraphs": [
+              "پہلی 20% کمی کے بعد آئٹم کی قیمت $80 ہے۔ دوسری 10% کمی $8 کو ہٹاتی ہے، $72 کو چھوڑ کر۔ کل بچت $28 ہے۔ دو خالص فیصد رعایت کے آرڈر کو تبدیل کرنے سے وہی ریاضیاتی نتیجہ ملتا ہے، کیونکہ باقی قیمت کے عوامل ضرب ہوتے ہیں۔",
+              "اس آرڈر کا اصول خود بخود ایک فکسڈ ویلیو کوپن تک نہیں بڑھتا ہے۔ $10 کا کوپن $100 کے آئٹم پر 20% چھوٹ کے بعد $70 دیتا ہے۔ پہلے $10 چھوٹ لینے اور پھر 20% لگانے سے $72 ملتا ہے۔ کم سے کم خرچ، کیپس اور خارج کردہ مصنوعات تبدیل کر سکتے ہیں کہ اصل میں کون سی پیشکش استعمال کی جا سکتی ہے۔"
+            ],
+            "table": {
+              "headers": [
+                "پیشکش",
+                "حتمی قیمت",
+                "محفوظ کرنا"
+              ],
+              "rows": [
+                [
+                  "20%، پھر 10%",
+                  "$72",
+                  "28%"
+                ],
+                [
+                  "ایک 30% رعایت",
+                  "$70",
+                  "30%"
+                ],
+                [
+                  "20%، پھر ایک $10 کوپن",
+                  "$70",
+                  "$30"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "مشتہر کردہ کمی درج کریں، باقی قیمت نہیں۔",
+            "paragraphs": [
+              "کیلکولیٹر کے فیلڈز ڈسکاؤنٹ فیصد لیتے ہیں۔ ایک لیبل کہتا ہے کہ اصل قیمت کا 80% ادا کرنے کا مطلب ہے 20% رعایت۔ 80 درج کرنے سے بجائے 80% کمی کا حساب لگایا جائے گا۔",
+              "یہ ٹول دو متواتر فیصد کمی کو ماڈل کرتا ہے۔ یہ سیلز ٹیکس، ڈیلیوری، کیش بیک یا فکسڈ کوپن شامل نہیں کرتا ہے۔ جب وہ آئٹمز مختلف ہوں تو چیک آؤٹ کے ٹوٹل کا موازنہ کریں، اور ہر قدم پر بیچنے والے کی اصل گول کرنے کی اجازت دیں۔"
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "کیا 50% چھوٹ کے بعد 50% چھوٹ مفت ہے؟",
+            "answer": "نہیں۔ پہلی کمی کے بعد آدھی اصل قیمت باقی رہ جاتی ہے، اور دوسری کے بعد آدھی باقی رہ جاتی ہے۔ آپ اصل قیمت کا 25% ادا کرتے ہیں، 75% بچت۔"
+          },
+          {
+            "question": "میری رسید پر بچت میں تھوڑا فرق کیوں ہے؟",
+            "answer": "ایک خوردہ فروش ہر آئٹم یا ہر ڈسکاؤنٹ کو الگ الگ کر سکتا ہے، یا مختلف اہل مقداروں پر رعایت کا اطلاق کر سکتا ہے۔ یہ کیلکولیٹر گول نتیجہ ظاہر کرنے سے پہلے دو بیان کردہ فیصد کا استعمال کرتا ہے۔"
+          }
+        ]
+      },
+      "days": {
+        "title": "دو تاریخوں کے درمیان دن: پہلا دن اور لیپ سال کیسے شمار کریں",
+        "description": "سمجھیں کہ گزرے ہوئے دن بمقابلہ شامل تاریخ کی گنتی، لیپ دن، ویک اینڈ اور کیلنڈر ڈے ٹول ڈیڈ لائن کیلکولیٹر سے مختلف کیوں ہے۔",
+        "answer": "گزرے ہوئے کیلنڈر کے دنوں کے لیے، تاریخ شروع ہونے کی تاریخ کو ختم کر دیں۔ اگر شروعاتی دن 1 دن ہے، تو آگے کی تاریخ کی حد کے لیے ایک شامل کریں۔ 1 جنوری سے 11 جنوری 10 گزرے ہوئے دن یا 11 دن شامل ہیں۔",
+        "sections": [
+          {
+            "heading": "پہلے گنتی کنونشن کا انتخاب کریں۔",
+            "paragraphs": [
+              "پیر سے منگل تک کا قیام ایک رات پر محیط ہے لیکن کیلنڈر کی دو تاریخوں کو چھوتا ہے۔ دونوں نمبر درست ہو سکتے ہیں کیونکہ وہ مختلف سوالات کے جوابات دیتے ہیں۔ نتائج کا موازنہ کرنے سے پہلے فیصلہ کریں کہ آیا آپ گزرے ہوئے دن چاہتے ہیں یا مدت میں شامل تاریخوں کی تعداد۔",
+              "بڑھتے ہوئے رینج کے لیے کیلکولیٹر کا شامل شروع کرنے کا اختیار ایک دن کا اضافہ کرتا ہے۔ اسی وجہ سے شروع اور اختتامی تاریخ صفر گزرے ہوئے دن یا ایک شامل دن دیتی ہے۔ تاریخ آغاز سے پہلے کی آخری تاریخ منفی وقفہ دیتی ہے۔ جب آپ ایک عام آگے کی مدت چاہتے ہیں تو تاریخوں کو الٹ دیں۔"
+            ]
+          },
+          {
+            "heading": "لیپ سال کی مثال کے ذریعے کام کریں۔",
+            "paragraphs": [
+              "2028 میں، 28 فروری سے 1 مارچ دو گزرے ہوئے دنوں پر محیط ہے کیونکہ 29 فروری ان کے درمیان آتا ہے۔ جامع گنتی تین کیلنڈر کی تاریخیں دیتی ہے: 28 فروری، 29 فروری اور 1 مارچ۔ 2027 میں، 28 فروری سے 1 مارچ تک صرف ایک گزرا ہوا دن ہوتا ہے۔",
+              "یہ ٹول گھٹاؤ کے لیے درج کیلنڈر کی تاریخوں کو UTC میں معمول بناتا ہے۔ یہ دن کی روشنی کو بچانے والی گھڑی کی تبدیلی کو عام کیلنڈر ڈے کے وقفے کو جزوی دن میں تبدیل کرنے سے روکتا ہے۔ یہ پرواز کے دورانیے یا ٹائم زون کے مخصوص ٹائم اسٹیمپ کے درمیان عین اوقات کا کیلکولیٹر نہیں ہے۔"
+            ],
+            "table": {
+              "headers": [
+                "تاریخیں",
+                "گزر گیا",
+                "شروع سمیت"
+              ],
+              "rows": [
+                [
+                  "جنوری 1 → جنوری 11",
+                  "10 دن",
+                  "11 دن"
+                ],
+                [
+                  "ایک ہی تاریخ",
+                  "0 دن",
+                  "1 دن"
+                ],
+                [
+                  "28 فروری → یکم مارچ 2028",
+                  "2 دن",
+                  "3 دن"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "کیلنڈر کے دنوں کا مطلب کاروباری دن نہیں ہے۔",
+            "paragraphs": [
+              "ہفتہ، اتوار اور عام تعطیل سبھی کیلنڈر کے دنوں میں شمار ہوتے ہیں۔ چھٹیوں کی منصوبہ بندی کے لیے، ایک ایسا کیلکولیٹر استعمال کریں جو متعلقہ ملک کی تعطیلات اور متبادل کام کے دنوں کو جانتا ہو۔ اکیلے تاریخ کا فرق اس بات کا تعین نہیں کر سکتا کہ آپ کو کتنے ادا شدہ چھٹی والے دنوں کی ضرورت ہے۔",
+              "کنٹریکٹس اور آفیشل ڈیڈ لائن پہلے دن، اختتامی دن کے کٹ آف اور چھٹیوں کی توسیع کو مختلف طریقے سے بیان کر سکتے ہیں۔ جب کوئی ڈیڈ لائن چھوٹ جائے تو گورننگ رول کو چیک کریں۔ روزمرہ کی الٹی گنتی اور سالگرہ کے لیے، نتیجہ کے ساتھ اپنی گنتی کنونشن بیان کریں۔"
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "کیا مجھے پہلا دن شامل کرنا چاہئے؟",
+            "answer": "اسے شامل کریں جب وہ تاریخ مدت کے 1 دن کے طور پر شمار ہوتی ہے۔ تاریخوں کے درمیان گزرے ہوئے فرق کی پیمائش کرتے وقت اسے چھوڑ دیں۔ ایک معاہدہ یا اتھارٹی کی طرف سے ایک اصول عام کیلنڈر کنونشن پر ترجیح لیتا ہے۔"
+          },
+          {
+            "question": "کیا 30 دن ہمیشہ ایک مہینے کے برابر ہوتے ہیں؟",
+            "answer": "نمبر۔ کیلنڈر کے مہینوں کی لمبائی مختلف ہوتی ہے۔ ہر مہینے کو 30 دنوں میں تبدیل کرنے کے بجائے اصل آغاز اور اختتامی تاریخوں کا استعمال کریں۔"
+          }
+        ]
+      },
+      "stock-average": {
+        "title": "مزید حصص خریدنے کے بعد وزنی اوسط قیمت کا حساب",
+        "description": "ٹیکس لاٹ الیکشن میں الجھائے بغیر نئی اوسط قیمت خرید، کل حصص اور سرمایہ کاری کی گئی رقم کا حساب لگانے کے لیے وزنی اوسط استعمال کریں۔",
+        "answer": "موجودہ اور نئے حصص پر خرچ کی گئی رقم شامل کریں، پھر حصص کی کل تعداد سے تقسیم کریں۔ دو قیمتوں کی سادہ اوسط صرف اس وقت کام کرتی ہے جب حصص کی مقدار برابر ہو۔",
+        "sections": [
+          {
+            "heading": "ہر خریداری کو اس کی مقدار کے حساب سے وزن کریں۔",
+            "paragraphs": [
+              "نئی اوسط خریداری کی قیمت = (موجودہ مقدار × موجودہ اوسط + نئی مقدار × نئی قیمت) ÷ کل مقدار۔ قیمتوں اور مقداروں کو ایک ہی شیئر یونٹ اور کرنسی کا استعمال کرنا چاہیے۔ جزوی حصص اس وقت استعمال کیے جا سکتے ہیں جب وہ آپ کی اصل ہولڈنگز کو ظاہر کرتے ہیں۔",
+              "مثال کے طور پر، 100 حصص $50 میں خریدے گئے اور دوسرے 100 حصص $40 میں خریدے گئے جس کی کل قیمت $9,000 ہے۔ $45 حاصل کرنے کے لیے 200 شیئرز سے تقسیم کریں۔ اگر دوسری خریداری $40 میں صرف 50 حصص کی ہے، تو کل 150 حصص میں $7,000 بنتا ہے، جو تقریباً $46.67 دیتا ہے، $45 نہیں۔"
+            ]
+          },
+          {
+            "heading": "کم اوسط نقصان کو دور نہیں کرتا ہے۔",
+            "paragraphs": [
+              "اضافی 100 شیئرز کو $40 پر خریدنے کے فوراً بعد، 200 شیئر ہولڈنگ کی قیمت $40 فی شیئر کی مارکیٹ ویلیو $9,000 کے مقابلے میں $8,000 ہے۔ اوسط قیمت گر گئی ہے، لیکن غیر حقیقی $1,000 کا فرق باقی ہے اور سرمایہ کاری کے لیے مزید رقم سامنے آئی ہے۔",
+              "$40 سے $45 کی اوسط میں منتقلی فیس سے پہلے قیمت میں 12.5% ​​اضافہ ہوگا۔ یہ ریاضی ہے، پیشن گوئی یا خریدنے کی وجہ نہیں۔ پوزیشن میں اضافہ خطرے میں رقم کے ساتھ ساتھ اوسط قیمت میں بھی تبدیلی لاتا ہے۔"
+            ],
+            "table": {
+              "headers": [
+                "ہولڈنگ",
+                "شیئرز",
+                "خرچ کی گئی رقم"
+              ],
+              "rows": [
+                [
+                  "موجودہ: $50/حصص",
+                  "100",
+                  "$5,000"
+                ],
+                [
+                  "نیا: $40/حصص",
+                  "100",
+                  "$4,000"
+                ],
+                [
+                  "مشترکہ اوسط: $45",
+                  "200",
+                  "$9,000"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "خریداری کی اوسط کو ٹیکس ریکارڈ سے الگ رکھیں",
+            "paragraphs": [
+              "کیلکولیٹر خریداری کے دو بلاکس کو ماڈل کرتا ہے اور اس میں بروکریج فیس، ایکسچینج ریٹ، ڈیویڈنڈ، سیلز اور کارپوریٹ ایکشن شامل نہیں ہیں۔ مختلف کرنسیوں میں کی جانے والی خریداریوں کا موازنہ کرنے سے پہلے ریکارڈ کو مستقل طور پر تبدیل کریں۔",
+              "ایک حسابی ہولڈنگ اوسط قابل ٹیکس لاگت کی بنیاد کا تعین نہیں ہے۔ ٹیکس لاٹ کے قوانین اور اجازت شدہ طریقے دائرہ اختیار اور اثاثہ کے لحاظ سے مختلف ہوتے ہیں۔ اس نتیجے کو ٹیکس کی اطلاع دینے کی ہدایت کے طور پر سمجھنے کے بجائے بروکر کے اصل لین دین کا ریکارڈ رکھیں۔"
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "کیا میں اسے زیادہ قیمت پر خریدتے وقت استعمال کرسکتا ہوں؟",
+            "answer": "جی ہاں ایک ہی وزنی اوسط فارمولہ لاگو ہوتا ہے۔ آپ کی موجودہ اوسط سے زیادہ خریدنا اس میں اضافہ کرتا ہے۔ تبدیلی کا سائز نئی مقدار پر منحصر ہے۔"
+          },
+          {
+            "question": "میرے بروکر کی اوسط مختلف کیوں ہے؟",
+            "answer": "فیس، کرنسی کی تبدیلی، راؤنڈنگ، کارپوریٹ ایکشن یا بروکر کے اکاؤنٹنگ کا طریقہ اس کے اعداد و شمار میں شامل کیا جا سکتا ہے۔ یہ ٹول صرف دکھائے گئے قیمت اور مقدار کے ان پٹ استعمال کرتا ہے۔"
+          }
+        ]
+      },
+      "compound": {
+        "title": "ماہانہ جمع کے ساتھ مرکب سود: فارمولا اور حل شدہ مثال",
+        "description": "مؤثر سالانہ منافع، مہینے کے آخر میں شراکت اور تعاون کی رقم اور فرضی سرمایہ کاری میں اضافہ کے درمیان فرق کو سمجھیں۔",
+        "answer": "مؤثر سالانہ واپسی کو ماہانہ شرح میں تبدیل کریں، موجودہ بیلنس کو بڑھائیں، پھر مہینے کا تعاون شامل کریں۔ تعاون کی رقم کو ترقی سے الگ رکھیں تاکہ زیادہ ڈپازٹ کو بہتر واپسی کے لیے غلط نہ سمجھا جائے۔",
+        "sections": [
+          {
+            "heading": "سالانہ مفروضے کو مستقل طور پر تبدیل کریں۔",
+            "paragraphs": [
+              "Myeotiji سالانہ واپسی کو ایک مؤثر سالانہ شرح کے طور پر دیکھتا ہے۔ ماہانہ شرح ہے (1 + سالانہ شرح)^(1/12) − 1. 5% سالانہ پر، وہ ماہانہ شرح تقریباً 0.4074% ہے، بالکل 5% ÷ 12 نہیں۔ 12 سے تقسیم کردہ برائے نام حوالہ شدہ شرح کا استعمال ایک مختلف مرکب کنونشن کو بیان کرے گا۔",
+              "ہر مہینے کے لیے، نیا بیلنس = پچھلا بیلنس × (1 + ماہانہ شرح) + شراکت۔ شراکتیں مہینے کے آخر میں شامل کی جاتی ہیں، اس لیے پہلے ڈپازٹ کی ادائیگی سے پہلے کی بجائے اگلے مہینوں میں منافع حاصل ہوتا ہے۔"
+            ]
+          },
+          {
+            "heading": "ڈپازٹس کو الگ کرکے ایک سال کی مثال دیکھیں",
+            "paragraphs": [
+              "$1,000 سے شروع کریں، ہر مہینے کے آخر میں $100 کا تعاون کریں اور ایک سال کے لیے مستقل 5% مؤثر سالانہ واپسی فرض کریں۔ شروع ہونے والا $1,000 بڑھ کر $1,050 ہو جاتا ہے۔ بارہ ماہانہ ڈپازٹس تقریباً $1,227.26 تک بڑھ جاتے ہیں۔ کل تقریباً $2,277.26 ہے۔",
+              "آپ نے ابتدائی طور پر $2,200: $1,000 کے علاوہ بارہ $100 ڈپازٹس فراہم کیے ہیں۔ بقیہ تقریباً $77.26 ماڈلڈ نمو ہے۔ 0% واپسی کے ساتھ بیلنس بالکل $2,200 ہے۔ یہ صفر واپسی کا موازنہ اس وقت مفید ہوتا ہے جب یہ چیک کیا جائے کہ آیا ان پٹ معنی خیز ہیں۔"
+            ],
+            "table": {
+              "headers": [
+                "ایک سال کا منظر نامہ",
+                "رقم فراہم کی گئی۔",
+                "تخمینی توازن"
+              ],
+              "rows": [
+                [
+                  "0% سالانہ واپسی۔",
+                  "$2,200",
+                  "$2,200.00"
+                ],
+                [
+                  "5% مؤثر سالانہ واپسی۔",
+                  "$2,200",
+                  "$2,277.26"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "ایک وعدہ شدہ نتائج کے بجائے منظرنامے استعمال کریں۔",
+            "paragraphs": [
+              "ڈپازٹس کو مستقل رکھتے ہوئے نچلے، درمیانی اور اعلیٰ مفروضوں کا موازنہ کریں۔ حقیقی سرمایہ کاری ہموار ماہانہ واپسی فراہم نہیں کرتی ہے، اور جب رقم شامل کی جاتی ہے یا نکالی جاتی ہے تو فائدے اور نقصان کی ترتیب اہمیت رکھتی ہے۔",
+              "نتیجہ ٹیکس، سرمایہ کاری کے چارجز یا افراط زر میں کٹوتی نہیں کرتا ہے۔ یہ نہ تو ڈپازٹ کی قیمت ہے اور نہ ہی کسی مخصوص سرمایہ کاری کی پیشن گوئی۔ اگر کوئی بینک یا فراہم کنندہ برائے نام شرح، مختلف شراکت کا وقت یا مختلف مرکب شیڈول بتاتا ہے، تو اس ٹول کے ساتھ اس کی مثال کا موازنہ کرنے سے پہلے ان کنونشنوں کو سیدھ میں رکھیں۔"
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "کیا ماہانہ چندہ مہینے کے شروع یا آخر میں دیا جاتا ہے؟",
+            "answer": "ہر ماڈل والے مہینے کے آخر میں۔ مہینے کے آغاز کا شیڈول ہر شراکت کو ایک اضافی مہینہ ترقی دیتا ہے اور ایک مختلف توازن پیدا کر سکتا ہے۔"
+          },
+          {
+            "question": "کیا نتیجہ میں ٹیکس یا افراط زر شامل ہے؟",
+            "answer": "نہیں۔ ان اثرات سے پہلے آؤٹ پٹ ایک فرضی توازن ہے۔ برائے نام توازن اور اس کی مستقبل کی قوت خرید مختلف مقداریں ہیں۔"
+          }
+        ]
+      },
+      "unit-converter": {
+        "title": "لمبائی، درجہ حرارت اور ڈیٹا کی اکائیاں کیسے تبدیل کریں",
+        "description": "یو ایس بمقابلہ امپیریل والیوم، ٹمپریچر آفسیٹس اور ڈیسیمل بمقابلہ بائنری اسٹوریج یونٹس کی جانچ کرتے ہوئے عام پیمائش کو تبدیل کریں۔",
+        "answer": "ایک عام بیس یونٹ کے ذریعے تبدیل کریں اور پہلے یونٹ کی تعریف کو چیک کریں۔ ایک امریکی گیلن ایک امپیریل گیلن سے مختلف ہے، اور ایک اعشاریہ گیگا بائٹ گیبی بائٹ سے مختلف ہے۔ درجہ حرارت کو بھی آفسیٹ کی ضرورت ہوتی ہے، نہ صرف ایک ضرب۔",
+        "sections": [
+          {
+            "heading": "لمبائی، کمیت، رقبہ اور حجم تبادلوں کے عوامل کا استعمال کرتے ہیں۔",
+            "paragraphs": [
+              "ایک ہی جہت کی اکائیوں کے لیے، ماخذ کی مقدار کو بیس یونٹ میں تبدیل کریں اور منزل یونٹ کے عنصر سے تقسیم کریں۔ ایک میل 1.609344 کلومیٹر ہے، تو 5 میل 8.04672 کلومیٹر ہے۔ رقبہ کے عنصر کے ساتھ لمبائی کے عنصر کو الجھائیں: مربع اکائیوں کو مربع کی تبدیلی کی ضرورت ہوتی ہے۔",
+              "والیوم مینو واضح طور پر امریکی مائع گیلن اور یو ایس کپ استعمال کرتا ہے۔ ایک امریکی مائع گیلن 3.785411784 لیٹر ہے۔ یہ بڑا امپیریل گیلن نہیں ہے۔ ایک نسخہ کا کپ ایک اور کنونشن کا استعمال کر سکتا ہے، لہذا نمبر لگانے سے پہلے نسخہ یا پیمائش کرنے والے برتن کو چیک کریں۔"
+            ]
+          },
+          {
+            "heading": "درجہ حرارت اور ذخیرہ عام جال ہیں۔",
+            "paragraphs": [
+              "سیلسیس سے فارن ہائیٹ کے لیے °F = °C × 9/5 + 32 استعمال کریں۔ ریورس کے لیے °C = (°F −32) × 5/9 استعمال کریں۔ یہی وجہ ہے کہ 100 ° F تقریباً 37.78 ° C ہے بجائے اس کے کہ صرف 100 کو 5/9 سے ضرب دے کر حاصل کیا جاتا ہے۔",
+              "اعشاریہ سٹوریج یونٹ 1,000 کے اختیارات استعمال کرتے ہیں۔ بائنری یونٹس 1,024 کے اختیارات استعمال کرتے ہیں۔ یہاں 1 GB 1,000,000,000 بائٹس ہے، جبکہ 1 GiB 1,073,741,824 بائٹس ہے۔ یہ ڈیٹا کی مقدار ہیں، انٹرنیٹ کنکشن کی رفتار یا فائل کی منتقلی کے اوقات نہیں۔"
+            ],
+            "table": {
+              "headers": [
+                "ان پٹ",
+                "تبدیل شدہ قدر"
+              ],
+              "rows": [
+                [
+                  "1 میل",
+                  "1.609344 کلومیٹر"
+                ],
+                [
+                  "1 امریکی مائع گیلن",
+                  "3.785411784 ایل"
+                ],
+                [
+                  "100°F",
+                  "37.777…°C"
+                ],
+                [
+                  "1 GiB",
+                  "1,073,741,824 B"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "آخری مرحلے تک مکمل درستگی رکھیں",
+            "paragraphs": [
+              "ایک زمرہ منتخب کریں، ایک قدر درج کریں اور منبع اور منزل کی اکائیوں کو منتخب کریں۔ کیلکولیٹر آٹھ اعشاریہ تک دکھاتا ہے، اس لیے بہت کم مقدار کو پڑھنے کے قابل رہنے کے لیے ایک چھوٹی منزل یونٹ کی ضرورت پڑ سکتی ہے۔",
+              "ضرب کرنے سے پہلے تبادلوں کے عنصر کو گول کرنا غلطی کو بڑھا سکتا ہے۔ برداشت شدہ مینوفیکچرنگ کے کام، سائنسی رپورٹنگ یا صنعت کے ایک مقررہ معیار کے لیے، مطلوبہ درستگی اور اس تناظر میں استعمال کی گئی درست تعریف کی تصدیق کریں۔"
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "کیا میں گرام کو براہ راست ملی لیٹر میں تبدیل کر سکتا ہوں؟",
+            "answer": "مواد کی کثافت کے بغیر نہیں۔ گرام ماس کی پیمائش کرتا ہے اور ملی لیٹر حجم کی پیمائش کرتا ہے۔ ان کے درمیان تبدیلی ایک عالمگیر اکائی عنصر نہیں ہے۔"
+          },
+          {
+            "question": "کیا مینو کے گیلن کا مطلب یو کے امپیریل گیلن ہے؟",
+            "answer": "نمبر۔ مینو پر US gal کا لیبل لگا ہوا ہے اور امریکی مائع گیلن استعمال کرتا ہے۔ اپنے ماخذ مواد کے لیے مطلوبہ تعریف استعمال کریں۔"
+          }
+        ]
+      },
+      "age": {
+        "title": "عمر کا حساب: سالگرہ، مکمل سال اور پیدائش سے گزرے دن",
+        "description": "عمر کے مکمل ہونے کا حساب لگائیں، کیلنڈر سال کے فرق سے عمر کو الگ کریں اور مقامی تاریخ اور لیپ برتھ ڈے کنونشن کو سمجھیں۔",
+        "answer": "سال پیدائش کو حوالہ سال سے گھٹائیں، پھر اگر اس سال سالگرہ ابھی تک نہیں ہوئی ہے تو ایک کو گھٹائیں۔ Myeotiji حوالہ کی تاریخ کے لیے آپ کے براؤزر میں آج کی کیلنڈر کی تاریخ استعمال کرتا ہے۔",
+        "sections": [
+          {
+            "heading": "ایک سال کا فرق ہمیشہ پوری عمر نہیں ہوتا",
+            "paragraphs": [
+              "31 دسمبر 2000 کو پیدا ہونے والا کوئی شخص 30 دسمبر 2026 کو 25 سال کا ہوتا ہے اور 31 دسمبر کو 26 سال کا ہوتا ہے۔ صرف ایک دن پہلے 2026 سے 2000 کو منہا کرنے سے پوری عمر ایک سے زیادہ ہو جائے گی۔",
+              "پہلے مہینے اور پھر دن کا موازنہ کریں۔ اگر حوالہ کا مہینہ پیدائش کے مہینے سے پہلے کا ہے تو ایک سال کو گھٹائیں۔ اگر مہینے ملتے ہیں لیکن حوالہ کا دن پہلے کا ہے تو ایک کو بھی گھٹائیں۔ ورنہ سال کا فرق رکھیں۔"
+            ]
+          },
+          {
+            "heading": "کیلکولیٹر کے ذریعہ استعمال ہونے والی تاریخ کو سمجھیں۔",
+            "paragraphs": [
+              "عمر کیلکولیٹر میں تاریخ پیدائش درج کریں۔ یہ آپ کے براؤزر سے موجودہ مقامی کیلنڈر کی تاریخ کا استعمال کرتا ہے اور پیدائش کے بعد سے گزرے ہوئے کیلنڈر دنوں کی بھی اطلاع دیتا ہے۔ اس گائیڈ کے جدول میں حوالہ کی تاریخیں فکسڈ مثالیں ہیں۔ لائیو ٹول علیحدہ تاریخی-حوالہ-تاریخ فیلڈ فراہم نہیں کرتا ہے۔",
+              "مختلف ٹائم زونز کے صارفین سالگرہ کے موقع پر آدھی رات کے قریب مختلف عمریں دیکھ سکتے ہیں۔ دن کی گنتی میں صحیح پیدائش کے وقت کی بجائے صرف تاریخ کے حساب کا استعمال کیا جاتا ہے۔ مستقبل کی تاریخ پیدائش ایک درست مکمل شدہ عمر کا ان پٹ نہیں ہے۔"
+            ],
+            "table": {
+              "headers": [
+                "تاریخ پیدائش",
+                "مثال کے طور پر حوالہ کی تاریخ",
+                "پوری عمر"
+              ],
+              "rows": [
+                [
+                  "2000-12-31",
+                  "2026-12-30",
+                  "25"
+                ],
+                [
+                  "2000-12-31",
+                  "2026-12-31",
+                  "26"
+                ],
+                [
+                  "2000-12-31",
+                  "2027-01-01",
+                  "26"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "لیپ ڈے اور اہلیت کے سرکاری قوانین کی دیکھ بھال کی ضرورت ہے۔",
+            "paragraphs": [
+              "29 فروری کی سالگرہ کے لیے، یہ ٹول مہینے اور دن کا براہ راست موازنہ کرتا ہے۔ ایک غیر لیپ سال میں اس کی مکمل سال کی گنتی 1 مارچ کو بڑھ جاتی ہے۔ یہ ایک بیان کردہ کیلکولیٹر کنونشن ہے، ہر دائرہ اختیار میں قانونی عمر کے بارے میں کوئی حکم نہیں۔",
+              "داخلہ، فائدہ، انشورنس معاہدہ یا دیگر سرکاری عمل ایک مخصوص تاریخ یا سالگرہ کے خصوصی اصول پر عمر کا استعمال کر سکتا ہے۔ اس عمل کی تعریف چیک کریں۔ روزمرہ کی موجودہ عمر کا نتیجہ اس کی اہلیت کی تشخیص کی جگہ نہیں لے سکتا۔"
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "نتیجہ کیلنڈر میں دکھائے گئے سال سے مختلف کیوں ہو سکتا ہے؟",
+            "answer": "کیلنڈر سال کا گھٹاؤ نظر انداز کرتا ہے کہ آیا سالگرہ ہوئی ہے۔ مکمل شدہ عمر کی گنتی کی پیدائش کی تاریخیں اصل میں بیان کردہ تاریخ کنونشن کے تحت پہنچی ہیں۔"
+          },
+          {
+            "question": "کیا میں اس کے بجائے گزرے ہوئے دنوں کو 365 سے تقسیم کر کے استعمال کر سکتا ہوں؟",
+            "answer": "قطعی طور پر مکمل سال کی عمر کے لیے نہیں۔ لیپ سال اور سالگرہ کی پوزیشن اس شارٹ کٹ کو عمر کی حدود میں ناقابل اعتبار بناتی ہے۔"
+          }
+        ]
+      }
+    },
+    "legalLabels": {
+      "privacy": "رازداری اور کوکیز",
+      "terms": "استعمال اور حدود",
+      "contact": "رابطہ اور اصلاح",
+      "notice": "عام معلومات کے لیے تخمینہ۔ یہ سروس انفرادی ٹیکس، قانونی، تنخواہ یا سرمایہ کاری کے مشورے، ریٹرن تیار کرنے، یا آپ کی نمائندگی نہیں کرتی ہے۔ کسی نتیجے پر بھروسہ کرنے سے پہلے بیان کردہ سال، مقام اور اخراج کو چیک کریں۔",
+      "tracking": "Google Analytics پہلے سے فعال ہے اور صفحے کے نیچے بند کیا جا سکتا ہے۔ کیلکولیٹر کے اندراجات نہیں بھیجے جاتے۔ غیر شخصی اشتہارات کی درخواست کے لیے AdSense منسلک ہے۔ Google اور اس کے شراکت دار اشتہارات دکھانے اور ناپنے کے لیے کوکیز، ویب بیکن، IP پتے اور شناخت کنندے استعمال کر سکتے ہیں۔ غیر شخصی اشتہارات بھی کوکیز استعمال کر سکتے ہیں۔ اشتہارات کی نمائش سائٹ کی منظوری، اکاؤنٹ کی ترتیبات اور قابل اطلاق رضامندی پر منحصر ہے۔ چینی صفحات پر تجزیہ اور اشتہارات بند رہتے ہیں۔"
+    },
+    "legal": {
+      "privacy": [
+        [
+          "دائرہ کار اور آپریٹر",
+          "Myeotiji جنوبی کوریا سے چلائی جاتی ہے۔ یہ اطلاع اردو صفحات کے لیے ہے۔ رابطہ: contact@myeotiji.kr۔ دوسری زبانوں کے صفحات کی ترتیبات مختلف ہو سکتی ہیں۔"
+        ],
+        [
+          "کیلکولیٹر کی معلومات",
+          "حسابات آپ کے براؤزر میں چلتے ہیں۔ یہ ورژن آپریٹر ڈیٹا بیس یا تجزیاتی سروس کو کیلکولیٹر کی رقم، تنخواہ، تاریخیں یا نتائج نہیں بھیجتا ہے۔ یو آر ایل میں ذاتی ڈیٹا نہ رکھیں یا ہمیں شناختی دستاویزات، اکاؤنٹ کی تفصیلات یا پے رول ریکارڈ نہ بھیجیں۔"
+        ],
+        [
+          "تجزیات، اشتہارات اور کوکیز",
+          "Google Analytics پہلے سے فعال ہے اور صفحے کے نیچے بند کیا جا سکتا ہے۔ کیلکولیٹر کے اندراجات نہیں بھیجے جاتے۔ غیر شخصی اشتہارات کی درخواست کے لیے AdSense منسلک ہے۔ Google اور اس کے شراکت دار اشتہارات دکھانے اور ناپنے کے لیے کوکیز، ویب بیکن، IP پتے اور شناخت کنندے استعمال کر سکتے ہیں۔ غیر شخصی اشتہارات بھی کوکیز استعمال کر سکتے ہیں۔ اشتہارات کی نمائش سائٹ کی منظوری، اکاؤنٹ کی ترتیبات اور قابل اطلاق رضامندی پر منحصر ہے۔ چینی صفحات پر تجزیہ اور اشتہارات بند رہتے ہیں۔"
+        ],
+        [
+          "ضروری ہوسٹنگ اور بیرون ملک پروسیسنگ",
+          "ورسل اس ویب سائٹ کو فراہم کرتا ہے اور اس کی حفاظت کرتا ہے۔ درخواستیں لازمی طور پر کنکشن کی معلومات کو ظاہر کرتی ہیں جیسے کہ IP ایڈریس، درخواست کردہ URL، وقت، ڈیوائس/براؤزر ہیڈر اور ہوسٹنگ انفراسٹرکچر کے لیے سیکیورٹی سگنلز۔ ایسی معلومات پر آپ کے ملک سے باہر کارروائی کی جا سکتی ہے، بشمول ریاستہائے متحدہ یا انفراسٹرکچر کے دیگر مقامات۔ تجزیات کو غیر فعال کرنے سے یہ پروسیسنگ نہیں ہٹتی ہے۔ ہم اسے ڈیلیوری، سیکیورٹی اور غلطی کی تفتیش کے لیے استعمال کرتے ہیں، اشتہاری پروفائلز کے لیے نہیں۔"
+        ],
+        [
+          "برقرار رکھنا اور آپ کے انتخاب",
+          "کیلکولیٹر ان پٹس کو سرور ریکارڈ کے طور پر ہمارے پاس نہیں رکھا جاتا ہے۔ ہوسٹنگ لاگز فراہم کنندہ کی برقراری اور قابل اطلاق پروجیکٹ کی ترتیبات کی پیروی کرتے ہیں۔ ہم نے تمام انفراسٹرکچر لاگز کے لیے کسی ایک مقررہ برقراری مدت کی تصدیق نہیں کی ہے۔ قابل اطلاق تفصیلات کے لیے یا جہاں آپ کے قانون کے تحت دستیاب ہو رسائی، تصحیح، حذف یا پابندی کی درخواست کرنے کے لیے ہم سے رابطہ کریں۔ ہم درخواستوں اور قانونی استثنیٰ کا اندازہ لگاتے ہیں، اور یہ وعدہ نہیں کرتے کہ فراہم کنندہ کے تمام لاگز کو فوری طور پر حذف کیا جا سکتا ہے۔ صفحہ بند کرنے سے اس کی ان میموری حساب کی حالت صاف ہو جاتی ہے۔ آپ کا براؤزر تاریخ کو محفوظ کر سکتا ہے یا ٹیب کو بحال کر سکتا ہے۔"
+        ],
+        [
+          "ای میل اور بیرونی لنکس",
+          "اگر آپ ہمیں ای میل کرنے کا انتخاب کرتے ہیں، تو ہم درخواست کو سنبھالنے کے لیے آپ کا پتہ اور پیغام وصول کرتے ہیں اور صرف وہی چیز برقرار رکھتے ہیں جو اس مقصد یا قانونی ذمہ داریوں کے لیے درکار ہے۔ خیالی مثالیں استعمال کریں، حقیقی ذاتی مالی ریکارڈ نہیں۔ حساب کرنے کے لیے ای میل کی ضرورت نہیں ہے۔ سرکاری حوالہ جات تیسری پارٹی کی ویب سائٹس کو اپنی پالیسیوں کے ساتھ کھولتے ہیں۔ ٹریکنگ یا ڈیٹا کے استعمال میں تبدیلیوں کے لیے اس نوٹس کو اپ ڈیٹ کرنے اور ایکٹیویشن سے پہلے کسی بھی قانونی طور پر مطلوبہ انتخاب کو لاگو کرنے کی ضرورت ہوتی ہے۔"
+        ]
+      ],
+      "terms": [
+        [
+          "مقصد",
+          "مفت، سیلف سروس ریاضی اور عمومی وضاحتیں۔ ہم خود کو آپ کے وکیل، اکاؤنٹنٹ، ٹیکس تیار کرنے والے، پے رول فراہم کرنے والے، سرمایہ کاری کے مشیر یا سرکاری ایجنسی کے طور پر باہر نہیں رکھتے ہیں۔ کوئی پیشہ ور کلائنٹ رشتہ محض کیلکولیٹر استعمال کرنے سے نہیں بنتا۔"
+        ],
+        [
+          "مفروضوں کو چیک کریں۔",
+          "نتائج بیان کردہ سال، دائرہ اختیار اور ماڈل کے تخمینے ہیں۔ ٹیکس کی حیثیت، استثنیٰ، منصوبہ بندی کے دستاویزات، مقامی قواعد، راؤنڈنگ اور تبدیل شدہ قانون حقیقی نتائج کو تبدیل کر سکتے ہیں۔ ایک مثال ضمانت نہیں ہے۔ فائل کرنے، اجرت کی ادائیگی، سرمایہ کاری، عطیہ دینے یا سفر کی بکنگ کرنے سے پہلے متعلقہ سرکاری سروس یا اہل پیشہ ور سے تصدیق کریں۔"
+        ],
+        [
+          "مخصوص حدود",
+          "یو ایس اوور ٹائم وفاقی احاطہ شدہ غیر مستثنیٰ بیس لائن کا استعمال کرتا ہے، نہ کہ تمام ریاستی قوانین۔ گھر لے جانے کی تنخواہ ایک آسان سالانہ مثال ہے، W-4 یا فائلنگ کیلکولیشن نہیں۔ ایک 401(k) میچ ایک مخصوص بیلنس یا شراکت کی سفارش نہیں ہے۔ اسٹاک اوسط اور کمپاؤنڈ ٹولز سیکیورٹیز کی سفارش نہیں کرتے ہیں اور نہ ہی واپسی کی ضمانت دیتے ہیں۔ تاریخ اور عمر کے اوزار قانونی اہلیت یا آخری تاریخ کا فیصلہ نہیں کرتے ہیں۔"
+        ],
+        [
+          "غلطیاں اور ذمہ داری",
+          "فرضی ان پٹس اور متاثرہ URL کا استعمال کرتے ہوئے مشتبہ غلطی کی اطلاع دیں۔ جب اس کے مفروضوں کی تصدیق نہیں کی جا سکتی ہے تو ہم متاثرہ ٹول کو درست، انتباہ یا عارضی طور پر محدود کر سکتے ہیں۔ یہ نوٹس دائرہ کار کی وضاحت کرتا ہے۔ یہ ایسی ذمہ داری کو خارج نہیں کرتا ہے جسے قانونی طور پر خارج نہیں کیا جاسکتا، بشمول جان بوجھ کر بدانتظامی یا مجموعی غفلت کے لیے قابل اطلاق ذمہ داری، یا صارفین کے لازمی حقوق کو ہٹانا۔"
+        ],
+        [
+          "سپورٹ اور تبدیلیاں",
+          "سپورٹ تکنیکی خرابیوں اور عام ماخذ کی اصلاح کو ہینڈل کرتا ہے۔ انفرادی ٹیکس عہدوں، قانونی فیصلوں، فائلنگ کی تیاری یا نمائندگی کی درخواست نہ کریں۔ ہم ایسی درخواستوں کو متعلقہ اتھارٹی یا کسی مستند پیشہ ور کو بھیجیں گے۔ مواد کی تبدیلیاں صفحہ کی تاریخ میں ظاہر ہوتی ہیں۔ ہر بار مفروضوں کو دوبارہ چیک کریں۔"
+        ]
+      ],
+      "contact": [
+        [
+          "تکنیکی مسائل، تصحیحات اور رازداری کی درخواستیں۔",
+          "ای میل contact@myeotiji.kr صفحہ کے یو آر ایل کے ساتھ، قابل اطلاق سال/علاقہ اور ایک فرضی مثال جس میں متوقع اور ظاہر کیا گیا نتیجہ دکھایا گیا ہو۔ آپ ڈیٹا پروسیسنگ کے بارے میں معلومات کی درخواست بھی کر سکتے ہیں یا قابل اطلاق رازداری کے حقوق یہاں استعمال کر سکتے ہیں۔ ہمیں کسی اکاؤنٹ یا فارم کی ضرورت نہیں ہے۔"
+        ],
+        [
+          "اپنی معلومات کو محفوظ رکھیں",
+          "سرکاری شناخت کنندگان، بینک اکاؤنٹس، پاس ورڈ، مکمل پے سلپس یا اصل ٹیکس دستاویزات کو ای میل نہ کریں۔ ہم ذاتی ٹیکس، قانونی یا سرمایہ کاری سے متعلق مشاورت یا آپ کی طرف سے کام نہیں کرتے ہیں۔ فائلنگ، ادائیگی یا ملازمت کی آخری تاریخ کے لیے، متعلقہ اتھارٹی یا اہل پیشہ ور سے براہ راست رابطہ کریں۔"
+        ]
+      ]
+    },
+    "policy": [
+      {
+        "heading": "مقصد اور تصنیف",
+        "text": "Myeotiji اس سائٹ پر دستیاب کیلکولیٹرز کی وضاحتیں شائع کرتا ہے۔ یہ گائیڈز AI کی مدد سے تیار کیے گئے تھے اور حساب کے بیان کردہ طریقہ، کام کی مثالوں اور حوالہ جات کے خلاف جانچ پڑتال کی گئی تھی۔ مصنف کا نام Myeotiji کو اشاعتی خدمت کے طور پر شناخت کرتا ہے۔ یہ کسی نامزد اکاؤنٹنٹ، وکیل یا ریگولیٹڈ ایڈوائزر کے جائزے کا دعوی نہیں کرتا ہے۔"
+      },
+      {
+        "heading": "ذرائع، تاریخیں اور قابل اطلاق قواعد",
+        "text": "قانون، ٹیکس، پے رول اور سماجی-انشورنس کے موضوعات کے لیے، ہم ذمہ دار پبلک اتھارٹی کی اشاعتوں اور متعلقہ دستاویزات سے لنک کو ترجیح دیتے ہیں۔ فراہم کنندہ کی شرائط اور تکنیکی معیارات کی شناخت اس طرح کی گئی ہے۔ مییوتی جی کی لکھی گئی ایک ریاضی کی مثال ایک مثال ہے، نہ کہ کسی اتھارٹی کا حوالہ۔ نظر آنے والی تازہ کاری کی تاریخ مواد کے مواد کے جائزے کو ریکارڈ کرتی ہے، نہ کہ خودکار یومیہ ریفریش۔ ہر گائیڈ کے معاملے میں ملک، سال اور اخراجات بیان کیے گئے ہیں۔"
+      },
+      {
+        "heading": "ایک حساب کتاب کیا قائم کرسکتا ہے اور کیا نہیں کرسکتا",
+        "text": "ہم نمائندہ عددی مثالوں اور حدود کے حالات کو چیک کرتے ہیں۔ سادہ ماڈل اب بھی حقائق کو چھوڑ دیتے ہیں جو اصل ادائیگی یا حقدار کو تبدیل کر سکتے ہیں۔ فرضی سرمایہ کاری میں اضافہ ایک وعدہ شدہ واپسی نہیں ہے، اور پے رول کا تخمینہ ٹیکس کی حتمی تشخیص نہیں ہے۔ مثالیں دکھائے گئے مفروضوں کا استعمال کرتی ہیں۔ قارئین کو نتیجہ خیز فیصلے کے لیے کسی اعداد و شمار پر انحصار کرنے سے پہلے حقیقی فراہم کنندہ، آجر یا اتھارٹی کے ریکارڈ کی تصدیق کرنی چاہیے۔"
+      },
+      {
+        "heading": "تصحیح اور آراء",
+        "text": "اگر آپ کو کوئی غلط فارمولہ، ماخذ، ترجمہ یا مثال ملتی ہے، تو براہ کرم صفحہ کا پتہ، متعلقہ معلومات اور نتیجہ بھیجیں جس کی آپ کو توقع ہے ہمارے رابطے کے پتے پر۔ شناختی دستاویزات، مکمل تنخواہ کے گوشوارے، اکاؤنٹ نمبر یا دیگر غیر ضروری ذاتی معلومات نہ بھیجیں۔ ہم وضاحت کی چھان بین اور اپ ڈیٹ کرنے کے لیے ایک قابل تولید مثال استعمال کر سکتے ہیں۔"
+      }
+    ]
+  },
+  "vi": {
+    "labels": {
+      "home": "Máy tính",
+      "guides": "Hướng dẫn tính toán",
+      "policy": "Cách chúng tôi chuẩn bị những hướng dẫn này",
+      "title": "Hướng dẫn tính toán: Công thức & Ví dụ thực hiện",
+      "description": "Tính toán thực tế cho ngày tháng, tiền bạc và các quyết định hàng ngày. Chọn một máy tính và xem công thức đằng sau câu trả lời.",
+      "intro": "Bắt đầu với câu hỏi bạn muốn trả lời. Mỗi hướng dẫn sẽ giải thích phương pháp, thực hiện thông qua các con số và liên kết đến máy tính mà bạn có thể sử dụng với thông tin đầu vào của riêng mình.",
+      "global": "Tiền, ngày tháng và tính toán hàng ngày",
+      "country": "Hoa Kỳ: lương, thuế và hưu trí",
+      "quick": "Trả lời nhanh",
+      "contents": "Trên trang này",
+      "try": "Hãy thử máy tính",
+      "related": "Hướng dẫn liên quan",
+      "questions": "Câu hỏi thường gặp",
+      "references": "Nguồn và đọc thêm",
+      "updated": "Đã cập nhật",
+      "author": "Chuẩn bị bởi Myeotiji",
+      "exampleNote": "Các ví dụ minh họa các giả định đã nêu. Phí thực tế, tiền lãi và số tiền trả lương có thể khác nhau.",
+      "policyTitle": "Hướng dẫn tính toán Myeotiji: Nguồn & Phương pháp biên tập",
+      "policyDescription": "Cách Myeotiji giải thích các phép tính, kiểm tra ví dụ, trích dẫn nguồn và xử lý các chỉnh sửa và ước tính.",
+      "calculatorLink": "Xem công thức, ví dụ thực tế và các lỗi thường gặp →",
+      "homeTitle": "Máy tính tài chính và hàng ngày miễn phí | myeotiji",
+      "homeHeading": "Máy tính miễn phí về tiền bạc, công việc và cuộc sống hàng ngày",
+      "homeDescription": "Tính toán thực tế cho ngày tháng, tiền bạc và các quyết định hàng ngày. Chọn một máy tính và xem công thức đằng sau câu trả lời."
+    },
+    "guides": {
+      "fee": {
+        "title": "Cách tính phí: cần thu bao nhiêu để nhận đủ số tiền mong muốn?",
+        "description": "Tính số tiền thu được ròng sau tỷ lệ phần trăm và phí cố định, sau đó đảo ngược công thức để tìm khoản phí cần thiết cho khoản thanh toán mục tiêu.",
+        "answer": "Trừ cả phí phần trăm và phí cố định khỏi khoản phí. Để nhận được một số tiền cụ thể sau phí, hãy chia mục tiêu cộng với phí cố định cho một trừ đi tỷ lệ phần trăm.",
+        "sections": [
+          {
+            "heading": "Tách riêng hai phần phí",
+            "paragraphs": [
+              "Phí phần trăm tăng theo số tiền thu được; một khoản phí giao dịch cố định thì không. Viết phần trăm dưới dạng số thập phân trước khi nhân. Đối với mức phí giả định là 3%, hãy sử dụng 0,03. Khoản phí cố định 0,30 có nghĩa là 30 xu bằng loại tiền bạn đã chọn, không phải một tỷ lệ phần trăm khác.",
+              "Số tiền thu được ròng = phí × (1 - lãi suất) - phí cố định. Kiểm tra số tiền mà nhà cung cấp áp dụng mức giá của mình: phí vận chuyển, thuế, chuyển đổi tiền tệ và phí xuyên biên giới có thể được xử lý riêng. Hướng dẫn này mô tả số học chứ không phải biểu giá hiện hành của bất kỳ nhà cung cấp nào.",
+              "Tiền thực nhận = số tiền thu × (1 − tỷ lệ phí) − phí cố định. Số tiền cần thu = (tiền thực nhận mong muốn + phí cố định) ÷ (1 − tỷ lệ phí)."
+            ]
+          },
+          {
+            "heading": "A worked example: why adding 3% is not enough",
+            "paragraphs": [
+              "Giả sử bạn thu được 100 đô la và phí giả định là 3% cộng với 0,30 đô la. The percentage part is $3; việc thêm phần cố định sẽ tính phí 3,30 đô la và số tiền thu được là 96,70 đô la.",
+              "Để nhận được 100 USD ròng, hãy tính phí × 0,97 − 0,30 = 100. Phí không làm tròn bắt buộc là 100,30 0,97, khoảng 103,4021 USD. Thêm 3% vào 100 đô la sẽ mang lại 103 đô la, số tiền ròng chỉ là 99,61 đô la. Sự khác biệt phát sinh do nhà cung cấp cũng tính phí theo mức phí tăng thêm."
+            ],
+            "table": {
+              "headers": [
+                "Tính phí",
+                "Phí giả định",
+                "mạng lưới"
+              ],
+              "rows": [
+                [
+                  "$100,00",
+                  "$3,30",
+                  "$96,70"
+                ],
+                [
+                  "$103,00",
+                  "3,39 USD",
+                  "99,61 USD"
+                ],
+                [
+                  "$103,40",
+                  "$3,402 trước khi làm tròn",
+                  "99,998 USD trước khi làm tròn"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Use the result as a pricing check",
+            "paragraphs": [
+              "Nhập số tiền thu được để tính toán chuyển tiếp hoặc chọn chế độ mạng mục tiêu để tính toán ngược lại. Giữ loại tiền đã chọn phù hợp với mức phí cố định của bạn. Currency selection changes formatting; it does not perform an exchange-rate conversion.",
+              "The screen rounds the result for display. Nếu khoản thanh toán tối thiểu phải được đáp ứng chính xác, hãy kiểm tra mức tăng tiền tệ nhỏ nhất tiếp theo và quy tắc làm tròn của nhà cung cấp của bạn. Việc hoàn tiền, phí tối thiểu, thuế đối với phí và liệu các khoản phụ phí có được phép hay không đều cần được kiểm tra riêng."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Có phải phí 0% luôn có nghĩa là tôi nhận được toàn bộ khoản phí phải không?",
+            "answer": "Chỉ khi phí cố định cũng bằng 0 và không áp dụng khoản khấu trừ nào khác. Phí phần trăm 0% cộng với khoản phí cố định 0,30 USD vẫn còn 99,70 USD từ khoản phí 100 USD."
+          },
+          {
+            "question": "Can I compare different payment providers?",
+            "answer": "Có, nhập mức phí được công bố và phí cố định của từng nhà cung cấp với cùng một khoản phí. So sánh kết quả với bất kỳ khoản phí bổ sung nào và các điều khoản áp dụng cho tài khoản của bạn."
+          }
+        ]
+      },
+      "discount": {
+        "title": "Giảm 20% rồi 10%: vì sao tổng mức giảm là 28%?",
+        "description": "Tính toán các khoản giảm giá liên tiếp, so sánh các kết hợp phiếu giảm giá và phân biệt tỷ lệ phần trăm giá cuối cùng với số tiền đã tiết kiệm.",
+        "answer": "Áp dụng chiết khấu thứ hai cho giá đã giảm. Giảm giá 20%, tiếp theo là giảm giá 10% để lại 80% × 90% = 72% giá ban đầu, do đó tổng số tiền tiết kiệm được là 28%.",
+        "sections": [
+          {
+            "heading": "Multiply the price you keep paying",
+            "paragraphs": [
+              "Đối với mỗi phần trăm giảm giá, hãy trừ đi tỷ lệ thập phân từ một. Nhân giá gốc với các phân số còn lại. Với hai lần giảm giá, giá cuối cùng = ban đầu × (1 − mức đầu tiên) × (1 − mức thứ hai). Chiết khấu thực tế = 1 − Giá cuối cùng  giá gốc.",
+              "Việc thêm các mức giá sẽ coi cả hai khoản giảm giá đều được áp dụng cho giá gốc. That is a different offer. Một cửa hàng hứa giảm giá 30% một lần sẽ đưa ra mức giảm phần trăm lớn hơn mức giảm 20% và 10% liên tiếp, trước khi các điều khoản khác được xem xét."
+            ]
+          },
+          {
+            "heading": "Compare two offers on a $100 item",
+            "paragraphs": [
+              "Sau lần giảm 20% đầu tiên, mặt hàng này có giá 80 USD. Lần giảm 10% thứ hai loại bỏ 8 đô la, còn lại 72 đô la. Tổng số tiền tiết kiệm được là $28. Đảo ngược thứ tự của hai lần giảm giá theo phần trăm thuần túy sẽ cho kết quả toán học tương tự vì các yếu tố giá còn lại sẽ nhân lên.",
+              "Quy tắc đặt hàng đó không tự động mở rộng sang phiếu giảm giá có giá trị cố định. Một phiếu giảm giá 10 USD sau khi giảm giá 20% cho một mặt hàng trị giá 100 USD sẽ mang lại 70 USD. Giảm 10 đô la trước và sau đó áp dụng 20% ​​sẽ mang lại 72 đô la. Mức chi tiêu tối thiểu, giới hạn và các sản phẩm bị loại trừ có thể thay đổi ưu đãi nào thực sự có thể được sử dụng."
+            ],
+            "table": {
+              "headers": [
+                "ưu đãi",
+                "Giá cuối cùng",
+                "Đang lưu"
+              ],
+              "rows": [
+                [
+                  "20%, rồi 10%",
+                  "$72",
+                  "28%"
+                ],
+                [
+                  "Một giảm giá 30%",
+                  "$70",
+                  "30%"
+                ],
+                [
+                  "20%, sau đó là phiếu giảm giá $10",
+                  "$70",
+                  "$30"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Nhập mức giảm được quảng cáo, không phải giá còn lại",
+            "paragraphs": [
+              "Các trường của máy tính lấy phần trăm chiết khấu. Nhãn ghi thanh toán 80% giá ban đầu có nghĩa là giảm giá 20%. Thay vào đó, nhập 80 sẽ tính giảm 80%.",
+              "Công cụ này mô hình hóa hai lần giảm phần trăm liên tiếp. Nó không thêm thuế bán hàng, giao hàng, hoàn lại tiền hoặc phiếu giảm giá cố định. So sánh tổng số tiền thanh toán khi các mặt hàng đó khác nhau và cho phép làm tròn thực tế của người bán ở mỗi bước."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Giảm 50% rồi sau đó giảm 50% có miễn phí không?",
+            "answer": "Không. Một nửa giá ban đầu vẫn còn sau lần giảm đầu tiên và một nửa số đó còn lại sau lần giảm thứ hai. Bạn trả 25% giá gốc, tiết kiệm 75%."
+          },
+          {
+            "question": "Tại sao số tiền tiết kiệm trên biên lai của tôi hơi khác một chút?",
+            "answer": "Nhà bán lẻ có thể làm tròn từng mặt hàng hoặc từng khoản giảm giá riêng biệt hoặc áp dụng giảm giá cho các số tiền đủ điều kiện khác nhau. Máy tính này sử dụng hai tỷ lệ phần trăm đã nêu trước khi hiển thị kết quả làm tròn."
+          }
+        ]
+      },
+      "days": {
+        "title": "Số ngày giữa hai ngày: tính ngày đầu và năm nhuận thế nào?",
+        "description": "Hiểu số ngày đã trôi qua so với số ngày bao gồm, ngày nhuận, ngày cuối tuần và lý do tại sao công cụ tính ngày theo lịch lại khác với công cụ tính thời hạn.",
+        "answer": "Đối với những ngày theo lịch đã trôi qua, hãy trừ ngày bắt đầu khỏi ngày kết thúc. Nếu ngày bắt đầu là ngày 1, hãy thêm một ngày cho phạm vi ngày chuyển tiếp. Từ ngày 1 tháng 1 đến ngày 11 tháng 1 là 10 ngày trôi qua hoặc bao gồm 11 ngày.",
+        "sections": [
+          {
+            "heading": "Chọn quy ước đếm trước",
+            "paragraphs": [
+              "Thời gian lưu trú từ thứ Hai đến thứ Ba kéo dài một đêm nhưng chạm tới hai ngày theo lịch. Cả hai con số đều có thể đúng vì chúng trả lời các câu hỏi khác nhau. Quyết định xem bạn muốn số ngày đã trôi qua hay số ngày được bao gồm trong một khoảng thời gian trước khi so sánh kết quả.",
+              "Đối với phạm vi tăng dần, tùy chọn bao gồm bắt đầu của máy tính sẽ thêm một ngày. Do đó, ngày bắt đầu và ngày kết thúc giống nhau sẽ cho ra 0 ngày trôi qua hoặc một ngày trọn vẹn. Ngày kết thúc trước ngày bắt đầu sẽ có khoảng thời gian âm; đảo ngược ngày khi bạn muốn có một khoảng thời gian chuyển tiếp bình thường."
+            ]
+          },
+          {
+            "heading": "Làm việc thông qua một ví dụ về năm nhuận",
+            "paragraphs": [
+              "Năm 2028, ngày 28 tháng 2 đến ngày 1 tháng 3 kéo dài hai ngày vì ngày 29 tháng 2 nằm giữa hai ngày đó. Việc tính toàn diện đưa ra ba ngày theo lịch: ngày 28 tháng 2, ngày 29 tháng 2 và ngày 1 tháng 3. Vào năm 2027, ngày 28 tháng 2 đến ngày 1 tháng 3 chỉ kéo dài một ngày trôi qua.",
+              "Công cụ này chuẩn hóa các ngày dương lịch đã nhập thành UTC để trừ. Điều này ngăn việc thay đổi đồng hồ tiết kiệm ánh sáng ban ngày biến khoảng thời gian theo lịch thông thường thành ngày phân số. Đây không phải là công cụ tính toán thời lượng chuyến bay hoặc số giờ chính xác giữa các dấu thời gian theo múi giờ cụ thể."
+            ],
+            "table": {
+              "headers": [
+                "Ngày",
+                "Đã qua",
+                "Bao gồm cả bắt đầu"
+              ],
+              "rows": [
+                [
+                  "Ngày 1 tháng 1 → ngày 11 tháng 1",
+                  "10 ngày",
+                  "11 ngày"
+                ],
+                [
+                  "Cùng ngày",
+                  "0 ngày",
+                  "1 ngày"
+                ],
+                [
+                  "28 tháng 2 → 1 tháng 3 năm 2028",
+                  "2 ngày",
+                  "3 ngày"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Ngày dương lịch không có nghĩa là ngày làm việc",
+            "paragraphs": [
+              "Thứ bảy, chủ nhật và các ngày lễ đều được tính là ngày dương lịch. Để lập kế hoạch nghỉ phép, hãy sử dụng máy tính biết ngày nghỉ lễ và ngày làm việc thay thế của quốc gia liên quan. Chỉ riêng sự khác biệt về ngày không thể xác định số ngày nghỉ phép được trả lương mà bạn cần.",
+              "Hợp đồng và thời hạn chính thức có thể xác định ngày đầu tiên, thời hạn cuối ngày và thời gian gia hạn kỳ nghỉ một cách khác nhau. Kiểm tra quy tắc quản lý khi thời hạn bị bỏ lỡ có vấn đề. Đối với việc đếm ngược hàng ngày và ngày kỷ niệm, hãy nêu quy ước đếm của bạn cùng với kết quả."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Tôi có nên bao gồm ngày đầu tiên?",
+            "answer": "Bao gồm nó khi ngày đó được tính là ngày đầu tiên của kỳ kinh. Hãy loại trừ nó khi đo khoảng cách đã trôi qua giữa các ngày. Quy tắc từ hợp đồng hoặc cơ quan có thẩm quyền được ưu tiên hơn quy ước về lịch chung."
+          },
+          {
+            "question": "Có phải 30 ngày luôn bằng một tháng?",
+            "answer": "No. Calendar months have different lengths. Sử dụng ngày bắt đầu và ngày kết thúc thực tế thay vì chuyển đổi hàng tháng thành 30 ngày."
+          }
+        ]
+      },
+      "stock-average": {
+        "title": "Cách tính giá vốn trung bình sau khi mua thêm cổ phiếu",
+        "description": "Sử dụng mức trung bình có trọng số để tính giá mua trung bình mới, tổng số cổ phần và số tiền đầu tư mà không nhầm lẫn với cuộc bầu cử lô thuế.",
+        "answer": "Cộng số tiền chi cho cổ phiếu hiện có và cổ phiếu mới, sau đó chia cho tổng số cổ phiếu. Trung bình đơn giản của hai mức giá chỉ hoạt động khi số lượng cổ phiếu bằng nhau.",
+        "sections": [
+          {
+            "heading": "Weight each purchase by its quantity",
+            "paragraphs": [
+              "Giá mua trung bình mới = (số lượng hiện có × số lượng trung bình hiện có + số lượng mới × giá mới) / tổng số lượng. Giá và số lượng phải sử dụng cùng đơn vị chia sẻ và đồng tiền. Cổ phiếu phân số có thể được sử dụng khi chúng phản ánh số cổ phần thực tế của bạn.",
+              "Ví dụ: 100 cổ phiếu được mua với giá 50 đô la và 100 cổ phiếu khác được mua với giá 40 đô la có tổng giá trị là 9.000 đô la. Divide by 200 shares to get $45. Nếu lần mua thứ hai chỉ là 50 cổ phiếu với giá 40 đô la, thì tổng số tiền sẽ là 7.000 đô la cho 150 cổ phiếu, mang lại khoảng 46,67 đô la chứ không phải 45 đô la."
+            ]
+          },
+          {
+            "heading": "Mức trung bình thấp hơn không loại bỏ được khoản lỗ",
+            "paragraphs": [
+              "Ngay sau khi mua thêm 100 cổ phiếu với giá 40 đô la, 200 cổ phiếu trị giá 40 đô la một cổ phiếu có giá trị thị trường là 8.000 đô la so với 9.000 đô la chi tiêu. Giá trung bình đã giảm, nhưng vẫn còn chênh lệch 1.000 đô la chưa thực hiện và sẽ có nhiều tiền hơn để đầu tư.",
+              "Việc chuyển từ mức 40 USD lên mức trung bình 45 USD sẽ làm giá tăng 12,5% trước phí. Đó là số học, không phải là dự báo hay lý do để mua. Việc tăng vị thế sẽ làm thay đổi số tiền chịu rủi ro cũng như giá trung bình."
+            ],
+            "table": {
+              "headers": [
+                "nắm giữ",
+                "Chia sẻ",
+                "Số tiền chi tiêu"
+              ],
+              "rows": [
+                [
+                  "Hiện tại: $50/cổ phiếu",
+                  "100",
+                  "5.000 USD"
+                ],
+                [
+                  "Mới: $40/cổ phiếu",
+                  "100",
+                  "4.000 USD"
+                ],
+                [
+                  "Trung bình kết hợp: $45",
+                  "200",
+                  "9.000 USD"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Keep purchase averages separate from tax records",
+            "paragraphs": [
+              "Máy tính mô hình hai khối mua hàng và không bao gồm phí môi giới, tỷ giá hối đoái, cổ tức, doanh thu và hoạt động của công ty. Chuyển đổi hồ sơ một cách nhất quán trước khi so sánh các giao dịch mua được thực hiện bằng các loại tiền tệ khác nhau.",
+              "Giá trị trung bình số học không phải là cơ sở để xác định cơ sở chi phí chịu thuế. Các quy tắc về lô thuế và phương pháp được phép khác nhau tùy theo khu vực pháp lý và tài sản. Giữ hồ sơ giao dịch ban đầu của người môi giới thay vì coi kết quả này là hướng dẫn báo cáo thuế."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Can I use it when buying at a higher price?",
+            "answer": "Đúng. Công thức trung bình có trọng số tương tự được áp dụng. Buying above your existing average increases it; quy mô của sự thay đổi phụ thuộc vào số lượng mới."
+          },
+          {
+            "question": "Why is my broker's average different?",
+            "answer": "Phí, chuyển đổi tiền tệ, làm tròn, hoạt động của công ty hoặc phương pháp kế toán của nhà môi giới có thể được bao gồm trong số liệu của nó. Công cụ này chỉ sử dụng thông tin đầu vào về giá và số lượng được hiển thị."
+          }
+        ]
+      },
+      "compound": {
+        "title": "Lãi kép với tiền gửi hằng tháng: công thức và ví dụ",
+        "description": "Hiểu lợi nhuận hiệu quả hàng năm, các khoản đóng góp cuối tháng và sự khác biệt giữa số tiền đóng góp và mức tăng trưởng đầu tư giả định.",
+        "answer": "Chuyển đổi lợi nhuận thực tế hàng năm thành tỷ lệ hàng tháng, tăng số dư hiện có, sau đó thêm khoản đóng góp của tháng. Giữ tiền đóng góp tách biệt với tăng trưởng để khoản tiền gửi lớn hơn không bị nhầm lẫn với lợi nhuận tốt hơn.",
+        "sections": [
+          {
+            "heading": "Convert the annual assumption consistently",
+            "paragraphs": [
+              "Myeotiji coi lợi nhuận hàng năm là tỷ lệ hiệu quả hàng năm. Lãi suất hàng tháng là (1 + lãi suất hàng năm)^(1/12) − 1. Ở mức 5% hàng năm, lãi suất hàng tháng đó là khoảng 0,4074%, không chính xác là 5% `12. Sử dụng lãi suất niêm yết danh nghĩa chia cho 12 sẽ mô tả một quy ước gộp khác.",
+              "Đối với mỗi tháng, số dư mới = số dư trước đó × (1 + lãi suất hàng tháng) + khoản đóng góp. Các khoản đóng góp được thêm vào cuối tháng, do đó khoản tiền gửi đầu tiên sẽ kiếm được tiền lãi trong các tháng tiếp theo thay vì trước khi được thanh toán."
+            ]
+          },
+          {
+            "heading": "Kiểm tra ví dụ một năm bằng cách tách tiền gửi",
+            "paragraphs": [
+              "Bắt đầu với 1.000 đô la, đóng góp 100 đô la vào cuối mỗi tháng và giả định lợi nhuận hàng năm hiệu quả không đổi 5% trong một năm. Số tiền ban đầu là 1.000 USD tăng lên thành 1.050 USD; mười hai khoản tiền gửi hàng tháng tăng lên khoảng $1.227,26. Tổng số tiền là khoảng $ 2,277,26.",
+              "Bạn đã cung cấp 2.200 đô la: ban đầu là 1.000 đô la cộng với 12 khoản tiền gửi 100 đô la. Khoảng 77,26 USD còn lại là mức tăng trưởng theo mô hình. Với mức hoàn trả 0%, số dư chính xác là 2.200 USD. Sự so sánh lợi nhuận bằng 0 này rất hữu ích khi kiểm tra xem đầu vào có hợp lý hay không."
+            ],
+            "table": {
+              "headers": [
+                "Kịch bản một năm",
+                "Tiền cung cấp",
+                "Số dư ước tính"
+              ],
+              "rows": [
+                [
+                  "Lợi nhuận hàng năm 0%",
+                  "2.200 USD",
+                  "$2.200,00"
+                ],
+                [
+                  "Lợi nhuận hàng năm hiệu quả 5%",
+                  "2.200 USD",
+                  "2.277,26 USD"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Sử dụng các kịch bản thay vì một kết quả đã hứa",
+            "paragraphs": [
+              "So sánh các giả định thấp hơn, trung bình và cao hơn trong khi giữ tiền gửi không đổi. Các khoản đầu tư thực sự không mang lại lợi nhuận suôn sẻ hàng tháng và thứ tự lãi và lỗ rất quan trọng khi tiền được thêm vào hoặc rút ra.",
+              "Kết quả không khấu trừ thuế, phí đầu tư hoặc lạm phát. Đây không phải là báo giá tiền gửi hay dự báo về một khoản đầu tư cụ thể. Nếu ngân hàng hoặc nhà cung cấp đưa ra lãi suất danh nghĩa, thời điểm đóng góp khác hoặc lịch trình gộp khác, hãy điều chỉnh các quy ước đó trước khi so sánh minh họa của nó với công cụ này."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Khoản đóng góp hàng tháng được thực hiện vào đầu hay cuối tháng?",
+            "answer": "Vào cuối mỗi tháng theo mô hình. Lịch trình đầu tháng giúp mỗi khoản đóng góp có thêm một tháng tăng trưởng và có thể tạo ra sự cân bằng khác nhau."
+          },
+          {
+            "question": "Kết quả có bao gồm thuế hay lạm phát không?",
+            "answer": "Không. Đầu ra là một sự cân bằng giả định trước những hiệu ứng đó. Số dư danh nghĩa và sức mua trong tương lai của nó là những đại lượng khác nhau."
+          }
+        ]
+      },
+      "unit-converter": {
+        "title": "Cách đổi đơn vị độ dài, nhiệt độ và dung lượng dữ liệu",
+        "description": "Chuyển đổi các phép đo phổ biến trong khi kiểm tra thể tích US so với hệ Anh, độ lệch nhiệt độ và đơn vị lưu trữ thập phân so với nhị phân.",
+        "answer": "Chuyển đổi thông qua một đơn vị cơ sở chung và kiểm tra định nghĩa đơn vị trước. Một gallon Mỹ khác với một gallon Anh, và một gigabyte thập phân khác với một gibibyte. Nhiệt độ cũng cần một sự bù đắp, không chỉ là một hệ số nhân.",
+        "sections": [
+          {
+            "heading": "Hệ số chuyển đổi sử dụng chiều dài, khối lượng, diện tích và thể tích",
+            "paragraphs": [
+              "Đối với các đơn vị có cùng kích thước, hãy quy đổi số lượng nguồn thành đơn vị cơ sở và chia cho hệ số của đơn vị đích. Một dặm là 1,609344 km, vậy 5 dặm là 8,04672 km. Đừng nhầm lẫn hệ số chiều dài với hệ số diện tích: đơn vị bình phương yêu cầu chuyển đổi bình phương.",
+              "Menu âm lượng rõ ràng sử dụng gallon chất lỏng và cốc Mỹ. Một gallon chất lỏng của Mỹ là 3,785411784 lít; nó không phải là gallon đế quốc lớn hơn. Cốc của công thức nấu ăn có thể sử dụng quy ước khác, vì vậy hãy kiểm tra công thức hoặc bình đo trước khi áp dụng số."
+            ]
+          },
+          {
+            "heading": "Nhiệt độ và lưu trữ là những cái bẫy phổ biến",
+            "paragraphs": [
+              "Đối với độ C đến độ F, hãy sử dụng °F = °C × 9/5 + 32. Đối với trường hợp ngược lại, hãy sử dụng °C = (°F − 32) × 5/9. Đó là lý do tại sao 100°F xấp xỉ 37,78°C chứ không phải là kết quả thu được chỉ bằng cách nhân 100 với 5/9.",
+              "Đơn vị lưu trữ thập phân sử dụng lũy ​​thừa 1.000; đơn vị nhị phân sử dụng lũy ​​thừa 1.024. Ở đây 1 GB là 1.000.000.000 byte, trong khi 1 GiB là 1.073.741.824 byte. Đây là số lượng dữ liệu, không phải tốc độ kết nối internet hoặc thời gian truyền tệp."
+            ],
+            "table": {
+              "headers": [
+                "đầu vào",
+                "Giá trị được chuyển đổi"
+              ],
+              "rows": [
+                [
+                  "1 dặm",
+                  "1,609344 km"
+                ],
+                [
+                  "1 gallon chất lỏng của Mỹ",
+                  "3.785411784 L"
+                ],
+                [
+                  "100°F",
+                  "37,777…°C"
+                ],
+                [
+                  "1 GiB",
+                  "1.073.741.824 B"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Giữ độ chính xác đầy đủ cho đến bước cuối cùng",
+            "paragraphs": [
+              "Chọn một danh mục, nhập giá trị và chọn đơn vị nguồn và đích. Máy tính hiển thị tối đa tám chữ số thập phân, do đó, một số lượng rất nhỏ có thể cần đơn vị đích nhỏ hơn để vẫn có thể đọc được.",
+              "Làm tròn hệ số chuyển đổi trước khi nhân có thể làm tăng sai số. Đối với công việc sản xuất có dung sai cho phép, báo cáo khoa học hoặc tiêu chuẩn ngành quy định, hãy xác minh độ chính xác cần thiết và định nghĩa chính xác được sử dụng trong bối cảnh đó."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Tôi có thể chuyển đổi gam trực tiếp sang mililít không?",
+            "answer": "Không phải không có mật độ của vật liệu. Gam đo khối lượng và mililit đo thể tích; sự chuyển đổi giữa chúng không phải là hệ số đơn vị phổ quát."
+          },
+          {
+            "question": "Gallon của thực đơn có nghĩa là gallon của Anh phải không?",
+            "answer": "Không. Thực đơn được dán nhãn US gal và sử dụng gallon chất lỏng của Hoa Kỳ. Sử dụng định nghĩa được yêu cầu bởi tài liệu nguồn của bạn."
+          }
+        ]
+      },
+      "age": {
+        "title": "Cách tính tuổi: sinh nhật, số năm tròn và số ngày đã sống",
+        "description": "Tính số tuổi tròn, phân biệt tuổi với sự khác biệt trong năm dương lịch và hiểu các quy ước về ngày địa phương và ngày sinh nhuận.",
+        "answer": "Trừ năm sinh khỏi năm tham chiếu, sau đó trừ đi một nếu năm đó chưa có sinh nhật. Myeotiji sử dụng ngày dương lịch hôm nay trong trình duyệt của bạn làm ngày tham chiếu.",
+        "sections": [
+          {
+            "heading": "Chênh lệch một năm không phải lúc nào cũng là tuổi trọn vẹn",
+            "paragraphs": [
+              "Một người sinh ngày 31 tháng 12 năm 2000 sẽ là 25 tuổi vào ngày 30 tháng 12 năm 2026 và tròn 26 tuổi vào ngày 31 tháng 12. Chỉ cần trừ 2000 khỏi năm 2026 một ngày trước đó sẽ phóng đại một độ tuổi hoàn thành.",
+              "So sánh tháng đầu tiên và sau đó là ngày. Nếu tháng tham chiếu sớm hơn tháng sinh thì trừ đi một năm. Nếu các tháng trùng nhau nhưng ngày tham chiếu sớm hơn, hãy trừ đi một. Nếu không thì giữ chênh lệch năm."
+            ]
+          },
+          {
+            "heading": "Hiểu ngày mà máy tính sử dụng",
+            "paragraphs": [
+              "Nhập ngày sinh vào máy tính tuổi. Nó sử dụng ngày dương lịch địa phương hiện tại từ trình duyệt của bạn và cũng báo cáo những ngày dương lịch đã trôi qua kể từ khi sinh ra. Ngày tham chiếu trong bảng hướng dẫn này là những minh họa cố định; công cụ trực tiếp không cung cấp trường ngày tham chiếu lịch sử riêng biệt.",
+              "Người dùng ở các múi giờ khác nhau có thể thấy các độ tuổi khác nhau vào khoảng nửa đêm của ngày sinh nhật. Việc đếm ngày chỉ sử dụng số học theo ngày thay vì giờ sinh chính xác. Ngày sinh trong tương lai không phải là thông tin nhập về độ tuổi hợp lệ."
+            ],
+            "table": {
+              "headers": [
+                "Ngày sinh",
+                "Ngày tham chiếu trong ví dụ",
+                "Tuổi hoàn thành"
+              ],
+              "rows": [
+                [
+                  "2000-12-31",
+                  "2026-12-30",
+                  "25"
+                ],
+                [
+                  "2000-12-31",
+                  "2026-12-31",
+                  "26"
+                ],
+                [
+                  "2000-12-31",
+                  "2027-01-01",
+                  "26"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Các quy định về ngày nhuận và tính đủ điều kiện chính thức cần được quan tâm",
+            "paragraphs": [
+              "Đối với sinh nhật ngày 29 tháng 2, công cụ này so sánh trực tiếp tháng và ngày. Trong một năm không nhuận, số năm hoàn thành của nó tăng lên vào ngày 1 tháng 3. Đó là một quy ước tính toán đã nêu, không phải là phán quyết về độ tuổi hợp pháp ở mọi khu vực pháp lý.",
+              "Việc nhập học, quyền lợi, hợp đồng bảo hiểm hoặc quy trình chính thức khác có thể sử dụng độ tuổi vào một ngày cụ thể hoặc quy tắc sinh nhật đặc biệt. Kiểm tra định nghĩa của quá trình đó. Kết quả hàng ngày ở độ tuổi hiện tại không thể thay thế đánh giá tính đủ điều kiện của nó."
+            ]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Tại sao kết quả có thể khác với năm hiển thị trên lịch?",
+            "answer": "Phép trừ năm dương lịch sẽ bỏ qua việc sinh nhật có xảy ra hay không. Đã hoàn thành việc đếm số tuổi sinh nhật thực tế đã đạt được theo quy ước về ngày đã nêu."
+          },
+          {
+            "question": "Thay vào đó, tôi có thể sử dụng số ngày đã trôi qua chia cho 365 không?",
+            "answer": "Không dành cho một năm hoàn thành chính xác. Năm nhuận và vị trí của ngày sinh làm cho lối tắt đó không đáng tin cậy về ranh giới tuổi tác."
+          }
+        ]
+      }
+    },
+    "legalLabels": {
+      "privacy": "Quyền riêng tư và cookie",
+      "terms": "Sử dụng & hạn chế",
+      "contact": "Liên hệ & chỉnh sửa",
+      "notice": "Ước tính cho thông tin chung. Dịch vụ này không cung cấp tư vấn về thuế cá nhân, pháp lý, bảng lương hoặc đầu tư, chuẩn bị hồ sơ khai thuế hoặc đại diện cho bạn. Kiểm tra năm, địa điểm và loại trừ đã nêu trước khi dựa vào kết quả.",
+      "tracking": "Google Analytics bật mặc định và có thể tắt ở cuối trang. Dữ liệu nhập vào máy tính không được gửi đi. AdSense đã được kết nối để yêu cầu quảng cáo không cá nhân hóa. Google và đối tác có thể dùng cookie, web beacon, địa chỉ IP và mã nhận dạng để phân phối và đo lường quảng cáo. Quảng cáo không cá nhân hóa vẫn có thể dùng cookie. Việc hiển thị tùy thuộc phê duyệt trang web, cài đặt tài khoản và yêu cầu đồng ý áp dụng. Trang tiếng Trung vẫn tắt phân tích và quảng cáo."
+    },
+    "legal": {
+      "privacy": [
+        [
+          "Phạm vi và nhà điều hành",
+          "Myeotiji được vận hành từ Hàn Quốc. Thông báo này áp dụng cho các trang tiếng Việt. Liên hệ: contact@myeotiji.kr. Các ngôn ngữ khác có thể có cài đặt khác."
+        ],
+        [
+          "Đầu vào máy tính",
+          "Tính toán chạy trong trình duyệt của bạn. Phiên bản này không gửi số tiền, lương, ngày tháng hoặc kết quả tính toán tới cơ sở dữ liệu của nhà điều hành hoặc dịch vụ phân tích. Không đặt dữ liệu cá nhân vào URL hoặc gửi tài liệu nhận dạng, chi tiết tài khoản hoặc hồ sơ bảng lương cho chúng tôi."
+        ],
+        [
+          "Phân tích, quảng cáo và cookie",
+          "Google Analytics bật mặc định và có thể tắt ở cuối trang. Dữ liệu nhập vào máy tính không được gửi đi. AdSense đã được kết nối để yêu cầu quảng cáo không cá nhân hóa. Google và đối tác có thể dùng cookie, web beacon, địa chỉ IP và mã nhận dạng để phân phối và đo lường quảng cáo. Quảng cáo không cá nhân hóa vẫn có thể dùng cookie. Việc hiển thị tùy thuộc phê duyệt trang web, cài đặt tài khoản và yêu cầu đồng ý áp dụng. Trang tiếng Trung vẫn tắt phân tích và quảng cáo."
+        ],
+        [
+          "Lưu trữ cần thiết và xử lý ở nước ngoài",
+          "Vercel cung cấp và bảo vệ trang web này. Các yêu cầu nhất thiết phải hiển thị thông tin kết nối như địa chỉ IP, URL được yêu cầu, thời gian, tiêu đề thiết bị/trình duyệt và tín hiệu bảo mật cho cơ sở hạ tầng lưu trữ. Thông tin như vậy có thể được xử lý bên ngoài quốc gia của bạn, kể cả ở Hoa Kỳ hoặc các địa điểm có cơ sở hạ tầng khác. Việc tắt phân tích không loại bỏ quá trình xử lý này. Chúng tôi sử dụng nó để phân phối, bảo mật và điều tra lỗi chứ không phải để quảng cáo hồ sơ."
+        ],
+        [
+          "Giữ chân và lựa chọn của bạn",
+          "Dữ liệu đầu vào của máy tính không được chúng tôi giữ lại dưới dạng hồ sơ máy chủ. Nhật ký lưu trữ tuân theo việc lưu giữ của nhà cung cấp và cài đặt dự án hiện hành; chúng tôi chưa xác minh một khoảng thời gian lưu giữ cố định duy nhất cho tất cả nhật ký cơ sở hạ tầng. Hãy liên hệ với chúng tôi để biết thông tin chi tiết có thể áp dụng hoặc để yêu cầu quyền truy cập, chỉnh sửa, xóa hoặc hạn chế theo luật của bạn. Chúng tôi đánh giá các yêu cầu và ngoại lệ pháp lý, đồng thời không hứa rằng tất cả nhật ký nhà cung cấp có thể bị xóa ngay lập tức. Đóng trang sẽ xóa trạng thái tính toán trong bộ nhớ của nó; trình duyệt của bạn có thể lưu giữ lịch sử hoặc khôi phục một tab."
+        ],
+        [
+          "Email và liên kết bên ngoài",
+          "Nếu bạn chọn gửi email cho chúng tôi, chúng tôi sẽ nhận được địa chỉ và tin nhắn của bạn để xử lý yêu cầu và chỉ giữ lại những gì cần thiết cho mục đích đó hoặc nghĩa vụ pháp lý. Sử dụng các ví dụ hư cấu chứ không phải hồ sơ tài chính cá nhân thực tế. Email không cần thiết để tính toán. Các tài liệu tham khảo chính thức mở các trang web của bên thứ ba với các chính sách riêng của họ. Những thay đổi trong việc theo dõi hoặc sử dụng dữ liệu yêu cầu phải cập nhật thông báo này và thực hiện mọi lựa chọn bắt buộc về mặt pháp lý trước khi kích hoạt."
+        ]
+      ],
+      "terms": [
+        [
+          "Mục đích",
+          "Giải thích chung và số học tự phục vụ miễn phí. Chúng tôi không tự nhận mình là luật sư, kế toán, người khai thuế, người cung cấp bảng lương, cố vấn đầu tư hoặc cơ quan chính phủ cho bạn. Không có mối quan hệ chuyên nghiệp-khách hàng nào được tạo ra chỉ bằng cách sử dụng máy tính."
+        ],
+        [
+          "Kiểm tra các giả định",
+          "Kết quả là ước tính cho năm, khu vực pháp lý và mô hình đã nêu. Tình trạng thuế, miễn trừ, tài liệu kế hoạch, quy tắc địa phương, luật làm tròn và thay đổi có thể làm thay đổi kết quả thực tế. Một ví dụ không phải là một sự đảm bảo. Xác minh với cơ quan chính thức có liên quan hoặc chuyên gia có trình độ trước khi nộp đơn, trả lương, đầu tư, quyên góp hoặc đặt chuyến du lịch."
+        ],
+        [
+          "Giới hạn cụ thể",
+          "Làm thêm giờ của Hoa Kỳ sử dụng mức cơ bản không được miễn trừ của liên bang, không phải tất cả các quy định của tiểu bang. Tiền lương mang về nhà là một minh họa đơn giản hàng năm, không phải là phép tính W-4 hoặc nộp hồ sơ. Trận đấu 401(k) không phải là số dư được giao hoặc đề xuất đóng góp. Các công cụ trung bình cổ phiếu và công cụ phức hợp không đề xuất chứng khoán hoặc lợi nhuận đảm bảo. Công cụ ngày và tuổi không quyết định tính đủ điều kiện pháp lý hoặc thời hạn."
+        ],
+        [
+          "Sai sót và trách nhiệm",
+          "Báo cáo lỗi đáng ngờ bằng cách sử dụng thông tin đầu vào hư cấu và URL bị ảnh hưởng. Chúng tôi có thể sửa chữa, cảnh báo hoặc tạm thời hạn chế một công cụ bị ảnh hưởng khi các giả định của nó không thể được xác minh. Thông báo này mô tả phạm vi; nó không loại trừ trách nhiệm pháp lý không thể được loại trừ theo pháp luật, bao gồm trách nhiệm pháp lý hiện hành đối với hành vi sai trái có chủ ý hoặc sơ suất nghiêm trọng hoặc loại bỏ các quyền bắt buộc của người tiêu dùng."
+        ],
+        [
+          "Hỗ trợ và thay đổi",
+          "Hỗ trợ xử lý các lỗi kỹ thuật và chỉnh sửa nguồn chung. Không yêu cầu các vị trí thuế cá nhân, các quyết định pháp lý, chuẩn bị hồ sơ hoặc đại diện. Chúng tôi sẽ chuyển những yêu cầu đó đến cơ quan có liên quan hoặc chuyên gia có trình độ. Những thay đổi quan trọng được phản ánh trong ngày của trang; kiểm tra lại các giả định mỗi lần."
+        ]
+      ],
+      "contact": [
+        [
+          "Các vấn đề kỹ thuật, chỉnh sửa và yêu cầu về quyền riêng tư",
+          "Gửi email tới contact@myeotiji.kr kèm theo URL trang, năm/khu vực áp dụng và một ví dụ hư cấu hiển thị kết quả mong đợi và được hiển thị. Bạn cũng có thể yêu cầu thông tin về xử lý dữ liệu hoặc thực hiện các quyền riêng tư hiện hành tại đây. Chúng tôi không yêu cầu tài khoản hoặc biểu mẫu."
+        ],
+        [
+          "Giữ thông tin của bạn an toàn",
+          "Không gửi email số nhận dạng chính phủ, tài khoản ngân hàng, mật khẩu, phiếu lương đầy đủ hoặc chứng từ thuế thực tế. Chúng tôi không cung cấp tư vấn về thuế cá nhân, pháp lý hoặc đầu tư hoặc hành động thay mặt bạn. Để biết thời hạn nộp hồ sơ, thanh toán hoặc tuyển dụng, hãy liên hệ trực tiếp với cơ quan có thẩm quyền hoặc chuyên gia có trình độ."
+        ]
+      ]
+    },
+    "policy": [
+      {
+        "heading": "Mục đích và quyền tác giả",
+        "text": "Myeotiji công bố phần giải thích về các máy tính có sẵn trên trang này. Những hướng dẫn này được chuẩn bị với sự hỗ trợ của AI và được kiểm tra theo phương pháp tính toán đã nêu, các ví dụ hoạt động và tài liệu tham khảo được trích dẫn. Tên tác giả xác định Myeotiji là dịch vụ xuất bản; nó không yêu cầu được xem xét bởi một kế toán viên, luật sư hoặc cố vấn được quản lý có tên."
+      },
+      {
+        "heading": "Nguồn, ngày tháng và các quy tắc áp dụng",
+        "text": "Đối với các chủ đề về luật, thuế, tiền lương và bảo hiểm xã hội, chúng tôi ưu tiên các ấn phẩm và liên kết đến các tài liệu liên quan của cơ quan công quyền có trách nhiệm. Các điều khoản của nhà cung cấp và tiêu chuẩn kỹ thuật được xác định như vậy. Một ví dụ toán học do Myeotiji viết là một minh họa chứ không phải là một trích dẫn của cơ quan có thẩm quyền. Ngày cập nhật hiển thị ghi lại đánh giá nội dung quan trọng chứ không phải tự động làm mới hàng ngày. Quốc gia, năm và các trường hợp loại trừ được nêu trong từng vấn đề hướng dẫn."
+      },
+      {
+        "heading": "Những gì một tính toán có thể và không thể thiết lập",
+        "text": "Chúng tôi kiểm tra các ví dụ số đại diện và điều kiện biên. Các mô hình đơn giản vẫn bỏ qua những thông tin có thể thay đổi khoản thanh toán hoặc quyền lợi thực tế. Tăng trưởng đầu tư giả định không phải là một khoản lợi nhuận được hứa hẹn và ước tính tiền lương không phải là đánh giá thuế cuối cùng. Ví dụ sử dụng các giả định được hiển thị; Người đọc nên xác minh hồ sơ thực tế của nhà cung cấp, người sử dụng lao động hoặc cơ quan có thẩm quyền trước khi dựa vào một con số để đưa ra quyết định sau đó."
+      },
+      {
+        "heading": "Sửa chữa và phản hồi",
+        "text": "Nếu bạn tìm thấy công thức, nguồn, bản dịch hoặc ví dụ không chính xác, vui lòng gửi địa chỉ trang, thông tin đầu vào có liên quan và kết quả mà bạn mong đợi đến địa chỉ liên hệ của chúng tôi. Không gửi giấy tờ tùy thân, bảng lương đầy đủ, số tài khoản hoặc thông tin cá nhân không cần thiết khác. Chúng ta có thể sử dụng một ví dụ có thể tái tạo để điều tra và cập nhật lời giải thích."
+      }
+    ]
   }
 };

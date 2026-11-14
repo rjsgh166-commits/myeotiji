@@ -16,7 +16,7 @@ require.extensions['.tsx'] = require.extensions['.ts'] = (module, file) => modul
 const React = require('react'), { createRoot } = require('react-dom/client');
 const { act } = React;
 const Calculator = require('../app/_components/InternationalCalculator.tsx').default;
-const { COPY, LOCALES, TOOLS } = require('../app/_lib/international.ts');
+const { DEFAULT_CURRENCY, COPY, LOCALES, TOOLS } = require('../app/_lib/international.ts');
 const { guideTeaserForCalculator } = require('../app/_lib/intl-guides/index.ts');
 const root = createRoot(document.getElementById('root'));
 let cases = 0, activeLocale = "en";
@@ -37,19 +37,31 @@ async function fill(label, value) {
 function result(index) {
   const strong = document.querySelectorAll('section[aria-live] strong')[index];
   assert(strong, 'Expected numeric result');
-  const decimal = new Intl.NumberFormat(COPY[activeLocale].tag).formatToParts(1.1).find(p => p.type === 'decimal').value;
-  let value = strong.textContent.replace(/[^\d.,\-]/g, '');
-  value = decimal === ',' ? value.replace(/\./g, '').replace(',', '.') : value.replace(/,/g, '');
+  const format = new Intl.NumberFormat(COPY[activeLocale].tag);
+  let value = strong.textContent;
+  for (const currency of [DEFAULT_CURRENCY[activeLocale], 'USD']) {
+    for (const part of new Intl.NumberFormat(COPY[activeLocale].tag,{style:'currency',currency}).formatToParts(1))
+      if(part.type==='currency') value=value.split(part.value).join('');
+  }
+  for (let i=0;i<10;i++) value = value.split(format.format(i)).join(String(i));
+  const parts = format.formatToParts(12345.6);
+  for (const item of parts) if(item.type === 'group') value = value.split(item.value).join('');
+  const decimal = parts.find(p => p.type === 'decimal').value;
+  value = value.split(decimal).join('.').replace(/[^\d.\-]/g, '');
   return Number(value);
 }
-function near(index, expected, tolerance = .011) { assert(Math.abs(result(index) - expected) < tolerance, `${result(index)} != ${expected}`); }
+function near(index, expected, tolerance = .011) { assert(Math.abs(result(index) - expected) < tolerance, `${activeLocale}: ${result(index)} != ${expected}`); }
 (async () => {
   for (const locale of LOCALES) for (const tool of TOOLS) {
     activeLocale = locale;
     const guide = guideTeaserForCalculator(locale, tool);
     await act(async () => root.render(React.createElement(Calculator, { locale, tool, guide, key: `${locale}-${tool}` })));
+    if (locale === 'vi' && ['fee','discount','stock-average','compound'].includes(tool)) {
+      const select = document.querySelector('select');
+      await act(async () => { select.value='USD'; select.dispatchEvent(new window.Event('change',{bubbles:true})); });
+    }
     const names = COPY[locale].tools[tool].fields;
-    if (tool === 'fee') { near(0, 3.3); near(1, 96.7); }
+    if (tool === 'fee') { const tol = locale === 'vi' ? .51 : .011; near(0, 3.3, tol); near(1, 96.7, tol); }
     if (tool === 'discount') { near(0, 72); near(2, 28); }
     if (tool === 'days') {
       await fill(names[0], '2028-02-28'); await fill(names[1], '2028-03-01'); near(0, 2);

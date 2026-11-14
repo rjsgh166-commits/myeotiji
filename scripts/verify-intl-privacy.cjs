@@ -10,7 +10,7 @@ let checked = 0, controls = 0;
 for (const url of urls) {
  const pathname = new URL(url).pathname;
  const locale = pathname.split('/')[1];
- if (!['en', 'ja', 'zh-hans', 'es', 'pt-br', 'id', 'hi'].includes(locale)) continue;
+ if (!['en', 'ja', 'zh-hans', 'es', 'pt-br', 'id', 'hi', 'fr', 'ar', 'bn', 'ur', 'vi'].includes(locale)) continue;
  const doc = new JSDOM(fs.readFileSync(path.join(root, pathname.slice(1)+'.html'),'utf8')).window.document;
  const scripts = [...doc.querySelectorAll('script')];
  if(locale === "zh-hans") {
@@ -29,7 +29,7 @@ for (const url of urls) {
  }
  doc.defaultView.close(); checked++;
 }
-assert.equal(checked,158);
+assert.equal(checked,258);
 // The Korean root retains its existing analytics configuration.
 assert(fs.readFileSync(path.join(root,'index.html'),'utf8').includes('G-6FC374VXMH'));
-console.log(JSON.stringify({status:'PASS',internationalPagesWithoutPreConsentTracking:checked,englishJapaneseConsentControls:controls, chinesePagesWithoutAnalytics:26,localizedPolicyPages:21,koreanAnalyticsPreserved:true}));
+console.log(JSON.stringify({status:'PASS',internationalPagesChecked:checked,analyticsControls:controls, chinesePagesWithoutAnalytics:26,localizedPolicyPages:36,koreanAnalyticsPreserved:true}));

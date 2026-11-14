@@ -24,3 +24,7 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Preserve mathematical order inside RTL calculator layouts. */
+html[dir="rtl"] input[type="number"], html[dir="rtl"] input[type="date"], html[dir="rtl"] strong { direction: ltr; unicode-bidi: isolate; }
+html[dir="rtl"] p { unicode-bidi: plaintext; }
