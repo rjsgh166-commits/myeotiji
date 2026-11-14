@@ -7,21 +7,21 @@ const BASE_LEGAL_LABELS = {
     "terms": "Use & limitations",
     "contact": "Contact & corrections",
     "notice": "Estimates for general information. This service does not provide individual tax, legal, payroll or investment advice, prepare returns, or represent you. Check the stated year, location and exclusions before relying on a result.",
-    "tracking": "English and Japanese pages offer optional Google Analytics by default, with an opt-out below; Chinese pages keep analytics off. Advertising is disabled. Essential hosting and security logs may still be processed."
+    "tracking": "English and Japanese pages offer optional Google Analytics by default, with an opt-out below; Chinese pages keep analytics off. AdSense is connected for non-personalized advertising; display depends on Google approval and account settings. Essential hosting and security logs may still be processed."
   },
   "ja": {
     "privacy": "プライバシー・Cookie",
     "terms": "利用案内・計算の限界",
     "contact": "お問い合わせ・訂正依頼",
     "notice": "一般的な情報を提供する概算ツールです。個別の税務・法律・労務・投資相談、申告書の作成代行や代理は行いません。結果を使う前に対象年・地域・除外条件を確認してください。",
-    "tracking": "英語・日本語ページでは初期設定で（拒否した場合を除き）Google Analyticsを使います。中国語ページの解析と各言語ページの広告は停止中です。配信・安全確保に必要なログは処理される場合があります。"
+    "tracking": "英語・日本語ページでは初期設定で（拒否した場合を除き）Google Analyticsを使います。中国語ページの解析・広告は停止中です。他の言語では非パーソナライズ広告用AdSenseを接続しています。表示は承認・アカウント設定に依存します。配信・安全確保に必要なログは処理される場合があります。"
   },
   "zh-hans": {
     "privacy": "隐私与Cookie",
     "terms": "使用说明与计算限制",
     "contact": "联系与纠错",
     "notice": "本服务提供一般信息和估算，不提供针对个人的税务、法律、薪资结算或投资咨询，不代办申报或代理事务。使用结果前，请核对适用年度、地区和未涵盖的条件。",
-    "tracking": "中文页面不启用访问分析；英文和日文页面默认启用（用户可关闭）Google Analytics。广告仍停用。托管和安全所需的连接日志仍可能被处理。"
+    "tracking": "中文页面不启用访问分析；英文和日文页面默认启用（用户可关闭）Google Analytics。除中文外的页面已连接非个性化AdSense广告，展示取决于Google审核与账号设置。托管和安全所需的连接日志仍可能被处理。"
   }
 };
 export const LEGAL_LABELS = { ...BASE_LEGAL_LABELS, es: EXPANSION.es.legalLabels, "pt-br": EXPANSION["pt-br"].legalLabels, id: EXPANSION.id.legalLabels, hi: EXPANSION.hi.legalLabels } satisfies Record<IntlLocale, Record<string, string>>;
@@ -40,7 +40,7 @@ const BASE_SECTIONS = {
       ],
       [
         "Analytics, ads and cookies",
-        "English and Japanese pages load Google Analytics 4 by default unless you have rejected analytics in the page footer. Rejecting it does not affect calculations. We measure page visits and technical usage information; Google may process cookie identifiers, device/browser information and approximate location outside your country. Google signals and advertising personalization are disabled in this integration. Chinese pages do not load analytics. No advertising tags are enabled on these language pages. The choice is saved in local storage and can be changed in the footer. On rejection we stop this integration and delete its cookies; other cookies can be removed in browser settings. Analytics cookies are configured to expire after 30 days and may refresh with use. Analytics record retention depends on the GA property settings; a verified account-specific duration is not yet available here."
+        "English and Japanese pages load Google Analytics 4 by default unless you have rejected analytics in the page footer. Rejecting it does not affect calculations. We measure page visits and technical usage information; Google may process cookie identifiers, device/browser information and approximate location outside your country. Google signals and advertising personalization are disabled in this integration. Chinese pages do not load analytics. The same default-on analytics and opt-out approach also applies to Spanish, Brazilian Portuguese, Indonesian and Hindi pages. AdSense advertising tags are enabled except on Chinese pages. Google and its partners may use cookies, web beacons, IP addresses and identifiers to deliver and measure ads. Non-personalized ads are requested; this does not mean no cookies or data processing. Actual display depends on approval and account settings. The choice is saved in local storage and can be changed in the footer. On rejection we stop this integration and delete its cookies; other cookies can be removed in browser settings. Analytics cookies are configured to expire after 30 days and may refresh with use. Analytics record retention depends on the GA property settings; a verified account-specific duration is not yet available here."
       ],
       [
         "Necessary hosting and overseas processing",
@@ -100,7 +100,7 @@ const BASE_SECTIONS = {
       ],
       [
         "解析・広告・Cookie",
-        "英語・日本語ページでは初期設定で（ページ末尾で拒否した場合を除き）Google Analytics 4を読み込みます。拒否しても計算できます。ページ訪問や技術的な利用情報を測定し、GoogleがCookie識別子、端末・ブラウザ情報、おおよその地域を日本国外で処理する場合があります。この実装ではGoogleシグナルと広告のパーソナライズを無効にしています。中国語ページでは解析を読み込まず、これらの言語ページで広告タグは有効にしません。選択はローカルストレージに保存し、ページ末尾で変更できます。拒否するとこの解析を停止し、そのCookieを削除します。ほかのCookieはブラウザ設定で削除できます。解析Cookieの有効期間は30日に設定し、利用に伴い更新される場合があります。解析記録の保持はGAプロパティ設定に従い、アカウント固有の期間は未確認です。"
+        "英語・日本語ページでは初期設定で（ページ末尾で拒否した場合を除き）Google Analytics 4を読み込みます。拒否しても計算できます。ページ訪問や技術的な利用情報を測定し、GoogleがCookie識別子、端末・ブラウザ情報、おおよその地域を日本国外で処理する場合があります。この実装ではGoogleシグナルと広告のパーソナライズを無効にしています。中国語ページでは解析を読み込まず、中国語を除くページではAdSense広告タグが有効です。Google等がCookie・ウェブビーコン・IPアドレス等を広告配信や測定に使う場合があります。非パーソナライズ広告を要求しますが、Cookieや情報処理が不要になるわけではありません。表示は承認とアカウント設定に依存します。選択はローカルストレージに保存し、ページ末尾で変更できます。拒否するとこの解析を停止し、そのCookieを削除します。ほかのCookieはブラウザ設定で削除できます。解析Cookieの有効期間は30日に設定し、利用に伴い更新される場合があります。解析記録の保持はGAプロパティ設定に従い、アカウント固有の期間は未確認です。"
       ],
       [
         "配信に必要な情報と国外処理",
@@ -160,7 +160,7 @@ const BASE_SECTIONS = {
       ],
       [
         "分析、广告与Cookie",
-        "中文页面不加载Google Analytics。英文和日文页面默认加载，用户可在页尾关闭Google Analytics 4，拒绝不影响计算。其可能由Google在境外处理Cookie标识符、设备与浏览器信息和大致地区等访问统计。该实现停用Google信号和广告个性化。所有这些语言页面均未启用广告标签。选择保存在本地存储中，可在英文或日文页尾修改。拒绝后停止该分析并清除该实现的Cookie；其他Cookie可在浏览器设置中删除。分析Cookie配置为30天有效，使用时可能续期；分析记录保留期限取决于GA属性设置，尚未核实该账号的具体期限。"
+        "中文页面不加载Google Analytics。英文和日文页面默认加载，用户可在页尾关闭Google Analytics 4，拒绝不影响计算。其可能由Google在境外处理Cookie标识符、设备与浏览器信息和大致地区等访问统计。该实现停用Google信号和广告个性化。中文页面不启用广告；其他语言页面已连接AdSense，Google及其合作方可能使用Cookie、网络信标、IP地址及标识符来提供和衡量广告。非个性化广告也可能使用Cookie。选择保存在本地存储中，可在英文或日文页尾修改。拒绝后停止该分析并清除该实现的Cookie；其他Cookie可在浏览器设置中删除。分析Cookie配置为30天有效，使用时可能续期；分析记录保留期限取决于GA属性设置，尚未核实该账号的具体期限。"
       ],
       [
         "必要托管与境外处理",

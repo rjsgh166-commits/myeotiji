@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { IntlLocale } from "../_lib/international";
 import { usePathname } from "next/navigation";
 
 const ID = "G-6FC374VXMH";
@@ -9,10 +10,14 @@ const DISABLE = `ga-disable-${ID}`;
 const text = {
   en: { title: "Optional visit analytics", body: "Google Analytics visit measurement is enabled by default. You can turn it off below. Calculator inputs are not sent. Advertising features are disabled. You can change this choice here at any time.", allow: "Allow analytics", reject: "Reject analytics", active: "Visit analytics: allowed", off: "Visit analytics: off", privacy: "Privacy details" },
   ja: { title: "任意のアクセス解析", body: "Google Analyticsによる訪問解析は初期設定で有効です。下のボタンで停止できます。計算の入力値は送信せず、広告向け機能は無効です。ここでいつでも選択を変更できます。", allow: "解析を許可", reject: "解析を拒否", active: "訪問解析：許可", off: "訪問解析：停止中", privacy: "プライバシーの詳細" },
+  es: { title: "Análisis de visitas", body: "Google Analytics está activado por defecto. Puedes desactivarlo aquí. No enviamos los datos introducidos en las calculadoras. La personalización publicitaria de Analytics está desactivada.", allow: "Permitir análisis", reject: "Desactivar análisis", active: "Análisis activado", off: "Análisis desactivado", privacy: "Privacidad" },
+  "pt-br": { title: "Análise de visitas", body: "Google Analytics está ativo por padrão. Você pode desativar abaixo. Os dados inseridos nas calculadoras não são enviados. A personalização de anúncios do Analytics está desativada.", allow: "Permitir análise", reject: "Desativar análise", active: "Análise ativada", off: "Análise desativada", privacy: "Privacidade" },
+  id: { title: "Analisis kunjungan", body: "Google Analytics aktif secara default dan dapat dimatikan di sini. Input kalkulator tidak dikirim. Personalisasi iklan Analytics dinonaktifkan.", allow: "Izinkan analisis", reject: "Matikan analisis", active: "Analisis aktif", off: "Analisis nonaktif", privacy: "Privasi" },
+  hi: { title: "विज़िट विश्लेषण", body: "Google Analytics सामान्य रूप से चालू है। आप इसे नीचे बंद कर सकते हैं। कैलकुलेटर में भरी जानकारी नहीं भेजी जाती। Analytics में विज्ञापन वैयक्तिकरण बंद है।", allow: "विश्लेषण चालू करें", reject: "विश्लेषण बंद करें", active: "विश्लेषण चालू है", off: "विश्लेषण बंद है", privacy: "गोपनीयता" },
 };
 
 type Choice = "allowed" | "denied" | null;
-export default function InternationalAnalytics({ locale }: { locale: "en" | "ja" }) {
+export default function InternationalAnalytics({ locale }: { locale: Exclude<IntlLocale, "zh-hans"> }) {
   const [choice, setChoice] = useState<Choice>(null);
   const pathname = usePathname();
   const t = text[locale];

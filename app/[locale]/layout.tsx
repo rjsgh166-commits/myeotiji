@@ -1,3 +1,4 @@
+import Script from "next/script";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -33,7 +34,11 @@ export default async function IntlLayout({ children, params }: {
       <body className="min-h-full bg-gray-50">
         {children}
         <InternationalSafety locale={locale} />
-        {(locale === "en" || locale === "ja") && <InternationalAnalytics locale={locale} />}
+        {locale !== "zh-hans" && <>
+          <InternationalAnalytics locale={locale} />
+          <Script id="international-ads-settings" strategy="afterInteractive">{`window.adsbygoogle = window.adsbygoogle || []; window.adsbygoogle.requestNonPersonalizedAds = 1;`}</Script>
+          <Script async crossOrigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3837140065995769" strategy="afterInteractive" />
+        </>}
       </body>
     </html>
   );

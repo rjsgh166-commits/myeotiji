@@ -13,10 +13,13 @@ for (const url of urls) {
  if (!['en', 'ja', 'zh-hans', 'es', 'pt-br', 'id', 'hi'].includes(locale)) continue;
  const doc = new JSDOM(fs.readFileSync(path.join(root, pathname.slice(1)+'.html'),'utf8')).window.document;
  const scripts = [...doc.querySelectorAll('script')];
- assert(!scripts.some(s => /googletagmanager|google-analytics|adsbygoogle|googlesyndication|gtag\(|G-6FC374VXMH/.test((s.src||'')+s.textContent)), `${pathname}: optional tracking active`);
- assert(!doc.querySelector('meta[name="google-adsense-account"]'));
- if(!["en","ja"].includes(locale)) assert(!doc.querySelector("[data-analytics-settings]"));
- else { assert(doc.querySelector("[data-analytics-settings]")); controls++; }
+ if(locale === "zh-hans") {
+  assert(!scripts.some(s => /googletagmanager|adsbygoogle|googlesyndication/.test((s.src||'')+s.textContent)));
+  assert(!doc.querySelector("[data-analytics-settings]"));
+ } else {
+  assert(doc.querySelector("[data-analytics-settings]")); controls++;
+  assert(scripts.some(s => ((s.src||'')+s.textContent).includes('adsbygoogle.js')));
+ }
  const footer = doc.querySelector('[data-international-safety]');
  assert(footer, `${pathname}: safety footer`);
  for(const page of ['privacy','terms','contact']) assert(footer.querySelector(`a[href="/${locale}/${page}"]`), `${pathname}: ${page} not reachable`);

@@ -461,7 +461,7 @@ export const EXPANSION = {
       "terms": "Uso y limitaciones",
       "contact": "Contacto y correcciones",
       "notice": "Estimaciones para información general. Este servicio no proporciona asesoramiento fiscal, legal, de nómina o de inversión individual, no prepara declaraciones ni lo representa. Verifique el año, la ubicación y las exclusiones indicados antes de confiar en un resultado.",
-      "tracking": "Las estadísticas opcionales y la publicidad están desactivadas en estas páginas. El alojamiento puede procesar registros necesarios de conexión y seguridad."
+      "tracking": "Google Analytics está activado por defecto; puedes desactivarlo al pie de la página. No enviamos las entradas de las calculadoras. AdSense está conectado para solicitar anuncios no personalizados. Google y sus socios pueden usar cookies, balizas web, direcciones IP e identificadores para mostrar y medir anuncios. La visualización depende de la aprobación y configuración de la cuenta. Los anuncios no personalizados también pueden usar cookies. Las páginas chinas mantienen desactivados análisis y anuncios."
     },
     "legal": {
       "privacy": [
@@ -475,7 +475,7 @@ export const EXPANSION = {
         ],
         [
           "Análisis, anuncios y cookies.",
-          "Estas páginas no cargan Google Analytics ni etiquetas publicitarias. No instalamos cookies opcionales de análisis o publicidad aquí. Las cookies guardadas anteriormente por otras secciones pueden permanecer y se pueden borrar desde el navegador."
+          "Google Analytics está activado por defecto; puedes desactivarlo al pie de la página. No enviamos las entradas de las calculadoras. AdSense está conectado para solicitar anuncios no personalizados. Google y sus socios pueden usar cookies, balizas web, direcciones IP e identificadores para mostrar y medir anuncios. La visualización depende de la aprobación y configuración de la cuenta. Los anuncios no personalizados también pueden usar cookies. Las páginas chinas mantienen desactivados análisis y anuncios."
         ],
         [
           "Hospedaje necesario y procesamiento en el extranjero",
@@ -1004,7 +1004,7 @@ export const EXPANSION = {
       "terms": "Uso e limitações",
       "contact": "Contato e correções",
       "notice": "Estimativas para informações gerais. Este serviço não fornece consultoria tributária, jurídica, de folha de pagamento ou de investimento individual, não prepara retornos nem representa você. Verifique o ano indicado, local e exclusões antes de confiar no resultado.",
-      "tracking": "A análise opcional de visitas e os anúncios estão desativados nestas páginas. A hospedagem pode processar registros necessários de conexão e segurança."
+      "tracking": "Google Analytics está ativo por padrão e pode ser desativado no rodapé. Não enviamos os valores das calculadoras. AdSense está conectado para solicitar anúncios não personalizados. Google e parceiros podem usar cookies, web beacons, endereços IP e identificadores para entregar e medir anúncios. A exibição depende de aprovação e configurações da conta. Anúncios não personalizados também podem usar cookies. As páginas chinesas mantêm análise e anúncios desativados."
     },
     "legal": {
       "privacy": [
@@ -1018,7 +1018,7 @@ export const EXPANSION = {
         ],
         [
           "Análise, anúncios e cookies",
-          "Estas páginas não carregam Google Analytics nem tags de anúncios. Não criamos cookies opcionais de análise ou publicidade aqui. Cookies anteriores de outras seções podem permanecer e podem ser excluídos nas configurações do navegador."
+          "Google Analytics está ativo por padrão e pode ser desativado no rodapé. Não enviamos os valores das calculadoras. AdSense está conectado para solicitar anúncios não personalizados. Google e parceiros podem usar cookies, web beacons, endereços IP e identificadores para entregar e medir anúncios. A exibição depende de aprovação e configurações da conta. Anúncios não personalizados também podem usar cookies. As páginas chinesas mantêm análise e anúncios desativados."
         ],
         [
           "Hospedagem necessária e processamento no exterior",
@@ -1547,7 +1547,7 @@ export const EXPANSION = {
       "terms": "Penggunaan & batasan",
       "contact": "Kontak & koreksi",
       "notice": "Perkiraan untuk informasi umum. Layanan ini tidak memberikan nasihat perpajakan, hukum, penggajian atau investasi individu, menyiapkan pengembalian, atau mewakili Anda. Periksa tahun yang disebutkan, lokasi dan pengecualian sebelum mengandalkan hasil.",
-      "tracking": "Analisis kunjungan opsional dan iklan dinonaktifkan pada halaman ini. Layanan hosting masih dapat memproses log koneksi dan keamanan yang diperlukan."
+      "tracking": "Google Analytics aktif secara default dan dapat dimatikan di bagian bawah halaman. Input kalkulator tidak dikirim. AdSense terhubung untuk meminta iklan nonpersonalisasi. Google dan mitranya dapat memakai cookie, web beacon, alamat IP dan pengenal untuk menayangkan serta mengukur iklan. Penayangan bergantung pada persetujuan dan pengaturan akun. Iklan nonpersonalisasi juga dapat memakai cookie. Halaman bahasa Mandarin tetap tanpa analisis dan iklan."
     },
     "legal": {
       "privacy": [
@@ -1561,7 +1561,7 @@ export const EXPANSION = {
         ],
         [
           "Analisis, iklan, dan cookie",
-          "Halaman ini tidak memuat Google Analytics atau tag iklan. Kami tidak memasang cookie analisis atau iklan opsional di sini. Cookie lama dari bagian lain mungkin tetap tersimpan dan dapat dihapus melalui pengaturan browser."
+          "Google Analytics aktif secara default dan dapat dimatikan di bagian bawah halaman. Input kalkulator tidak dikirim. AdSense terhubung untuk meminta iklan nonpersonalisasi. Google dan mitranya dapat memakai cookie, web beacon, alamat IP dan pengenal untuk menayangkan serta mengukur iklan. Penayangan bergantung pada persetujuan dan pengaturan akun. Iklan nonpersonalisasi juga dapat memakai cookie. Halaman bahasa Mandarin tetap tanpa analisis dan iklan."
         ],
         [
           "Diperlukan hosting dan pemrosesan di luar negeri",
@@ -2090,7 +2090,7 @@ export const EXPANSION = {
       "terms": "उपयोग एवं सीमाएँ",
       "contact": "संपर्क एवं सुधार",
       "notice": "सामान्य जानकारी के लिए अनुमान. यह सेवा व्यक्तिगत कर, कानूनी, पेरोल या निवेश सलाह प्रदान नहीं करती है, रिटर्न तैयार नहीं करती है, या आपका प्रतिनिधित्व नहीं करती है। किसी परिणाम पर भरोसा करने से पहले बताए गए वर्ष, स्थान और बहिष्करण की जांच करें।",
-      "tracking": "इन पृष्ठों पर वैकल्पिक विज़िट विश्लेषण और विज्ञापन बंद हैं। होस्टिंग सेवा आवश्यक कनेक्शन और सुरक्षा लॉग संसाधित कर सकती है।"
+      "tracking": "Google Analytics सामान्य रूप से चालू है और पृष्ठ के नीचे बंद किया जा सकता है। कैलकुलेटर के इनपुट नहीं भेजे जाते। गैर-वैयक्तिकृत विज्ञापन माँगने के लिए AdSense जुड़ा है। Google और साझेदार विज्ञापन दिखाने तथा मापने के लिए कुकी, वेब बीकन, IP पते और पहचानकर्ता इस्तेमाल कर सकते हैं। विज्ञापन दिखना खाते की स्वीकृति और सेटिंग पर निर्भर है। गैर-वैयक्तिकृत विज्ञापन भी कुकी इस्तेमाल कर सकते हैं। चीनी पृष्ठों पर विश्लेषण और विज्ञापन बंद हैं।"
     },
     "legal": {
       "privacy": [
@@ -2104,7 +2104,7 @@ export const EXPANSION = {
         ],
         [
           "विश्लेषिकी, विज्ञापन और कुकीज़",
-          "ये पृष्ठ Google Analytics या विज्ञापन टैग लोड नहीं करते। यहाँ वैकल्पिक विश्लेषण या विज्ञापन कुकी नहीं बनाई जाती। अन्य पृष्ठों की पहले से सहेजी कुकी ब्राउज़र में रह सकती हैं; उन्हें ब्राउज़र सेटिंग से मिटाया जा सकता है।"
+          "Google Analytics सामान्य रूप से चालू है और पृष्ठ के नीचे बंद किया जा सकता है। कैलकुलेटर के इनपुट नहीं भेजे जाते। गैर-वैयक्तिकृत विज्ञापन माँगने के लिए AdSense जुड़ा है। Google और साझेदार विज्ञापन दिखाने तथा मापने के लिए कुकी, वेब बीकन, IP पते और पहचानकर्ता इस्तेमाल कर सकते हैं। विज्ञापन दिखना खाते की स्वीकृति और सेटिंग पर निर्भर है। गैर-वैयक्तिकृत विज्ञापन भी कुकी इस्तेमाल कर सकते हैं। चीनी पृष्ठों पर विश्लेषण और विज्ञापन बंद हैं।"
         ],
         [
           "आवश्यक होस्टिंग और विदेशी प्रसंस्करण",
