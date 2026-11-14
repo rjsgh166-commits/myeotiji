@@ -25,21 +25,24 @@ function bodyText(source) {
 for (const [file, expected] of Object.entries(baseline)) {
   const source = fs.readFileSync(path.join(output, file), 'utf8');
   assert.equal(hash(metaTags(source)), expected.head, `${file}: Korean metadata changed`);
-  assert.equal(hash(bodyText(source)), expected.body, `${file}: Korean content changed`);
+  if(file === 'age.html' && hash(bodyText(source)) !== expected.body) {
+    const { execFileSync } = require('node:child_process');
+    assert.equal(execFileSync('git', ['diff', '0a091686ddd6bc2a4470711b120fee5db647a4c8', '--', 'app/(korean)/age'], {encoding:'utf8'}), '', 'Date-dependent Korean age source changed');
+  } else assert.equal(hash(bodyText(source)), expected.body, `${file}: Korean content changed`);
   assert(source.includes('<html lang="ko"'), `${file}: Korean document language changed`);
 }
 const sitemap = fs.readFileSync(path.join(output, 'sitemap.xml.body'), 'utf8');
 const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => m[1]);
-assert.equal(urls.length, 124); assert.equal(new Set(urls).size, 124);
+assert.equal(urls.length, 204); assert.equal(new Set(urls).size, 204);
 let international = 0;
 for (const url of urls) {
   const pathname = new URL(url).pathname;
   const locale = pathname.split('/')[1];
-  if (!['en', 'ja', 'zh-hans'].includes(locale)) continue;
+  if (!['en', 'ja', 'zh-hans', 'es', 'pt-br', 'id', 'hi'].includes(locale)) continue;
   international++;
   const source = fs.readFileSync(path.join(output, pathname.slice(1) + '.html'), 'utf8');
   const doc = new JSDOM(source).window.document;
-  const tag = locale === 'zh-hans' ? 'zh-Hans' : locale;
+  const tag = locale === 'zh-hans' ? 'zh-Hans' : locale === 'pt-br' ? 'pt-BR' : locale;
   assert.equal(doc.documentElement.lang, tag, `${pathname}: language`);
   assert.equal(doc.querySelector('link[rel="canonical"]').href, url, `${pathname}: canonical`);
   assert.equal(doc.querySelector('meta[name="twitter:title"]').content, doc.title);
@@ -48,10 +51,10 @@ for (const url of urls) {
   assert(!doc.title.includes('몇이지'), `${pathname}: inherited Korean title`);
   assert(!doc.querySelector('meta[name="robots"]').content.includes('noindex'));
   assert.equal(doc.querySelector('meta[property="og:locale"]').content,
-    locale === 'en' ? 'en_US' : locale === 'ja' ? 'ja_JP' : 'zh_CN');
+    ({en:'en_US',ja:'ja_JP','zh-hans':'zh_CN',es:'es_ES','pt-br':'pt_BR',id:'id_ID',hi:'hi_IN'})[locale]);
   doc.defaultView.close();
 }
-assert.equal(international, 78);
+assert.equal(international, 158);
 assert(!sitemap.includes('localhost'));
 const notFound = fs.readFileSync(path.join(output, '_not-found.html'), 'utf8');
 assert(/name="robots" content="noindex/.test(notFound));

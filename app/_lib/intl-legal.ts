@@ -1,6 +1,7 @@
 import type { IntlLocale } from "./international";
 export const LEGAL_UPDATED = "2026-11-13";
-export const LEGAL_LABELS = {
+import { EXPANSION } from "./intl-expansion-content";
+const BASE_LEGAL_LABELS = {
   "en": {
     "privacy": "Privacy & cookies",
     "terms": "Use & limitations",
@@ -22,10 +23,11 @@ export const LEGAL_LABELS = {
     "notice": "本服务提供一般信息和估算，不提供针对个人的税务、法律、薪资结算或投资咨询，不代办申报或代理事务。使用结果前，请核对适用年度、地区和未涵盖的条件。",
     "tracking": "中文页面不启用访问分析；英文和日文页面默认启用（用户可关闭）Google Analytics。广告仍停用。托管和安全所需的连接日志仍可能被处理。"
   }
-} satisfies Record<IntlLocale, Record<string, string>>;
+};
+export const LEGAL_LABELS = { ...BASE_LEGAL_LABELS, es: EXPANSION.es.legalLabels, "pt-br": EXPANSION["pt-br"].legalLabels, id: EXPANSION.id.legalLabels, hi: EXPANSION.hi.legalLabels } satisfies Record<IntlLocale, Record<string, string>>;
 
 export type LegalPage = "privacy" | "terms" | "contact";
-export const LEGAL_SECTIONS = {
+const BASE_SECTIONS = {
   "en": {
     "privacy": [
       [
@@ -207,3 +209,5 @@ export const LEGAL_SECTIONS = {
     ]
   }
 };
+
+export const LEGAL_SECTIONS = { ...BASE_SECTIONS, es: EXPANSION.es.legal, "pt-br": EXPANSION["pt-br"].legal, id: EXPANSION.id.legal, hi: EXPANSION.hi.legal };

@@ -4,7 +4,7 @@ import { COPY, LOCALES, type IntlLocale } from "../_lib/international";
 import { GUIDE_LABELS } from "../_lib/intl-guides/labels";
 
 export default function InternationalGuideShell({ locale, children, languagePaths }: {
-  locale: IntlLocale; children: ReactNode; languagePaths?: Record<IntlLocale, string>;
+  locale: IntlLocale; children: ReactNode; languagePaths?: Partial<Record<IntlLocale, string>>;
 }) {
   const labels = GUIDE_LABELS[locale];
   return (

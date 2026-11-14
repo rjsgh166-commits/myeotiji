@@ -5,6 +5,8 @@ import { SITE_URL } from "./_lib/site";
 import { LOCALES, TOOLS, localizedAlternates } from "./_lib/international";
 import { INTERNATIONAL_GUIDES, GUIDE_PUBLISHED, countryLanguageTag, guideAlternates, guideHubAlternates, guidePath } from "./_lib/intl-guides";
 
+const localizedUpdated = (locale: string) => ["en", "ja", "zh-hans"].includes(locale) ? "2026-11-13" : "2026-11-14";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "",
@@ -84,9 +86,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   };
 
   const globalPages: MetadataRoute.Sitemap = LOCALES.flatMap(locale => [
-    { url: `${SITE_URL}/${locale}`, lastModified: "2026-11-13", changeFrequency: "monthly" as const,
+    { url: `${SITE_URL}/${locale}`, lastModified: localizedUpdated(locale), changeFrequency: "monthly" as const,
       alternates: { languages: localizedAlternates() } },
-    ...TOOLS.map(tool => ({ url: `${SITE_URL}/${locale}/${tool}`, lastModified: "2026-11-13",
+    ...TOOLS.map(tool => ({ url: `${SITE_URL}/${locale}/${tool}`, lastModified: localizedUpdated(locale),
       changeFrequency: "monthly" as const, alternates: { languages: localizedAlternates(tool) } })),
   ]);
 
@@ -125,11 +127,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     alternates: { languages: guideAlternates(guide) },
   }));
   const guideHubs: MetadataRoute.Sitemap = LOCALES.flatMap(locale => [
-    { url: `${SITE_URL}/${locale}/guides`, lastModified: GUIDE_PUBLISHED, changeFrequency: "monthly" as const,
+    { url: `${SITE_URL}/${locale}/guides`, lastModified: ["en", "ja", "zh-hans"].includes(locale) ? GUIDE_PUBLISHED : "2026-11-14", changeFrequency: "monthly" as const,
       alternates: { languages: guideHubAlternates() } },
-    { url: `${SITE_URL}/${locale}/guides/editorial-policy`, lastModified: GUIDE_PUBLISHED, changeFrequency: "yearly" as const,
+    { url: `${SITE_URL}/${locale}/guides/editorial-policy`, lastModified: ["en", "ja", "zh-hans"].includes(locale) ? GUIDE_PUBLISHED : "2026-11-14", changeFrequency: "yearly" as const,
       alternates: { languages: guideHubAlternates("/editorial-policy") } },
   ]);
 
-  return [...koreanPages, ...globalPages, ...countryPages, ...guidePages, ...guideHubs, ...LOCALES.flatMap(locale => ["privacy", "terms", "contact"].map(page => ({ url: `${SITE_URL}/${locale}/${page}`, lastModified: "2026-11-13", changeFrequency: "yearly" as const })))];
+  return [...koreanPages, ...globalPages, ...countryPages, ...guidePages, ...guideHubs, ...LOCALES.flatMap(locale => ["privacy", "terms", "contact"].map(page => ({ url: `${SITE_URL}/${locale}/${page}`, lastModified: localizedUpdated(locale), changeFrequency: "yearly" as const })))];
 }

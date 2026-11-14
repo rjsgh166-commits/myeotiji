@@ -19,7 +19,7 @@ const Calculator = require('../app/_components/InternationalCalculator.tsx').def
 const { COPY, LOCALES, TOOLS } = require('../app/_lib/international.ts');
 const { guideTeaserForCalculator } = require('../app/_lib/intl-guides/index.ts');
 const root = createRoot(document.getElementById('root'));
-let cases = 0;
+let cases = 0, activeLocale = "en";
 const errors = [];
 console.error = (...args) => errors.push(args.join(' '));
 function field(label) {
@@ -37,11 +37,15 @@ async function fill(label, value) {
 function result(index) {
   const strong = document.querySelectorAll('section[aria-live] strong')[index];
   assert(strong, 'Expected numeric result');
-  return Number(strong.textContent.replace(/[^\d.\-]/g, ''));
+  const decimal = new Intl.NumberFormat(COPY[activeLocale].tag).formatToParts(1.1).find(p => p.type === 'decimal').value;
+  let value = strong.textContent.replace(/[^\d.,\-]/g, '');
+  value = decimal === ',' ? value.replace(/\./g, '').replace(',', '.') : value.replace(/,/g, '');
+  return Number(value);
 }
 function near(index, expected, tolerance = .011) { assert(Math.abs(result(index) - expected) < tolerance, `${result(index)} != ${expected}`); }
 (async () => {
   for (const locale of LOCALES) for (const tool of TOOLS) {
+    activeLocale = locale;
     const guide = guideTeaserForCalculator(locale, tool);
     await act(async () => root.render(React.createElement(Calculator, { locale, tool, guide, key: `${locale}-${tool}` })));
     const names = COPY[locale].tools[tool].fields;

@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { useState, useSyncExternalStore } from "react";
-import { COPY, LOCALES, TOOLS, type IntlLocale, type IntlTool } from "../_lib/international";
+import { DEFAULT_CURRENCY, COPY, LOCALES, TOOLS, type IntlLocale, type IntlTool } from "../_lib/international";
 import CalculatorGuideTeaser, { type GuideTeaser } from "./CalculatorGuideTeaser";
 
-const CURRENCIES = ["USD", "EUR", "GBP", "JPY", "CNY", "KRW", "CAD", "AUD", "TWD", "SGD"] as const;
+const CURRENCIES = ["USD", "EUR", "GBP", "JPY", "CNY", "KRW", "CAD", "AUD", "TWD", "SGD", "BRL", "IDR", "INR"] as const;
 const UNIT_SETS = {
   length: [["m", 1], ["km", 1000], ["cm", 0.01], ["mm", 0.001], ["mi", 1609.344], ["ft", 0.3048], ["in", 0.0254]] ,
   weight: [["kg", 1], ["g", 0.001], ["lb", 0.45359237], ["oz", 0.028349523125], ["t", 1000]],
@@ -64,7 +64,7 @@ export default function InternationalCalculator({ locale, tool, guide }: { local
   const t = COPY[locale];
   const toolCopy = t.tools[tool];
   const langTag = t.tag;
-  const [currency, setCurrency] = useState<string>(locale === "ja" ? "JPY" : locale === "zh-hans" ? "CNY" : "USD");
+  const [currency, setCurrency] = useState<string>(DEFAULT_CURRENCY[locale]);
   const [amount, setAmount] = useState("100");
   const [rate, setRate] = useState("3");
   const [fixed, setFixed] = useState("0.3");
@@ -243,7 +243,7 @@ export default function InternationalCalculator({ locale, tool, guide }: { local
 
         <Link href={`/${locale}`} className="text-sm font-semibold text-slate-600 hover:text-blue-700">← {t.back}</Link>
         <div className="mt-7 max-w-3xl">
-          <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-600">Myeotiji tools</p>
+          <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-600">{t.home}</p>
           <h1 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">{toolCopy.title}</h1>
           <p className="mt-4 text-base leading-7 text-slate-600">{toolCopy.intro}</p>
         </div>

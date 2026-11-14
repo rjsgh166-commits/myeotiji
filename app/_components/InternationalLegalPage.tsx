@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { GUIDE_LABELS } from "../_lib/intl-guides/labels";
 import { notFound } from "next/navigation";
-import { isIntlLocale } from "../_lib/international";
+import { OG_LOCALES, LOCALES, COPY, isIntlLocale } from "../_lib/international";
 import { LEGAL_LABELS, LEGAL_SECTIONS, LEGAL_UPDATED, type LegalPage } from "../_lib/intl-legal";
 import { SITE_URL } from "../_lib/site";
 import InternationalGuideShell from "./InternationalGuideShell";
@@ -12,16 +13,16 @@ export async function legalMetadata({ params }: LegalProps, page: LegalPage): Pr
   const title = LEGAL_LABELS[locale][page] + " | Myeotiji";
   const description = LEGAL_SECTIONS[locale][page][0][1], url = `${SITE_URL}/${locale}/${page}`;
   return { title: { absolute: title }, description,
-    alternates: { canonical: url, languages: { en: `${SITE_URL}/en/${page}`, ja: `${SITE_URL}/ja/${page}`, "zh-Hans": `${SITE_URL}/zh-hans/${page}`, "x-default": `${SITE_URL}/en/${page}` } },
-    openGraph: { title, description, url, locale: locale === "en" ? "en_US" : locale === "ja" ? "ja_JP" : "zh_CN" },
+    alternates: { canonical: url, languages: Object.fromEntries([...LOCALES.map(code => [COPY[code].tag, `${SITE_URL}/${code}/${page}`]), ["x-default", `${SITE_URL}/en/${page}`]]) },
+    openGraph: { title, description, url, locale: OG_LOCALES[locale] },
     twitter: { card: "summary", title, description } };
 }
 export async function LegalContent({ params, page }: LegalProps & { page: LegalPage }) {
   const { locale } = await params;
   if (!isIntlLocale(locale)) notFound();
-  return <InternationalGuideShell locale={locale} languagePaths={{ en: `/en/${page}`, ja: `/ja/${page}`, "zh-hans": `/zh-hans/${page}` }}>
+  return <InternationalGuideShell locale={locale} languagePaths={Object.fromEntries(LOCALES.map(code => [code, `/${code}/${page}`]))}>
     <h1 className="text-3xl font-black">{LEGAL_LABELS[locale][page]}</h1>
-    <p className="mt-3 text-sm text-slate-600">{locale === "ja" ? "更新日" : locale === "zh-hans" ? "更新日期" : "Updated"}: <time dateTime={LEGAL_UPDATED}>{LEGAL_UPDATED}</time></p>
+    <p className="mt-3 text-sm text-slate-600">{GUIDE_LABELS[locale].updated}: <time dateTime={LEGAL_UPDATED}>{LEGAL_UPDATED}</time></p>
     <div className="mt-8 space-y-8">{LEGAL_SECTIONS[locale][page].map(([heading, body]) => <section key={heading}>
       <h2 className="text-xl font-bold">{heading}</h2><p className="mt-3 max-w-4xl leading-8 text-slate-700">{body}</p>
     </section>)}</div>

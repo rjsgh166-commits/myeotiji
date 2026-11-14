@@ -1,6 +1,7 @@
 import type { IntlLocale } from "../international";
 
-export const GUIDE_LABELS = {
+import { EXPANSION } from "../intl-expansion-content";
+const BASE_GUIDE_LABELS = {
   en: {
     home: "Calculators", guides: "Calculation guides", policy: "How we prepare these guides",
     title: "Calculation Guides: Formulas & Worked Examples",
@@ -49,4 +50,5 @@ export const GUIDE_LABELS = {
     homeHeading: "工资、资金与日常数字，一步步算清楚",
     homeDescription: "免费计算累计预扣个税、北京五险一金与2027年拼假，并提供复利、折扣、手续费、日期等工具，附公式、示例和适用范围。",
   },
-} satisfies Record<IntlLocale, Record<string, string>>;
+};
+export const GUIDE_LABELS = { ...BASE_GUIDE_LABELS, es: EXPANSION.es.labels, "pt-br": EXPANSION["pt-br"].labels, id: EXPANSION.id.labels, hi: EXPANSION.hi.labels } satisfies Record<IntlLocale, Record<string, string>>;

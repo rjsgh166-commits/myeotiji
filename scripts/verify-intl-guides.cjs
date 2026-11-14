@@ -30,7 +30,7 @@ for (const url of urls) {
   const tableCells = [...doc.querySelectorAll('td')].map(cell => cell.textContent);
   const tableHeaders = [...doc.querySelectorAll('tbody th')].map(cell => cell.textContent);
   pages.set(url, { source, links, alternatives, data, text, tableCells, tableHeaders });
-  if (/^\/(en|ja|zh-hans)(\/|$)/.test(pathname)) {
+  if (/^\/(en|ja|zh-hans|es|pt-br|id|hi)(\/|$)/.test(pathname)) {
     assert.equal(doc.querySelectorAll('h1').length, 1, `${pathname}: one main heading`);
     assert(!doc.head.innerHTML.includes('localhost'), `${pathname}: local metadata leaked`);
     for (const node of data) {
@@ -47,15 +47,15 @@ for (const url of urls) {
   }
   doc.defaultView.close();
 }
-assert.equal(INTERNATIONAL_GUIDES.length, 30);
-for (const locale of ['en', 'ja', 'zh-hans']) {
+assert.equal(INTERNATIONAL_GUIDES.length, 58);
+for (const locale of ['en', 'ja', 'zh-hans', 'es', 'pt-br', 'id', 'hi']) {
   const guides = INTERNATIONAL_GUIDES.filter(g => g.locale === locale);
-  assert.equal(guides.length, 10);
-  assert.equal(guides.filter(g => g.kind === 'country').length, 3);
-  assert.equal(new Set(guides.map(g => g.title)).size, 10);
-  assert.equal(new Set(guides.map(g => g.description)).size, 10);
+  assert.equal(guides.length, ['en', 'ja', 'zh-hans'].includes(locale) ? 10 : 7);
+  assert.equal(guides.filter(g => g.kind === 'country').length, ['en', 'ja', 'zh-hans'].includes(locale) ? 3 : 0);
+  assert.equal(new Set(guides.map(g => g.title)).size, ['en', 'ja', 'zh-hans'].includes(locale) ? 10 : 7);
+  assert.equal(new Set(guides.map(g => g.description)).size, ['en', 'ja', 'zh-hans'].includes(locale) ? 10 : 7);
   const index = pages.get(`${site}/${locale}/guides`);
-  assert.equal(index.data.find(x => x['@type'] === 'CollectionPage').mainEntity.itemListElement.length, 10);
+  assert.equal(index.data.find(x => x['@type'] === 'CollectionPage').mainEntity.itemListElement.length, guides.length);
   for (const guide of guides) {
     assert(guide.sections.length >= 3 && guide.faqs.length >= 2);
     assert(guide.sections.some(section => section.table), 'A worked example table is required');
@@ -76,7 +76,7 @@ for (const locale of ['en', 'ja', 'zh-hans']) {
     }
     for (const faq of guide.faqs) assert(page.text.includes(faq.answer), `${url}: FAQ answer must exist in HTML`);
     if (guide.kind === 'global') {
-      assert.equal(page.alternatives.length, 4);
+      assert.equal(page.alternatives.length, 8);
       for (const alt of page.alternatives) {
         assert(known.has(alt.url), `Unknown language alternate ${alt.url}`);
         const reciprocal = pages.get(alt.url);
@@ -96,20 +96,24 @@ for (const locale of ['en', 'ja', 'zh-hans']) {
   }
 }
 // Verify discovery by walking rendered links, not by trusting sitemap inclusion alone.
-const reached = new Set(), queue = ['en', 'ja', 'zh-hans'].map(locale => `${site}/${locale}`);
+const reached = new Set(), queue = ['en', 'ja', 'zh-hans', 'es', 'pt-br', 'id', 'hi'].map(locale => `${site}/${locale}`);
 while (queue.length) {
   const url = queue.shift();
   if (reached.has(url)) continue;
   reached.add(url);
   for (const link of pages.get(url)?.links ?? []) {
     const u = new URL(link);
-    if (u.origin !== site || !/^\/(en|ja|zh-hans)(\/|$)/.test(u.pathname)) continue;
+    if (u.origin !== site || !/^\/(en|ja|zh-hans|es|pt-br|id|hi)(\/|$)/.test(u.pathname)) continue;
     u.hash = ''; u.search = '';
     assert(known.has(u.href), `Broken internal international link ${link}`);
     if (!reached.has(u.href)) queue.push(u.href);
   }
 }
-assert.equal(reached.size, 78, 'Every international URL must be discoverable from a language home');
+assert.equal(reached.size, 158, 'Every international URL must be discoverable from a language home');
+for (const locale of ['es', 'pt-br', 'id', 'hi']) {
+ const compound = pages.get(`${site}/${locale}/guides/compound-interest`);
+ assert(compound.tableCells.some(cell => cell.includes(locale === 'hi' ? '2,277.26' : '2.277,26')), `${locale}: translated compound numeric example`);
+}
 // Numeric worked examples were calculated independently and compared with the calculator regression suite.
 const enCompound = pages.get(`${site}/en/guides/compound-interest`);
 assert(enCompound.tableCells.includes('$2,277.26'));
@@ -125,6 +129,6 @@ function scan(dir) { return fs.readdirSync(dir, { withFileTypes: true }).flatMap
 for (const file of scan(path.resolve(__dirname, '../.next/static/chunks')).filter(f => f.endsWith('.js'))) {
   assert(!fs.readFileSync(file, 'utf8').includes(representative), 'Long guide copy leaked into a client bundle');
 }
-console.log(JSON.stringify({ status: 'PASS', guides: 30, languageHubs: 3, policies: 3,
-  calculatorRoundTrips: 30, discoverableInternationalUrls: reached.size,
+console.log(JSON.stringify({ status: 'PASS', guides: 58, languageHubs: 7, policies: 7,
+  calculatorRoundTrips: 58, discoverableInternationalUrls: reached.size,
   structuredData: 'Article / BreadcrumbList / CollectionPage / WebApplication', numericExamples: 7 }));
