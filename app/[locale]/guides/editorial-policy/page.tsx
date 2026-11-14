@@ -29,7 +29,7 @@ const BASE_POLICY = {
     { heading: "错误更正与反馈", text: "若发现公式、引用、翻译或数字示例可能有误，请发送页面地址、输入条件及你认为正确的结果，便于重现问题。请勿发送身份证件、完整工资单、银行账号或其他不必要的个人信息。我们会根据可重现的例子检查并更正说明。" },
   ],
 };
-const POLICY = { ...BASE_POLICY, es: EXPANSION.es.policy, "pt-br": EXPANSION["pt-br"].policy, id: EXPANSION.id.policy, hi: EXPANSION.hi.policy };
+const POLICY = { ...BASE_POLICY, es: EXPANSION.es.policy, "pt-br": EXPANSION["pt-br"].policy, id: EXPANSION.id.policy, hi: EXPANSION.hi.policy, fr: EXPANSION.fr.policy, ar: EXPANSION.ar.policy, bn: EXPANSION.bn.policy, ur: EXPANSION.ur.policy, vi: EXPANSION.vi.policy };
 type Props = { params: Promise<{ locale: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;

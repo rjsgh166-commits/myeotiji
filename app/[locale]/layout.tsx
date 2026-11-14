@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
-import { COPY, LOCALES, isIntlLocale } from "../_lib/international";
+import { isRtl, COPY, LOCALES, isIntlLocale } from "../_lib/international";
 import { SITE_URL } from "../_lib/site";
 import InternationalAnalytics from "../_components/InternationalAnalytics";
 import InternationalSafety from "../_components/InternationalSafety";
@@ -30,7 +30,7 @@ export default async function IntlLayout({ children, params }: {
   const { locale } = await params;
   if (!isIntlLocale(locale)) notFound();
   return (
-    <html lang={COPY[locale].tag} className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html dir={isRtl(locale) ? "rtl" : "ltr"} lang={COPY[locale].tag} className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full bg-gray-50">
         {children}
         <InternationalSafety locale={locale} />

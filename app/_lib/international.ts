@@ -1,7 +1,7 @@
 // Localized copy for globally usable calculators.
 // Text remains distinct across languages; formulas live in one shared component.
 import { EXPANSION } from "./intl-expansion";
-export const LOCALES = ["en", "ja", "zh-hans", "es", "pt-br", "id", "hi"] as const;
+export const LOCALES = ["en", "ja", "zh-hans", "es", "pt-br", "id", "hi", "fr", "ar", "bn", "ur", "vi"] as const;
 export const TOOLS = ["fee", "discount", "days", "stock-average", "compound", "unit-converter", "age"] as const;
 export type IntlLocale = (typeof LOCALES)[number];
 export type IntlTool = (typeof TOOLS)[number];
@@ -489,10 +489,12 @@ const BASE_COPY = {
     }
   }
 } as const;
-export const COPY = { ...BASE_COPY, es: EXPANSION.es.copy, "pt-br": EXPANSION["pt-br"].copy, id: EXPANSION.id.copy, hi: EXPANSION.hi.copy };
-export const OG_LOCALES: Record<IntlLocale, string> = { en: "en_US", ja: "ja_JP", "zh-hans": "zh_CN", es: "es_ES", "pt-br": "pt_BR", id: "id_ID", hi: "hi_IN" };
-export const DEFAULT_CURRENCY: Record<IntlLocale, string> = { en: "USD", ja: "JPY", "zh-hans": "CNY", es: "USD", "pt-br": "BRL", id: "IDR", hi: "INR" };
+export const COPY = { ...BASE_COPY, es: EXPANSION.es.copy, "pt-br": EXPANSION["pt-br"].copy, id: EXPANSION.id.copy, hi: EXPANSION.hi.copy, fr: EXPANSION.fr.copy, ar: EXPANSION.ar.copy, bn: EXPANSION.bn.copy, ur: EXPANSION.ur.copy, vi: EXPANSION.vi.copy };
+export const OG_LOCALES: Record<IntlLocale, string> = { en: "en_US", ja: "ja_JP", "zh-hans": "zh_CN", es: "es_ES", "pt-br": "pt_BR", id: "id_ID", hi: "hi_IN", fr: "fr_FR", ar: "ar_EG", bn: "bn_BD", ur: "ur_PK", vi: "vi_VN" };
+export const DEFAULT_CURRENCY: Record<IntlLocale, string> = { en: "USD", ja: "JPY", "zh-hans": "CNY", es: "USD", "pt-br": "BRL", id: "IDR", hi: "INR", fr: "EUR", ar: "EGP", bn: "BDT", ur: "PKR", vi: "VND" };
 export function localizedAlternates(tool?: IntlTool) {
  const suffix = tool ? `/${tool}` : "";
  return Object.fromEntries([...LOCALES.map(locale => [COPY[locale].tag, `https://myeotiji.kr/${locale}${suffix}`]), ["x-default", `https://myeotiji.kr/en${suffix}`]]);
 }
+
+export const isRtl = (locale: IntlLocale) => locale === "ar" || locale === "ur";

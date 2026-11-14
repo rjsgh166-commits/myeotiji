@@ -5,7 +5,7 @@ import { useState, useSyncExternalStore } from "react";
 import { DEFAULT_CURRENCY, COPY, LOCALES, TOOLS, type IntlLocale, type IntlTool } from "../_lib/international";
 import CalculatorGuideTeaser, { type GuideTeaser } from "./CalculatorGuideTeaser";
 
-const CURRENCIES = ["USD", "EUR", "GBP", "JPY", "CNY", "KRW", "CAD", "AUD", "TWD", "SGD", "BRL", "IDR", "INR"] as const;
+const CURRENCIES = ["USD", "GBP", "JPY", "CNY", "KRW", "CAD", "AUD", "TWD", "SGD", "BRL", "IDR", "INR", "EUR", "EGP", "BDT", "PKR", "VND"] as const;
 const UNIT_SETS = {
   length: [["m", 1], ["km", 1000], ["cm", 0.01], ["mm", 0.001], ["mi", 1609.344], ["ft", 0.3048], ["in", 0.0254]] ,
   weight: [["kg", 1], ["g", 0.001], ["lb", 0.45359237], ["oz", 0.028349523125], ["t", 1000]],

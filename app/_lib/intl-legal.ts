@@ -24,7 +24,7 @@ const BASE_LEGAL_LABELS = {
     "tracking": "中文页面不启用访问分析；英文和日文页面默认启用（用户可关闭）Google Analytics。除中文外的页面已连接非个性化AdSense广告，展示取决于Google审核与账号设置。托管和安全所需的连接日志仍可能被处理。"
   }
 };
-export const LEGAL_LABELS = { ...BASE_LEGAL_LABELS, es: EXPANSION.es.legalLabels, "pt-br": EXPANSION["pt-br"].legalLabels, id: EXPANSION.id.legalLabels, hi: EXPANSION.hi.legalLabels } satisfies Record<IntlLocale, Record<string, string>>;
+export const LEGAL_LABELS = { ...BASE_LEGAL_LABELS, es: EXPANSION.es.legalLabels, "pt-br": EXPANSION["pt-br"].legalLabels, id: EXPANSION.id.legalLabels, hi: EXPANSION.hi.legalLabels, fr: EXPANSION.fr.legalLabels, ar: EXPANSION.ar.legalLabels, bn: EXPANSION.bn.legalLabels, ur: EXPANSION.ur.legalLabels, vi: EXPANSION.vi.legalLabels } satisfies Record<IntlLocale, Record<string, string>>;
 
 export type LegalPage = "privacy" | "terms" | "contact";
 const BASE_SECTIONS = {
@@ -210,4 +210,4 @@ const BASE_SECTIONS = {
   }
 };
 
-export const LEGAL_SECTIONS = { ...BASE_SECTIONS, es: EXPANSION.es.legal, "pt-br": EXPANSION["pt-br"].legal, id: EXPANSION.id.legal, hi: EXPANSION.hi.legal };
+export const LEGAL_SECTIONS = { ...BASE_SECTIONS, es: EXPANSION.es.legal, "pt-br": EXPANSION["pt-br"].legal, id: EXPANSION.id.legal, hi: EXPANSION.hi.legal, fr: EXPANSION.fr.legal, ar: EXPANSION.ar.legal, bn: EXPANSION.bn.legal, ur: EXPANSION.ur.legal, vi: EXPANSION.vi.legal };

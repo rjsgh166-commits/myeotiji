@@ -30,7 +30,7 @@ for (const url of urls) {
   const tableCells = [...doc.querySelectorAll('td')].map(cell => cell.textContent);
   const tableHeaders = [...doc.querySelectorAll('tbody th')].map(cell => cell.textContent);
   pages.set(url, { source, links, alternatives, data, text, tableCells, tableHeaders });
-  if (/^\/(en|ja|zh-hans|es|pt-br|id|hi)(\/|$)/.test(pathname)) {
+  if (/^\/(en|ja|zh-hans|es|pt-br|id|hi|fr|ar|bn|ur|vi)(\/|$)/.test(pathname)) {
     assert.equal(doc.querySelectorAll('h1').length, 1, `${pathname}: one main heading`);
     assert(!doc.head.innerHTML.includes('localhost'), `${pathname}: local metadata leaked`);
     for (const node of data) {
@@ -47,8 +47,8 @@ for (const url of urls) {
   }
   doc.defaultView.close();
 }
-assert.equal(INTERNATIONAL_GUIDES.length, 58);
-for (const locale of ['en', 'ja', 'zh-hans', 'es', 'pt-br', 'id', 'hi']) {
+assert.equal(INTERNATIONAL_GUIDES.length, 93);
+for (const locale of ['en', 'ja', 'zh-hans', 'es', 'pt-br', 'id', 'hi', 'fr', 'ar', 'bn', 'ur', 'vi']) {
   const guides = INTERNATIONAL_GUIDES.filter(g => g.locale === locale);
   assert.equal(guides.length, ['en', 'ja', 'zh-hans'].includes(locale) ? 10 : 7);
   assert.equal(guides.filter(g => g.kind === 'country').length, ['en', 'ja', 'zh-hans'].includes(locale) ? 3 : 0);
@@ -76,7 +76,7 @@ for (const locale of ['en', 'ja', 'zh-hans', 'es', 'pt-br', 'id', 'hi']) {
     }
     for (const faq of guide.faqs) assert(page.text.includes(faq.answer), `${url}: FAQ answer must exist in HTML`);
     if (guide.kind === 'global') {
-      assert.equal(page.alternatives.length, 8);
+      assert.equal(page.alternatives.length, 13);
       for (const alt of page.alternatives) {
         assert(known.has(alt.url), `Unknown language alternate ${alt.url}`);
         const reciprocal = pages.get(alt.url);
@@ -96,20 +96,20 @@ for (const locale of ['en', 'ja', 'zh-hans', 'es', 'pt-br', 'id', 'hi']) {
   }
 }
 // Verify discovery by walking rendered links, not by trusting sitemap inclusion alone.
-const reached = new Set(), queue = ['en', 'ja', 'zh-hans', 'es', 'pt-br', 'id', 'hi'].map(locale => `${site}/${locale}`);
+const reached = new Set(), queue = ['en', 'ja', 'zh-hans', 'es', 'pt-br', 'id', 'hi', 'fr', 'ar', 'bn', 'ur', 'vi'].map(locale => `${site}/${locale}`);
 while (queue.length) {
   const url = queue.shift();
   if (reached.has(url)) continue;
   reached.add(url);
   for (const link of pages.get(url)?.links ?? []) {
     const u = new URL(link);
-    if (u.origin !== site || !/^\/(en|ja|zh-hans|es|pt-br|id|hi)(\/|$)/.test(u.pathname)) continue;
+    if (u.origin !== site || !/^\/(en|ja|zh-hans|es|pt-br|id|hi|fr|ar|bn|ur|vi)(\/|$)/.test(u.pathname)) continue;
     u.hash = ''; u.search = '';
     assert(known.has(u.href), `Broken internal international link ${link}`);
     if (!reached.has(u.href)) queue.push(u.href);
   }
 }
-assert.equal(reached.size, 158, 'Every international URL must be discoverable from a language home');
+assert.equal(reached.size, 258, 'Every international URL must be discoverable from a language home');
 for (const locale of ['es', 'pt-br', 'id', 'hi']) {
  const compound = pages.get(`${site}/${locale}/guides/compound-interest`);
  assert(compound.tableCells.some(cell => cell.includes(locale === 'hi' ? '2,277.26' : '2.277,26')), `${locale}: translated compound numeric example`);
@@ -129,6 +129,6 @@ function scan(dir) { return fs.readdirSync(dir, { withFileTypes: true }).flatMap
 for (const file of scan(path.resolve(__dirname, '../.next/static/chunks')).filter(f => f.endsWith('.js'))) {
   assert(!fs.readFileSync(file, 'utf8').includes(representative), 'Long guide copy leaked into a client bundle');
 }
-console.log(JSON.stringify({ status: 'PASS', guides: 58, languageHubs: 7, policies: 7,
-  calculatorRoundTrips: 58, discoverableInternationalUrls: reached.size,
+console.log(JSON.stringify({ status: 'PASS', guides: 93, languageHubs: 12, policies: 12,
+  calculatorRoundTrips: 93, discoverableInternationalUrls: reached.size,
   structuredData: 'Article / BreadcrumbList / CollectionPage / WebApplication', numericExamples: 7 }));

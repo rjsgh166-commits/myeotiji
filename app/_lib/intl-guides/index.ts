@@ -18,7 +18,7 @@ const TOPICS: { tool: IntlTool; slug: string; sources: Reference[] }[] = [
   { tool: "unit-converter", slug: "unit-conversions", sources: [{ label: "NIST — SI conversion factors", url: "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors" }] },
   { tool: "age", slug: "age-calculation", sources: [{ label: "MDN — Date.UTC: calendar-date implementation reference", url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/UTC" }] },
 ];
-const COPIES = { en: GLOBAL_EN, ja: GLOBAL_JA, "zh-hans": GLOBAL_ZH, es: EXPANSION.es.guides, "pt-br": EXPANSION["pt-br"].guides, id: EXPANSION.id.guides, hi: EXPANSION.hi.guides };
+const COPIES = { en: GLOBAL_EN, ja: GLOBAL_JA, "zh-hans": GLOBAL_ZH, es: EXPANSION.es.guides, "pt-br": EXPANSION["pt-br"].guides, id: EXPANSION.id.guides, hi: EXPANSION.hi.guides, fr: EXPANSION.fr.guides, ar: EXPANSION.ar.guides, bn: EXPANSION.bn.guides, ur: EXPANSION.ur.guides, vi: EXPANSION.vi.guides };
 const PUBLISHED = "2026-11-13";
 
 export const INTERNATIONAL_GUIDES: CalculationGuide[] = [

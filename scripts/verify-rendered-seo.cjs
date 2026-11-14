@@ -33,16 +33,17 @@ for (const [file, expected] of Object.entries(baseline)) {
 }
 const sitemap = fs.readFileSync(path.join(output, 'sitemap.xml.body'), 'utf8');
 const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => m[1]);
-assert.equal(urls.length, 204); assert.equal(new Set(urls).size, 204);
+assert.equal(urls.length, 304); assert.equal(new Set(urls).size, 304);
 let international = 0;
 for (const url of urls) {
   const pathname = new URL(url).pathname;
   const locale = pathname.split('/')[1];
-  if (!['en', 'ja', 'zh-hans', 'es', 'pt-br', 'id', 'hi'].includes(locale)) continue;
+  if (!['en', 'ja', 'zh-hans', 'es', 'pt-br', 'id', 'hi', 'fr', 'ar', 'bn', 'ur', 'vi'].includes(locale)) continue;
   international++;
   const source = fs.readFileSync(path.join(output, pathname.slice(1) + '.html'), 'utf8');
   const doc = new JSDOM(source).window.document;
   const tag = locale === 'zh-hans' ? 'zh-Hans' : locale === 'pt-br' ? 'pt-BR' : locale;
+  assert.equal(doc.documentElement.dir, ["ar","ur"].includes(locale) ? "rtl" : "ltr");
   assert.equal(doc.documentElement.lang, tag, `${pathname}: language`);
   assert.equal(doc.querySelector('link[rel="canonical"]').href, url, `${pathname}: canonical`);
   assert.equal(doc.querySelector('meta[name="twitter:title"]').content, doc.title);
@@ -51,10 +52,10 @@ for (const url of urls) {
   assert(!doc.title.includes('몇이지'), `${pathname}: inherited Korean title`);
   assert(!doc.querySelector('meta[name="robots"]').content.includes('noindex'));
   assert.equal(doc.querySelector('meta[property="og:locale"]').content,
-    ({en:'en_US',ja:'ja_JP','zh-hans':'zh_CN',es:'es_ES','pt-br':'pt_BR',id:'id_ID',hi:'hi_IN'})[locale]);
+    ({en:'en_US',ja:'ja_JP','zh-hans':'zh_CN',es:'es_ES','pt-br':'pt_BR',id:'id_ID',hi:'hi_IN',fr:'fr_FR',ar:'ar_EG',bn:'bn_BD',ur:'ur_PK',vi:'vi_VN'})[locale]);
   doc.defaultView.close();
 }
-assert.equal(international, 158);
+assert.equal(international, 258);
 assert(!sitemap.includes('localhost'));
 const notFound = fs.readFileSync(path.join(output, '_not-found.html'), 'utf8');
 assert(/name="robots" content="noindex/.test(notFound));
