@@ -135,6 +135,8 @@ export default function RootLayout({
             gtag('config', '${GA_ID}');
           `}
         </Script>
+        <Script id="korean-ads-settings" strategy="afterInteractive">{`window.adsbygoogle = window.adsbygoogle || []; window.adsbygoogle.requestNonPersonalizedAds = 1;`}</Script>
+        <Script async crossOrigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3837140065995769" strategy="afterInteractive" />
       </body>
     </html>
   );
