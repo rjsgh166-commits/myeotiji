@@ -1,12 +1,13 @@
-// Localized human-authored copy for globally usable calculators.
+// Localized copy for globally usable calculators.
 // Text remains distinct across languages; formulas live in one shared component.
-export const LOCALES = ["en", "ja", "zh-hans"] as const;
+import { EXPANSION } from "./intl-expansion";
+export const LOCALES = ["en", "ja", "zh-hans", "es", "pt-br", "id", "hi"] as const;
 export const TOOLS = ["fee", "discount", "days", "stock-average", "compound", "unit-converter", "age"] as const;
 export type IntlLocale = (typeof LOCALES)[number];
 export type IntlTool = (typeof TOOLS)[number];
 export function isIntlLocale(value: string): value is IntlLocale { return LOCALES.includes(value as IntlLocale); }
 export function isIntlTool(value: string): value is IntlTool { return TOOLS.includes(value as IntlTool); }
-export const COPY = {
+const BASE_COPY = {
   "en": {
     "label": "English",
     "tag": "en",
@@ -488,7 +489,10 @@ export const COPY = {
     }
   }
 } as const;
+export const COPY = { ...BASE_COPY, es: EXPANSION.es.copy, "pt-br": EXPANSION["pt-br"].copy, id: EXPANSION.id.copy, hi: EXPANSION.hi.copy };
+export const OG_LOCALES: Record<IntlLocale, string> = { en: "en_US", ja: "ja_JP", "zh-hans": "zh_CN", es: "es_ES", "pt-br": "pt_BR", id: "id_ID", hi: "hi_IN" };
+export const DEFAULT_CURRENCY: Record<IntlLocale, string> = { en: "USD", ja: "JPY", "zh-hans": "CNY", es: "USD", "pt-br": "BRL", id: "IDR", hi: "INR" };
 export function localizedAlternates(tool?: IntlTool) {
-  const suffix = tool ? `/${tool}` : "";
-  return { en: `https://myeotiji.kr/en${suffix}`, ja: `https://myeotiji.kr/ja${suffix}`, "zh-Hans": `https://myeotiji.kr/zh-hans${suffix}`, "x-default": `https://myeotiji.kr/en${suffix}` };
+ const suffix = tool ? `/${tool}` : "";
+ return Object.fromEntries([...LOCALES.map(locale => [COPY[locale].tag, `https://myeotiji.kr/${locale}${suffix}`]), ["x-default", `https://myeotiji.kr/en${suffix}`]]);
 }

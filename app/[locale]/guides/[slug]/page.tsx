@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { COPY, LOCALES, isIntlLocale, type IntlLocale } from "../../../_lib/international";
+import { OG_LOCALES, COPY, LOCALES, isIntlLocale, type IntlLocale } from "../../../_lib/international";
 import { findGuide, guideAlternates, guidePath, guidesForLocale, relatedGuides } from "../../../_lib/intl-guides";
 import { GUIDE_LABELS } from "../../../_lib/intl-guides/labels";
 import { SITE_URL } from "../../../_lib/site";
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: { canonical: guidePath(guide), languages: guideAlternates(guide) },
     openGraph: { type: "article", title: guide.title, description: guide.description,
       url: guidePath(guide), publishedTime: guide.published, modifiedTime: guide.updated,
-      locale: locale === "en" ? "en_US" : locale === "ja" ? "ja_JP" : "zh_CN", images: ["/opengraph-image.png"] },
+      locale: OG_LOCALES[guide.locale], images: ["/opengraph-image.png"] },
     twitter: { card: "summary", title: guide.title + " | Myeotiji", description: guide.description, images: ["/twitter-image.png"] },
   };
 }

@@ -33,7 +33,7 @@ export default async function IntlLayout({ children, params }: {
       <body className="min-h-full bg-gray-50">
         {children}
         <InternationalSafety locale={locale} />
-        {locale !== "zh-hans" && <InternationalAnalytics locale={locale} />}
+        {(locale === "en" || locale === "ja") && <InternationalAnalytics locale={locale} />}
       </body>
     </html>
   );

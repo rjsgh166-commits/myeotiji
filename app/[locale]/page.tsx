@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { COUNTRY_TOOLS } from "../_lib/countryTools";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { COPY, LOCALES, TOOLS, isIntlLocale, localizedAlternates } from "../_lib/international";
+import { OG_LOCALES, COPY, LOCALES, TOOLS, isIntlLocale, localizedAlternates } from "../_lib/international";
 import { guidePath, guidesForLocale } from "../_lib/intl-guides";
 import { GUIDE_LABELS } from "../_lib/intl-guides/labels";
 
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: { absolute: search.homeTitle },
     description: search.homeDescription,
     alternates: { canonical: `/${locale}`, languages: localizedAlternates() },
-    openGraph: { title: search.homeHeading, description: search.homeDescription, url: `/${locale}`, type: "website", locale: locale === "en" ? "en_US" : locale === "ja" ? "ja_JP" : "zh_CN", images: ["/opengraph-image.png"] },
+    openGraph: { title: search.homeHeading, description: search.homeDescription, url: `/${locale}`, type: "website", locale: OG_LOCALES[locale], images: ["/opengraph-image.png"] },
     twitter: { card: "summary", title: search.homeTitle, description: search.homeDescription, images: ["/twitter-image.png"] },
   };
 }
@@ -25,7 +25,7 @@ export default async function InternationalHome({ params }: Props) {
   if (!isIntlLocale(locale)) notFound();
   const text = COPY[locale];
   const search = GUIDE_LABELS[locale];
-  const featuredGuides = guidesForLocale(locale).filter(guide => guide.kind === "country" || guide.tool === "compound");
+  const featuredGuides = guidesForLocale(locale).filter(guide => guide.kind === "country" || ["compound", "discount", "fee"].includes(guide.tool));
   return (
     <main lang={text.tag} className="min-h-screen bg-[#f7f8fa] text-slate-950">
       <div className="mx-auto max-w-5xl px-5 py-10 sm:px-8">
@@ -38,7 +38,7 @@ export default async function InternationalHome({ params }: Props) {
           </nav>
         </header>
         <section className="py-12 sm:py-16">
-          <p className="text-sm font-black uppercase tracking-widest text-blue-600">Myeotiji calculators</p>
+          <p className="text-sm font-black uppercase tracking-widest text-blue-600">{text.home}</p>
           <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-5xl">{search.homeHeading}</h1>
           <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">{search.homeDescription}</p>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-500">{text.indexIntro}</p>
@@ -54,7 +54,7 @@ export default async function InternationalHome({ params }: Props) {
             </Link>)}
           </div>
         </section>
-        <section className="mt-12 border-t border-slate-200 pt-10">
+        {COUNTRY_TOOLS.some(entry => entry.locale === locale) && <section className="mt-12 border-t border-slate-200 pt-10">
           <p className="text-xs font-black uppercase tracking-widest text-blue-600">
             {locale === "en" ? "Country-specific calculators · United States" :
               locale === "ja" ? "日本の制度に特化した計算ツール" : "中国大陆专项计算器"}
@@ -79,7 +79,7 @@ export default async function InternationalHome({ params }: Props) {
                 </p>
               </Link>)}
           </div>
-        </section>
+        </section>}
         <section className="mt-12 border-t border-slate-200 pt-10">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h2 className="text-2xl font-black">{search.guides}</h2>

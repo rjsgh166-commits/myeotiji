@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import InternationalCalculator from "../../_components/InternationalCalculator";
-import { COPY, LOCALES, TOOLS, isIntlLocale, isIntlTool, localizedAlternates } from "../../_lib/international";
+import { OG_LOCALES, COPY, LOCALES, TOOLS, isIntlLocale, isIntlTool, localizedAlternates } from "../../_lib/international";
 import { guideTeaserForCalculator } from "../../_lib/intl-guides";
 import InternationalCalculatorSchema from "../../_components/InternationalStructuredData";
 
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: { absolute: `${copy.title} | Myeotiji` },
     description: copy.description,
     alternates: { canonical: pathname, languages: localizedAlternates(tool) },
-    openGraph: { type: "website", title: copy.title, description: copy.description, url: pathname, locale: locale === "en" ? "en_US" : locale === "ja" ? "ja_JP" : "zh_CN", images: ["/opengraph-image.png"] },
+    openGraph: { type: "website", title: copy.title, description: copy.description, url: pathname, locale: OG_LOCALES[locale], images: ["/opengraph-image.png"] },
     twitter: { card: "summary", title: `${copy.title} | Myeotiji`, description: copy.description, images: ["/twitter-image.png"] },
   };
 }

@@ -1,3 +1,4 @@
+import { EXPANSION } from "../intl-expansion-content";
 import { COUNTRY_TOOLS } from "../countryTools";
 import { LOCALES, type IntlLocale, type IntlTool } from "../international";
 import { SITE_URL } from "../site";
@@ -17,14 +18,14 @@ const TOPICS: { tool: IntlTool; slug: string; sources: Reference[] }[] = [
   { tool: "unit-converter", slug: "unit-conversions", sources: [{ label: "NIST — SI conversion factors", url: "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors" }] },
   { tool: "age", slug: "age-calculation", sources: [{ label: "MDN — Date.UTC: calendar-date implementation reference", url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/UTC" }] },
 ];
-const COPIES = { en: GLOBAL_EN, ja: GLOBAL_JA, "zh-hans": GLOBAL_ZH };
+const COPIES = { en: GLOBAL_EN, ja: GLOBAL_JA, "zh-hans": GLOBAL_ZH, es: EXPANSION.es.guides, "pt-br": EXPANSION["pt-br"].guides, id: EXPANSION.id.guides, hi: EXPANSION.hi.guides };
 const PUBLISHED = "2026-11-13";
 
 export const INTERNATIONAL_GUIDES: CalculationGuide[] = [
   ...LOCALES.flatMap(locale => TOPICS.map(topic => ({
     ...COPIES[locale][topic.tool], locale, slug: topic.slug, tool: topic.tool,
     kind: "global" as const, calculatorPath: `/${locale}/${topic.tool}`,
-    sources: topic.sources, published: PUBLISHED, updated: PUBLISHED,
+    sources: topic.sources, published: ["en", "ja", "zh-hans"].includes(locale) ? PUBLISHED : "2026-11-14", updated: ["en", "ja", "zh-hans"].includes(locale) ? PUBLISHED : "2026-11-14",
   }))),
   ...COUNTRY_GUIDE_COPY.map(copy => {
     const tool = COUNTRY_TOOLS.find(entry => entry.locale === copy.locale && entry.id === copy.tool);
@@ -46,13 +47,13 @@ export const countryLanguageTag = (locale: IntlLocale) => locale === "en" ? "en-
 export function guideAlternates(guide: CalculationGuide): Record<string, string> {
   if (guide.kind === "country") return { [countryLanguageTag(guide.locale)]: SITE_URL + guidePath(guide) };
   return Object.fromEntries([
-    ...LOCALES.map(locale => [locale === "zh-hans" ? "zh-Hans" : locale, `${SITE_URL}/${locale}/guides/${guide.slug}`]),
+    ...LOCALES.map(locale => [locale === "zh-hans" ? "zh-Hans" : locale === "pt-br" ? "pt-BR" : locale, `${SITE_URL}/${locale}/guides/${guide.slug}`]),
     ["x-default", `${SITE_URL}/en/guides/${guide.slug}`],
   ]);
 }
 export function guideHubAlternates(suffix = ""): Record<string, string> {
   return Object.fromEntries([
-    ...LOCALES.map(locale => [locale === "zh-hans" ? "zh-Hans" : locale, `${SITE_URL}/${locale}/guides${suffix}`]),
+    ...LOCALES.map(locale => [locale === "zh-hans" ? "zh-Hans" : locale === "pt-br" ? "pt-BR" : locale, `${SITE_URL}/${locale}/guides${suffix}`]),
     ["x-default", `${SITE_URL}/en/guides${suffix}`],
   ]);
 }

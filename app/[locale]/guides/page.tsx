@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { COPY, isIntlLocale } from "../../_lib/international";
+import { OG_LOCALES, COPY, isIntlLocale } from "../../_lib/international";
 import { GUIDE_LABELS } from "../../_lib/intl-guides/labels";
 import { guideHubAlternates, guidePath, guidesForLocale } from "../../_lib/intl-guides";
 import InternationalGuideShell from "../../_components/InternationalGuideShell";
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: { absolute: text.title + " | Myeotiji" }, description: text.description,
     alternates: { canonical: url, languages: guideHubAlternates() },
     openGraph: { type: "website", title: text.title, description: text.description, url,
-      locale: locale === "en" ? "en_US" : locale === "ja" ? "ja_JP" : "zh_CN", images: ["/opengraph-image.png"] },
+      locale: OG_LOCALES[locale], images: ["/opengraph-image.png"] },
     twitter: { card: "summary", title: text.title + " | Myeotiji", description: text.description, images: ["/twitter-image.png"] },
   };
 }
@@ -36,7 +36,7 @@ export default async function GuideIndex({ params }: Props) {
     <Link href={`/${locale}`} className="text-sm font-semibold text-blue-700">← {text.home}</Link>
     <h1 className="mt-6 max-w-4xl text-3xl font-black leading-tight tracking-tight sm:text-4xl">{text.title}</h1>
     <p className="mt-5 max-w-3xl text-base leading-8 text-slate-600">{text.intro}</p>
-    {(["country", "global"] as const).map(kind => <section key={kind} className="mt-12">
+    {(["country", "global"] as const).filter(kind => guides.some(guide => guide.kind === kind)).map(kind => <section key={kind} className="mt-12">
       <h2 className="text-xl font-black">{kind === "country" ? text.country : text.global}</h2>
       <div className="mt-5 grid gap-4 sm:grid-cols-2">
         {guides.filter(guide => guide.kind === kind).map(guide => <article key={guide.slug} className="rounded-2xl border border-slate-200 bg-white p-6">

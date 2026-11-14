@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { COPY, isIntlLocale } from "../../../_lib/international";
+import { OG_LOCALES, LOCALES, COPY, isIntlLocale } from "../../../_lib/international";
 import { guideHubAlternates } from "../../../_lib/intl-guides";
 import { GUIDE_LABELS } from "../../../_lib/intl-guides/labels";
 import { CONTACT_EMAIL, SITE_URL } from "../../../_lib/site";
 import InternationalGuideShell from "../../../_components/InternationalGuideShell";
 import { JsonLd, breadcrumbs } from "../../../_components/InternationalStructuredData";
 
-const POLICY = {
+import { EXPANSION } from "../../../_lib/intl-expansion-content";
+const BASE_POLICY = {
   en: [
     { heading: "Purpose and authorship", text: "Myeotiji publishes explanations of the calculators available on this site. These guides were prepared with AI assistance and checked against the stated calculation method, worked examples and cited references. The author name identifies Myeotiji as the publishing service; it does not claim review by a named accountant, lawyer or regulated adviser." },
     { heading: "Sources, dates and applicable rules", text: "For law, tax, payroll and social-insurance topics, we prefer the responsible public authority's publications and link to the relevant documents. Provider terms and technical standards are identified as such. A mathematical example written by Myeotiji is an illustration, not a quotation from an authority. The visible update date records a material content review, not an automatic daily refresh. The country, year and exclusions stated in each guide matter." },
@@ -28,6 +29,7 @@ const POLICY = {
     { heading: "错误更正与反馈", text: "若发现公式、引用、翻译或数字示例可能有误，请发送页面地址、输入条件及你认为正确的结果，便于重现问题。请勿发送身份证件、完整工资单、银行账号或其他不必要的个人信息。我们会根据可重现的例子检查并更正说明。" },
   ],
 };
+const POLICY = { ...BASE_POLICY, es: EXPANSION.es.policy, "pt-br": EXPANSION["pt-br"].policy, id: EXPANSION.id.policy, hi: EXPANSION.hi.policy };
 type Props = { params: Promise<{ locale: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -36,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: { absolute: text.policyTitle + " | Myeotiji" }, description: text.policyDescription,
     alternates: { canonical: url, languages: guideHubAlternates("/editorial-policy") },
     openGraph: { type: "website", title: text.policyTitle, description: text.policyDescription, url,
-      locale: locale === "en" ? "en_US" : locale === "ja" ? "ja_JP" : "zh_CN", images: ["/opengraph-image.png"] },
+      locale: OG_LOCALES[locale], images: ["/opengraph-image.png"] },
     twitter: { card: "summary", title: text.policyTitle + " | Myeotiji", description: text.policyDescription, images: ["/twitter-image.png"] },
   };
 }
@@ -44,7 +46,7 @@ export default async function EditorialPolicy({ params }: Props) {
   const { locale } = await params;
   if (!isIntlLocale(locale)) notFound();
   const text = GUIDE_LABELS[locale], url = `/${locale}/guides/editorial-policy`;
-  return <InternationalGuideShell locale={locale} languagePaths={{ en: "/en/guides/editorial-policy", ja: "/ja/guides/editorial-policy", "zh-hans": "/zh-hans/guides/editorial-policy" }}>
+  return <InternationalGuideShell locale={locale} languagePaths={Object.fromEntries(LOCALES.map(code => [code, `/${code}/guides/editorial-policy`]))}>
     <JsonLd data={{ "@context": "https://schema.org", "@graph": [
       { "@type": "WebPage", name: text.policyTitle, description: text.policyDescription,
         url: SITE_URL + url, inLanguage: COPY[locale].tag },
@@ -52,7 +54,7 @@ export default async function EditorialPolicy({ params }: Props) {
     ] }} />
     <Link href={`/${locale}/guides`} className="text-sm font-semibold text-blue-700">← {text.guides}</Link>
     <h1 className="mt-6 text-3xl font-black leading-tight sm:text-4xl">{text.policyTitle}</h1>
-    <p className="mt-4 text-xs text-slate-500">{text.updated}: <time dateTime="2026-11-13">2026-11-13</time></p>
+    <p className="mt-4 text-xs text-slate-500">{text.updated}: <time dateTime={["en", "ja", "zh-hans"].includes(locale) ? "2026-11-13" : "2026-11-14"}>{["en", "ja", "zh-hans"].includes(locale) ? "2026-11-13" : "2026-11-14"}</time></p>
     <div className="mt-8 space-y-8">{POLICY[locale].map(section => <section key={section.heading}>
       <h2 className="text-xl font-black">{section.heading}</h2>
       <p className="mt-3 text-base leading-8 text-slate-700">{section.text}</p>
