@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { COPY, LOCALES, isIntlLocale } from "../_lib/international";
 import { SITE_URL } from "../_lib/site";
+import InternationalAnalytics from "../_components/InternationalAnalytics";
 import InternationalSafety from "../_components/InternationalSafety";
 import "../globals.css";
 
@@ -32,6 +33,7 @@ export default async function IntlLayout({ children, params }: {
       <body className="min-h-full bg-gray-50">
         {children}
         <InternationalSafety locale={locale} />
+        {locale !== "zh-hans" && <InternationalAnalytics locale={locale} />}
       </body>
     </html>
   );

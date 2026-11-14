@@ -32,9 +32,9 @@ export default async function InternationalHome({ params }: Props) {
         <header className="flex flex-wrap items-center justify-between gap-4">
           <Link href={`/${locale}`} className="text-xl font-black text-blue-700">Myeotiji</Link>
           <nav aria-label={text.lang} className="flex flex-wrap gap-2">
-            {LOCALES.map(code => <Link href={`/${code}`} hrefLang={COPY[code].tag} key={code}
+            {LOCALES.map(code => <a href={`/${code}`} hrefLang={COPY[code].tag} key={code}
               aria-current={locale === code ? "page" : undefined}
-              className={`rounded-xl px-3 py-2 text-sm font-semibold ${locale === code ? "bg-blue-600 text-white" : "bg-white text-slate-700 ring-1 ring-slate-200"}`}>{COPY[code].label}</Link>)}
+              className={`rounded-xl px-3 py-2 text-sm font-semibold ${locale === code ? "bg-blue-600 text-white" : "bg-white text-slate-700 ring-1 ring-slate-200"}`}>{COPY[code].label}</a>)}
           </nav>
         </header>
         <section className="py-12 sm:py-16">

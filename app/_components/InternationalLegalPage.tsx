@@ -26,6 +26,6 @@ export async function LegalContent({ params, page }: LegalProps & { page: LegalP
       <h2 className="text-xl font-bold">{heading}</h2><p className="mt-3 max-w-4xl leading-8 text-slate-700">{body}</p>
     </section>)}</div>
     <a href="mailto:contact@myeotiji.kr" className="mt-8 inline-block font-semibold text-blue-700 underline">contact@myeotiji.kr</a>
-    {page === "privacy" && <div className="mt-6 flex flex-wrap gap-5 text-sm text-blue-700"><a href="https://vercel.com/legal/privacy-policy" rel="noopener noreferrer" target="_blank">Vercel · Privacy</a><Link href="/privacy" hrefLang="ko">한국어 · 개인정보처리방침</Link></div>}
+    {page === "privacy" && <div className="mt-6 flex flex-wrap gap-5 text-sm text-blue-700"><a href="https://vercel.com/legal/privacy-policy" rel="noopener noreferrer" target="_blank">Vercel · Privacy</a><a href="https://policies.google.com/technologies/partner-sites" rel="noopener noreferrer" target="_blank">Google · Data use</a><a href="https://tools.google.com/dlpage/gaoptout" rel="noopener noreferrer" target="_blank">Google Analytics · Opt-out</a><Link href="/privacy" hrefLang="ko">한국어 · 개인정보처리방침</Link></div>}
   </InternationalGuideShell>;
 }

@@ -6,21 +6,21 @@ export const LEGAL_LABELS = {
     "terms": "Use & limitations",
     "contact": "Contact & corrections",
     "notice": "Estimates for general information. This service does not provide individual tax, legal, payroll or investment advice, prepare returns, or represent you. Check the stated year, location and exclusions before relying on a result.",
-    "tracking": "Optional analytics and advertising are disabled on these language pages. Essential hosting and security logs may still be processed."
+    "tracking": "English and Japanese pages offer optional Google Analytics with your permission; Chinese pages keep analytics off. Advertising is disabled. Essential hosting and security logs may still be processed."
   },
   "ja": {
     "privacy": "プライバシー・Cookie",
     "terms": "利用案内・計算の限界",
     "contact": "お問い合わせ・訂正依頼",
     "notice": "一般的な情報を提供する概算ツールです。個別の税務・法律・労務・投資相談、申告書の作成代行や代理は行いません。結果を使う前に対象年・地域・除外条件を確認してください。",
-    "tracking": "この言語ページでは任意のアクセス解析と広告を停止しています。配信・セキュリティに必要な接続ログは処理される場合があります。"
+    "tracking": "英語・日本語ページでは許可した場合にのみGoogle Analyticsを使います。中国語ページの解析と各言語ページの広告は停止中です。配信・安全確保に必要なログは処理される場合があります。"
   },
   "zh-hans": {
     "privacy": "隐私与Cookie",
     "terms": "使用说明与计算限制",
     "contact": "联系与纠错",
     "notice": "本服务提供一般信息和估算，不提供针对个人的税务、法律、薪资结算或投资咨询，不代办申报或代理事务。使用结果前，请核对适用年度、地区和未涵盖的条件。",
-    "tracking": "这些语言页面已停用可选访问分析与广告。网站托管和安全所需的连接日志仍可能被处理。"
+    "tracking": "中文页面不启用访问分析；英文和日文页面仅在用户许可后启用Google Analytics。广告仍停用。托管和安全所需的连接日志仍可能被处理。"
   }
 } satisfies Record<IntlLocale, Record<string, string>>;
 
@@ -38,7 +38,7 @@ export const LEGAL_SECTIONS = {
       ],
       [
         "Analytics, ads and cookies",
-        "We do not load Google Analytics, advertising tags or optional tracking on these language pages. No consent is needed to use the calculator. We do not set optional analytics or advertising cookies here. Cookies previously set by another page or service may remain in your browser; you can delete them in browser settings."
+        "English and Japanese pages load Google Analytics 4 only after you choose Allow analytics in the page footer. Rejecting it does not affect calculations. We measure page visits and technical usage information; Google may process cookie identifiers, device/browser information and approximate location outside your country. Google signals and advertising personalization are disabled in this integration. Chinese pages do not load analytics. No advertising tags are enabled on these language pages. The choice is saved in local storage and can be changed in the footer. On rejection we stop this integration and delete its cookies; other cookies can be removed in browser settings. Analytics cookies are configured to expire after 30 days and may refresh with use. Analytics record retention depends on the GA property settings; a verified account-specific duration is not yet available here."
       ],
       [
         "Necessary hosting and overseas processing",
@@ -98,7 +98,7 @@ export const LEGAL_SECTIONS = {
       ],
       [
         "解析・広告・Cookie",
-        "これらの言語ページではGoogle Analytics、広告タグ、任意の追跡を読み込みません。計算のために同意操作は必要ありません。ここでは任意の解析・広告Cookieを設定しませんが、以前ほかのページで保存されたCookieは残る場合があります。ブラウザの設定で削除できます。"
+        "英語・日本語ページではページ末尾で「解析を許可」を選んだ場合だけGoogle Analytics 4を読み込みます。拒否しても計算できます。ページ訪問や技術的な利用情報を測定し、GoogleがCookie識別子、端末・ブラウザ情報、おおよその地域を日本国外で処理する場合があります。この実装ではGoogleシグナルと広告のパーソナライズを無効にしています。中国語ページでは解析を読み込まず、これらの言語ページで広告タグは有効にしません。選択はローカルストレージに保存し、ページ末尾で変更できます。拒否するとこの解析を停止し、そのCookieを削除します。ほかのCookieはブラウザ設定で削除できます。解析Cookieの有効期間は30日に設定し、利用に伴い更新される場合があります。解析記録の保持はGAプロパティ設定に従い、アカウント固有の期間は未確認です。"
       ],
       [
         "配信に必要な情報と国外処理",
@@ -158,7 +158,7 @@ export const LEGAL_SECTIONS = {
       ],
       [
         "分析、广告与Cookie",
-        "这些语言页面不加载Google Analytics、广告标签或可选追踪。无需同意追踪即可使用计算器。我们不在这里设置可选分析或广告Cookie；此前由其他页面或服务设置的Cookie可能仍保留，可在浏览器设置中删除。"
+        "中文页面不加载Google Analytics。英文和日文页面仅在用户于页尾选择允许分析后加载Google Analytics 4，拒绝不影响计算。其可能由Google在境外处理Cookie标识符、设备与浏览器信息和大致地区等访问统计。该实现停用Google信号和广告个性化。所有这些语言页面均未启用广告标签。选择保存在本地存储中，可在英文或日文页尾修改。拒绝后停止该分析并清除该实现的Cookie；其他Cookie可在浏览器设置中删除。分析Cookie配置为30天有效，使用时可能续期；分析记录保留期限取决于GA属性设置，尚未核实该账号的具体期限。"
       ],
       [
         "必要托管与境外处理",
