@@ -26,8 +26,12 @@ export function enhanceGuide(locale: IntlLocale, tool: IntlTool, original: Guide
     heading: title, paragraphs: [c.goalNote, e.goalExample],
     table: { headers: [c.goal, c.monthly, c.months], rows: [["2200", "100", "12"]] },
   };
-  return { ...original, title, description: `${title}. ${original.description}`,
-    sections: [section, ...original.sections] };
+  const sections = original.sections.map((entry, index) => tool === "discount" && index === original.sections.length - 1
+    ? { ...entry, paragraphs: [...entry.paragraphs.slice(0, -1), e.basicDiscountNote] } : entry);
+  const faqs = original.faqs.map((entry, index) => tool === "discount" && index === original.faqs.length - 1
+    ? { ...entry, answer: e.basicDiscountNote } : entry);
+  return { ...original, title, faqs, description: `${title}. ${original.description}`,
+    sections: [section, ...sections] };
 }
 export function enhancementSources(locale: IntlLocale, tool: IntlTool): Reference[] {
   if (!enhancedCopy(locale)) return [];

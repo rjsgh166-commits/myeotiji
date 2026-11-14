@@ -126,6 +126,11 @@ function values(locale) {
      assert(page.querySelector('[data-enhancement="'+tool+'"] h2').textContent===heading);
      assert(page.querySelector('meta[name="description"]').content.includes(heading));
      const guide=INTERNATIONAL_GUIDES.find(g=>g.locale===locale&&g.tool===tool);
+     if(tool==='discount') {
+       const { ENHANCEMENT_EXAMPLES }=require('../app/_lib/intl-enhancements/guide-examples.ts');
+       assert.equal(guide.sections.at(-1).paragraphs.at(-1),ENHANCEMENT_EXAMPLES[locale].basicDiscountNote);
+       assert.equal(guide.faqs.at(-1).answer,ENHANCEMENT_EXAMPLES[locale].basicDiscountNote);
+     }
      const article=fs.readFileSync(path.join(built,locale,'guides',guide.slug+'.html'),'utf8');
      const doc=new JSDOM(article).window.document;
      assert.equal(doc.querySelector('h1').textContent,heading);
