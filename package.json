@@ -12,7 +12,8 @@
     "test:guides": "node scripts/verify-intl-guides.cjs",
     "test:global": "node scripts/verify-global-calculators.cjs",
     "test:privacy": "node scripts/verify-intl-privacy.cjs",
-    "test:analytics": "node scripts/verify-intl-analytics.cjs"
+    "test:analytics": "node scripts/verify-intl-analytics.cjs",
+    "test:scenarios": "node scripts/verify-intl-scenarios.cjs"
   },
   "dependencies": {
     "korean-lunar-calendar": "^0.4.0",

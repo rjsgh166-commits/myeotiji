@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useSyncExternalStore } from "react";
 import { DEFAULT_CURRENCY, COPY, LOCALES, TOOLS, type IntlLocale, type IntlTool } from "../_lib/international";
+import InternationalScenarios from "./InternationalScenarios";
 import CalculatorGuideTeaser, { type GuideTeaser } from "./CalculatorGuideTeaser";
 
 const CURRENCIES = ["USD", "GBP", "JPY", "CNY", "KRW", "CAD", "AUD", "TWD", "SGD", "BRL", "IDR", "INR", "EUR", "EGP", "BDT", "PKR", "VND"] as const;
@@ -260,6 +261,9 @@ export default function InternationalCalculator({ locale, tool, guide }: { local
             <p className="mt-5 text-sm leading-7 text-slate-700">{t.disclaimer}</p>
           </section>
         </div>
+
+        <InternationalScenarios locale={locale} tool={tool} currency={currency} currencySelector={currencySelector}
+          amount={amount} first={first} second={second} rate={rate} fixed={fixed} reverse={reverse} monthly={monthly} years={years} />
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
           <section className={CARD}><h2 className="text-lg font-black">{t.how}</h2>
