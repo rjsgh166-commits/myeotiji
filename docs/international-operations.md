@@ -1,4 +1,4 @@
-# International operating boundaries — v39
+# International operating boundaries — v40
 
 Reviewed implementation: 2026-11-13. This is an engineering risk-reduction record, not a legal opinion or regulatory approval.
 
@@ -7,7 +7,7 @@ Reviewed implementation: 2026-11-13. This is an engineering risk-reduction recor
 | Data | Processing | Purpose / safeguards |
 |---|---|---|
 | Calculator amounts, salaries, dates, results | Browser memory; no operator storage or transmission implemented | Self-service calculation; no accounts, uploaded records or forms |
-| Optional international analytics / ads | EN/JA GA4 loads only after explicit local-storage consent; CN remains disabled; all ads remain disabled | Only page visits are explicitly sent, with query/referrer stripped, ad signals off; withdraw via footer and integration-prefixed cookies removed. Language switches reload the document to isolate CN. Review GA account settings before additional data uses |
+| Optional international analytics / ads | EN/JA GA4 loads by default unless a saved rejection exists; visitors may opt out; CN remains disabled; all ads remain disabled | Only page visits are explicitly sent, with query/referrer stripped, ad signals off; withdraw via footer and integration-prefixed cookies removed. Language switches reload the document to isolate CN. Review GA account settings before additional data uses |
 | Connection metadata | Vercel delivery/security infrastructure, potentially outside visitor country | Delivery and security; absence of optional tracking does not eliminate personal-data processing |
 | Voluntary support email | Existing contact mailbox/provider | Technical corrections and privacy requests; request fictional examples, never actual payroll/tax/identity documents |
 | Korean section | Existing separate root/privacy settings | Preserved; Korean visits can still use analytics |

@@ -15,7 +15,7 @@ const click=label=>act(async()=>[...document.querySelectorAll('button')].find(b=
 const scripts=()=>document.querySelectorAll('script[data-international-analytics]');
 const calls=()=>window.dataLayer.map(x=>Array.from(x));
 (async()=>{
- await render();assert.equal(scripts().length,0);assert.equal(window.gtag,undefined);
+ await render();assert.equal(scripts().length,1);
  await click('Reject analytics');assert.equal(scripts().length,0);assert.equal(localStorage.getItem('myeotiji-international-analytics-v1'),'denied');
  await click('Allow analytics');assert.equal(scripts().length,1);assert.equal(window['ga-disable-G-6FC374VXMH'],false);
  const config=calls().find(c=>c[0]==='config')[2];
@@ -23,13 +23,13 @@ const calls=()=>window.dataLayer.map(x=>Array.from(x));
  assert.equal(config.page_location,'https://myeotiji.kr/en/compound');assert.equal(config.page_referrer,'');
  assert(!JSON.stringify(calls()).includes('987654'));assert(!JSON.stringify(calls()).includes('2001-02-03'));
  pathname='/en/stock-average';await render();assert.equal(scripts().length,1);
- assert.equal(calls().filter(c=>c[0]==='event'&&c[1]==='page_view').length,2);
+ assert.equal(calls().filter(c=>c[0]==='event'&&c[1]==='page_view').length,3);
  document.cookie='myeotiji_intl_ga=test;path=/';document.cookie='_ga=korean;path=/';
  await click('Reject analytics');assert.equal(scripts().length,0);assert.equal(window['ga-disable-G-6FC374VXMH'],true);
  assert(!document.cookie.includes('myeotiji_intl_ga='));assert(document.cookie.includes('_ga=korean'));
  const count=calls().length;pathname='/en/age';await render();assert.equal(calls().length,count);
  await render('ja');await click('解析を許可');assert.equal(scripts().length,1);
  await act(async()=>root.unmount());assert.equal(scripts().length,0);assert.equal(window['ga-disable-G-6FC374VXMH'],true);
- console.log(JSON.stringify({status:'PASS',defaultOff:true,allowReject:true,routePageViews:2,queryStripped:true,adSignalsDisabled:true,cookieWithdrawal:true,unmountStopsAnalytics:true}));
+ console.log(JSON.stringify({status:'PASS',defaultAllowed:true,allowReject:true,routePageViews:3,queryStripped:true,adSignalsDisabled:true,cookieWithdrawal:true,unmountStopsAnalytics:true}));
  dom.window.close();
 })().catch(e=>{console.error(e);process.exit(1);});

@@ -7,8 +7,8 @@ const ID = "G-6FC374VXMH";
 const KEY = "myeotiji-international-analytics-v1";
 const DISABLE = `ga-disable-${ID}`;
 const text = {
-  en: { title: "Optional visit analytics", body: "Allow Google Analytics cookies to measure visits and improve this site? Calculator inputs are not sent. Advertising features are disabled. You can change this choice here at any time.", allow: "Allow analytics", reject: "Reject analytics", active: "Visit analytics: allowed", off: "Visit analytics: off", privacy: "Privacy details" },
-  ja: { title: "任意のアクセス解析", body: "サイト改善のため、Google AnalyticsのCookieによる訪問解析を許可しますか？計算の入力値は送信せず、広告向け機能は無効です。ここでいつでも選択を変更できます。", allow: "解析を許可", reject: "解析を拒否", active: "訪問解析：許可", off: "訪問解析：停止中", privacy: "プライバシーの詳細" },
+  en: { title: "Optional visit analytics", body: "Google Analytics visit measurement is enabled by default. You can turn it off below. Calculator inputs are not sent. Advertising features are disabled. You can change this choice here at any time.", allow: "Allow analytics", reject: "Reject analytics", active: "Visit analytics: allowed", off: "Visit analytics: off", privacy: "Privacy details" },
+  ja: { title: "任意のアクセス解析", body: "Google Analyticsによる訪問解析は初期設定で有効です。下のボタンで停止できます。計算の入力値は送信せず、広告向け機能は無効です。ここでいつでも選択を変更できます。", allow: "解析を許可", reject: "解析を拒否", active: "訪問解析：許可", off: "訪問解析：停止中", privacy: "プライバシーの詳細" },
 };
 
 type Choice = "allowed" | "denied" | null;
@@ -18,7 +18,7 @@ export default function InternationalAnalytics({ locale }: { locale: "en" | "ja"
   const t = text[locale];
 
   useEffect(() => {
-    let saved: Choice = null;
+    let saved: Choice = "allowed";
     try { const value = localStorage.getItem(KEY); if (value === "allowed" || value === "denied") saved = value; } catch { /* Memory-only choice when storage is unavailable. */ }
     // eslint-disable-next-line react-hooks/set-state-in-effect -- Restore browser-only consent after static hydration.
     setChoice(saved); // Restore an explicit visitor preference after hydration.
