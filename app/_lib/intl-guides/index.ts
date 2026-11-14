@@ -1,3 +1,4 @@
+import { enhanceGuide, enhancementSources } from "../intl-enhancements/guides";
 import { EXPANSION } from "../intl-expansion-content";
 import { COUNTRY_TOOLS } from "../countryTools";
 import { LOCALES, type IntlLocale, type IntlTool } from "../international";
@@ -23,9 +24,9 @@ const PUBLISHED = "2026-11-13";
 
 export const INTERNATIONAL_GUIDES: CalculationGuide[] = [
   ...LOCALES.flatMap(locale => TOPICS.map(topic => ({
-    ...COPIES[locale][topic.tool], locale, slug: topic.slug, tool: topic.tool,
+    ...enhanceGuide(locale, topic.tool, COPIES[locale][topic.tool]), locale, slug: topic.slug, tool: topic.tool,
     kind: "global" as const, calculatorPath: `/${locale}/${topic.tool}`,
-    sources: topic.sources, published: ["en", "ja", "zh-hans"].includes(locale) ? PUBLISHED : "2026-11-14", updated: ["en", "ja", "zh-hans"].includes(locale) ? PUBLISHED : "2026-11-14",
+    sources: [...topic.sources, ...enhancementSources(locale, topic.tool)], published: ["en", "ja", "zh-hans"].includes(locale) ? PUBLISHED : "2026-11-14", updated: ["en", "ja", "zh-hans"].includes(locale) ? PUBLISHED : "2026-11-14",
   }))),
   ...COUNTRY_GUIDE_COPY.map(copy => {
     const tool = COUNTRY_TOOLS.find(entry => entry.locale === copy.locale && entry.id === copy.tool);

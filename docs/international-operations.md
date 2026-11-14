@@ -1,13 +1,13 @@
-# International operating boundaries — v40
+# International operating boundaries — v44
 
-Reviewed implementation: 2026-11-13. This is an engineering risk-reduction record, not a legal opinion or regulatory approval.
+Reviewed implementation: 2026-11-14. This is an engineering risk-reduction record, not a legal opinion or regulatory approval.
 
 ## Data inventory
 
 | Data | Processing | Purpose / safeguards |
 |---|---|---|
 | Calculator amounts, salaries, dates, results | Browser memory; no operator storage or transmission implemented | Self-service calculation; no accounts, uploaded records or forms |
-| Optional international analytics / ads | EN/JA GA4 loads by default unless a saved rejection exists; visitors may opt out; CN remains disabled; all ads remain disabled | Only page visits are explicitly sent, with query/referrer stripped, ad signals off; withdraw via footer and integration-prefixed cookies removed. Language switches reload the document to isolate CN. Review GA account settings before additional data uses |
+| Optional international analytics / ads | All international languages except CN load GA4 by default unless a saved rejection exists; visitors may opt out. Non-personalized AdSense integration tags are connected outside CN; actual ad serving/account approval/consent configuration has not been verified | Only page visits are explicitly sent, with query/referrer stripped, ad signals off; withdraw via footer and integration-prefixed cookies removed. Language switches reload the document to isolate CN. Review GA account settings before additional data uses |
 | Connection metadata | Vercel delivery/security infrastructure, potentially outside visitor country | Delivery and security; absence of optional tracking does not eliminate personal-data processing |
 | Voluntary support email | Existing contact mailbox/provider | Technical corrections and privacy requests; request fictional examples, never actual payroll/tax/identity documents |
 | Korean section | Existing separate root/privacy settings | Preserved; Korean visits can still use analytics |
@@ -41,3 +41,17 @@ Primary references used in review:
 - China PIPL: https://www.cac.gov.cn/2021-08/20/c_1631050028355286.htm
 - IRS preparer scope: https://www.irs.gov/tax-professionals/frequently-asked-questions-do-i-need-a-ptin
 - Vercel privacy: https://vercel.com/legal/privacy-policy
+
+
+## v44 — shopping and savings scenarios (2026-11-14)
+
+Scope: ES, PT-BR, ID, HI, FR, AR, BN, UR and VI; four existing calculator URLs and their existing guide URLs per language. Korean tools/metadata and the original EN/JA/CN calculators are unchanged. Analytics and advertising behavior is unchanged by this release.
+
+- Discount: retain the original two-percentage calculator. Supplement with a coupon scenario using the same price/discounts/currency. Product discount first, minimum order checked on that subtotal, then one percentage or fixed coupon with a cap (0 means no cap), then shipping. Reward is calculated on goods after the coupon, excluding shipping; show immediate payment separately from deferred reward and conditional effective cost. This is a user-configured model, not automatic marketplace checkout replication.
+- Fee: compare user-entered A/B percentage-plus-fixed terms for the same charge or target net. Reverse charges round upward to the currency's smallest unit; actual provider rounding/tax/eligibility rules may differ. No provider rate table, payout schedule or installment interest is asserted.
+- Unit price: compare total pack price/content per kg, L or item. Reject cross-family comparisons; no mass/volume density assumption. No currency conversion. Display fine unit prices with up to six decimals.
+- Goal savings: invert the same annual-effective-return/month-end-deposit model. Round the required monthly deposit upward to the currency's smallest unit. Show outcomes for current contributions and ±20%; handle zero/negative assumed returns, already-funded targets and integer-month duration. A mathematical simulation, not an individual investment recommendation.
+- Guide content: native-language feature titles, assumptions, worked examples/tables and links to the same calculator. Additional contextual primary references for ID coupons, PT-BR payment fees and FR unit prices. Examples are synthetic, not official provider tariffs.
+- No new URLs, tax/payroll rules, holiday calendars, professional services, user-data collection or Search Console submissions.
+
+Validation: `npm run test:scenarios` covers pure arithmetic boundaries and 36 localized React scenarios. `node scripts/verify-intl-scenarios.cjs --rendered` also checks the built HTML/metadata/guide content. Existing global/country, SEO, guides, privacy and analytics checks remain required before release.
