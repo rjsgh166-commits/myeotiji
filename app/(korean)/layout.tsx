@@ -1,3 +1,4 @@
+import KoreanRegionalAnalytics from "../_components/KoreanRegionalAnalytics";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Script from "next/script";
@@ -121,20 +122,7 @@ export default function RootLayout({
         <BackToTop />
         <AnalyticsTracker />
 
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-          strategy="afterInteractive"
-        />
-
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            window.gtag = gtag;
-            gtag('js', new Date());
-            gtag('config', '${GA_ID}');
-          `}
-        </Script>
+        <KoreanRegionalAnalytics measurementId={GA_ID} />
         <Script id="korean-ads-settings" strategy="afterInteractive">{`window.adsbygoogle = window.adsbygoogle || []; window.adsbygoogle.requestNonPersonalizedAds = 1;`}</Script>
         <Script async crossOrigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3837140065995769" strategy="afterInteractive" />
       </body>

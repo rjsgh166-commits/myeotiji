@@ -1,13 +1,13 @@
-# International operating boundaries — v44
+# International operating boundaries — v46
 
-Reviewed implementation: 2026-11-14. This is an engineering risk-reduction record, not a legal opinion or regulatory approval.
+Reviewed implementation: 2026-11-15. This is an engineering risk-reduction record, not a legal opinion or regulatory approval.
 
 ## Data inventory
 
 | Data | Processing | Purpose / safeguards |
 |---|---|---|
 | Calculator amounts, salaries, dates, results | Browser memory; no operator storage or transmission implemented | Self-service calculation; no accounts, uploaded records or forms |
-| Optional international analytics / ads | All international languages except CN load GA4 by default unless a saved rejection exists; visitors may opt out. Non-personalized AdSense integration tags are connected outside CN; actual ad serving/account approval/consent configuration has not been verified | Only page visits are explicitly sent, with query/referrer stripped, ad signals off; withdraw via footer and integration-prefixed cookies removed. Language switches reload the document to isolate CN. Review GA account settings before additional data uses |
+| Optional international analytics / ads | Outside regions requiring prior consent, international languages except CN allow GA4 by default unless a saved rejection exists; EEA/UK/CH wait for the Google CMP analytics grant; unknown regions wait too; visitors may opt out. Non-personalized AdSense integration tags are connected outside CN; actual ad serving/account approval/consent configuration has not been verified | Only page visits are explicitly sent, with query/referrer stripped, ad signals off; withdraw via footer and integration-prefixed cookies removed. Language switches reload the document to isolate CN. Review GA account settings before additional data uses |
 | Connection metadata | Vercel delivery/security infrastructure, potentially outside visitor country | Delivery and security; absence of optional tracking does not eliminate personal-data processing |
 | Voluntary support email | Existing contact mailbox/provider | Technical corrections and privacy requests; request fictional examples, never actual payroll/tax/identity documents |
 | Korean section | Existing separate root/privacy settings | Preserved; Korean visits can still use analytics |
@@ -65,3 +65,17 @@ Validation: `npm run test:scenarios` covers pure arithmetic boundaries and 36 lo
 - Correct known English remnants and target-net terminology in Vietnamese guides, a French stock-quantity mistranslation, and Spanish/French input headings. This is targeted editorial correction, not native-speaker certification of all translations.
 - Korean calculator markup, metadata and numeric controls are untouched. International tracking/ad settings are unchanged by this release; auditing an account setting does not certify consent compliance.
 - Validation: `npm run test:number-input` checks 295 parser assertions, 12 locale React interactions, decimal keyboard attributes, invalid blank inputs and known translation remnants. Existing calculator, guide, privacy, analytics and Korean SEO regressions remain required.
+
+
+## v46 — regional analytics consent gate (2026-11-15)
+
+- Keep the existing published Google CMP message and non-personalized AdSense integration. Require Google Privacy & messaging consent mode support for both advertising and analytics purposes. Do not create a duplicate message, enable personalized ads or claim that CMP certification guarantees legal compliance.
+- `/api/privacy-region` returns only `consentRequired: true | false | null`, using Vercel's existing coarse country request header on Vercel deployments. It never returns the country/IP or stores a new profile. Responses are private/no-store and noindex. The endpoint is not in the sitemap.
+- EEA's 30 countries plus UK and Switzerland require an analytics-purpose grant. Unknown region/CMP states and NOT_CONFIGURED fail closed. Elsewhere, preserve default-on analytics and the visitor's saved opt-out. Language is not used as a proxy for visitor country.
+- Read Google Funding Choices `CONSENT_MODE_DATA_READY` and `getGoogleConsentModeValues()`. Subscribe to TCF updates to handle later consent changes; regional permission and the local opt-out are both required. A local allow button cannot override a regional denial. The regional consent control reopens the existing Google message and stops analytics while a new decision is pending.
+- No GA script or page event is loaded/sent by this integration while permission is pending/denied. On withdrawal disable the property, remove the script and clear only that root's analytics cookie prefix. International withdrawal preserves Korean cookies. Essential hosting and consent-message delivery still occur.
+- The Korean root uses the same regional gate while its calculator HTML, metadata and navigation remain intact. Drop Korean event-helper events while blocked; sanitize the initial page location to exclude query parameters. Existing Korean page/click events continue once allowed.
+- Add 11-language notices and regional-consent controls and update those privacy pages; Chinese pages continue without these analytics/ad components or their region fetch. Do not change Chinese operating assumptions or claim all provider logs are anonymous.
+- Validation: `npm run test:consent` covers 32 required countries, other-country default allowance, private region responses, missing configuration/outages, CMP grant/deny/review, local opt-out precedence, withdrawal cookies and the Korean gate. Existing SEO, privacy, analytics and calculator checks remain required.
+
+Primary implementation references: https://developers.google.com/funding-choices/fc-api-docs and https://vercel.com/docs/headers/request-headers .
