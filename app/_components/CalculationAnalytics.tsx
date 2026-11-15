@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usageSender } from "../_lib/usage-analytics";
 import { trackEvent } from "../_lib/analytics";
 
 type Props = {
@@ -44,9 +45,11 @@ export default function CalculationAnalytics({
   useEffect(() => {
     if (!interacted || !valid || !signature || lastTracked.current === signature) return;
 
+    const sender = usageSender();
     const timer = window.setTimeout(() => {
       if (lastTracked.current === signature) return;
       lastTracked.current = signature;
+      if (hasCompare && sender && usageSender() === sender) document.dispatchEvent(new Event("myeotiji:comparison"));
       trackEvent("calculation_complete", {
         calculator,
         mode,

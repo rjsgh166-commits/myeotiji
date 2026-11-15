@@ -234,7 +234,7 @@ export default function InternationalCalculator({ locale, tool, guide }: { local
   }
 
   return (
-    <div lang={langTag} className="min-h-screen bg-[#f7f8fa] text-slate-950">
+    <div data-usage-calculator lang={langTag} className="min-h-screen bg-[#f7f8fa] text-slate-950">
       <div className="mx-auto max-w-5xl px-5 pb-16 pt-8 sm:px-8">
         <header className="mb-8 flex flex-wrap items-center justify-between gap-3">
           <Link href={`/${locale}`} className="text-lg font-black text-blue-700">Myeotiji · {t.home}</Link>

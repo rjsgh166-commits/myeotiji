@@ -1,0 +1,58 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- Standalone integration regression runner. */
+const fs = require('node:fs'), assert = require('node:assert/strict'), ts = require('typescript'), Module = require('node:module');
+const { JSDOM } = require('jsdom');
+const dom = new JSDOM('<div id="root"></div><main><input id="base" value="987654"><section data-enhancement="compound"><input id="scenario" value="2001-02-03"></section><input type="search" id="search"></main><nav><input id="nav"></nav><a id="guide" href="/en/guides/compound-interest?amount=987654#2001-02-03">guide</a><a id="lang" href="/ja/compound" hreflang="ja">日本語</a>', { url: 'https://myeotiji.kr/en/compound?amount=987654' });
+Object.assign(global, { window: dom.window, document: dom.window.document, localStorage: dom.window.localStorage, HTMLElement: dom.window.HTMLElement, Element: dom.window.Element, Event: dom.window.Event, IS_REACT_ACT_ENVIRONMENT: true });
+let pathname = '/en/compound';
+global.fetch = async () => ({ ok: true, json: async () => ({ consentRequired: false }) });
+const load = Module._load;
+Module._load = function(name, ...args) { if (name === 'next/navigation') return { usePathname: () => pathname }; return load.call(this, name, ...args); };
+require.extensions['.ts'] = require.extensions['.tsx'] = (m, f) => m._compile(ts.transpileModule(fs.readFileSync(f, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX, target: ts.ScriptTarget.ES2020 } }).outputText, f);
+const React = require('react'), { act } = React, { createRoot } = require('react-dom/client');
+const Tracker = require('../app/_components/UsageAnalyticsTracker.tsx').default;
+const Analytics = require('../app/_components/InternationalAnalytics.tsx').default;
+const Calculation = require('../app/_components/CalculationAnalytics.tsx').default;
+const { usageContext, startUsageVisit } = require('../app/_lib/usage-analytics.ts');
+const root = createRoot(document.getElementById('root'));
+let signature = 'first';
+const render = async (path = pathname, korean = false) => {
+ pathname = path; window.history.replaceState({}, '', path + '?amount=987654');
+ await act(async () => root.render(React.createElement(React.Fragment, null, React.createElement(Analytics, { locale: 'en' }), React.createElement(Tracker), korean ? React.createElement(Calculation, {calculator:'loan',signature,hasCompare:true,delayMs:20}) : null)));
+};
+const wait = () => act(async () => new Promise(r => setTimeout(r, 1100)));
+const input = async id => act(async () => { const e=document.getElementById(id); e.dispatchEvent(new Event('input',{bubbles:true})); e.dispatchEvent(new Event('change',{bubbles:true})); });
+const click = id => document.getElementById(id).dispatchEvent(new dom.window.MouseEvent('click', {bubbles:true,cancelable:true}));
+document.addEventListener('click', e => e.preventDefault());
+const usage = () => (window.dataLayer || []).map(x => Array.from(x)).filter(x => ['calculator_use','comparison_use','guide_open','language_change'].includes(x[1]));
+(async () => {
+ assert.equal(usageContext('/holiday-tracker/2027/pto-1').calculator,'holiday-tracker');
+ assert.equal(usageContext('/holiday-tracker/2027/private-987654'),null);
+ await render(); assert.equal(usage().length,0,'no default calculation event');
+ await input('nav'); await input('search'); await wait(); assert.equal(usage().length,0,'navigation/search excluded');
+ await input('base'); await input('base'); await wait(); assert.deepEqual(usage().map(c=>c[1]),['calculator_use']);
+ await input('scenario'); await wait(); assert.deepEqual(usage().map(c=>c[1]),['calculator_use','comparison_use']);
+ click('guide');click('guide');click('lang');assert.equal(usage().length,4,'per-visit deduplication');
+ const record = startUsageVisit(pathname); record('guide_open','https://example.com/en/guides/compound-interest');record('guide_open','/en/guides/private-987654');record('language_change','/ja/compound');record('comparison_use','987654');assert.equal(usage().length,4,'unknown destinations and values rejected');
+ assert(!JSON.stringify(usage()).includes('987654'));assert(!JSON.stringify(usage()).includes('2001-02-03'));
+ for (const call of usage()) assert(Object.keys(call[2]).every(k=>['language','calculator','tool_family','comparison_type','guide_id','target_language'].includes(k)));
+ // Real opt-out UI closes the gate; no replay after opt-in.
+ const button = label => [...document.querySelectorAll('button')].find(b=>b.textContent===label);
+ await render('/en/fee');
+ await input('base');
+ await act(async()=>button('Reject analytics').click());
+ await act(async()=>button('Allow analytics').click());
+ await wait();assert.equal(usage().length,4,'old debounce cannot survive revoke/regrant');
+ await act(async()=>button('Reject analytics').click());await input('base');await wait();assert.equal(usage().length,4);
+ await act(async()=>button('Allow analytics').click());await wait();assert.equal(usage().length,4,'no consent backlog');
+ await input('base');await wait();assert.equal(usage().at(-1)[2].calculator,'fee');
+ await render('/en/compound');await input('base');await wait();assert.equal(usage().length,6,'return visit counts separately');
+ await render('/loan',true);await input('base');signature='changed';await render('/loan',true);await wait();assert.equal(usage().filter(c=>c[1]==='comparison_use').length,2,'legacy valid comparison bridge');
+ assert(window.dataLayer.some(x=>x[1]==='calculation_complete'),'legacy completion preserved');
+ const count=usage().length;
+ await render('/zh-hans/compound');await input('base');click('guide');await wait();assert.equal(usage().length,count,'Chinese route blocked even with stale allowed GA');
+ for(const path of ['/zh-hans','/zh-hans/age','/zh-hans/cn/income-tax','/en/private-987654','/salary/987654']) assert.equal(usageContext(path),null);
+ await render('/ja/jp/commuter-pass');await input('base');await wait();assert.equal(usage().at(-1)[2].tool_family,'country');
+ window.myeotijiAnalyticsAllowed=undefined;const before=usage().length;startUsageVisit(pathname)('calculator_use');assert.equal(usage().length,before,'pending gate fails closed');
+ await act(async()=>root.unmount());dom.window.close();
+ console.log(JSON.stringify({status:'PASS',realConsentIntegration:true,debounceAndDedupe:true,withdrawalNoReplay:true,routeReset:true,scenarioAndKoreanComparison:true,countryTools:true,chineseBlocked:true,inputsAndQueriesExcluded:true}));
+})().catch(e=>{console.error(e);process.exit(1);});

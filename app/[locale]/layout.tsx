@@ -1,3 +1,4 @@
+import UsageAnalyticsTracker from "../_components/UsageAnalyticsTracker";
 import Script from "next/script";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
@@ -36,6 +37,7 @@ export default async function IntlLayout({ children, params }: {
         <InternationalSafety locale={locale} />
         {locale !== "zh-hans" && <>
           <InternationalAnalytics locale={locale} />
+          <UsageAnalyticsTracker />
           <Script id="international-ads-settings" strategy="afterInteractive">{`window.adsbygoogle = window.adsbygoogle || []; window.adsbygoogle.requestNonPersonalizedAds = 1;`}</Script>
           <Script async crossOrigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3837140065995769" strategy="afterInteractive" />
         </>}

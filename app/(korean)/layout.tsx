@@ -1,3 +1,4 @@
+import UsageAnalyticsTracker from "../_components/UsageAnalyticsTracker";
 import KoreanRegionalAnalytics from "../_components/KoreanRegionalAnalytics";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
@@ -121,6 +122,7 @@ export default function RootLayout({
         <SiteFooter />
         <BackToTop />
         <AnalyticsTracker />
+        <UsageAnalyticsTracker />
 
         <KoreanRegionalAnalytics measurementId={GA_ID} />
         <Script id="korean-ads-settings" strategy="afterInteractive">{`window.adsbygoogle = window.adsbygoogle || []; window.adsbygoogle.requestNonPersonalizedAds = 1;`}</Script>
