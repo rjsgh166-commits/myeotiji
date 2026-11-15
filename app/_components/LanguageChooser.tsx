@@ -7,7 +7,7 @@ export default function LanguageChooser({ locale, paths }: { locale: IntlLocale;
     className={`inline-flex min-h-11 items-center rounded-xl px-3 py-2 text-sm font-semibold ${locale === code ? 'bg-blue-600 text-white' : 'bg-white text-slate-700 ring-1 ring-slate-200'}`}>
     {COPY[code].label}
   </a>);
-  return <div className="language-chooser relative max-w-full">
+  return <div className="language-chooser relative w-full max-w-full sm:w-auto">
     <details className="sm:hidden" data-mobile-language>
       <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700">
         <span aria-hidden="true">🌐</span><span>{COPY[locale].lang}: {COPY[locale].label}</span><span aria-hidden="true">▾</span>
