@@ -1,5 +1,6 @@
 "use client";
 
+import MobileCalculatorNav from "./MobileCalculatorNav";
 import Link from "next/link";
 import { useState } from "react";
 import { COUNTRY_TOOLS, type CountryTool } from "../_lib/countryTools";
@@ -340,12 +341,14 @@ export default function CountryCalculator({ entry, guide }: { entry: CountryTool
         <p className="mt-2 text-sm leading-7 text-slate-700">{entry.scope}</p>
         <p className="mt-3 text-xs text-slate-600">Last reviewed / 最終確認 / 更新日期: {entry.updated}</p>
       </section>
+      <div data-calculator-workspace>
+      <MobileCalculatorNav inputs={{ id: "calculator-inputs", label: entry.locale === "en" ? "Inputs" : entry.locale === "ja" ? "入力" : "输入" }} results={{ id: "calculator-results", label: entry.locale === "en" ? "Results" : entry.locale === "ja" ? "結果" : "结果" }} />
       <div className="mt-8 grid gap-5 md:grid-cols-2">
-        <section className={boxClass}>
+        <section id="calculator-inputs" data-mobile-target tabIndex={-1} className={boxClass}>
           <h2 className="mb-5 text-lg font-black">{entry.locale==="en"?"Enter your details":entry.locale==="ja"?"計算条件を入力":"请输入计算条件"}</h2>
           <div className="space-y-5">{fields}</div>
         </section>
-        <section className={boxClass} aria-live="polite" aria-atomic="true">
+        <section id="calculator-results" data-mobile-target tabIndex={-1} className={boxClass} aria-live="polite" aria-atomic="true">
           <h2 className="mb-4 text-lg font-black">{resultsLabel}</h2>
           {valid ? results.map((row,i)=><ResultRow key={i} item={row}/>) :
             <p role="alert" className="rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
@@ -359,6 +362,7 @@ export default function CountryCalculator({ entry, guide }: { entry: CountryTool
         </section>
       </div>
       {extra && <div className="mt-4">{extra}</div>}
+      </div>
       <CalculatorGuideTeaser guide={guide} />
       <section className="mt-5 grid gap-4 md:grid-cols-2">
         <article className={boxClass}><h2 className="text-lg font-black">{entry.locale==="en"?"Formula":entry.locale==="ja"?"計算方法":"计算方法"}</h2>

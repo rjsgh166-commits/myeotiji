@@ -28,3 +28,17 @@ body {
 /* Preserve mathematical order inside RTL calculator layouts. */
 html[dir="rtl"] input[type="number"], html[dir="rtl"] input[type="date"], html[dir="rtl"] strong { direction: ltr; unicode-bidi: isolate; }
 html[dir="rtl"] p { unicode-bidi: plaintext; }
+
+/* Fragment targets remain visible below the mobile input/result navigation. */
+[data-mobile-target] { scroll-margin-top: 8rem; }
+[data-mobile-target]:focus-visible { outline: 2px solid #2563eb; outline-offset: 4px; }
+.language-chooser summary::-webkit-details-marker { display: none; }
+@media (max-width: 767px) {
+  main input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]),
+  main select, main textarea { font-size: 16px; min-height: 44px; }
+  main button { min-height: 44px; }
+  .language-chooser a, .language-chooser summary { min-height: 44px; }
+}
+@media (max-width: 1023px) {
+  body:has([data-sticky-result-bar]) [data-back-to-top] { bottom: calc(7rem + env(safe-area-inset-bottom)); }
+}

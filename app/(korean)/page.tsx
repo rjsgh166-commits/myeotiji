@@ -34,14 +34,14 @@ export default function Home() {
           <div className="flex items-center gap-1 sm:hidden">
             <a
               href="#calculator-search"
-              className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50"
+              className="inline-flex min-h-11 items-center rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50"
               aria-label="계산기 검색으로 이동"
             >
               검색
             </a>
             <a
               href="#my-calculations"
-              className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50"
+              className="inline-flex min-h-11 items-center rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50"
               aria-label="내 계산함으로 이동"
             >
               계산함
@@ -50,9 +50,9 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="px-5 pb-10 pt-14 sm:pb-14 sm:pt-20">
+      <section className="px-5 pb-10 pt-6 sm:pb-14 sm:pt-20">
         <div className="mx-auto max-w-4xl text-center">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
+          <h1 className="break-keep text-3xl font-bold tracking-tight sm:text-6xl">
             일상에서 궁금한 숫자,
             <br />
             <span className="text-blue-600">몇이지?</span>
@@ -61,7 +61,14 @@ export default function Home() {
             비교하고 끝내지 않습니다. <strong className="font-semibold text-slate-700">결정의 기준이 되는 숫자</strong>를 역산해요.
           </p>
 
-          <div className="mx-auto mt-7 grid max-w-3xl gap-2 text-left sm:grid-cols-3">
+          <div data-home-search>
+          <p className="mt-5 text-xs font-semibold text-slate-500">원하는 계산기가 따로 있다면 아래에서 바로 검색하세요.</p>
+          <div id="calculator-search" className="scroll-mt-24">
+            <CalculatorSearch items={CALCULATORS} />
+          </div>
+          </div>
+
+          <div data-home-thresholds className="mx-auto mt-7 grid max-w-3xl gap-2 text-left sm:grid-cols-3">
             {[
               ["💼", "이직하려면", "연봉 몇 이상?", "/job-change", "violet"],
               ["🏦", "대출 갈아타려면", "금리 몇 % 이하?", "/loan?view=compare", "blue"],
@@ -83,10 +90,7 @@ export default function Home() {
             ))}
           </div>
 
-          <p className="mt-5 text-xs font-semibold text-slate-500">원하는 계산기가 따로 있다면 아래에서 바로 검색하세요.</p>
-          <div id="calculator-search" className="scroll-mt-24">
-            <CalculatorSearch items={CALCULATORS} />
-          </div>
+
 
           <p className="mt-4 text-xs font-semibold text-slate-500">빠르게 숫자만 확인</p>
           <div className="mt-2 flex flex-wrap justify-center gap-2">
@@ -100,7 +104,7 @@ export default function Home() {
               <Link
                 key={href}
                 href={href}
-                className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
+                className="inline-flex min-h-11 items-center rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
               >
                 {label}
               </Link>

@@ -1,5 +1,7 @@
 "use client";
 
+import MobileCalculatorNav from "../../_components/MobileCalculatorNav";
+
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import MoneyInput from "../../_components/MoneyInput";
@@ -464,6 +466,7 @@ export default function LoanPage() {
           </p>
         </header>
 
+        <MobileCalculatorNav korean inputs={{ id: "loan-inputs", label: "조건 입력" }} results={{ id: view === "single" ? "loan-single-result" : "loan-compare-result", label: "결과 보기" }} />
         <div className="mt-7 inline-flex rounded-xl border border-slate-200 bg-white p-1">
           <button
             type="button"
@@ -487,7 +490,7 @@ export default function LoanPage() {
 
         {view === "single" ? (
         <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_1.05fr]">
-          <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+          <section id="loan-inputs" data-mobile-target tabIndex={-1} className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
             <MoneyInput
               label="대출금액"
               value={principal}
@@ -541,7 +544,7 @@ export default function LoanPage() {
             </div>
           </section>
 
-          <section id="loan-single-result" className="scroll-mt-24 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+          <section id="loan-single-result" data-mobile-target tabIndex={-1} className="scroll-mt-24 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
             <p className="text-sm font-bold text-gray-500">{methodName(method)} 예상 결과</p>
 
             {result ? (
@@ -610,7 +613,7 @@ export default function LoanPage() {
             얼마나 차이 나는지 확인해보세요.
           </p>
 
-          <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
+          <div id="loan-inputs" data-mobile-target tabIndex={-1} className="mt-6 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div className="min-w-[240px] flex-1">
                 {samePrincipal ? (
@@ -687,7 +690,7 @@ export default function LoanPage() {
             <ScenarioResult title="조건 B" method={bMethod} result={bResult} accent />
           </div>
 
-          <div id="loan-compare-result" className="scroll-mt-24">
+          <div id="loan-compare-result" data-mobile-target tabIndex={-1} className="scroll-mt-24">
           <DecisionSummaryCard
             title={interestSummary}
             description={

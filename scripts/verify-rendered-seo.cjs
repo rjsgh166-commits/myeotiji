@@ -17,6 +17,13 @@ function metaTags(source) {
 }
 const decoder = new JSDOM('').window.document.createElement('textarea');
 function bodyText(source) {
+  if (source.includes('data-home-search')) {
+    const dom = new JSDOM(source), doc = dom.window.document;
+    const search = doc.querySelector('[data-home-search]');
+    doc.querySelector('[data-home-thresholds]').after(search);
+    source = dom.serialize(); dom.window.close();
+  }
+  source = source.replace(/<nav\b[^>]*data-mobile-ui="calculator-nav"[^>]*>[\s\S]*?<\/nav>/g, '');
   const body = source.match(/<body[^>]*>([\s\S]*?)<\/body>/)[1]
     .replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, '').replace(/<[^>]*>/g, ' ');
   decoder.innerHTML = body;

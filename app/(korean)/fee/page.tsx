@@ -1,5 +1,7 @@
 "use client";
 
+import MobileCalculatorNav from "../../_components/MobileCalculatorNav";
+
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import MoneyInput from "../../_components/MoneyInput";
@@ -51,6 +53,7 @@ export default function FeePage() {
           </p>
         </header>
 
+        <MobileCalculatorNav korean inputs={{ id: "fee-inputs", label: "조건 입력" }} results={{ id: "fee-results", label: "결과 보기" }} />
         <div className="mt-8 grid gap-2 sm:grid-cols-3">
           {[
             ["deduct", "수수료 차감"],
@@ -71,7 +74,7 @@ export default function FeePage() {
         </div>
 
         <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_1.05fr]">
-          <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+          <section id="fee-inputs" data-mobile-target tabIndex={-1} className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
             <MoneyInput
               label={mode === "grossUp" ? "받고 싶은 실수령액" : "기준 금액"}
               value={amount}
@@ -99,7 +102,7 @@ export default function FeePage() {
             </div>
           </section>
 
-          <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+          <section id="fee-results" data-mobile-target tabIndex={-1} className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
             {result ? (
               <>
                 <div className="rounded-2xl bg-blue-600 p-6 text-white">
