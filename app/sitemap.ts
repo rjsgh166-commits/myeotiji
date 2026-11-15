@@ -133,5 +133,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       alternates: { languages: guideHubAlternates("/editorial-policy") } },
   ]);
 
-  return [...koreanPages, ...globalPages, ...countryPages, ...guidePages, ...guideHubs, ...LOCALES.flatMap(locale => ["privacy", "terms", "contact"].map(page => ({ url: `${SITE_URL}/${locale}/${page}`, lastModified: localizedUpdated(locale), changeFrequency: "yearly" as const })))];
+  return [...koreanPages, ...globalPages, ...countryPages, ...guidePages, ...guideHubs, ...LOCALES.flatMap(locale => ["privacy", "terms", "contact"].map(page => ({ url: `${SITE_URL}/${locale}/${page}`, lastModified: locale !== "zh-hans" && page === "privacy" ? "2026-11-15" : localizedUpdated(locale), changeFrequency: "yearly" as const })))];
 }

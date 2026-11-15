@@ -15,7 +15,7 @@ function cleanParams(params: AnalyticsParams) {
 }
 
 export function trackEvent(eventName: string, params: AnalyticsParams = {}) {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined" || window.myeotijiAnalyticsAllowed === false) return;
 
   const payload = cleanParams(params);
 

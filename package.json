@@ -14,7 +14,8 @@
     "test:privacy": "node scripts/verify-intl-privacy.cjs",
     "test:analytics": "node scripts/verify-intl-analytics.cjs",
     "test:scenarios": "node scripts/verify-intl-scenarios.cjs",
-    "test:number-input": "node scripts/verify-localized-number.cjs"
+    "test:number-input": "node scripts/verify-localized-number.cjs",
+    "test:consent": "node scripts/verify-regional-consent.cjs"
   },
   "dependencies": {
     "korean-lunar-calendar": "^0.4.0",

@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 import type { IntlLocale } from "../_lib/international";
+import useRegionalConsent from "./useRegionalConsent";
+import { clearAnalyticsCookies } from "../_lib/regional-consent";
+import { REGIONAL_CONSENT_COPY } from "../_lib/regional-consent-copy";
 import { usePathname } from "next/navigation";
 
 const ID = "G-6FC374VXMH";
@@ -26,6 +29,9 @@ export default function InternationalAnalytics({ locale }: { locale: Exclude<Int
   const [choice, setChoice] = useState<Choice>(null);
   const pathname = usePathname();
   const t = text[locale];
+  const c = REGIONAL_CONSENT_COPY[locale];
+  const regional = useRegionalConsent();
+  const enabled = choice === "allowed" && regional.permitted;
 
   useEffect(() => {
     let saved: Choice = "allowed";
@@ -36,8 +42,9 @@ export default function InternationalAnalytics({ locale }: { locale: Exclude<Int
 
   useEffect(() => {
     const target = window as unknown as Record<string, unknown>;
-    target[DISABLE] = choice !== "allowed";
-    if (choice !== "allowed") return;
+    target[DISABLE] = !enabled;
+    window.myeotijiAnalyticsAllowed = enabled;
+    if (!enabled) return;
     window.dataLayer = window.dataLayer || [];
     // eslint-disable-next-line prefer-rest-params -- Preserve the Google tag command-queue format.
     window.gtag = function () { window.dataLayer?.push(arguments); };
@@ -53,43 +60,43 @@ export default function InternationalAnalytics({ locale }: { locale: Exclude<Int
     script.src = `https://www.googletagmanager.com/gtag/js?id=${ID}`;
     script.async = true; script.dataset.internationalAnalytics = "true";
     document.head.appendChild(script);
-    return () => { target[DISABLE] = true; script.remove(); };
+    return () => { target[DISABLE] = true; window.myeotijiAnalyticsAllowed = false; script.remove(); };
     // Configure once per permission change. Page views below handle route changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [choice]);
+  }, [enabled]);
 
   useEffect(() => {
-    if (choice !== "allowed") return;
+    if (regional.cmp === "denied") clearAnalyticsCookies("myeotiji_intl");
+  }, [regional.cmp]);
+
+  useEffect(() => {
+    if (!enabled) return;
     window.gtag?.("set", { page_location: `${window.location.origin}${pathname}`, page_referrer: "" });
     window.gtag?.("event", "page_view", {
       send_to: ID, page_location: `${window.location.origin}${pathname}`, page_path: pathname,
       page_referrer: "", page_title: document.title,
     });
-  }, [choice, pathname]);
+  }, [enabled, pathname]);
 
   function choose(next: Exclude<Choice, null>) {
-    (window as unknown as Record<string, unknown>)[DISABLE] = next !== "allowed";
+    (window as unknown as Record<string, unknown>)[DISABLE] = next !== "allowed" || !regional.permitted;
     try { localStorage.setItem(KEY, next); } catch { /* The choice still applies for this page session. */ }
     if (next === "denied") {
-      // Delete only cookies created by this overseas integration; preserve Korean preferences.
-      for (const cookie of document.cookie.split(";")) {
-        const name = cookie.split("=")[0].trim();
-        if (!name.startsWith("myeotiji_intl")) continue;
-        for (const domain of ["", `;domain=${window.location.hostname}`, ";domain=.myeotiji.kr"]) {
-          document.cookie = `${name}=;max-age=0;path=/${domain};SameSite=Lax`;
-        }
-      }
+      clearAnalyticsCookies("myeotiji_intl");
     }
     setChoice(next);
   }
 
-  return <aside data-analytics-settings className="border-t border-slate-200 bg-slate-50 px-5 py-5 text-sm leading-7 text-slate-700">
+  return <aside data-analytics-settings data-analytics-permission={enabled ? "allowed" : "blocked"} className="border-t border-slate-200 bg-slate-50 px-5 py-5 text-sm leading-7 text-slate-700">
     <div className="mx-auto max-w-5xl">
-      <h2 className="font-bold">{t.title}</h2><p className="mt-1">{t.body}</p>
-      <p role="status" className="mt-2">{choice === "allowed" ? t.active : t.off}</p>
+      <h2 className="font-bold">{t.title}</h2><p className="mt-1">{c.body}</p>
+      <p role="status" className="mt-2">{enabled ? t.active : t.off}</p>
+      {choice === "allowed" && !regional.permitted && <p className="mt-2">{c.waiting}</p>}
       <div className="mt-3 flex flex-wrap gap-3">
         <button type="button" onClick={() => choose("allowed")} disabled={choice === "allowed"} className="rounded-lg border border-slate-400 bg-white px-4 py-2 font-semibold disabled:opacity-50">{t.allow}</button>
         <button type="button" onClick={() => choose("denied")} disabled={choice === "denied"} className="rounded-lg border border-slate-400 bg-white px-4 py-2 font-semibold disabled:opacity-50">{t.reject}</button>
+        {regional.required === true && ["granted", "denied"].includes(regional.cmp) &&
+          <button type="button" onClick={regional.review} className="rounded-lg border border-slate-400 bg-white px-4 py-2 font-semibold">{c.manage}</button>}
         <a href={`/${locale}/privacy`} className="self-center text-blue-700 underline">{t.privacy}</a>
       </div>
     </div>
