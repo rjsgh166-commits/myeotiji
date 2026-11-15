@@ -26,7 +26,7 @@ export const INTERNATIONAL_GUIDES: CalculationGuide[] = [
   ...LOCALES.flatMap(locale => TOPICS.map(topic => ({
     ...enhanceGuide(locale, topic.tool, COPIES[locale][topic.tool]), locale, slug: topic.slug, tool: topic.tool,
     kind: "global" as const, calculatorPath: `/${locale}/${topic.tool}`,
-    sources: [...topic.sources, ...enhancementSources(locale, topic.tool)], published: ["en", "ja", "zh-hans"].includes(locale) ? PUBLISHED : "2026-11-14", updated: ["en", "ja", "zh-hans"].includes(locale) ? PUBLISHED : "2026-11-14",
+    sources: [...topic.sources, ...enhancementSources(locale, topic.tool)], published: ["en", "ja", "zh-hans"].includes(locale) ? PUBLISHED : "2026-11-14", updated: ((locale === "vi" && ["fee", "discount", "days", "stock-average", "compound"].includes(topic.tool)) || (locale === "fr" && topic.tool === "stock-average")) ? "2026-11-15" : ["en", "ja", "zh-hans"].includes(locale) ? PUBLISHED : "2026-11-14",
   }))),
   ...COUNTRY_GUIDE_COPY.map(copy => {
     const tool = COUNTRY_TOOLS.find(entry => entry.locale === copy.locale && entry.id === copy.tool);

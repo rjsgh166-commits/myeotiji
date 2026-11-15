@@ -55,3 +55,13 @@ Scope: ES, PT-BR, ID, HI, FR, AR, BN, UR and VI; four existing calculator URLs a
 - No new URLs, tax/payroll rules, holiday calendars, professional services, user-data collection or Search Console submissions.
 
 Validation: `npm run test:scenarios` covers pure arithmetic boundaries and 36 localized React scenarios. `node scripts/verify-intl-scenarios.cjs --rendered` also checks the built HTML/metadata/guide content. Existing global/country, SEO, guides, privacy and analytics checks remain required before release.
+
+
+## v45 — localized numeric input and wording (2026-11-15)
+
+- Shared international numeric fields now use text inputs with `inputMode="decimal"` so mobile keyboards can enter locale-specific decimal separators without native number-input sanitization silently dropping commas. Date inputs remain date controls.
+- Parse the selected locale's decimal/group separators with strict grouping validation. Support Arabic-Indic, Persian, Devanagari, Bengali and full-width digits. Keep existing ungrouped dot-decimal defaults usable. Well-formed locale grouping takes precedence (Spanish `1.234` means 1234); incompatible/malformed mixed notation is rejected rather than guessed. Empty input is invalid, not zero.
+- Use the same parser for both basic calculators and v44 scenario fields. Wrap long results and allow controls to shrink in narrow layouts. No formula or provider-rate change.
+- Correct known English remnants and target-net terminology in Vietnamese guides, a French stock-quantity mistranslation, and Spanish/French input headings. This is targeted editorial correction, not native-speaker certification of all translations.
+- Korean calculator markup, metadata and numeric controls are untouched. International tracking/ad settings are unchanged by this release; auditing an account setting does not certify consent compliance.
+- Validation: `npm run test:number-input` checks 295 parser assertions, 12 locale React interactions, decimal keyboard attributes, invalid blank inputs and known translation remnants. Existing calculator, guide, privacy, analytics and Korean SEO regressions remain required.
