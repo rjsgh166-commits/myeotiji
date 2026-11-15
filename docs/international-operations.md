@@ -83,3 +83,12 @@ Primary implementation references: https://developers.google.com/funding-choices
 ## v47 — consent-aware usage events (2026-11-15)
 
 Added calculator interaction, scenario/comparison interaction, internal guide click and explicit language-switch click events. The strict sender requires an active consent gate and drops pending/denied events without a backlog. Chinese routes are excluded. No inputs/results are read or sent by the new tracker. Existing Korean completion events are preserved. Definitions, limitations and GA4 report setup are documented in `docs/usage-analytics.md`. No URL, sitemap or indexing submission change.
+
+## v48 — mobile navigation and controls (2026-11-15)
+
+- Move the existing Korean home search before the introductory entry cards in reading/keyboard order and reduce mobile hero spacing. Keep its original text and all calculator links.
+- Collapse the 12-language navigation into a native disclosure below 640px on international homes, shared calculators and guide shells. Keep every original language URL and hreflang link in server HTML; desktop navigation remains available. Disclosure links scroll within a bounded panel and require no JavaScript.
+- Add mobile-only input/result fragment navigation to the 84 shared and 9 country calculators, plus Korean salary, loan and fee. Include a third destination for the 36 international scenario panels. Destinations are focusable and offset below sticky navigation; no duplicate calculation or result state is introduced. Existing Korean bottom result bars remain.
+- Use at least 16px form text and 44px input/button heights on narrow main content, enlarge language controls and calculator search controls. Lift the top-of-page button above an existing bottom result bar when present.
+- No formulas, legal/consent settings, guide copy, metadata, URL, sitemap entries or indexing submissions change. The Korean SEO regression normalizes only the moved existing home search and newly marked navigation UI, retaining the v35 baseline for all original content and head tags.
+- `test:mobile` verifies 96 navigation groups, 36 scenario targets, 249 language disclosures, unique/focusable fragment targets, preserved destination URLs and a single search field before the home entry cards. Browser validation uses narrow and wide Chromium CSS viewports; it does not certify physical iPhone/Safari or virtual-keyboard behavior.

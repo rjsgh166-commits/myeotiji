@@ -1,5 +1,7 @@
 "use client";
 
+import MobileCalculatorNav from "../../_components/MobileCalculatorNav";
+
 import { useEffect, useMemo, useState } from "react";
 import {
   calculateIncomeTax2026,
@@ -297,11 +299,12 @@ export default function SalaryPage() {
           </button>
         </div>
 
+        <MobileCalculatorNav korean inputs={{ id: "salary-inputs", label: "조건 입력" }} results={{ id: "salary-results", label: "결과 보기" }} />
         <ExamplePreviewNotice active={isExample} />
 
 {view === "single" ? (
         <div className="grid gap-6 lg:grid-cols-[1fr_1.05fr]">
-          <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <section id="salary-inputs" data-mobile-target tabIndex={-1} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
             <h2 className="mb-6 text-lg font-extrabold">조건 입력</h2>
 
             <div className="space-y-6">
@@ -396,7 +399,7 @@ export default function SalaryPage() {
             </div>
           </section>
 
-          <section className="rounded-3xl bg-slate-950 p-6 text-white shadow-sm sm:p-8">
+          <section id="salary-results" data-mobile-target tabIndex={-1} className="rounded-3xl bg-slate-950 p-6 text-white shadow-sm sm:p-8">
             <p className="text-sm font-semibold text-slate-500">월 급여 공제 내역</p>
 
             <div className="mt-4 flex items-end justify-between gap-4">
@@ -473,7 +476,7 @@ export default function SalaryPage() {
 
 
         {view === "compare" ? (
-          <section className="rounded-3xl border border-blue-100 bg-white p-6 shadow-sm sm:p-8">
+          <section id="salary-inputs" data-mobile-target tabIndex={-1} className="rounded-3xl border border-blue-100 bg-white p-6 shadow-sm sm:p-8">
             <div>
               <p className="text-xs font-semibold text-blue-600">두 연봉 바로 비교</p>
               <h2 className="mt-1 text-xl font-bold">A와 B를 먼저 나란히 볼게요</h2>
@@ -538,7 +541,7 @@ export default function SalaryPage() {
               </div>
             </details>
 
-            <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <div id="salary-results" data-mobile-target tabIndex={-1} className="mt-6 grid gap-4 md:grid-cols-2">
               <ComparisonCard label="현재 조건 A" salary={annualSalary} result={result} />
               <ComparisonCard label="비교 조건 B" salary={compareSalary} result={compareResult} accent />
             </div>

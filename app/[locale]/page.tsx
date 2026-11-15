@@ -1,3 +1,4 @@
+import LanguageChooser from "../_components/LanguageChooser";
 import type { Metadata } from "next";
 import { COUNTRY_TOOLS } from "../_lib/countryTools";
 import Link from "next/link";
@@ -31,11 +32,7 @@ export default async function InternationalHome({ params }: Props) {
       <div className="mx-auto max-w-5xl px-5 py-10 sm:px-8">
         <header className="flex flex-wrap items-center justify-between gap-4">
           <Link href={`/${locale}`} className="text-xl font-black text-blue-700">Myeotiji</Link>
-          <nav aria-label={text.lang} className="flex flex-wrap gap-2">
-            {LOCALES.map(code => <a href={`/${code}`} hrefLang={COPY[code].tag} key={code}
-              aria-current={locale === code ? "page" : undefined}
-              className={`rounded-xl px-3 py-2 text-sm font-semibold ${locale === code ? "bg-blue-600 text-white" : "bg-white text-slate-700 ring-1 ring-slate-200"}`}>{COPY[code].label}</a>)}
-          </nav>
+          <LanguageChooser locale={locale} paths={Object.fromEntries(LOCALES.map(code => [code, `/${code}`]))} />
         </header>
         <section className="py-12 sm:py-16">
           <p className="text-sm font-black uppercase tracking-widest text-blue-600">{text.home}</p>

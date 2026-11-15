@@ -112,7 +112,7 @@ function Scenarios({ locale, tool, currency, currencySelector, amount, first, se
     }
     inputs = <Field label={c.goal} value={goal} set={setGoal} />;
   }
-  return <section data-enhancement={tool} className="mt-6 rounded-2xl border border-blue-200 bg-white p-5 sm:p-6">
+  return <section id="calculator-extra" data-mobile-target tabIndex={-1} data-enhancement={tool} className="mt-6 rounded-2xl border border-blue-200 bg-white p-5 sm:p-6">
     <h2 className="text-xl font-black">{title}</h2>
     <p className="mt-3 text-sm leading-7 text-slate-600">{note}</p>
     <div className="mt-5 grid gap-6 md:grid-cols-2"><div className="min-w-0 space-y-4">{inputs}</div>

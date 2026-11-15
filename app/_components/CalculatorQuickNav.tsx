@@ -104,7 +104,7 @@ export default function CalculatorQuickNav() {
               setOpen(true);
               setQuery("");
             }}
-            className="inline-flex items-center gap-2 rounded-xl bg-gray-100 px-3.5 py-2 text-sm font-bold text-gray-700 transition hover:bg-gray-200"
+            className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-gray-100 px-3.5 py-2 text-sm font-bold text-gray-700 transition hover:bg-gray-200"
           >
             <span aria-hidden="true">🔎</span>
             <span>계산기 찾기</span>
@@ -138,7 +138,7 @@ export default function CalculatorQuickNav() {
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-2 py-1 text-sm font-bold text-gray-400 hover:bg-gray-100 hover:text-gray-700"
+                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg px-2 py-1 text-sm font-bold text-gray-400 hover:bg-gray-100 hover:text-gray-700"
                 aria-label="닫기"
               >
                 ✕

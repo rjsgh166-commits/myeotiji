@@ -56,7 +56,7 @@ export default function StickyResultBar({
   if (!scrolled || targetVisible) return null;
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/95 px-4 pb-[max(12px,env(safe-area-inset-bottom))] pt-3 shadow-[0_-8px_30px_rgba(15,23,42,0.08)] backdrop-blur lg:hidden">
+    <div data-sticky-result-bar className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/95 px-4 pb-[max(12px,env(safe-area-inset-bottom))] pt-3 shadow-[0_-8px_30px_rgba(15,23,42,0.08)] backdrop-blur lg:hidden">
       <div className="mx-auto flex max-w-2xl items-center gap-3">
         <div className="min-w-0 flex-1" aria-live="polite">
           <p className="text-xs font-semibold text-slate-500">{label}</p>

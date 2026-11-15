@@ -34,8 +34,8 @@ export default function CalculatorSearch({ items }: { items: Item[] }) {
   }, [items, query]);
 
   return (
-    <div className="relative mx-auto mt-9 max-w-2xl text-left">
-      <div className="flex items-center rounded-2xl border border-gray-200 bg-white px-5 py-4 shadow-sm transition focus-within:border-blue-400 focus-within:ring-4 focus-within:ring-blue-50">
+    <div className="relative mx-auto mt-3 max-w-2xl sm:mt-9 text-left">
+      <div className="flex items-center rounded-2xl border border-gray-200 bg-white px-5 py-2 shadow-sm sm:py-4 transition focus-within:border-blue-400 focus-within:ring-4 focus-within:ring-blue-50">
         <span className="mr-3 text-xl" aria-hidden="true">🔎</span>
         <input
           type="search"
@@ -43,7 +43,7 @@ export default function CalculatorSearch({ items }: { items: Item[] }) {
           onChange={(event) => setQuery(event.target.value)}
           placeholder="예: 월급, 물타기, 디데이, 평수"
           aria-label="계산기 검색"
-          className="w-full bg-transparent text-base outline-none placeholder:text-gray-400"
+          className="min-h-11 min-w-0 w-full bg-transparent text-base outline-none placeholder:text-gray-400"
         />
       </div>
 

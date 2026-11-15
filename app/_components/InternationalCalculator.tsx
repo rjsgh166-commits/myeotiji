@@ -1,5 +1,9 @@
 "use client";
 
+import MobileCalculatorNav from "./MobileCalculatorNav";
+import { MORE_CALCULATIONS, HAS_SCENARIOS, SCENARIO_TOOLS } from "../_lib/mobile-copy";
+import LanguageChooser from "./LanguageChooser";
+
 import Link from "next/link";
 import { useState, useSyncExternalStore } from "react";
 import { DEFAULT_CURRENCY, COPY, LOCALES, TOOLS, type IntlLocale, type IntlTool } from "../_lib/international";
@@ -238,11 +242,7 @@ export default function InternationalCalculator({ locale, tool, guide }: { local
       <div className="mx-auto max-w-5xl px-5 pb-16 pt-8 sm:px-8">
         <header className="mb-8 flex flex-wrap items-center justify-between gap-3">
           <Link href={`/${locale}`} className="text-lg font-black text-blue-700">Myeotiji · {t.home}</Link>
-          <nav aria-label={t.lang} className="flex flex-wrap gap-2">
-            {LOCALES.map(code => <a key={code} href={`/${code}/${tool}`} hrefLang={COPY[code].tag}
-              aria-current={code === locale ? "page" : undefined}
-              className={`rounded-lg px-3 py-2 text-sm font-semibold ${code === locale ? "bg-blue-600 text-white" : "bg-white text-slate-700 ring-1 ring-slate-200"}`}>{COPY[code].label}</a>)}
-          </nav>
+          <LanguageChooser locale={locale} paths={Object.fromEntries(LOCALES.map(code => [code, `/${code}/${tool}`]))} />
         </header>
 
         <Link href={`/${locale}`} className="text-sm font-semibold text-slate-600 hover:text-blue-700">← {t.back}</Link>
@@ -252,12 +252,15 @@ export default function InternationalCalculator({ locale, tool, guide }: { local
           <p className="mt-4 text-base leading-7 text-slate-600">{toolCopy.intro}</p>
         </div>
 
+        <div data-calculator-workspace>
+        <MobileCalculatorNav inputs={{ id: "calculator-inputs", label: t.inputs }} results={{ id: "calculator-results", label: t.results }}
+          extra={HAS_SCENARIOS.has(locale) && SCENARIO_TOOLS.has(tool) ? { id: "calculator-extra", label: MORE_CALCULATIONS[locale] } : undefined} />
         <div className="mt-8 grid gap-5 md:grid-cols-2">
-          <section className={CARD}>
+          <section id="calculator-inputs" data-mobile-target tabIndex={-1} className={CARD}>
             <h2 className="mb-5 text-lg font-black">{t.inputs}</h2>
             <div className="space-y-5">{form}</div>
           </section>
-          <section className={CARD} aria-live="polite" aria-atomic="true">
+          <section id="calculator-results" data-mobile-target tabIndex={-1} className={CARD} aria-live="polite" aria-atomic="true">
             <h2 className="mb-5 text-lg font-black">{t.results}</h2>
             {valid ? <div>{rows.map(row => <Result key={row.label} label={row.label} value={row.value} />)}</div>
               : <p role="alert" className="rounded-xl bg-amber-50 p-4 text-sm font-semibold text-amber-900">{t.invalid}</p>}
@@ -267,6 +270,7 @@ export default function InternationalCalculator({ locale, tool, guide }: { local
 
         <InternationalScenarios locale={locale} tool={tool} currency={currency} currencySelector={currencySelector}
           amount={amount} first={first} second={second} rate={rate} fixed={fixed} reverse={reverse} monthly={monthly} years={years} />
+        </div>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
           <section className={CARD}><h2 className="text-lg font-black">{t.how}</h2>

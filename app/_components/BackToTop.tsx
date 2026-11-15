@@ -32,6 +32,7 @@ export default function BackToTop() {
     <button
       type="button"
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      data-back-to-top
       aria-label="페이지 맨 위로 이동"
       className="fixed bottom-5 right-5 z-50 inline-flex min-h-11 items-center gap-1.5 rounded-full border border-gray-200 bg-white/95 px-4 py-2.5 text-xs font-black text-gray-700 shadow-lg backdrop-blur transition hover:-translate-y-0.5 hover:bg-white focus:outline-none focus:ring-4 focus:ring-blue-100"
     >
