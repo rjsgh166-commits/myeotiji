@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useState, useSyncExternalStore } from "react";
 import { DEFAULT_CURRENCY, COPY, LOCALES, TOOLS, type IntlLocale, type IntlTool } from "../_lib/international";
+import InternationalNumberField from "./InternationalNumberField";
+import { parseLocalizedNumber } from "../_lib/localized-number";
 import InternationalScenarios from "./InternationalScenarios";
 import CalculatorGuideTeaser, { type GuideTeaser } from "./CalculatorGuideTeaser";
 
@@ -23,7 +25,7 @@ function clientLocalDate() {
   const now = new Date();
   return [now.getFullYear(), String(now.getMonth() + 1).padStart(2, "0"), String(now.getDate()).padStart(2, "0")].join("-");
 }
-const NUMBER = "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-base text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100";
+const NUMBER = "w-full min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 text-base text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100";
 const CARD = "rounded-2xl border border-slate-200 bg-white p-5 sm:p-6";
 
 function epochDay(value: string): number {
@@ -43,21 +45,22 @@ function fromCelsius(value: number, unit: string): number {
   if (unit === "K") return value + 273.15;
   return value;
 }
-function Field({ label, value, onChange, kind = "number", step = "any" }: {
+function Field({ label, value, onChange, kind = "number" }: {
   label: string; value: string; onChange: (value: string) => void; kind?: "number" | "date"; step?: string;
 }) {
+  if (kind === "number") return <InternationalNumberField label={label} value={value} onChange={onChange} className={NUMBER} />;
   return (
-    <label className="block">
+    <label className="block min-w-0">
       <span className="mb-2 block text-sm font-semibold text-slate-800">{label}</span>
-      <input className={NUMBER} type={kind} step={kind === "number" ? step : undefined} value={value}
+      <input className={NUMBER} type="date" value={value}
         onChange={event => onChange(event.target.value)} />
     </label>
   );
 }
 function Result({ label, value }: { label: string; value: string }) {
-  return <div className="flex items-center justify-between gap-4 border-b border-slate-100 py-3 last:border-0">
+  return <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-b border-slate-100 py-3 last:border-0">
     <span className="text-sm text-slate-600">{label}</span>
-    <strong className="text-right text-base text-slate-950">{value}</strong>
+    <strong className="min-w-0 break-words text-end text-base text-slate-950">{value}</strong>
   </div>;
 }
 
@@ -86,7 +89,7 @@ export default function InternationalCalculator({ locale, tool, guide }: { local
   const [fromUnit, setFromUnit] = useState<string>("m");
   const [toUnit, setToUnit] = useState<string>("km");
 
-  const num = (value: string) => Number(value);
+  const num = (value: string) => parseLocalizedNumber(value, langTag);
   const formatted = (value: number, digits = 2) =>
     Number.isFinite(value) ? new Intl.NumberFormat(langTag, { maximumFractionDigits: digits }).format(value) : "—";
   const money = (value: number) =>

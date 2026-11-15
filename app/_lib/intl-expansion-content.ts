@@ -2388,7 +2388,7 @@ export const EXPANSION = {
       "stock-average": {
         "title": "Prix moyen des actions : moyenne pondérée après un nouvel achat",
         "description": "Utilisez une moyenne pondérée pour calculer un nouveau prix d'achat moyen, le total des actions et le montant investi sans le confondre avec un choix de lot fiscal.",
-        "answer": "Additionnez les montants dépensés pour les actions existantes et nouvelles, puis divisez par le nombre total d'actions. La moyenne simple de deux prix ne fonctionne que lorsque les quantités partagées sont égales.",
+        "answer": "Additionnez les montants dépensés pour les actions existantes et nouvelles, puis divisez par le nombre total d'actions. La moyenne simple de deux prix ne fonctionne que lorsque les quantités d’actions sont égales.",
         "sections": [
           {
             "heading": "Peser chaque achat par sa quantité",
@@ -4388,10 +4388,10 @@ export const EXPANSION = {
             ]
           },
           {
-            "heading": "A worked example: why adding 3% is not enough",
+            "heading": "Ví dụ: vì sao cộng thêm 3% vẫn chưa đủ",
             "paragraphs": [
-              "Giả sử bạn thu được 100 đô la và phí giả định là 3% cộng với 0,30 đô la. The percentage part is $3; việc thêm phần cố định sẽ tính phí 3,30 đô la và số tiền thu được là 96,70 đô la.",
-              "Để nhận được 100 USD ròng, hãy tính phí × 0,97 − 0,30 = 100. Phí không làm tròn bắt buộc là 100,30 0,97, khoảng 103,4021 USD. Thêm 3% vào 100 đô la sẽ mang lại 103 đô la, số tiền ròng chỉ là 99,61 đô la. Sự khác biệt phát sinh do nhà cung cấp cũng tính phí theo mức phí tăng thêm."
+              "Giả sử bạn thu 100 USD, phí giả định là 3% cộng với 0,30 USD. Phần phí theo tỷ lệ là 3 USD; cộng phí cố định thành tổng phí 3,30 USD và số tiền thực nhận là 96,70 USD.",
+              "Để thực nhận 100 USD, giải phương trình: số tiền thu × 0,97 − 0,30 = 100. Số tiền thu chưa làm tròn là (100 + 0,30) ÷ 0,97, xấp xỉ 103,4021 USD. Thu 103 USD chỉ để lại 99,61 USD vì phí theo tỷ lệ cũng áp dụng lên phần thu thêm."
             ],
             "table": {
               "headers": [
@@ -4419,10 +4419,10 @@ export const EXPANSION = {
             }
           },
           {
-            "heading": "Use the result as a pricing check",
+            "heading": "Dùng kết quả để kiểm tra số tiền cần thu",
             "paragraphs": [
-              "Nhập số tiền thu được để tính toán chuyển tiếp hoặc chọn chế độ mạng mục tiêu để tính toán ngược lại. Giữ loại tiền đã chọn phù hợp với mức phí cố định của bạn. Currency selection changes formatting; it does not perform an exchange-rate conversion.",
-              "The screen rounds the result for display. Nếu khoản thanh toán tối thiểu phải được đáp ứng chính xác, hãy kiểm tra mức tăng tiền tệ nhỏ nhất tiếp theo và quy tắc làm tròn của nhà cung cấp của bạn. Việc hoàn tiền, phí tối thiểu, thuế đối với phí và liệu các khoản phụ phí có được phép hay không đều cần được kiểm tra riêng."
+              "Nhập số tiền thu để tính thực nhận sau phí, hoặc chọn tính ngược từ thực nhận mục tiêu. Phí cố định phải dùng cùng tiền tệ đã chọn. Chọn tiền tệ chỉ thay đổi cách hiển thị, không quy đổi tỷ giá.",
+              "Kết quả được làm tròn khi hiển thị. Nếu cần đạt chính xác mức thực nhận tối thiểu, hãy kiểm tra đơn vị tiền tệ nhỏ nhất tiếp theo và quy tắc làm tròn của nhà cung cấp. Hoàn tiền, phí tối thiểu, thuế trên phí và quyền thu phụ phí cần được kiểm tra riêng."
             ]
           }
         ],
@@ -4432,7 +4432,7 @@ export const EXPANSION = {
             "answer": "Chỉ khi phí cố định cũng bằng 0 và không áp dụng khoản khấu trừ nào khác. Phí phần trăm 0% cộng với khoản phí cố định 0,30 USD vẫn còn 99,70 USD từ khoản phí 100 USD."
           },
           {
-            "question": "Can I compare different payment providers?",
+            "question": "Có thể so sánh các nhà cung cấp thanh toán khác nhau không?",
             "answer": "Có, nhập mức phí được công bố và phí cố định của từng nhà cung cấp với cùng một khoản phí. So sánh kết quả với bất kỳ khoản phí bổ sung nào và các điều khoản áp dụng cho tài khoản của bạn."
           }
         ]
@@ -4443,14 +4443,14 @@ export const EXPANSION = {
         "answer": "Áp dụng chiết khấu thứ hai cho giá đã giảm. Giảm giá 20%, tiếp theo là giảm giá 10% để lại 80% × 90% = 72% giá ban đầu, do đó tổng số tiền tiết kiệm được là 28%.",
         "sections": [
           {
-            "heading": "Multiply the price you keep paying",
+            "heading": "Nhân các tỷ lệ giá còn lại sau mỗi lần giảm",
             "paragraphs": [
-              "Đối với mỗi phần trăm giảm giá, hãy trừ đi tỷ lệ thập phân từ một. Nhân giá gốc với các phân số còn lại. Với hai lần giảm giá, giá cuối cùng = ban đầu × (1 − mức đầu tiên) × (1 − mức thứ hai). Chiết khấu thực tế = 1 − Giá cuối cùng  giá gốc.",
-              "Việc thêm các mức giá sẽ coi cả hai khoản giảm giá đều được áp dụng cho giá gốc. That is a different offer. Một cửa hàng hứa giảm giá 30% một lần sẽ đưa ra mức giảm phần trăm lớn hơn mức giảm 20% và 10% liên tiếp, trước khi các điều khoản khác được xem xét."
+              "Với mỗi mức giảm theo phần trăm, lấy 1 trừ tỷ lệ giảm viết dưới dạng thập phân. Giá cuối cùng = giá gốc × (1 − tỷ lệ giảm lần đầu) × (1 − tỷ lệ giảm lần hai). Tỷ lệ tiết kiệm thực tế = 1 − (giá cuối cùng ÷ giá gốc).",
+              "Cộng hai tỷ lệ sẽ giả định cả hai lần giảm đều tính trên giá gốc, tức là một ưu đãi khác. Giảm một lần 30% tiết kiệm nhiều hơn giảm lần lượt 20% rồi 10%, trước khi xét các điều kiện khác."
             ]
           },
           {
-            "heading": "Compare two offers on a $100 item",
+            "heading": "So sánh hai ưu đãi cho sản phẩm giá 100 USD",
             "paragraphs": [
               "Sau lần giảm 20% đầu tiên, mặt hàng này có giá 80 USD. Lần giảm 10% thứ hai loại bỏ 8 đô la, còn lại 72 đô la. Tổng số tiền tiết kiệm được là $28. Đảo ngược thứ tự của hai lần giảm giá theo phần trăm thuần túy sẽ cho kết quả toán học tương tự vì các yếu tố giá còn lại sẽ nhân lên.",
               "Quy tắc đặt hàng đó không tự động mở rộng sang phiếu giảm giá có giá trị cố định. Một phiếu giảm giá 10 USD sau khi giảm giá 20% cho một mặt hàng trị giá 100 USD sẽ mang lại 70 USD. Giảm 10 đô la trước và sau đó áp dụng 20% ​​sẽ mang lại 72 đô la. Mức chi tiêu tối thiểu, giới hạn và các sản phẩm bị loại trừ có thể thay đổi ưu đãi nào thực sự có thể được sử dụng."
@@ -4557,7 +4557,7 @@ export const EXPANSION = {
           },
           {
             "question": "Có phải 30 ngày luôn bằng một tháng?",
-            "answer": "No. Calendar months have different lengths. Sử dụng ngày bắt đầu và ngày kết thúc thực tế thay vì chuyển đổi hàng tháng thành 30 ngày."
+            "answer": "Không. Các tháng có số ngày khác nhau. Hãy dùng ngày bắt đầu và ngày kết thúc thực tế, không mặc định mỗi tháng có 30 ngày."
           }
         ]
       },
@@ -4567,10 +4567,10 @@ export const EXPANSION = {
         "answer": "Cộng số tiền chi cho cổ phiếu hiện có và cổ phiếu mới, sau đó chia cho tổng số cổ phiếu. Trung bình đơn giản của hai mức giá chỉ hoạt động khi số lượng cổ phiếu bằng nhau.",
         "sections": [
           {
-            "heading": "Weight each purchase by its quantity",
+            "heading": "Tính trọng số mỗi lần mua theo số lượng cổ phiếu",
             "paragraphs": [
-              "Giá mua trung bình mới = (số lượng hiện có × số lượng trung bình hiện có + số lượng mới × giá mới) / tổng số lượng. Giá và số lượng phải sử dụng cùng đơn vị chia sẻ và đồng tiền. Cổ phiếu phân số có thể được sử dụng khi chúng phản ánh số cổ phần thực tế của bạn.",
-              "Ví dụ: 100 cổ phiếu được mua với giá 50 đô la và 100 cổ phiếu khác được mua với giá 40 đô la có tổng giá trị là 9.000 đô la. Divide by 200 shares to get $45. Nếu lần mua thứ hai chỉ là 50 cổ phiếu với giá 40 đô la, thì tổng số tiền sẽ là 7.000 đô la cho 150 cổ phiếu, mang lại khoảng 46,67 đô la chứ không phải 45 đô la."
+              "Giá mua bình quân mới = (số cổ phiếu hiện có × giá mua bình quân hiện tại + số cổ phiếu mua thêm × giá mua mới) ÷ tổng số cổ phiếu. Giá phải dùng cùng tiền tệ và số lượng phải dùng cùng đơn vị cổ phiếu. Có thể nhập cổ phiếu lẻ nếu đó là số lượng thực tế bạn nắm giữ.",
+              "Mua 100 cổ phiếu giá 50 USD và thêm 100 cổ phiếu giá 40 USD: tổng vốn là 9.000 USD, chia cho 200 cổ phiếu được giá bình quân 45 USD. Nếu chỉ mua thêm 50 cổ phiếu giá 40 USD, tổng vốn là 7.000 USD cho 150 cổ phiếu, bình quân khoảng 46,67 USD."
             ]
           },
           {
@@ -4605,7 +4605,7 @@ export const EXPANSION = {
             }
           },
           {
-            "heading": "Keep purchase averages separate from tax records",
+            "heading": "Phân biệt giá mua bình quân với hồ sơ thuế",
             "paragraphs": [
               "Máy tính mô hình hai khối mua hàng và không bao gồm phí môi giới, tỷ giá hối đoái, cổ tức, doanh thu và hoạt động của công ty. Chuyển đổi hồ sơ một cách nhất quán trước khi so sánh các giao dịch mua được thực hiện bằng các loại tiền tệ khác nhau.",
               "Giá trị trung bình số học không phải là cơ sở để xác định cơ sở chi phí chịu thuế. Các quy tắc về lô thuế và phương pháp được phép khác nhau tùy theo khu vực pháp lý và tài sản. Giữ hồ sơ giao dịch ban đầu của người môi giới thay vì coi kết quả này là hướng dẫn báo cáo thuế."
@@ -4614,11 +4614,11 @@ export const EXPANSION = {
         ],
         "faqs": [
           {
-            "question": "Can I use it when buying at a higher price?",
-            "answer": "Đúng. Công thức trung bình có trọng số tương tự được áp dụng. Buying above your existing average increases it; quy mô của sự thay đổi phụ thuộc vào số lượng mới."
+            "question": "Có thể tính khi mua thêm với giá cao hơn không?",
+            "answer": "Có. Công thức bình quân gia quyền vẫn áp dụng. Mua thêm ở giá cao hơn giá vốn bình quân hiện tại sẽ làm giá bình quân tăng; mức tăng phụ thuộc số lượng mua thêm."
           },
           {
-            "question": "Why is my broker's average different?",
+            "question": "Vì sao giá vốn bình quân của công ty chứng khoán khác kết quả này?",
             "answer": "Phí, chuyển đổi tiền tệ, làm tròn, hoạt động của công ty hoặc phương pháp kế toán của nhà môi giới có thể được bao gồm trong số liệu của nó. Công cụ này chỉ sử dụng thông tin đầu vào về giá và số lượng được hiển thị."
           }
         ]
@@ -4629,9 +4629,9 @@ export const EXPANSION = {
         "answer": "Chuyển đổi lợi nhuận thực tế hàng năm thành tỷ lệ hàng tháng, tăng số dư hiện có, sau đó thêm khoản đóng góp của tháng. Giữ tiền đóng góp tách biệt với tăng trưởng để khoản tiền gửi lớn hơn không bị nhầm lẫn với lợi nhuận tốt hơn.",
         "sections": [
           {
-            "heading": "Convert the annual assumption consistently",
+            "heading": "Quy đổi lợi suất năm một cách nhất quán",
             "paragraphs": [
-              "Myeotiji coi lợi nhuận hàng năm là tỷ lệ hiệu quả hàng năm. Lãi suất hàng tháng là (1 + lãi suất hàng năm)^(1/12) − 1. Ở mức 5% hàng năm, lãi suất hàng tháng đó là khoảng 0,4074%, không chính xác là 5% `12. Sử dụng lãi suất niêm yết danh nghĩa chia cho 12 sẽ mô tả một quy ước gộp khác.",
+              "Myeotiji coi tỷ lệ năm là lợi suất hiệu dụng năm. Tỷ lệ tháng = (1 + tỷ lệ năm)^(1/12) − 1. Với lợi suất năm 5%, tỷ lệ tháng xấp xỉ 0,4074%, không hoàn toàn bằng 5% ÷ 12. Chia lãi suất danh nghĩa năm cho 12 là một quy ước khác.",
               "Đối với mỗi tháng, số dư mới = số dư trước đó × (1 + lãi suất hàng tháng) + khoản đóng góp. Các khoản đóng góp được thêm vào cuối tháng, do đó khoản tiền gửi đầu tiên sẽ kiếm được tiền lãi trong các tháng tiếp theo thay vì trước khi được thanh toán."
             ]
           },

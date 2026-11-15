@@ -88,7 +88,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const globalPages: MetadataRoute.Sitemap = LOCALES.flatMap(locale => [
     { url: `${SITE_URL}/${locale}`, lastModified: localizedUpdated(locale), changeFrequency: "monthly" as const,
       alternates: { languages: localizedAlternates() } },
-    ...TOOLS.map(tool => ({ url: `${SITE_URL}/${locale}/${tool}`, lastModified: localizedUpdated(locale),
+    ...TOOLS.map(tool => ({ url: `${SITE_URL}/${locale}/${tool}`, lastModified: ["fee", "discount", "stock-average", "compound", "unit-converter"].includes(tool) ? "2026-11-15" : localizedUpdated(locale),
       changeFrequency: "monthly" as const, alternates: { languages: localizedAlternates(tool) } })),
   ]);
 

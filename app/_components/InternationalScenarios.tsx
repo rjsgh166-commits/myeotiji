@@ -1,5 +1,7 @@
 "use client";
 
+import InternationalNumberField from "./InternationalNumberField";
+import { parseLocalizedNumber } from "../_lib/localized-number";
 import { useState } from "react";
 import { COPY, type IntlLocale, type IntlTool } from "../_lib/international";
 import { enhancedCopy } from "../_lib/intl-enhancements/copy";
@@ -7,14 +9,12 @@ import { couponScenario, feeScenario, PRICE_UNITS, unitPrice, savingsGoal, type 
 
 const INPUT = "w-full min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 text-base text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100";
 function Field({ label, value, set }: { label: string; value: string; set: (value: string) => void }) {
-  return <label className="block"><span className="mb-2 block text-sm font-semibold">{label}</span>
-    <input type="number" inputMode="decimal" step="any" min="0" className={INPUT} value={value} onChange={e => set(e.target.value)} /></label>;
+  return <InternationalNumberField label={label} value={value} onChange={set} className={INPUT} />;
 }
 function Output({ label, value }: { label: string; value: string }) {
   return <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-b border-slate-200 py-3 last:border-0">
     <span className="text-sm text-slate-700">{label}</span><strong className="break-words text-end" dir="auto">{value}</strong></div>;
 }
-const number = (value: string) => value.trim() ? Number(value) : NaN;
 type Props = { locale: IntlLocale; tool: IntlTool; currency: string; currencySelector: React.ReactNode;
   amount: string; first: string; second: string; rate: string; fixed: string; reverse: boolean; monthly: string; years: string };
 
@@ -26,6 +26,7 @@ export default function InternationalScenarios(props: Props) {
 function Scenarios({ locale, tool, currency, currencySelector, amount, first, second, rate, fixed, reverse, monthly, years }: Props) {
   const c = enhancedCopy(locale)!;
   const t = COPY[locale];
+  const number = (value: string) => parseLocalizedNumber(value, t.tag);
   const [cap, setCap] = useState("0"), [minimum, setMinimum] = useState("0");
   const [shipping, setShipping] = useState("0"), [cashback, setCashback] = useState("0");
   const [cashbackCap, setCashbackCap] = useState("0"), [coupon, setCoupon] = useState("0");
