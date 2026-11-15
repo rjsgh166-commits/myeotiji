@@ -33,8 +33,9 @@ const usage = () => (window.dataLayer || []).map(x => Array.from(x)).filter(x =>
  await input('scenario'); await wait(); assert.deepEqual(usage().map(c=>c[1]),['calculator_use','comparison_use']);
  click('guide');click('guide');click('lang');assert.equal(usage().length,4,'per-visit deduplication');
  const record = startUsageVisit(pathname); record('guide_open','https://example.com/en/guides/compound-interest');record('guide_open','/en/guides/private-987654');record('language_change','/ja/compound');record('comparison_use','987654');assert.equal(usage().length,4,'unknown destinations and values rejected');
+ assert.equal(usage()[0][2].site_language,'en');assert(!('language' in usage()[0][2]),'do not override GA browser language');
  assert(!JSON.stringify(usage()).includes('987654'));assert(!JSON.stringify(usage()).includes('2001-02-03'));
- for (const call of usage()) assert(Object.keys(call[2]).every(k=>['language','calculator','tool_family','comparison_type','guide_id','target_language'].includes(k)));
+ for (const call of usage()) assert(Object.keys(call[2]).every(k=>['site_language','calculator','tool_family','comparison_type','guide_id','target_language'].includes(k)));
  // Real opt-out UI closes the gate; no replay after opt-in.
  const button = label => [...document.querySelectorAll('button')].find(b=>b.textContent===label);
  await render('/en/fee');

@@ -35,7 +35,7 @@ export function startUsageVisit(path: string) {
   return (event: 'calculator_use' | 'comparison_use' | 'guide_open' | 'language_change', detail?: string, hrefLang?: string) => {
     const send = usageSender();
     if (!context || !send || window.location.pathname !== path) return;
-    const payload: Record<string, string> = { language: context.language };
+    const payload: Record<string, string> = { site_language: context.language };
     if (event === 'calculator_use' || event === 'comparison_use') {
       if (!context.calculator || !context.tool_family) return;
       payload.calculator = context.calculator; payload.tool_family = context.tool_family;
