@@ -42,3 +42,8 @@ html[dir="rtl"] p { unicode-bidi: plaintext; }
 @media (max-width: 1023px) {
   body:has([data-sticky-result-bar]) [data-back-to-top] { bottom: calc(7rem + env(safe-area-inset-bottom)); }
 }
+/* Keep short landscape windows usable instead of stacking two sticky toolbars. */
+@media (max-width: 767px) and (max-height: 450px) {
+  .mobile-calculator-nav { position: static; }
+  [data-mobile-target] { scroll-margin-top: 4.5rem; }
+}
