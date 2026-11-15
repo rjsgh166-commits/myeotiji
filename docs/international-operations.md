@@ -79,3 +79,7 @@ Validation: `npm run test:scenarios` covers pure arithmetic boundaries and 36 lo
 - Validation: `npm run test:consent` covers 32 required countries, other-country default allowance, private region responses, missing configuration/outages, CMP grant/deny/review, local opt-out precedence, withdrawal cookies and the Korean gate. Existing SEO, privacy, analytics and calculator checks remain required.
 
 Primary implementation references: https://developers.google.com/funding-choices/fc-api-docs and https://vercel.com/docs/headers/request-headers .
+
+## v47 — consent-aware usage events (2026-11-15)
+
+Added calculator interaction, scenario/comparison interaction, internal guide click and explicit language-switch click events. The strict sender requires an active consent gate and drops pending/denied events without a backlog. Chinese routes are excluded. No inputs/results are read or sent by the new tracker. Existing Korean completion events are preserved. Definitions, limitations and GA4 report setup are documented in `docs/usage-analytics.md`. No URL, sitemap or indexing submission change.
