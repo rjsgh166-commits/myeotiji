@@ -7,6 +7,7 @@ const assert = require('node:assert/strict');
 const { JSDOM } = require('jsdom');
 const output = path.resolve(__dirname, '../.next/server/app');
 const baseline = require('./fixtures/korean-v35-seo.json');
+const snippetUpdates = require('./fixtures/search-snippet-updates.json');
 const hash = value => crypto.createHash('sha256').update(value).digest('hex');
 function metaTags(source) {
   const head = source.includes('<head>') ? source.match(/<head>([\s\S]*?)<\/head>/)[1] : source;
@@ -31,7 +32,12 @@ function bodyText(source) {
 }
 for (const [file, expected] of Object.entries(baseline)) {
   const source = fs.readFileSync(path.join(output, file), 'utf8');
-  assert.equal(hash(metaTags(source)), expected.head, `${file}: Korean metadata changed`);
+  let normalizedHead = metaTags(source);
+  for(const replacement of snippetUpdates[file] || []) {
+    assert(normalizedHead.includes(replacement.current), `${file}: intended search snippet missing`);
+    normalizedHead = normalizedHead.replace(replacement.current, replacement.baseline);
+  }
+  assert.equal(hash(normalizedHead), expected.head, `${file}: Korean metadata changed`);
   if(file === 'age.html' && hash(bodyText(source)) !== expected.body) {
     const { execFileSync } = require('node:child_process');
     assert.equal(execFileSync('git', ['diff', '0a091686ddd6bc2a4470711b120fee5db647a4c8', '--', 'app/(korean)/age'], {encoding:'utf8'}), '', 'Date-dependent Korean age source changed');
