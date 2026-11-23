@@ -22,3 +22,7 @@ After data has accumulated, compare language/calculator event counts with page v
 ## Validation
 
 `npm run test:usage` mounts the real international consent component with mocked region responses and tests initial render, actual input/change events, dedupe, scenario-only interaction, guide and language clicks, unknown/external destinations, route visits, Korean completion/comparison, opt-out, withdrawal/regrant without replay, Chinese blocking and payload contents. Existing consent and calculator/SEO regressions must also pass.
+
+## Search attribution repair — 2026-11-23
+
+The Korean tag blanked page_referrer; the international tag also enabled ignore_referrer. This prevents source attribution from browser referrals and coincides with the direct-traffic increase. Both now send only allowlisted public search-service origins, never their paths, search queries, fragments, credentials, nonstandard ports or arbitrary referral hosts. International ignore_referrer is false. Non-search referrals remain blank; some genuine visits will still be direct. Consent gating, Chinese-route exclusion, calculator inputs and query-free page_location are unchanged. Historical attribution cannot be repaired by this deployment. Compare subsequent full weeks and Search Console clicks; GA sessions and search clicks are not equivalent.
