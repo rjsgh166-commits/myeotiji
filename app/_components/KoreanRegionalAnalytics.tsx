@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { safeSearchReferrer } from "../_lib/analytics-referrer";
 import useRegionalConsent from "./useRegionalConsent";
 import { clearAnalyticsCookies } from "../_lib/regional-consent";
 
@@ -18,7 +19,7 @@ export default function KoreanRegionalAnalytics({ measurementId }: { measurement
     // eslint-disable-next-line prefer-rest-params -- Google tag's command queue uses arguments.
     window.gtag = function () { window.dataLayer?.push(arguments); };
     window.gtag("js", new Date());
-    window.gtag("config", measurementId, { page_location: window.location.origin + pathname, page_referrer: "",
+    window.gtag("config", measurementId, { page_location: window.location.origin + pathname, page_referrer: safeSearchReferrer(document.referrer),
       allow_google_signals: false, allow_ad_personalization_signals: false });
     const script = document.createElement("script");
     script.async = true; script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;

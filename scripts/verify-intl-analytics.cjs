@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports -- Standalone component regression runner. */
 const fs = require('node:fs'), assert = require('node:assert/strict'), ts = require('typescript'), Module = require('node:module');
 const { JSDOM } = require('jsdom');
-const dom = new JSDOM('<div id="root"></div>', { url:'https://myeotiji.kr/en/compound?salary=987654&birthday=2001-02-03' });
+const dom = new JSDOM('<div id="root"></div>', { url:'https://myeotiji.kr/en/compound?salary=987654&birthday=2001-02-03', referrer:'https://www.google.com/search?q=private-search' });
 Object.assign(global,{window:dom.window,document:dom.window.document,localStorage:dom.window.localStorage,IS_REACT_ACT_ENVIRONMENT:true});
 let pathname='/en/compound';
 global.fetch=async()=>({ok:true,json:async()=>({consentRequired:false})});
@@ -21,7 +21,9 @@ const calls=()=>window.dataLayer.map(x=>Array.from(x));
  await click('Allow analytics');assert.equal(scripts().length,1);assert.equal(window['ga-disable-G-6FC374VXMH'],false);
  const config=calls().find(c=>c[0]==='config')[2];
  assert.equal(config.allow_google_signals,false);assert.equal(config.allow_ad_personalization_signals,false);assert.equal(config.send_page_view,false);
- assert.equal(config.page_location,'https://myeotiji.kr/en/compound');assert.equal(config.page_referrer,'');
+ assert.equal(config.page_location,'https://myeotiji.kr/en/compound');assert.equal(config.page_referrer,'https://www.google.com/');assert.equal(config.ignore_referrer,false);
+ assert(!JSON.stringify(calls()).includes('private-search'));
+ for(const call of calls()) { const params=call[0]==='event'?call[2]:call[1]; if(params?.page_referrer)assert.equal(params.page_referrer,'https://www.google.com/'); }
  assert(!JSON.stringify(calls()).includes('987654'));assert(!JSON.stringify(calls()).includes('2001-02-03'));
  pathname='/en/stock-average';await render();assert.equal(scripts().length,1);
  assert.equal(calls().filter(c=>c[0]==='event'&&c[1]==='page_view').length,3);
