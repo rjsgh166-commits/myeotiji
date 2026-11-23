@@ -6,6 +6,7 @@ import useRegionalConsent from "./useRegionalConsent";
 import { clearAnalyticsCookies } from "../_lib/regional-consent";
 import { REGIONAL_CONSENT_COPY } from "../_lib/regional-consent-copy";
 import { usePathname } from "next/navigation";
+import { safeSearchReferrer } from "../_lib/analytics-referrer";
 
 const ID = "G-6FC374VXMH";
 const KEY = "myeotiji-international-analytics-v1";
@@ -50,11 +51,11 @@ export default function InternationalAnalytics({ locale }: { locale: Exclude<Int
     window.gtag = function () { window.dataLayer?.push(arguments); };
     window.gtag("consent", "default", { analytics_storage: "granted", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
     window.gtag("js", new Date());
-    window.gtag("set", { page_location: `${window.location.origin}${pathname}`, page_referrer: "" });
+    window.gtag("set", { page_location: `${window.location.origin}${pathname}`, page_referrer: safeSearchReferrer(document.referrer) });
     window.gtag("config", ID, {
       send_page_view: false, allow_google_signals: false, allow_ad_personalization_signals: false,
       cookie_prefix: "myeotiji_intl", cookie_expires: 60 * 60 * 24 * 30,
-      ignore_referrer: true, page_referrer: "", page_location: `${window.location.origin}${pathname}`,
+      ignore_referrer: false, page_referrer: safeSearchReferrer(document.referrer), page_location: `${window.location.origin}${pathname}`,
     });
     const script = document.createElement("script");
     script.src = `https://www.googletagmanager.com/gtag/js?id=${ID}`;
@@ -71,10 +72,10 @@ export default function InternationalAnalytics({ locale }: { locale: Exclude<Int
 
   useEffect(() => {
     if (!enabled) return;
-    window.gtag?.("set", { page_location: `${window.location.origin}${pathname}`, page_referrer: "" });
+    window.gtag?.("set", { page_location: `${window.location.origin}${pathname}`, page_referrer: safeSearchReferrer(document.referrer) });
     window.gtag?.("event", "page_view", {
       send_to: ID, page_location: `${window.location.origin}${pathname}`, page_path: pathname,
-      page_referrer: "", page_title: document.title,
+      page_referrer: safeSearchReferrer(document.referrer), page_title: document.title,
     });
   }, [enabled, pathname]);
 
