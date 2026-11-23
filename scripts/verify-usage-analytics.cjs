@@ -23,7 +23,7 @@ const wait = () => act(async () => new Promise(r => setTimeout(r, 1100)));
 const input = async id => act(async () => { const e=document.getElementById(id); e.dispatchEvent(new Event('input',{bubbles:true})); e.dispatchEvent(new Event('change',{bubbles:true})); });
 const click = id => document.getElementById(id).dispatchEvent(new dom.window.MouseEvent('click', {bubbles:true,cancelable:true}));
 document.addEventListener('click', e => e.preventDefault());
-const usage = () => (window.dataLayer || []).map(x => Array.from(x)).filter(x => ['calculator_use','comparison_use','guide_open','language_change'].includes(x[1]));
+const usage = () => (window.dataLayer || []).map(x => Array.from(x)).filter(x => ['calculator_use','comparison_use','guide_open','language_change','guide_calculator_click'].includes(x[1]));
 (async () => {
  assert.equal(usageContext('/holiday-tracker/2027/pto-1').calculator,'holiday-tracker');
  assert.equal(usageContext('/holiday-tracker/2027/private-987654'),null);
@@ -35,7 +35,7 @@ const usage = () => (window.dataLayer || []).map(x => Array.from(x)).filter(x =>
  const record = startUsageVisit(pathname); record('guide_open','https://example.com/en/guides/compound-interest');record('guide_open','/en/guides/private-987654');record('language_change','/ja/compound');record('comparison_use','987654');assert.equal(usage().length,4,'unknown destinations and values rejected');
  assert.equal(usage()[0][2].site_language,'en');assert(!('language' in usage()[0][2]),'do not override GA browser language');
  assert(!JSON.stringify(usage()).includes('987654'));assert(!JSON.stringify(usage()).includes('2001-02-03'));
- for (const call of usage()) assert(Object.keys(call[2]).every(k=>['site_language','calculator','tool_family','comparison_type','guide_id','target_language'].includes(k)));
+ for (const call of usage()) assert(Object.keys(call[2]).every(k=>['site_language','calculator','tool_family','comparison_type','guide_id','target_language','page_path','page_location'].includes(k)));
  // Real opt-out UI closes the gate; no replay after opt-in.
  const button = label => [...document.querySelectorAll('button')].find(b=>b.textContent===label);
  await render('/en/fee');
@@ -53,6 +53,21 @@ const usage = () => (window.dataLayer || []).map(x => Array.from(x)).filter(x =>
  await render('/zh-hans/compound');await input('base');click('guide');await wait();assert.equal(usage().length,count,'Chinese route blocked even with stale allowed GA');
  for(const path of ['/zh-hans','/zh-hans/age','/zh-hans/cn/income-tax','/en/private-987654','/salary/987654']) assert.equal(usageContext(path),null);
  await render('/ja/jp/commuter-pass');await input('base');await wait();assert.equal(usage().at(-1)[2].tool_family,'country');
+ // Guide-to-calculator clicks are distinct from guide opens and calculation use.
+ await render('/en/guides/compound-interest');
+ const link=document.createElement('a');link.id='calculator-link';link.href='/en/compound?amount=987654#2001-02-03';document.body.appendChild(link);
+ const prior=usage().length;click('calculator-link');click('calculator-link');
+ assert.equal(usage().length,prior+1,'guide click deduped');
+ assert.deepEqual(usage().at(-1).slice(1),['guide_calculator_click',{site_language:'en',page_path:'/en/guides/compound-interest',page_location:'https://myeotiji.kr/en/guides/compound-interest',guide_id:'compound-interest',target_language:'en',calculator:'compound',tool_family:'global'}]);
+ const guideRecord=startUsageVisit(pathname);const same=usage().length;
+ for(const href of ['https://external.example/en/compound','/zh-hans/compound','/en/private-987654'])guideRecord('guide_calculator_click',href);
+ assert.equal(usage().length,same,'external, Chinese and unknown targets excluded');
+ await render('/guides/stock-average');link.href='/stock-average';click('calculator-link');assert.equal(usage().at(-1)[2].site_language,'ko');
+ await render('/en/compound');click('calculator-link');assert.equal(usage().length,same+1,'calculator source is not a guide click');
+ for(const call of usage()){assert(!JSON.stringify(call).includes('987654'));assert(!JSON.stringify(call).includes('2001-02-03'));assert.equal(new URL(call[2].page_location).search,'');}
+ await render('/holiday-tracker/2027/may');
+ const planner=document.createElement('button');planner.id='planner';planner.dataset.usageCalculatorTarget='/holiday-tracker';document.body.appendChild(planner);
+ click('planner');assert.equal(usage().at(-1)[1],'guide_calculator_click');assert.equal(usage().at(-1)[2].guide_id,'holiday-2027-may');assert.equal(usage().at(-1)[2].calculator,'holiday-tracker');
  window.myeotijiAnalyticsAllowed=undefined;const before=usage().length;startUsageVisit(pathname)('calculator_use');assert.equal(usage().length,before,'pending gate fails closed');
  await act(async()=>root.unmount());dom.window.close();
  console.log(JSON.stringify({status:'PASS',realConsentIntegration:true,debounceAndDedupe:true,withdrawalNoReplay:true,routeReset:true,scenarioAndKoreanComparison:true,countryTools:true,chineseBlocked:true,inputsAndQueriesExcluded:true}));

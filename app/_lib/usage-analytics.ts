@@ -14,7 +14,7 @@ export function usageContext(path: string): Context | null {
   const language = foreign ? parts.shift()! : 'ko';
   if (language === 'zh-hans') return null;
   if (!parts.length || (parts.length === 1 && ['privacy', 'terms', 'about', 'contact', 'editorial-policy'].includes(parts[0]))) return { language };
-  if (!foreign && parts[0] === 'holiday-tracker' && parts[1] === '2027' && (parts.length === 2 || (parts.length === 3 && ['chuseok', 'seollal', 'pto-1', 'pto-2', 'may', 'october'].includes(parts[2])))) return { language, calculator: 'holiday-tracker', tool_family: 'korean' };
+  if (!foreign && parts[0] === 'holiday-tracker' && parts[1] === '2027' && (parts.length === 2 || (parts.length === 3 && ['chuseok', 'seollal', 'pto-1', 'pto-2', 'may', 'october'].includes(parts[2])))) return { language, calculator: 'holiday-tracker', tool_family: 'korean', guide_id: `holiday-2027-${parts[2] || 'index'}` };
   if (parts[0] === 'guides' && parts.length <= 2) {
     const slug = parts[1] || 'index';
     if (slug === 'index' || (foreign ? guides.has(slug) || countryGuides[language]?.includes(slug) : koreanGuides.has(slug))) return { language, guide_id: slug };
@@ -32,10 +32,10 @@ export function startUsageVisit(path: string) {
   const context = usageContext(path);
   const seen = new Set<string>();
   // Lives only for this route visit; no cookie, localStorage, user or session ID.
-  return (event: 'calculator_use' | 'comparison_use' | 'guide_open' | 'language_change', detail?: string, hrefLang?: string) => {
+  return (event: 'calculator_use' | 'comparison_use' | 'guide_open' | 'language_change' | 'guide_calculator_click', detail?: string, hrefLang?: string) => {
     const send = usageSender();
     if (!context || !send || window.location.pathname !== path) return;
-    const payload: Record<string, string> = { site_language: context.language };
+    const payload: Record<string, string> = { site_language: context.language, page_path: path, page_location: window.location.origin + path };
     if (event === 'calculator_use' || event === 'comparison_use') {
       if (!context.calculator || !context.tool_family) return;
       payload.calculator = context.calculator; payload.tool_family = context.tool_family;
@@ -50,7 +50,11 @@ export function startUsageVisit(path: string) {
       if (url.origin !== window.location.origin) return;
       const target = usageContext(url.pathname);
       if (!target) return;
-      if (event === 'guide_open') {
+      if (event === 'guide_calculator_click') {
+        if (!context.guide_id || !target.calculator || !target.tool_family) return;
+        payload.guide_id = context.guide_id; payload.target_language = target.language;
+        payload.calculator = target.calculator; payload.tool_family = target.tool_family;
+      } else if (event === 'guide_open') {
         if (!target.guide_id) return;
         payload.guide_id = target.guide_id; payload.target_language = target.language;
       } else {

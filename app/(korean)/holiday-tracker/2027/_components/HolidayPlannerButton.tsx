@@ -27,6 +27,7 @@ export default function HolidayPlannerButton({
   return (
     <button
       type="button"
+      data-usage-calculator-target="/holiday-tracker"
       onClick={openPlanner}
       className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-700"
     >

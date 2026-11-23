@@ -1,12 +1,13 @@
 # Usage analytics (v47)
 
-These events supplement page views; they do not measure unique people or prove a calculation was completed. All identifiers are static catalog values. `site_language` describes the page language and does not override GA’s built-in browser `language` dimension. No calculator inputs, results, signatures, currency, free text, query strings, referrers or new user/session IDs are included.
+These events supplement page views; they do not measure unique people or prove a calculation was completed. All identifiers are static catalog values. `site_language` describes the page language and does not override GA’s built-in browser `language` dimension. No calculator inputs, results, signatures, currency, free text, query strings, referring URLs or new user/session IDs are included in these usage events. Each event explicitly includes its catalog-validated page_path and query-free page_location, so reporting does not depend on a stale initial page URL after client navigation.
 
 | Event | Meaning | Parameters |
 | --- | --- | --- |
 | `calculator_use` | First input/change or recognized mode-control interaction in a calculator per route visit, after a one-second pause. Invalid input also counts as interaction. Initial/default results do not count. | site_language, calculator, tool_family |
 | `comparison_use` | First interaction inside each supported international scenario panel (coupon, fee comparison, unit price, savings goal); or a valid stable Korean salary/loan/job-change comparison after interaction. Automatic scenario redraws from basic inputs do not count. | site_language, calculator, tool_family, comparison_type |
 | `guide_open` | Click to a recognized internal guide article or guide index. Measures the click, not confirmed arrival or reading. | site_language (source), target_language, guide_id |
+| `guide_calculator_click` | Click from a recognized guide article/index (including 2027 holiday guides and planner buttons) to a supported calculator. Not confirmed arrival or completed calculation. | site_language (source), target_language, guide_id (source), calculator (target), tool_family (target) |
 | `language_change` | Click on an explicit `hreflang` link to a different supported language. Measures the click, not confirmed arrival. Chinese destinations are excluded. | site_language (source), target_language |
 
 Duplicate event/parameter combinations are suppressed in memory per route visit. Returning to a route starts a new visit. Existing Korean `calculation_complete` events retain their prior behavior.
@@ -26,3 +27,9 @@ After data has accumulated, compare language/calculator event counts with page v
 ## Search attribution repair — 2026-11-23
 
 The Korean tag blanked page_referrer; the international tag also enabled ignore_referrer. This prevents source attribution from browser referrals and coincides with the direct-traffic increase. Both now send only allowlisted public search-service origins, never their paths, search queries, fragments, credentials, nonstandard ports or arbitrary referral hosts. International ignore_referrer is false. Non-search referrals remain blank; some genuine visits will still be direct. Consent gating, Chinese-route exclusion, calculator inputs and query-free page_location are unchanged. Historical attribution cannot be repaired by this deployment. Compare subsequent full weeks and Search Console clicks; GA sessions and search clicks are not equivalent.
+
+## Account configuration status — 2026-11-23
+
+GA4 Admin renders an incomplete settings shell in the available browser, including after one reload. Windsor supports read-only reporting, not custom-definition creation. The six event-scoped custom definitions remain unverified/unconfigured: site_language, calculator, tool_family, comparison_type, guide_id, target_language. Event collection itself does not require these definitions. Until registered, use event_name + page_path to break calculator interactions down by route (derive page locale from the route), and separate guide_calculator_click counts by source guide path. Do not claim the target breakdown is available in GA reports until registration is verified.
+
+Search snippet experiment: /due-date, /holiday-tracker/2027/may and /holiday-tracker/2027/chuseok retain URLs, canonical links, formulas, article text and structured data. Only search/social titles and descriptions change. Baseline Naver recent-30-day clicks/impressions: 24/2075, 4/2141, 1/612 respectively (report updated 2026-11-22). Compare matched queries/devices and position as available after recrawl; do not attribute all CTR changes to snippets.
