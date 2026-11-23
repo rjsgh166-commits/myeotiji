@@ -30,9 +30,12 @@ export default function UsageAnalyticsTracker() {
     };
     const click = (event: MouseEvent) => {
       if (!(event.target instanceof Element)) return;
+      const calculatorTarget = event.target.closest<HTMLElement>('[data-usage-calculator-target]')?.dataset.usageCalculatorTarget;
+      if (calculatorTarget) record('guide_calculator_click', calculatorTarget);
       const link = event.target.closest<HTMLAnchorElement>('a[href]');
       if (!link) return;
       record('guide_open', link.href);
+      record('guide_calculator_click', link.href);
       record('language_change', link.href, link.hreflang);
     };
     const comparison = () => record('comparison_use', 'side_by_side');
